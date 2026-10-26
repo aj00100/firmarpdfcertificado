@@ -1,0 +1,147 @@
+---
+// blog-drafts/como-pedir-y-sellar-el-paro-por-internet-certificado-empresa.astro
+// (Move to src/pages/blog/ on Day 12)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué plazo tengo para pedir el paro en el SEPE tras perder mi empleo?",
+    a: "Dispones de un plazo improrrogable de 15 días hábiles (sin contar sábados, domingos ni festivos) a contar desde el día siguiente al cese legal de la relación laboral (baja voluntaria no, despido, fin de contrato o finiquito)."
+  },
+  {
+    q: "¿Hace falta ir a la oficina del INEM para sellar el paro si se hace por internet?",
+    a: "No. La renovación periódica de la demanda de empleo (sellar el paro o DARDE) se realiza de forma 100% telemática en la sede electrónica del servicio público de empleo de tu comunidad autónoma (SOC en Cataluña, SAE en Andalucía, Lanbide en Euskadi, etc.) utilizando tu certificado digital o Cl@ve."
+  },
+  {
+    q: "¿Qué ocurre si mi empresa no ha enviado el certificado de empresa al SEPE a través de Certific@2?",
+    a: "La empresa está obligada por ley a transmitir el certificado de empresa en formato XML al SEPE en un plazo máximo de 10 días naturales desde el fin del contrato. Si no lo hace, puedes reclamarlo o aportar una copia en PDF firmada digitalmente."
+  }
+];
+---
+
+<Layout
+  title="Cómo Pedir el Paro, Sellar el Paro (DARDE) y Certificado de Empresa SEPE"
+  description="Guía oficial para solicitar la prestación por desempleo en el SEPE en el plazo de 15 días, renovar la demanda de empleo online y verificar tu certificado de empresa en PDF."
+  canonicalPath="/blog/como-pedir-y-sellar-el-paro-por-internet-certificado-empresa/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Pedir y Sellar el Paro Online (SEPE)</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold mb-3">
+        <span>💼</span> SEPE (Servicio Público de Empleo Estatal) · Prestaciones por Desempleo
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Pedir el Paro, Sellar el Paro (DARDE) y Descargar el Certificado de Empresa SEPE con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Tras un despido o finalización de contrato, gestionar tus prestaciones en el SEPE requiere cumplir plazos estrictos. Te explicamos cómo tramitar el paro online, renovar tu tarjeta de demanda de empleo sin hacer colas y comprobar tus certificados.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Pedir el Paro en el Plazo de 15 días -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          1. Cómo pedir el paro por internet en el SEPE (Plazo de 15 días hábiles)
+        </h2>
+        <p>
+          Para solicitar la prestación contributiva por desempleo (el paro) o subsidios agrarios/familiares sin acudir presencialmente a las oficinas del SEPE, necesitas disponer de un medio de identificación electrónica válido como tu <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a> o certificado digital FNMT:
+        </p>
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            <strong>Alta previa como demandante de empleo:</strong> Antes de pedir la prestación en el SEPE, debes dar de alta tu demanda de empleo (inscribirte como demandante) en el servicio autonómico de empleo de tu comunidad autónoma (SAE, SOC, Lanbide, etc.).
+          </li>
+          <li>
+            <strong>Acceso a la Sede Electrónica del SEPE:</strong> Entra en el apartado <em>Personas &rarr; Solicite su prestación</em>.
+          </li>
+          <li>
+            <strong>Identificación segura:</strong> Selecciona el acceso mediante <strong>Certificado Digital o DNIe</strong> (si tu certificado está instalado en el navegador pero no sabes extraerlo, consulta nuestra guía para <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital .p12</a>).
+          </li>
+          <li>
+            <strong>Cumplimentación y aportación de documentos:</strong> Rellena el formulario de solicitud, verifica tu número de cuenta bancaria donde deseas cobrar la prestación y adjunta los documentos exigidos. Si alguno de tus documentos adjuntos requiere firma o notas aclaratorias, puedes firmarlos en nuestro <a href="/" class="text-blue-600 font-bold underline">firmador de PDF online</a>.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Section 2: Certificado de Empresa -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          2. Comprobar el Certificado de Empresa SEPE (Certific@2)
+        </h2>
+        <p>
+          Uno de los fallos más comunes al tramitar el paro es que el SEPE indique que <em>"No consta el certificado de empresa"</em>. Las empresas tienen la obligación legal de transmitir este fichero XML al SEPE a través del sistema <strong>Certific@2</strong>.
+        </p>
+        <p>
+          Si eres trabajador, puedes entrar en la Sede del SEPE en el apartado <em>"Consultar sus datos de prestaciones"</em> o <em>"Consultar certificado de empresa"</em> para verificar que tu antigua empresa ya ha enviado los datos de tus bases de cotización de los últimos 180 días. Si eres empresario o gestor y necesitas firmar y enviar un certificado de empresa o contrato de trabajo, hazlo de forma segura y comprueba que no tenga errores antes de transmitirlo.
+        </p>
+      </div>
+
+      <!-- Section 3: Sellar el Paro Online (DARDE) -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          3. Cómo sellar el paro por internet (Renovación DARDE)
+        </h2>
+        <p>
+          Una vez concedida la prestación, estás obligado a renovar trimestralmente tu demanda de empleo (el conocido <em>sellar el paro</em> o tarjeta DARDE) en la fecha exacta indicada en turesguardo. Hacerlo online es muy sencillo:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-xs sm:text-sm">
+          <li>Accede a la sede electrónica del servicio de empleo de tu comunidad autónoma (por ejemplo, el Servicio Andaluz de Empleo si resides en Andalucía, o SOC si estás en Cataluña).</li>
+          <li>Identifícate con tu certificado digital (si te da problemas de conexión o notas que tu certificado ha expirado, revisa la fecha exacta en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">comprobador de caducidad de certificado digital</a>).</li>
+          <li>Pulsa en el botón <strong>Renovar demanda</strong>. Se generará un documento PDF actualizado con la fecha de la próxima renovación que puedes guardar o auditar con nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas PDF</a>.</li>
+        </ul>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Herramienta Gratuita: Firmar Solicitudes, Recursos o Certificados Laborales en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Si el SEPE o tu oficina autonómica de empleo te exigen un impreso firmado o te enfrentas a bloqueos con AutoFirma (como el <a href="/ayuda/error-saf-45/" class="text-blue-600 font-bold underline">Error SAF_45</a>), arrastra tu documento aquí y fírmalo desde el PC, <a href="/firmar-pdf-certificado-android/" class="text-blue-600 font-bold underline">móvil Android</a> o <a href="/firmar-pdf-certificado-mac-iphone/" class="text-blue-600 font-bold underline">Mac / iPhone</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Solicitud SEPE, Recurso o Certificado Laboral PDF"
+          subtitle="Firma PAdES-B-B con sello administrativo oficial · Sin instalar Java ni programas pesados."
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el SEPE y el Sello del Paro
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

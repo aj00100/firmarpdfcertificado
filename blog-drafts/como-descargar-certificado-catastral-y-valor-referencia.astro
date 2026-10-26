@@ -1,0 +1,135 @@
+---
+// blog-drafts/como-descargar-certificado-catastral-y-valor-referencia.astro
+// (Move to src/pages/blog/ on Day 14)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué es el certificado catastral descriptivo y gráfico y para qué sirve?",
+    a: "Es el documento oficial emitido por la Dirección General del Catastro que refleja la descripción literal de un inmueble (rústico o urbano), su superficie, linderos, uso y representación gráfica cartográfica. Es obligatorio aportarlo ante Notarios y Registradores de la Propiedad en cualquier compraventa o herencia."
+  },
+  {
+    q: "¿Cómo se calcula el valor de referencia del Catastro y dónde se consulta?",
+    a: "El valor de referencia es la base imponible mínima establecida por la Agencia Tributaria para liquidar los impuestos de Transmisiones Patrimoniales (ITP) y Sucesiones y Donaciones (ISD). Se puede consultar telemáticamente en la Sede del Catastro introduciendo el DNI/NIE del titular o su certificado digital."
+  },
+  {
+    q: "¿Tengo que pagar tasas por descargar certificados catastrales telemáticos en PDF?",
+    a: "No. La consulta de datos catastrales propios y la descarga de certificaciones catastrales telemáticas en formato PDF con Código Seguro de Verificación (CSV) son 100% gratuitas en la Sede Electrónica del Catastro."
+  }
+];
+---
+
+<Layout
+  title="Certificado Catastral Telemático y Valor de Referencia Online"
+  description="Cómo consultar el valor de referencia de inmuebles en Hacienda y descargar el certificado catastral descriptivo y gráfico en PDF con certificado digital."
+  canonicalPath="/blog/como-descargar-certificado-catastral-y-valor-referencia/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Certificado Catastral y Valor de Referencia</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold mb-3">
+        <span>🏡</span> Sede Electrónica del Catastro · Ministerio de Hacienda
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Sede Electrónica del Catastro: Cómo Descargar el Certificado Descriptivo y Gráfico y Consultar el Valor de Referencia
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Antes de comprar una vivienda, aceptar una herencia o declarar impuestos ante Hacienda, necesitas conocer la situación urbanística y fiscal de un inmueble. Te explicamos cómo descargar certificados catastrales en PDF y verificar valores de mercado.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Certificado Catastral Telemático -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          1. Cómo descargar el Certificado Catastral Descriptivo y Gráfico en PDF
+        </h2>
+        <p>
+          El <strong>certificado catastral telemático</strong> es el documento oficial indispensable para trámites inmobiliarios y notariales (como exige la Ley 13/2015 de coordinación Catastro-Registro). Para obtenerlo gratis:
+        </p>
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            Accede a la <strong>Sede Electrónica del Catastro</strong>.
+          </li>
+          <li>
+            Identifícate con tu <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a> o certificado digital FNMT (si tu certificado está instalado en el navegador pero no tienes el fichero, consulta nuestra guía para <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado .p12</a>).
+          </li>
+          <li>
+            Introduce la referencia catastral de 20 dígitos de tu vivienda, local o finca rústica.
+          </li>
+          <li>
+            Selecciona la opción <em>Certificación</em> y descarga el archivo en formato PDF. El documento incluirá un Código Seguro de Verificación (CSV) que puedes auditar en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas PDF</a>.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Section 2: Valor de Referencia del Catastro -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          2. Consulta del Valor de Referencia de Inmuebles (Impuestos ITP e ISD)
+        </h2>
+        <p>
+          Desde la entrada en vigor de la Ley 11/2021 de medidas de prevención contra el fraude fiscal, la base imponible mínima para calcular el Impuesto sobre Transmisiones Patrimoniales (ITP en compraventas) y el Impuesto de Sucesiones y Donaciones (ISD) ya no es el valor declarado en escritura ni el valor catastral antiguo, sino el <strong>Valor de Referencia</strong> fijado por la Dirección General del Catastro.
+        </p>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+          <h3 class="text-sm font-bold text-slate-900">Por qué es crucial consultarlo:</h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Si compras una casa por 150.000 € pero el Catastro le asigna un valor de referencia de 180.000 €, Hacienda te exigirá liquidar los impuestos sobre los 180.000 €. Puedes consultarlo online en la Sede del Catastro introduciendo el año, la referencia catastral y el certificado digital del titular (o el código PIN y DNI de los compradores).
+          </p>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Herramienta Gratuita: Firmar Contratos de Arras, Compraventa o Arrendamiento en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Una vez consultados los datos catastrales, si vas a formalizar un contrato de arras, una reserva de vivienda o un contrato de alquiler, fírmalos con plena validez jurídica utilizando nuestro estudio criptográfico (y si te equivocaste de casilla, recuerda que puedes <a href="/quitar-firma-digital-pdf/" class="text-blue-600 font-bold underline">quitar la firma digital del PDF</a> al instante):
+        </p>
+
+        <SigningStudio
+          title="Firmar Contrato Inmobiliario o Arras PDF"
+          subtitle="Firma PAdES-B-B con sello administrativo oficial · 100% privado en tu navegador."
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Catastro y el Valor de Referencia
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

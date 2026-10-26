@@ -161,4 +161,46 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'amber',
   },
   */
+
+  // UNCOMMENT DAY 12: Paro SEPE (>1,000/mo) & Certificado de Empresa (>1,000/mo — Easy KD)
+  /*
+  {
+    slug: 'como-pedir-y-sellar-el-paro-por-internet-certificado-empresa',
+    title: 'Cómo Pedir el Paro, Sellar el Paro (DARDE) y Descargar el Certificado de Empresa SEPE Online',
+    description:
+      'Guía paso a paso para tramitar la prestación por desempleo en el SEPE dentro del plazo de 15 días, renovar la demanda de empleo online y verificar tu certificado de empresa.',
+    category: 'SEPE y Empleo',
+    readTime: '7 min de lectura',
+    updatedDate: '7 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  */
+
+  // UNCOMMENT DAY 13: Baja Paternidad/Maternidad (>1,000/mo) & Ingreso Mínimo Vital (>100K/mo — Easy KD)
+  /*
+  {
+    slug: 'como-solicitar-baja-paternidad-e-ingreso-minimo-vital',
+    title: 'Cómo Solicitar la Baja por Paternidad/Maternidad e Ingreso Mínimo Vital con Certificado Digital',
+    description:
+      'Pasos en la Sede de la Seguridad Social (Import@ss) para tramitar los 16 semanas de prestación por nacimiento de hijo y solicitar el Ingreso Mínimo Vital (IMV) adjuntando PDFs firmados.',
+    category: 'Seguridad Social y Prestaciones',
+    readTime: '7 min de lectura',
+    updatedDate: '8 de noviembre de 2026',
+    badgeColor: 'emerald',
+  },
+  */
+
+  // UNCOMMENT DAY 14: Catastro (>10,000/mo), Certificado Catastral Telemático & Valor de Referencia (>1,000/mo — Easy KD)
+  /*
+  {
+    slug: 'como-descargar-certificado-catastral-y-valor-referencia',
+    title: 'Sede Electrónica del Catastro: Cómo Descargar Certificado Descriptivo y Gráfico y Valor de Referencia',
+    description:
+      'Guía para obtener el certificado catastral telemático, consultar el valor de referencia de inmuebles de Hacienda y descargar planos y referencias catastrales en PDF.',
+    category: 'Catastro Inmobiliario e Impuestos',
+    readTime: '7 min de lectura',
+    updatedDate: '9 de noviembre de 2026',
+    badgeColor: 'indigo',
+  },
+  */
 ];
