@@ -1,382 +1,374 @@
 ---
 // src/components/SigningStudio.astro
 interface Props {
-  headline?: string;
-  subheadline?: string;
+  title?: string;
+  subtitle?: string;
 }
 
 const {
-  headline = "Firma tus PDF con Certificado Digital en Segundos",
-  subheadline = "100% en tu navegador. Ni tus documentos ni tu certificado salen de tu ordenador o móvil. Sin instalar AutoFirma."
+  title = 'Firmar PDF con Certificado Digital (FNMT / DNIe)',
+  subtitle = '100% privado en tu navegador. Tus archivos y tu certificado jamás salen de tu dispositivo.',
 } = Astro.props;
 ---
 
-<div class="signing-studio max-w-4xl mx-auto my-8 p-6 sm:p-8 bg-white border border-slate-200 rounded-2xl shadow-sm">
-  <div class="text-center mb-8">
-    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200 mb-3">
-      <svg class="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
-      100% Privado en Local · Sin Servidores · PAdES-B-B
-    </span>
-    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">{headline}</h2>
-    <p class="text-slate-600 text-sm sm:text-base mt-2 max-w-2xl mx-auto">{subheadline}</p>
-  </div>
-
-  <!-- Unified 1-Screen Dropzone Grid -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-    <!-- 1. PDF File Input -->
-    <div class="drop-card border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-xl p-6 text-center cursor-pointer transition-colors bg-slate-50 hover:bg-blue-50/40" id="pdf-dropzone">
-      <input type="file" id="pdf-input" accept="application/pdf" class="hidden" />
-      <div id="pdf-empty-state">
-        <svg class="w-10 h-10 mx-auto text-slate-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-        <p class="text-sm font-semibold text-slate-800">1. Selecciona o arrastra tu PDF</p>
-        <p class="text-xs text-slate-500 mt-1">Cualquier documento o formulario oficial</p>
-      </div>
-      <div id="pdf-loaded-state" class="hidden">
-        <span class="inline-flex items-center text-xs font-medium text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full mb-2">PDF Cargado</span>
-        <p class="text-sm font-bold text-slate-900 truncate" id="pdf-file-name">documento.pdf</p>
-        <p class="text-xs text-slate-500 mt-0.5" id="pdf-file-size">0 KB</p>
-        <button type="button" class="mt-3 text-xs text-blue-600 hover:underline" id="btn-change-pdf">Cambiar documento</button>
-      </div>
+<section class="w-full max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden my-6">
+  <!-- Top Trust Header -->
+  <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2">
+    <div>
+      <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
+        <span>🔒</span> {title}
+      </h2>
+      <p class="text-xs text-slate-300 mt-0.5">{subtitle}</p>
     </div>
-
-    <!-- 2. P12 Certificate Input -->
-    <div class="drop-card border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-xl p-6 text-center cursor-pointer transition-colors bg-slate-50 hover:bg-blue-50/40" id="cert-dropzone">
-      <input type="file" id="cert-input" accept=".p12,.pfx" class="hidden" />
-      <div id="cert-empty-state">
-        <svg class="w-10 h-10 mx-auto text-slate-400 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path></svg>
-        <p class="text-sm font-semibold text-slate-800">2. Tu certificado digital (.p12 / .pfx)</p>
-        <p class="text-xs text-slate-500 mt-1">FNMT, DNIe, ACCV, Camerfirma o CatCert</p>
-      </div>
-      <div id="cert-loaded-state" class="hidden">
-        <span class="inline-flex items-center text-xs font-medium text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full mb-2">Certificado Seleccionado</span>
-        <p class="text-sm font-bold text-slate-900 truncate" id="cert-file-name">certificado.p12</p>
-        <p class="text-xs text-slate-500 mt-0.5" id="cert-file-size">0 KB</p>
-        <button type="button" class="mt-3 text-xs text-blue-600 hover:underline" id="btn-change-cert">Cambiar certificado</button>
-      </div>
+    <div class="flex items-center gap-2 text-xs bg-emerald-950/80 border border-emerald-700 text-emerald-300 px-3 py-1.5 rounded-full font-medium">
+      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      Estándar ETSI PAdES-B-B · eIDAS
     </div>
   </div>
 
-  <!-- Password & Position Settings -->
-  <div class="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-6">
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <div>
-        <label for="cert-password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-          Contraseña del Certificado
+  <div class="p-6 md:p-8 space-y-6">
+    <!-- Unified 1-Screen Dual Dropzone Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <!-- 1. PDF Dropzone -->
+      <label
+        id="pdf-dropzone"
+        for="pdf-input"
+        class="group relative flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-300 hover:border-blue-600 rounded-xl bg-slate-50/70 hover:bg-blue-50/40 cursor-pointer transition-all text-center min-h-[170px]"
+      >
+        <input id="pdf-input" type="file" accept="application/pdf,.pdf" class="sr-only" />
+        <div class="w-12 h-12 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition-transform">
+          📄
+        </div>
+        <span class="text-sm font-bold text-slate-800" id="pdf-label-title">
+          1. Selecciona o arrastra tu archivo PDF
+        </span>
+        <span class="text-xs text-slate-500 mt-1" id="pdf-label-sub">
+          Contratos, facturas, modelos AEAT o escritos (Máx. 100 MB)
+        </span>
+      </label>
+
+      <!-- 2. Certificate (.p12 / .pfx) Dropzone -->
+      <label
+        id="p12-dropzone"
+        for="p12-input"
+        class="group relative flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-300 hover:border-blue-600 rounded-xl bg-slate-50/70 hover:bg-blue-50/40 cursor-pointer transition-all text-center min-h-[170px]"
+      >
+        <input id="p12-input" type="file" accept=".p12,.pfx,application/x-pkcs12" class="sr-only" />
+        <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition-transform">
+          🪪
+        </div>
+        <span class="text-sm font-bold text-slate-800" id="p12-label-title">
+          2. Carga tu Certificado Digital (.p12 o .pfx)
+        </span>
+        <span class="text-xs text-slate-500 mt-1" id="p12-label-sub">
+          FNMT, ACCV, Camerfirma o copia exportada de tu navegador
+        </span>
+      </label>
+    </div>
+
+    <!-- Password & Stamp Position Bar -->
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-end bg-slate-50 p-4 rounded-xl border border-slate-200">
+      <div class="md:col-span-5">
+        <label for="cert-password" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+          3. Contraseña del Certificado (.p12 / .pfx)
         </label>
         <div class="relative">
           <input
-            type="password"
             id="cert-password"
-            placeholder="Introduce la clave de tu .p12"
-            class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            type="password"
+            placeholder="Introduce la clave de exportación..."
+            class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 focus:border-blue-600 outline-none pr-10"
           />
-          <button type="button" id="btn-toggle-password" class="absolute right-3 top-2.5 text-xs text-slate-400 hover:text-slate-600">
-            Mostrar
+          <button
+            type="button"
+            id="toggle-password"
+            class="absolute inset-y-0 right-0 px-3 text-slate-400 hover:text-slate-600 text-xs font-medium"
+            aria-label="Mostrar u ocultar contraseña"
+          >
+            Ver
           </button>
         </div>
-        <p class="text-[11px] text-slate-500 mt-1">La contraseña nunca se envía a ningún servidor; se usa en tu RAM.</p>
       </div>
 
-      <div>
-        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
-          Posición del Sello Administrativo
+      <div class="md:col-span-4">
+        <label for="stamp-position" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+          Posición del Sello Oficial
         </label>
-        <select id="stamp-position" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500">
-          <option value="bottom-right">Esquina inferior derecha (Recomendada)</option>
-          <option value="bottom-left">Esquina inferior izquierda</option>
-          <option value="top-right">Esquina superior derecha</option>
-          <option value="top-left">Esquina superior izquierda</option>
+        <select
+          id="stamp-position"
+          class="w-full px-3 py-2.5 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+        >
+          <option value="bottom-right" selected>Última página · Abajo Derecha</option>
+          <option value="bottom-left">Última página · Abajo Izquierda</option>
+          <option value="first-bottom-right">Primera página · Abajo Derecha</option>
         </select>
-        <p class="text-[11px] text-slate-500 mt-1">Sello rectangular oficial conforme a Ley 6/2020 y eIDAS.</p>
+      </div>
+
+      <div class="md:col-span-3">
+        <button
+          id="sign-btn"
+          type="button"
+          class="w-full py-2.5 px-4 bg-blue-700 hover:bg-blue-800 active:bg-blue-900 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-bold text-sm rounded-lg shadow-sm transition-colors flex items-center justify-center gap-2 cursor-pointer"
+        >
+          <span>✍️ Firmar PDF Ahora</span>
+        </button>
       </div>
     </div>
-  </div>
 
-  <!-- Error Alert -->
-  <div id="sign-error" class="hidden mb-6 p-4 bg-rose-50 border-l-4 border-rose-500 rounded-r-xl">
-    <div class="flex items-start">
-      <span class="text-rose-600 font-bold mr-2 text-lg">✕</span>
-      <div>
-        <p class="text-sm font-bold text-rose-900" id="sign-error-title">Error al firmar</p>
-        <p class="text-xs text-rose-700 mt-0.5" id="sign-error-desc"></p>
+    <!-- Live Official Administrative Stamp Preview -->
+    <div class="border border-slate-200 rounded-xl p-4 bg-white">
+      <div class="flex items-center justify-between mb-2">
+        <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+          Vista Previa del Sello Administrativo Oficial (Requerido por AEAT / Red.es)
+        </span>
+        <span class="text-[11px] text-blue-700 font-medium">Formato Rectangular Homologado</span>
+      </div>
+      <div class="max-w-md bg-[#f7faff] border-[1.5px] border-[#1e3a8a] border-l-[5px] p-3 rounded font-sans text-left shadow-2xs">
+        <p class="text-[10px] font-bold text-[#1e3a8a] tracking-wide uppercase">
+          DOCUMENTO FIRMADO DIGITALMENTE
+        </p>
+        <p class="text-[11px] font-bold text-slate-900 mt-0.5" id="preview-signer">
+          Firmante: [TU NOMBRE Y APELLIDOS DEL CERTIFICADO]
+        </p>
+        <p class="text-[10px] text-slate-700">
+          NIF/NIE: <span id="preview-nif">[EXTRAÍDO AUTOMÁTICAMENTE]</span> | Emisor: FNMT-RCM
+        </p>
+        <p class="text-[10px] text-slate-700">
+          Fecha: <span id="preview-date">{new Date().toLocaleDateString('es-ES')}</span> CET · Huella SHA-256 incluida
+        </p>
+        <p class="text-[9px] text-slate-500 mt-1">
+          Validez jurídica conforme a Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020
+        </p>
       </div>
     </div>
-  </div>
 
-  <!-- Progress State -->
-  <div id="sign-progress-box" class="hidden mb-6 p-5 bg-blue-50 border border-blue-200 rounded-xl text-center">
-    <div class="inline-block animate-spin w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full mb-2"></div>
-    <p class="text-sm font-semibold text-blue-900" id="sign-progress-text">Procesando firma criptográfica...</p>
-    <p class="text-xs text-blue-600 mt-1">Todo el cálculo criptográfico ocurre en el procesador de tu dispositivo.</p>
-  </div>
+    <!-- Status / Error Alert Box -->
+    <div id="status-box" class="hidden rounded-xl p-4 text-sm font-medium"></div>
 
-  <!-- Action Button -->
-  <div class="text-center" id="action-wrapper">
-    <button
-      type="button"
-      id="btn-sign-pdf"
-      disabled
-      class="w-full sm:w-auto px-8 py-3.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white font-semibold text-base rounded-xl shadow-sm transition-all"
-    >
-      Firmar PDF con Certificado Digital
-    </button>
-  </div>
-
-  <!-- Success State -->
-  <div id="sign-success-box" class="hidden mt-6 p-6 bg-emerald-50 border border-emerald-200 rounded-2xl text-center">
-    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3">
-      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
-    </div>
-    <h3 class="text-xl font-bold text-emerald-950">¡Documento Firmado con Éxito!</h3>
-    <p class="text-sm text-emerald-800 mt-1 max-w-lg mx-auto">
-      Se ha generado una firma criptográfica avanzada PAdES-B-B (ETSI EN 319 142-1) verificable en Adobe Reader y sedes electrónicas.
-    </p>
-
-    <!-- Signer Details Box -->
-    <div class="mt-4 p-4 bg-white/80 border border-emerald-200 rounded-xl text-left max-w-md mx-auto text-xs space-y-1.5 text-slate-700">
-      <p><strong>Firmante:</strong> <span id="res-signer">—</span></p>
-      <p><strong>NIF/Documento:</strong> <span id="res-nif">—</span></p>
-      <p><strong>Autoridad Emisora:</strong> <span id="res-issuer">—</span></p>
-      <p><strong>Normativa:</strong> <span class="text-emerald-700 font-medium">eIDAS (UE 910/2014) & Ley 6/2020</span></p>
-    </div>
-
-    <!-- Download Button -->
-    <div class="mt-6 flex flex-wrap justify-center gap-4">
-      <a
-        id="btn-download-signed"
-        download="Documento_Firmado.pdf"
-        href="#"
-        class="inline-flex items-center px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-sm transition-all"
-      >
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-        Descargar PDF Firmado
-      </a>
-      <button
-        type="button"
-        id="btn-sign-another"
-        class="px-5 py-3.5 bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-sm rounded-xl transition-all"
-      >
-        Firmar otro documento
-      </button>
-    </div>
-
-    <!-- VeriFactu 2026 Warning Callout (The €50,000 High-Ticket Hook) -->
-    <div class="mt-8 text-left bg-amber-50/90 border-l-4 border-amber-500 p-4 sm:p-5 rounded-r-xl shadow-sm">
-      <div class="flex items-start">
-        <span class="text-amber-600 text-xl font-bold mr-3">⚠️</span>
-        <div>
-          <h4 class="font-bold text-amber-950 text-sm">Aviso AEAT para Autónomos y Pymes (Normativa VeriFactu 2026)</h4>
-          <p class="text-amber-900/90 text-xs mt-1 leading-relaxed">
-            Si estás firmando facturas o presupuestos manualmente en PDF o Excel, la Agencia Tributaria sanciona con hasta <strong>50.000 €</strong> el uso de software de facturación no certificado. Pásate gratis a un sistema homologado con firma electrónica integrada.
+    <!-- Signed Result & VeriFactu 2026 High-Ticket B2B Affiliate Hook -->
+    <div id="result-container" class="hidden space-y-5 pt-2">
+      <div class="bg-emerald-50 border border-emerald-300 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="space-y-1 text-center sm:text-left">
+          <div class="inline-flex items-center gap-1.5 text-emerald-800 font-bold text-base">
+            <span>✅</span> ¡Documento PDF Firmado con Éxito (PAdES-B-B)!
+          </div>
+          <p class="text-xs text-emerald-700" id="signed-meta-summary">
+            Firma criptográfica incrustada con sello administrativo oficial.
           </p>
-          <div class="mt-3 flex flex-wrap gap-2.5">
-            <a
-              href="https://firmarpdfcertificado.com/r/holded"
-              target="_blank"
-              rel="nofollow noopener"
-              class="inline-flex items-center px-3.5 py-1.5 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg shadow-sm"
-            >
-              Probar software homologado VeriFactu (Holded) →
-            </a>
-            <a
-              href="https://firmarpdfcertificado.com/r/qonto"
-              target="_blank"
-              rel="nofollow noopener"
-              class="inline-flex items-center px-3.5 py-1.5 bg-white hover:bg-amber-100 text-amber-950 text-xs font-semibold border border-amber-300 rounded-lg"
-            >
-              Cuenta negocios con facturación (Qonto) →
-            </a>
+        </div>
+        <a
+          id="download-btn"
+          href="#"
+          download="Documento_Firmado.pdf"
+          class="w-full sm:w-auto text-center px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-md transition-colors shrink-0"
+        >
+          ⬇️ Descargar PDF Firmado
+        </a>
+      </div>
+
+      <!-- €50,000 VeriFactu 2026 B2B Affiliate Callout -->
+      <div class="verifactu-callout bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-xl shadow-xs">
+        <div class="flex items-start">
+          <span class="text-amber-600 text-2xl mr-3 select-none">⚠️</span>
+          <div>
+            <h3 class="font-bold text-amber-950 text-sm md:text-base">
+              Aviso Importante para Autónomos y Pymes (Normativa VeriFactu 2026)
+            </h3>
+            <p class="text-amber-900 text-xs md:text-sm mt-1 leading-relaxed">
+              Si estás firmando facturas o presupuestos manualmente en PDF o Excel, recuerda que la Agencia Tributaria (AEAT) sanciona con hasta <strong>50.000 €</strong> el uso de software de facturación no certificado.
+            </p>
+            <div class="mt-3 flex flex-wrap gap-3">
+              <a
+                href="/r/holded/"
+                target="_blank"
+                rel="nofollow noopener"
+                class="inline-flex items-center px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg transition-colors"
+              >
+                Probar software homologado VeriFactu gratis (Holded) →
+              </a>
+              <a
+                href="/r/qonto/"
+                target="_blank"
+                rel="nofollow noopener"
+                class="inline-flex items-center px-4 py-2 bg-white hover:bg-amber-100 text-amber-900 text-xs font-semibold border border-amber-300 rounded-lg transition-colors"
+              >
+                Cuenta empresas con facturación integrada (Qonto) →
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</section>
 
 <script>
-  let pdfArrayBuffer: ArrayBuffer | null = null;
-  let certArrayBuffer: ArrayBuffer | null = null;
-  let activeWorker: Worker | null = null;
+  import SignerWorker from '../workers/signer.worker.ts?worker';
 
   const pdfInput = document.getElementById('pdf-input') as HTMLInputElement;
-  const certInput = document.getElementById('cert-input') as HTMLInputElement;
-  const certPassword = document.getElementById('cert-password') as HTMLInputElement;
-  const btnTogglePassword = document.getElementById('btn-toggle-password') as HTMLButtonElement;
-  const stampPosition = document.getElementById('stamp-position') as HTMLSelectElement;
-  const btnSignPdf = document.getElementById('btn-sign-pdf') as HTMLButtonElement;
+  const p12Input = document.getElementById('p12-input') as HTMLInputElement;
+  const pdfDropzone = document.getElementById('pdf-dropzone') as HTMLElement;
+  const p12Dropzone = document.getElementById('p12-dropzone') as HTMLElement;
+  const pdfTitle = document.getElementById('pdf-label-title') as HTMLElement;
+  const pdfSub = document.getElementById('pdf-label-sub') as HTMLElement;
+  const p12Title = document.getElementById('p12-label-title') as HTMLElement;
+  const p12Sub = document.getElementById('p12-label-sub') as HTMLElement;
+  const passwordInput = document.getElementById('cert-password') as HTMLInputElement;
+  const togglePassBtn = document.getElementById('toggle-password') as HTMLButtonElement;
+  const positionSelect = document.getElementById('stamp-position') as HTMLSelectElement;
+  const signBtn = document.getElementById('sign-btn') as HTMLButtonElement;
+  const statusBox = document.getElementById('status-box') as HTMLElement;
+  const resultContainer = document.getElementById('result-container') as HTMLElement;
+  const downloadBtn = document.getElementById('download-btn') as HTMLAnchorElement;
+  const signedMetaSummary = document.getElementById('signed-meta-summary') as HTMLElement;
+  const previewSigner = document.getElementById('preview-signer') as HTMLElement;
+  const previewNif = document.getElementById('preview-nif') as HTMLElement;
 
-  const pdfDropzone = document.getElementById('pdf-dropzone')!;
-  const certDropzone = document.getElementById('cert-dropzone')!;
-  const pdfEmptyState = document.getElementById('pdf-empty-state')!;
-  const pdfLoadedState = document.getElementById('pdf-loaded-state')!;
-  const certEmptyState = document.getElementById('cert-empty-state')!;
-  const certLoadedState = document.getElementById('cert-loaded-state')!;
+  let selectedPdfFile: File | null = null;
+  let selectedP12File: File | null = null;
+  let currentBlobUrl: string | null = null;
 
-  const signError = document.getElementById('sign-error')!;
-  const signErrorDesc = document.getElementById('sign-error-desc')!;
-  const signProgressBox = document.getElementById('sign-progress-box')!;
-  const signProgressText = document.getElementById('sign-progress-text')!;
-  const signSuccessBox = document.getElementById('sign-success-box')!;
-  const actionWrapper = document.getElementById('action-wrapper')!;
-
-  const btnDownloadSigned = document.getElementById('btn-download-signed') as HTMLAnchorElement;
-  const btnSignAnother = document.getElementById('btn-sign-another') as HTMLButtonElement;
-
-  // Toggle Password
-  btnTogglePassword.addEventListener('click', () => {
-    if (certPassword.type === 'password') {
-      certPassword.type = 'text';
-      btnTogglePassword.textContent = 'Ocultar';
+  function showStatus(message: string, type: 'info' | 'error' = 'info') {
+    statusBox.classList.remove('hidden', 'bg-blue-50', 'text-blue-800', 'border-blue-200', 'bg-red-50', 'text-red-800', 'border-red-200');
+    statusBox.classList.add('border');
+    if (type === 'error') {
+      statusBox.classList.add('bg-red-50', 'text-red-800', 'border-red-200');
     } else {
-      certPassword.type = 'password';
-      btnTogglePassword.textContent = 'Mostrar';
+      statusBox.classList.add('bg-blue-50', 'text-blue-800', 'border-blue-200');
     }
-  });
-
-  // Dropzone triggers
-  pdfDropzone.addEventListener('click', (e) => {
-    if ((e.target as HTMLElement).id !== 'btn-change-pdf') pdfInput.click();
-  });
-  certDropzone.addEventListener('click', (e) => {
-    if ((e.target as HTMLElement).id !== 'btn-change-cert') certInput.click();
-  });
-
-  document.getElementById('btn-change-pdf')?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    pdfInput.click();
-  });
-  document.getElementById('btn-change-cert')?.addEventListener('click', (e) => {
-    e.stopPropagation();
-    certInput.click();
-  });
-
-  // Handle PDF file selection
-  pdfInput.addEventListener('change', async () => {
-    const file = pdfInput.files?.[0];
-    if (file) {
-      pdfArrayBuffer = await file.arrayBuffer();
-      document.getElementById('pdf-file-name')!.textContent = file.name;
-      document.getElementById('pdf-file-size')!.textContent = `${(file.size / 1024).toFixed(1)} KB`;
-      pdfEmptyState.classList.add('hidden');
-      pdfLoadedState.classList.remove('hidden');
-      checkReadyToSign();
-    }
-  });
-
-  // Handle Cert file selection
-  certInput.addEventListener('change', async () => {
-    const file = certInput.files?.[0];
-    if (file) {
-      certArrayBuffer = await file.arrayBuffer();
-      document.getElementById('cert-file-name')!.textContent = file.name;
-      document.getElementById('cert-file-size')!.textContent = `${(file.size / 1024).toFixed(1)} KB`;
-      certEmptyState.classList.add('hidden');
-      certLoadedState.classList.remove('hidden');
-      checkReadyToSign();
-    }
-  });
-
-  certPassword.addEventListener('input', checkReadyToSign);
-
-  function checkReadyToSign() {
-    const isReady = Boolean(pdfArrayBuffer && certArrayBuffer && certPassword.value.trim().length > 0);
-    btnSignPdf.disabled = !isReady;
+    statusBox.textContent = message;
   }
 
-  // Handle Sign execution
-  btnSignPdf.addEventListener('click', () => {
-    if (!pdfArrayBuffer || !certArrayBuffer || !certPassword.value) return;
+  function handlePdfFile(file: File) {
+    selectedPdfFile = file;
+    pdfTitle.textContent = `✅ ${file.name}`;
+    pdfSub.textContent = `${(file.size / 1024).toFixed(1)} KB · Listo para firmar`;
+    pdfDropzone.classList.add('border-emerald-500', 'bg-emerald-50/30');
+  }
 
-    signError.classList.add('hidden');
-    signSuccessBox.classList.add('hidden');
-    signProgressBox.classList.remove('hidden');
-    actionWrapper.classList.add('hidden');
+  function handleP12File(file: File) {
+    selectedP12File = file;
+    p12Title.textContent = `✅ ${file.name}`;
+    p12Sub.textContent = `Certificado PKCS#12 cargado en memoria local`;
+    p12Dropzone.classList.add('border-emerald-500', 'bg-emerald-50/30');
+  }
 
-    // Terminate existing worker if any
-    if (activeWorker) {
-      activeWorker.terminate();
-    }
+  pdfInput?.addEventListener('change', () => {
+    if (pdfInput.files?.[0]) handlePdfFile(pdfInput.files[0]);
+  });
 
-    activeWorker = new Worker(new URL('../workers/signer.worker.ts', import.meta.url), {
-      type: 'module',
+  p12Input?.addEventListener('change', () => {
+    if (p12Input.files?.[0]) handleP12File(p12Input.files[0]);
+  });
+
+  // Drag & Drop support for both zones
+  [
+    { zone: pdfDropzone, handler: handlePdfFile },
+    { zone: p12Dropzone, handler: handleP12File },
+  ].forEach(({ zone, handler }) => {
+    zone?.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      zone.classList.add('border-blue-600', 'bg-blue-50/50');
     });
-
-    activeWorker.onmessage = (e) => {
-      const data = e.data;
-
-      if (data.status === 'progress' || data.status === 'parsing' || data.status === 'preparing' || data.status === 'signing') {
-        signProgressText.textContent = data.message;
-      } else if (data.status === 'done') {
-        signProgressBox.classList.add('hidden');
-        signSuccessBox.classList.remove('hidden');
-
-        // Create download blob
-        const blob = new Blob([data.signedPdf], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        btnDownloadSigned.href = url;
-        btnDownloadSigned.download = `${(pdfInput.files?.[0]?.name || 'documento').replace(/\.pdf$/i, '')}_firmado.pdf`;
-
-        // Render metadata
-        document.getElementById('res-signer')!.textContent = data.metadata?.signer || data.signerName || 'Titular Verificado';
-        document.getElementById('res-nif')!.textContent = data.metadata?.nif || data.nif || 'Verificado';
-        document.getElementById('res-issuer')!.textContent = data.metadata?.issuer || data.issuer || 'FNMT-RCM';
-      } else if (data.status === 'error') {
-        signProgressBox.classList.add('hidden');
-        actionWrapper.classList.remove('hidden');
-        signError.classList.remove('hidden');
-        signErrorDesc.textContent = data.error || 'No se pudo firmar el documento.';
-      }
-    };
-
-    activeWorker.onerror = (err) => {
-      signProgressBox.classList.add('hidden');
-      actionWrapper.classList.remove('hidden');
-      signError.classList.remove('hidden');
-      signErrorDesc.textContent = `Error de ejecución: ${err.message}`;
-    };
-
-    // Calculate position coordinates
-    let stampX = 350;
-    let stampY = 25;
-    const pos = stampPosition.value;
-    if (pos === 'bottom-left') {
-      stampX = 25;
-      stampY = 25;
-    } else if (pos === 'top-right') {
-      stampX = 350;
-      stampY = 740;
-    } else if (pos === 'top-left') {
-      stampX = 25;
-      stampY = 740;
-    }
-
-    // Dispatch to Web Worker (Clone buffers to keep original memory safe)
-    activeWorker.postMessage({
-      pdfBuffer: pdfArrayBuffer.slice(0),
-      p12Buffer: certArrayBuffer.slice(0),
-      password: certPassword.value,
-      stampConfig: {
-        x: stampX,
-        y: stampY,
-        width: 230,
-        height: 70,
-      },
+    zone?.addEventListener('dragleave', () => {
+      zone.classList.remove('border-blue-600', 'bg-blue-50/50');
+    });
+    zone?.addEventListener('drop', (e) => {
+      e.preventDefault();
+      zone.classList.remove('border-blue-600', 'bg-blue-50/50');
+      const file = e.dataTransfer?.files?.[0];
+      if (file) handler(file);
     });
   });
 
-  // Sign another document
-  btnSignAnother.addEventListener('click', () => {
-    signSuccessBox.classList.add('hidden');
-    actionWrapper.classList.remove('hidden');
-    pdfInput.value = '';
-    certInput.value = '';
-    certPassword.value = '';
-    pdfArrayBuffer = null;
-    certArrayBuffer = null;
-    pdfLoadedState.classList.add('hidden');
-    pdfEmptyState.classList.remove('hidden');
-    certLoadedState.classList.add('hidden');
-    certEmptyState.classList.remove('hidden');
-    checkReadyToSign();
+  togglePassBtn?.addEventListener('click', () => {
+    const isPass = passwordInput.type === 'password';
+    passwordInput.type = isPass ? 'text' : 'password';
+    togglePassBtn.textContent = isPass ? 'Ocultar' : 'Ver';
+  });
+
+  signBtn?.addEventListener('click', async () => {
+    if (!selectedPdfFile) {
+      showStatus('⚠️ Por favor, selecciona primero el documento PDF que deseas firmar.', 'error');
+      return;
+    }
+    if (!selectedP12File) {
+      showStatus('⚠️ Por favor, selecciona tu archivo de certificado digital (.p12 o .pfx).', 'error');
+      return;
+    }
+
+    resultContainer.classList.add('hidden');
+    signBtn.disabled = true;
+    showStatus('⏳ Inicializando motor criptográfico PAdES-B-B en tu navegador...', 'info');
+
+    try {
+      // Read fresh ArrayBuffers from File blobs so retries never hit detached buffer errors
+      const [pdfBuffer, p12Buffer] = await Promise.all([
+        selectedPdfFile.arrayBuffer(),
+        selectedP12File.arrayBuffer(),
+      ]);
+
+      const pos = positionSelect.value;
+      const stampConfig = {
+        pageIndex: pos === 'first-bottom-right' ? 0 : undefined,
+        x: pos === 'bottom-left' ? 35 : undefined,
+        y: 30,
+        width: 220,
+        height: 75,
+      };
+
+      const worker = new SignerWorker();
+
+      worker.onmessage = (e) => {
+        const { status, message, signedPdf, metadata, error } = e.data;
+
+        if (status === 'parsing' || status === 'preparing' || status === 'signing') {
+          showStatus(`🔐 ${message}`, 'info');
+        } else if (status === 'done') {
+          statusBox.classList.add('hidden');
+          signBtn.disabled = false;
+
+          if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+          const blob = new Blob([signedPdf], { type: 'application/pdf' });
+          currentBlobUrl = URL.createObjectURL(blob);
+
+          const baseName = selectedPdfFile!.name.replace(/\.pdf$/i, '');
+          downloadBtn.href = currentBlobUrl;
+          downloadBtn.download = `${baseName}_Firmado.pdf`;
+
+          if (metadata) {
+            previewSigner.textContent = `Firmante: ${metadata.signer}`;
+            previewNif.textContent = metadata.nif;
+            signedMetaSummary.textContent = `Firmado por ${metadata.signer} (NIF: ${metadata.nif}) · Emisor: ${metadata.issuer}`;
+          }
+
+          resultContainer.classList.remove('hidden');
+          worker.terminate();
+        } else if (status === 'error') {
+          signBtn.disabled = false;
+          showStatus(`❌ ${error}`, 'error');
+          worker.terminate();
+        }
+      };
+
+      worker.onerror = (err) => {
+        signBtn.disabled = false;
+        showStatus(`❌ Error crítico en el Web Worker: ${err.message}`, 'error');
+        worker.terminate();
+      };
+
+      worker.postMessage(
+        {
+          pdfBuffer,
+          p12Buffer,
+          password: passwordInput.value || '',
+          stampConfig,
+        },
+        [pdfBuffer, p12Buffer]
+      );
+    } catch (err: any) {
+      signBtn.disabled = false;
+      showStatus(`❌ Error al leer los archivos locales: ${err?.message}`, 'error');
+    }
   });
 </script>
