@@ -1,0 +1,42 @@
+---
+// src/pages/privacy.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Política de Privacidad y RGPD — Procesamiento 100% en Local"
+  description="Política de privacidad de FirmarPDFCertificado.com. Garantía de procesamiento 100% en local sin almacenamiento ni subida de archivos a servidores."
+  canonicalPath="/privacy/"
+>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 prose prose-slate text-sm sm:text-base leading-relaxed">
+    <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Política de Privacidad y Protección de Datos (RGPD)</h1>
+    <p class="text-slate-600 mt-2">Última actualización: 26 de octubre de 2026</p>
+
+    <div class="my-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-xl not-prose">
+      <p class="text-sm font-bold text-emerald-900">Principio Fundamental: Privacidad por Diseño (Zero-Server Architecture)</p>
+      <p class="text-xs text-emerald-700 mt-1">
+        FirmarPDFCertificado.com no recopila, no almacena ni transmite por internet ningún archivo PDF, certificado digital (.p12 / .pfx) ni contraseña que introduzcas en la plataforma.
+      </p>
+    </div>
+
+    <h2 class="text-lg font-bold text-slate-900 mt-6">1. Responsable del Tratamiento</h2>
+    <p class="text-slate-600">
+      En cumplimiento del Reglamento General de Protección de Datos (RGPD - Reglamento UE 2016/679) y de la Ley Orgánica 3/2018 (LOPDGDD), te informamos de que el uso de nuestras herramientas no requiere el registro de usuario ni la cesión de datos personales.
+    </p>
+
+    <h2 class="text-lg font-bold text-slate-900 mt-6">2. Cómo funciona el procesamiento en tu dispositivo</h2>
+    <p class="text-slate-600">
+      Todas las operaciones de desencriptación de claves PKCS#12, cálculo del resumen criptográfico SHA-256, estampado del sello visual y ensamblaje de la firma PAdES-B-B se ejecutan exclusivamente en la memoria RAM de tu navegador web mediante tecnologías Web Workers. Ningún byte abandona tu ordenador, tablet o teléfono móvil.
+    </p>
+
+    <h2 class="text-lg font-bold text-slate-900 mt-6">3. Cookies y Publicidad</h2>
+    <p class="text-slate-600">
+      Este sitio web puede utilizar cookies técnicas indispensables para el funcionamiento básico y servicios publicitarios de Google AdSense que utilizan cookies para mostrar anuncios relevantes basados en visitas anteriores a este o a otros sitios web. Los usuarios pueden inhabilitar la publicidad personalizada consultando las Preferencias de Anuncios de Google.
+    </p>
+
+    <h2 class="text-lg font-bold text-slate-900 mt-6">4. Contacto</h2>
+    <p class="text-slate-600">
+      Para cualquier duda o consulta sobre nuestra arquitectura de privacidad, puedes contactarnos a través de nuestro repositorio oficial de GitHub.
+    </p>
+  </div>
+</Layout>

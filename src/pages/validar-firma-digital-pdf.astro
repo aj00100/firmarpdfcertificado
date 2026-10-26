@@ -1,0 +1,100 @@
+---
+// src/pages/validar-firma-digital-pdf.astro
+import Layout from '../layouts/Layout.astro';
+import ValidatorStudio from '../components/ValidatorStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo comprueba esta herramienta la validez de la firma digital de un PDF?",
+    a: "Nuestra herramienta analiza la estructura binaria interna del PDF buscando los diccionarios de firma (/ByteRange y /Contents). Calcula en tiempo real el resumen criptográfico (SHA-256) de los rangos firmados del archivo y lo compara byte a byte con el resumen original firmado. Si el documento ha sufrido la menor alteración (incluso un solo espacio o metadato modificado), el sistema detecta que la firma es inválida."
+  },
+  {
+    q: "¿Es seguro validar documentos confidenciales en esta página?",
+    a: "Absolutamente seguro. La verificación se realiza al 100% en la memoria RAM de tu navegador web. Tu archivo PDF jamás se sube a ningún servidor externo ni se almacena en la nube, cumpliendo de forma estricta con el RGPD."
+  },
+  {
+    q: "¿Qué diferencia hay entre una firma válida y una no reconocida?",
+    a: "Una firma válida cuenta con un certificado reconocido emitido por una Autoridad de Certificación de confianza (como FNMT, DNIe, ACCV o Camerfirma) dentro de su periodo de vigencia, y el contenido del PDF coincide exactamente con el momento en que se estampó la firma. Una firma no reconocida suele ser un simple dibujo o carecer de cadena de confianza verificable."
+  },
+  {
+    q: "¿Qué significa el estándar PAdES-B-B?",
+    a: "PAdES-B-B (Baseline Basic) es el perfil del estándar europeo ETSI EN 319 142 que garantiza que la firma digital contiene los atributos firmados esenciales, incluyendo la referencia segura al certificado del firmante (signing-certificate-v2) conforme al Reglamento eIDAS (UE 910/2014)."
+  }
+];
+---
+
+<Layout
+  title="Validar Firma Digital PDF Online — Comprobar Certificado y Validez eIDAS"
+  description="Comprueba la firma digital de cualquier archivo PDF gratis. Verifica la validez del certificado, emisor FNMT, fecha y que el documento no ha sido modificado."
+  canonicalPath="/validar-firma-digital-pdf/"
+>
+  <section class="py-10 sm:py-14 bg-gradient-to-b from-blue-50/60 to-transparent">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <ValidatorStudio
+        title="Validar Firma Digital PDF Online (Verificador eIDAS)"
+        subtitle="Auditoría criptográfica local. Comprueba la autenticidad del firmante, la autoridad emisora (FNMT, DNIe, ACCV) y la integridad del documento en tu navegador."
+      />
+    </div>
+  </section>
+
+  <!-- Editorial Section: How PDF Validation Works -->
+  <section class="py-12 bg-white border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 prose prose-slate text-sm sm:text-base leading-relaxed">
+      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">¿Cómo verificar si un PDF firmado digitalmente es auténtico?</h2>
+      <p class="text-slate-600 mt-3">
+        Al recibir un contrato mercantil, una factura electrónica o una resolución judicial firmada digitalmente, no basta con observar si contiene una imagen con una rúbrica manuscrita. Una firma visual puede ser copiada y pegada fácilmente por cualquiera con un editor de imágenes básico.
+      </p>
+      <p class="text-slate-600">
+        Para que un documento tenga <strong>plena fuerza probatoria ante la administración y los tribunales españoles (Ley 6/2020)</strong>, debe verificarse criptográficamente la integridad del archivo y el estado del certificado digital del firmante.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6 not-prose">
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+          <span class="text-xs font-bold text-blue-700 uppercase block mb-1">1. Integridad del Archivo</span>
+          <p class="text-xs text-slate-600">El resumen SHA-256 extraído del /ByteRange asegura que ningún párrafo, cifra o metadato ha sido alterado tras la firma.</p>
+        </div>
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+          <span class="text-xs font-bold text-blue-700 uppercase block mb-1">2. Identidad del Firmante</span>
+          <p class="text-xs text-slate-600">Extrae el Nombre Completo y NIF/NIE del certificado X.509 verificado por una Autoridad de Certificación reconocida.</p>
+        </div>
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+          <span class="text-xs font-bold text-blue-700 uppercase block mb-1">3. Fecha y Norma eIDAS</span>
+          <p class="text-xs text-slate-600">Comprueba que el certificado estaba en periodo de vigencia en el momento exacto en que se produjo la firma.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section with Schema -->
+  <section class="py-14 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl font-bold text-slate-900">Preguntas Frecuentes sobre la Validación de Firmas PDF</h2>
+        <p class="text-sm text-slate-600 mt-2">Dudas habituales sobre validez legal, certificados y verificación técnica.</p>
+      </div>
+
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-2xs">
+            <h3 class="text-base font-bold text-slate-900">{faq.q}</h3>
+            <p class="text-sm text-slate-600 mt-2 leading-relaxed">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ JSON-LD Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.a
+      }
+    }))
+  })} />
+</Layout>

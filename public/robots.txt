@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://firmarpdfcertificado.com/sitemap-index.xml
