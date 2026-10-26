@@ -1,0 +1,53 @@
+---
+// src/pages/firmar-pdf-certificado-mac-iphone.astro
+import Layout from '../layouts/Layout.astro';
+import SigningStudio from '../components/SigningStudio.astro';
+---
+
+<Layout
+  title="Firmar PDF con Certificado Digital en Mac, iPhone y iPad (Safari)"
+  description="Firma archivos PDF desde Safari en macOS, iOS y iPadOS con tu certificado digital .p12. Sin problemas de Java ni errores Broken pipe de AutoFirma."
+  canonicalPath="/firmar-pdf-certificado-mac-iphone/"
+>
+  <section class="py-10 sm:py-14 bg-gradient-to-b from-blue-50/60 to-transparent">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <SigningStudio
+        headline="Firmar PDF en Mac, iPhone y iPad con Certificado Digital"
+        subheadline="Firma en segundos desde Safari en macOS, iOS y iPadOS. Compatible al 100% con chips Apple Silicon (M1, M2, M3, M4) y dispositivos móviles."
+      />
+    </div>
+  </section>
+
+  <!-- Step-by-Step for Apple Users -->
+  <section class="py-12 bg-white border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 prose prose-slate text-sm sm:text-base leading-relaxed">
+      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Guía de firma con certificado digital en el ecosistema Apple</h2>
+      <p class="text-slate-600 mt-3">
+        Los usuarios de Apple (macOS y iOS) sufren históricamente las mayores incompatibilidades con las sedes electrónicas españolas y la aplicación oficial AutoFirma. En esta guía te explicamos cómo firmar fácilmente sin instalar Java ni configurar terminales:
+      </p>
+
+      <div class="space-y-4 my-6 not-prose">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <h4 class="font-bold text-slate-900 text-sm">Paso 1: Exportar tu certificado desde Acceso a Llaveros (macOS)</h4>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Abre la app <em>Acceso a Llaveros</em> en tu Mac, busca tu certificado en la sección "Mis certificados", haz clic derecho y selecciona <strong>Exportar</strong>. Elige formato <code>.p12</code> y ponle una contraseña que recuerdes.
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <h4 class="font-bold text-slate-900 text-sm">Paso 2: En iPhone o iPad</h4>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Envía el archivo <code>.p12</code> a tu iPhone mediante AirDrop o guárdalo en la app <em>Archivos</em> (iCloud Drive).
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <h4 class="font-bold text-slate-900 text-sm">Paso 3: Firmar en Safari</h4>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Entra en <strong>FirmarPDFCertificado.com</strong> desde Safari, arrastra tu PDF y tu archivo <code>.p12</code>, escribe la contraseña y pulsa en <strong>Firmar PDF</strong>. El documento se descargará sellado y con validez oficial.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

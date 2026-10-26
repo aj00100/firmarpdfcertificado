@@ -1,0 +1,140 @@
+---
+// src/pages/index.astro
+import Layout from '../layouts/Layout.astro';
+import SigningStudio from '../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Tiene esta firma la misma validez legal que la de AutoFirma o Adobe Reader?",
+    a: "Sí, exactamente la misma. Nuestra herramienta genera una firma electrónica avanzada PAdES-B-B basada en certificado reconocido (conforme al Reglamento eIDAS 910/2014 de la Unión Europea y a la Ley 6/2020 de España). Es admitida por la Agencia Tributaria (AEAT), la Seguridad Social, la DGT y cualquier juzgado o administración pública."
+  },
+  {
+    q: "¿Es seguro utilizar mi certificado digital .p12 o .pfx en esta página?",
+    a: "Totalmente seguro. A diferencia de otros portales en la nube, el archivo PDF y tu certificado digital NUNCA se suben a ningún servidor externo. Todo el proceso criptográfico y la desencriptación de tu clave privada ocurren localmente en la memoria RAM de tu propio navegador web mediante Web Workers."
+  },
+  {
+    q: "¿Qué certificados son compatibles?",
+    a: "Cualquier certificado digital de persona física o jurídica expedido en formato software (.p12 o .pfx): Fábrica Nacional de Moneda y Timbre (FNMT), DNI electrónico exportado, ACCV, Camerfirma, Izenpe, CatCert, o cualquier otra Autoridad de Certificación reconocida en la lista europea de prestadores de confianza (TSL)."
+  },
+  {
+    q: "¿Por qué no necesito instalar AutoFirma ni Java?",
+    a: "Porque ejecutamos los algoritmos criptográficos (SHA-256 y firma RSA con atributos PAdES) directamente en el motor JavaScript y Web Crypto de tu navegador. Esto evita los habituales errores de Java, certificados raíz corruptos o los fallos 'Broken pipe' típicos de AutoFirma en macOS y Windows."
+  },
+  {
+    q: "¿Puedo firmar desde un iPhone, iPad o móvil Android?",
+    a: "Sí. Simplemente guarda tu archivo de certificado digital (.p12 o .pfx) en la app 'Archivos' de iOS o en las descargas de Android, ábrelo en nuestro firmador desde Safari o Chrome, introduce tu contraseña y descarga el documento firmado al instante."
+  }
+];
+---
+
+<Layout
+  title="Firmar PDF con Certificado Digital Online Gratis — Sin AutoFirma"
+  description="Firma tus documentos PDF con certificado digital FNMT o DNIe en el navegador. 100% privado en tu equipo, sin Java, sin instalar programas y con plena validez eIDAS."
+>
+  <!-- Hero Section -->
+  <section class="py-10 sm:py-14 bg-gradient-to-b from-blue-50/60 to-transparent" id="firmar">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <SigningStudio
+        headline="Firmar PDF con Certificado Digital Online Gratis"
+        subheadline="Firma al instante con tu certificado FNMT o DNIe (.p12/.pfx). 100% en tu navegador, sin enviar tus documentos a internet y sin errores de AutoFirma."
+      />
+    </div>
+  </section>
+
+  <!-- Value Props / Feature Grid -->
+  <section class="py-12 bg-white border-t border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">La alternativa definitiva a AutoFirma y Adobe Reader</h2>
+        <p class="text-sm text-slate-600 mt-2 max-w-xl mx-auto">Diseñado para particulares, autónomos y gestorías que necesitan firmar documentos oficiales sin complicaciones técnicas.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center font-bold text-lg mb-3">🛡️</div>
+          <h3 class="text-base font-bold text-slate-900">Privacidad Cero-Servidor</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Tus contratos, facturas y claves privadas no viajan por la red. La firma PAdES se calcula estrictamente en la memoria RAM de tu navegador. Cumplimiento total del RGPD.
+          </p>
+        </div>
+
+        <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center font-bold text-lg mb-3">⚖️</div>
+          <h3 class="text-base font-bold text-slate-900">Validez Jurídica Plena</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Genera firmas PAdES-B-B (ETSI EN 319 142-1) con sello visual administrativo eIDAS. Válido para trámites ante Hacienda (AEAT), Seguridad Social, Tráfico y juzgados.
+          </p>
+        </div>
+
+        <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center font-bold text-lg mb-3">⚡</div>
+          <h3 class="text-base font-bold text-slate-900">Sin Java ni Instalaciones</h3>
+          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
+            Se acabaron los bloqueos de navegador, los fallos de configuración de Java y los errores de puerto local. Funciona directamente en Mac, Windows, Linux, iPhone y Android.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Authoritative Content Guide (SEO Deep Dive) -->
+  <section class="py-14 bg-slate-50 border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 prose prose-slate text-sm sm:text-base leading-relaxed">
+      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Cómo firmar un documento PDF con certificado digital en España</h2>
+      <p class="text-slate-600 mt-3">
+        En España, firmar un documento en formato PDF con plena validez jurídica requiere aplicar una <strong>firma electrónica avanzada o cualificada</strong> basada en un certificado digital oficial emitido por una Autoridad de Certificación reconocida (como la <strong>FNMT-RCM</strong> o la Dirección General de la Policía para el <strong>DNIe</strong>).
+      </p>
+
+      <h3 class="text-lg font-bold text-slate-900 mt-6">Diferencia entre firma electrónica simple y firma con certificado digital</h3>
+      <p class="text-slate-600">
+        Muchas herramientas populares online (como iLovePDF, Smallpdf o el visor de Adobe en la web) permiten realizar una <em>firma simple</em>: dibujar tu rúbrica con el ratón o colocar una imagen con tu firma manuscrita. Sin embargo, estas firmas <strong>carecen de respaldo criptográfico</strong>. Cualquiera puede pegar una imagen ajena sobre un PDF, por lo que organismos públicos como la Agencia Tributaria o los registros oficiales las rechazan de inmediato.
+      </p>
+      <p class="text-slate-600">
+        Por el contrario, la firma con <strong>certificado digital cualificado</strong> utiliza criptografía de clave pública (RSA con algoritmo SHA-256). Inserta en la estructura binaria del PDF un resumen criptográfico que vincula inequívocamente tu identidad con el contenido del documento, garantizando que el documento no ha sufrido ninguna modificación tras el momento de la firma.
+      </p>
+
+      <h3 class="text-lg font-bold text-slate-900 mt-6">El formato estándar PAdES (ETSI EN 319 142)</h3>
+      <p class="text-slate-600">
+        El estándar europeo <strong>PAdES (PDF Advanced Electronic Signatures)</strong> es la especificación técnica exigida por el Reglamento (UE) Nº 910/2014 (eIDAS). Nuestra plataforma implementa el perfil <strong>PAdES-B-B</strong> (Baseline Basic), que incluye:
+      </p>
+      <ul class="list-disc pl-5 text-slate-600 space-y-1 mt-2">
+        <li><strong>Diccionario /Sig:</strong> Con filtro <code>Adobe.PPKLite</code> y subfiltro <code>ETSI.CAdES.detached</code>.</li>
+        <li><strong>Atributo ESS signing-certificate-v2:</strong> Conforme al RFC 5035, que asocia de forma inalterable el hash SHA-256 del certificado con la firma para evitar ataques de sustitución.</li>
+        <li><strong>Sello visual administrativo:</strong> Un objeto Form XObject vinculado a una anotación de firma (/Widget) que muestra de forma legible el nombre del firmante, NIF, fecha y emisor.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ Section with Schema -->
+  <section class="py-14 bg-white border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10">
+        <h2 class="text-2xl font-bold text-slate-900">Preguntas Frecuentes sobre la Firma Digital de PDF</h2>
+        <p class="text-sm text-slate-600 mt-2">Todo lo que necesitas saber sobre certificados, legalidad y privacidad.</p>
+      </div>
+
+      <div class="space-y-4">
+        {faqs.map((faq) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{faq.q}</h3>
+            <p class="text-sm text-slate-600 mt-2 leading-relaxed">{faq.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ JSON-LD Schema -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.a
+      }
+    }))
+  })} />
+</Layout>

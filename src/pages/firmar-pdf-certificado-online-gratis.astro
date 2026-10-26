@@ -1,0 +1,37 @@
+---
+// src/pages/firmar-pdf-certificado-online-gratis.astro
+import Layout from '../layouts/Layout.astro';
+import SigningStudio from '../components/SigningStudio.astro';
+---
+
+<Layout
+  title="Firmar PDF con Certificado Digital Online Gratis — Sin Registro ni Límites"
+  description="Firma digital gratuita de documentos PDF con certificado FNMT o DNIe. Sin registro, sin suscripciones y sin subir tus archivos a la nube. Validez legal eIDAS."
+  canonicalPath="/firmar-pdf-certificado-online-gratis/"
+>
+  <section class="py-10 sm:py-14 bg-gradient-to-b from-blue-50/60 to-transparent">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <SigningStudio
+        headline="Firmar PDF con Certificado Digital Online Gratis"
+        subheadline="Sin cuentas, sin tarjeta de crédito y sin límites de páginas. Firma tantos documentos como necesites con tu certificado digital en tu navegador."
+      />
+    </div>
+  </section>
+
+  <!-- Privacy Comparison -->
+  <section class="py-12 bg-white border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 prose prose-slate text-sm sm:text-base leading-relaxed">
+      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Firma digital 100% gratuita y privada</h2>
+      <p class="text-slate-600 mt-3">
+        La mayoría de servicios online de firma de documentos te exigen crear una cuenta, introducir tu tarjeta de crédito o te limitan a firmar 2 o 3 documentos al mes. Además, la mayoría de ellos <strong>suben tus documentos confidenciales a servidores en el extranjero</strong>, lo que supone un grave riesgo de incumplimiento del RGPD si manejas datos fiscales, contratos de trabajo o información médica.
+      </p>
+
+      <div class="my-6 not-prose p-6 bg-slate-50 border border-slate-200 rounded-xl">
+        <h3 class="text-base font-bold text-slate-900 mb-4">¿Por qué es gratis para siempre?</h3>
+        <p class="text-xs text-slate-600 leading-relaxed">
+          Nuestra tecnología ejecuta el 100% del procesamiento criptográfico en tu propio dispositivo (utilizando la CPU de tu teléfono u ordenador). Como no almacenamos tus archivos en servidores en la nube ni pagamos costes de almacenamiento por tus documentos, podemos ofrecer un servicio <strong>completamente gratuito, ilimitado y de máxima privacidad</strong> para toda la comunidad hispanohablante.
+        </p>
+      </div>
+    </div>
+  </section>
+</Layout>

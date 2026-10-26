@@ -1,0 +1,54 @@
+---
+// src/pages/firmar-pdf-sin-autofirma.astro
+import Layout from '../layouts/Layout.astro';
+import SigningStudio from '../components/SigningStudio.astro';
+---
+
+<Layout
+  title="Firmar PDF sin AutoFirma — Alternativa Web en Navegador (Sin Java)"
+  description="¿AutoFirma no abre o falla en Mac y Windows? Firma tus documentos PDF con certificado digital FNMT directamente online sin instalar programas ni Java."
+  canonicalPath="/firmar-pdf-sin-autofirma/"
+>
+  <section class="py-10 sm:py-14 bg-gradient-to-b from-blue-50/60 to-transparent">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <SigningStudio
+        headline="Firmar PDF sin AutoFirma (Directo en tu Navegador)"
+        subheadline="Olvídate de los errores de Java, certificados corruptos y problemas de conexión local. Sube tu PDF y firma con tu .p12 en 3 segundos."
+      />
+    </div>
+  </section>
+
+  <!-- Editorial Section: Why AutoFirma Fails -->
+  <section class="py-12 bg-white border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 prose prose-slate text-sm sm:text-base leading-relaxed">
+      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">¿Por qué falla AutoFirma y cómo firmar sin ella?</h2>
+      <p class="text-slate-600 mt-3">
+        AutoFirma es la aplicación oficial del Gobierno de España para firmar electrónicamente. Sin embargo, su arquitectura basada en Java y comunicación por socket local (<code>127.0.0.1</code>) genera constantes dolores de cabeza a particulares y profesionales:
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 not-prose">
+        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
+          <h4 class="font-bold text-rose-900 text-sm">Error "Broken pipe" en macOS</h4>
+          <p class="text-xs text-rose-700 mt-1">Java intenta comunicarse con Safari o Chrome por un túnel que macOS bloquea por seguridad, impidiendo completar el trámite.</p>
+        </div>
+        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
+          <h4 class="font-bold text-rose-900 text-sm">Dependencias de Java Runtime</h4>
+          <p class="text-xs text-rose-700 mt-1">Las actualizaciones del sistema operativo suelen desconfigurar la versión de Java requerida por AutoFirma.</p>
+        </div>
+        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
+          <h4 class="font-bold text-rose-900 text-sm">Error SAF_45 y Cortafuegos</h4>
+          <p class="text-xs text-rose-700 mt-1">El antivirus o firewall bloquea el puerto interno necesario para que la página web se comunique con la app de escritorio.</p>
+        </div>
+        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
+          <h4 class="font-bold text-rose-900 text-sm">Incompatible con iPhone y Android</h4>
+          <p class="text-xs text-rose-700 mt-1">AutoFirma no se puede ejecutar en los navegadores móviles de iOS ni en la mayoría de dispositivos móviles.</p>
+        </div>
+      </div>
+
+      <h3 class="text-lg font-bold text-slate-900 mt-6">Nuestra solución: Firma en memoria Web Crypto</h3>
+      <p class="text-slate-600">
+        Con <strong>FirmarPDFCertificado.com</strong>, no necesitas tener instalado AutoFirma ni ningún complemento Java. El motor de firma PAdES corre de forma nativa en tu navegador web gracias a la tecnología Web Workers y Web Crypto API. Esto te permite firmar contratos, recursos, formularios de la AEAT o solicitudes de becas en cualquier ordenador o teléfono en cuestión de segundos.
+      </p>
+    </div>
+  </section>
+</Layout>
