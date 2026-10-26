@@ -2,12 +2,16 @@
 import fs from 'fs';
 import path from 'path';
 
+const projectRoot = path.dirname(new URL(import.meta.url).pathname);
+const draftsDir = path.join(projectRoot, 'blog-drafts');
+const liveDir = path.join(projectRoot, 'src', 'pages', 'blog');
+
 const slug = process.argv[2];
 if (!slug) {
   console.log('Uso: node publish-post.mjs <slug-del-articulo>');
   console.log('Borradores disponibles en ./blog-drafts:');
-  if (fs.existsSync('./blog-drafts')) {
-    fs.readdirSync('./blog-drafts')
+  if (fs.existsSync(draftsDir)) {
+    fs.readdirSync(draftsDir)
       .filter((f) => f.endsWith('.astro'))
       .forEach((f) => console.log('  •', f.replace('.astro', '')));
   }
@@ -15,8 +19,7 @@ if (!slug) {
 }
 
 const cleanSlug = slug.replace(/\.astro$/, '');
-const draftPath = path.join('./blog-drafts', `${cleanSlug}.astro`);
-const liveDir = path.join('./src/pages/blog');
+const draftPath = path.join(draftsDir, `${cleanSlug}.astro`);
 const livePath = path.join(liveDir, `${cleanSlug}.astro`);
 
 if (!fs.existsSync(draftPath)) {

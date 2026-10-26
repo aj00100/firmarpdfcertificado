@@ -77,4 +77,88 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'indigo',
   },
   */
+
+  // UNCOMMENT DAY 6: Regional AutoFirma Bypass (Junta de Andalucía >1,000/mo, GVA, Madrid — Easy KD)
+  /*
+  {
+    slug: 'solucion-autofirma-junta-de-andalucia-gva-madrid',
+    title: 'Solución a Errores de AutoFirma en Junta de Andalucía, GVA y Comunidad de Madrid (2026)',
+    description:
+      '¿AutoFirma no te deja firmar en la Ventanilla Electrónica de la Junta de Andalucía (VEA), Generalitat Valenciana o Madrid? Aprende cómo solucionarlo o presentar tu PDF ya firmado.',
+    category: 'Sedes Autonómicas y AutoFirma',
+    readTime: '6 min de lectura',
+    updatedDate: '1 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  */
+
+  // UNCOMMENT DAY 7: Plataforma Mercurio Extranjería (>1,000/mo x2) & Becas MEC (>10,000/mo — Easy KD)
+  /*
+  {
+    slug: 'como-firmar-subir-documentos-plataforma-mercurio-y-becas-mec',
+    title: 'Cómo Firmar y Subir Documentos PDF en Plataforma Mercurio (Extranjería) y Becas MEC',
+    description:
+      'Guía práctica para renovar el NIE o presentar expedientes en la Plataforma Mercurio de Extranjería y firmar solicitudes de Becas MEC e inscripción en Oposiciones sin fallos de Java.',
+    category: 'Extranjería, Educación y Oposiciones',
+    readTime: '7 min de lectura',
+    updatedDate: '2 de noviembre de 2026',
+    badgeColor: 'emerald',
+  },
+  */
+
+  // UNCOMMENT DAY 8: Certificado Delitos Sexuales (>10,000/mo Easy KD) & Antecedentes Penales (>1,000/mo)
+  /*
+  {
+    slug: 'como-descargar-certificado-delitos-sexuales-y-antecedentes-penales',
+    title: 'Cómo Descargar el Certificado de Delitos Sexuales y Antecedentes Penales Online al Instante',
+    description:
+      'Pasos exactos para obtener gratis el Certificado de Delitos de Naturaleza Sexual y el Certificado de Antecedentes Penales (Tasa 006) en la Sede del Ministerio de Justicia con certificado digital.',
+    category: 'Ministerio de Justicia',
+    readTime: '6 min de lectura',
+    updatedDate: '3 de noviembre de 2026',
+    badgeColor: 'indigo',
+  },
+  */
+
+  // UNCOMMENT DAY 9: Certificado de Empadronamiento (>10,000/mo Easy KD)
+  /*
+  {
+    slug: 'descargar-certificado-empadronamiento-con-certificado-digital',
+    title: 'Cómo Descargar el Certificado o Volante de Empadronamiento Online con Certificado Digital',
+    description:
+      'Guía para obtener al instante el certificado de empadronamiento individual o colectivo en Madrid, Barcelona, Valencia, Sevilla y cualquier ayuntamiento sin pedir cita previa.',
+    category: 'Trámites Municipales y Padrón',
+    readTime: '7 min de lectura',
+    updatedDate: '4 de noviembre de 2026',
+    badgeColor: 'emerald',
+  },
+  */
+
+  // UNCOMMENT DAY 10: Registro Civil: Nacimiento (>10,000/mo), Matrimonio (>1,000/mo), Defunción (>1,000/mo), Últimas Voluntades (>1,000/mo — All Easy KD)
+  /*
+  {
+    slug: 'solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades',
+    title: 'Certificado de Nacimiento, Matrimonio, Defunción y Últimas Voluntades Online (Gratis)',
+    description:
+      'Cómo descargar gratis y en el acto los certificados oficiales del Registro Civil y del Ministerio de Justicia con tu certificado digital sin pagar a gestorías intermediarias.',
+    category: 'Registro Civil y Herencias',
+    readTime: '8 min de lectura',
+    updatedDate: '5 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  */
+
+  // UNCOMMENT DAY 11: Vida Laboral (>100K/mo), Renta 2026 (>10,000/mo) & Certificado Retenciones (>1,000/mo — All Easy KD)
+  /*
+  {
+    slug: 'descargar-firmar-vida-laboral-borrador-renta-certificado-retenciones',
+    title: 'Descargar Vida Laboral, Borrador de la Renta 2026 y Certificado de Retenciones IRPF con Certificado Digital',
+    description:
+      'Cómo obtener tu informe de Vida Laboral al segundo en Import@ss, consultar el borrador de la Declaración de la Renta 2026 y firmar tu certificado de retenciones en PDF.',
+    category: 'Seguridad Social y Hacienda',
+    readTime: '7 min de lectura',
+    updatedDate: '6 de noviembre de 2026',
+    badgeColor: 'amber',
+  },
+  */
 ];

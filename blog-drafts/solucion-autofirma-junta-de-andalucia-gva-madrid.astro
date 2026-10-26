@@ -1,0 +1,135 @@
+---
+// blog-drafts/solucion-autofirma-junta-de-andalucia-gva-madrid.astro
+// (Move to src/pages/blog/ on Day 6)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué diferencia hay entre el AutoFirma de la Junta de Andalucía y el del Ministerio?",
+    a: "Históricamente, la Junta de Andalucía distribuía una versión propia adaptada para su Ventanilla Electrónica (VEA) y el portal Presentación Electrónica General (PEG). Hoy en día ambas ramas han convergido, pero si tienes instalada una versión antigua en Windows 11 o Mac, el navegador bloqueará la conexión local con el puerto de firma."
+  },
+  {
+    q: "¿Puedo presentar un escrito o solicitud en la Junta de Andalucía, GVA o Madrid firmando el PDF previamente?",
+    a: "Sí. Tanto la Presentación Electrónica General (PEG) de la Junta de Andalucía como el trámite Z de la Generalitat Valenciana (GVA) y el Registro Electrónico de la Comunidad de Madrid permiten adjuntar documentos PDF que ya vengan firmados criptográficamente (formato PAdES) con tu certificado digital FNMT o DNIe."
+  },
+  {
+    q: "¿Por qué me sale 'No me deja firmar AutoFirma Junta de Andalucía' en Google Chrome o Firefox?",
+    a: "En Mozilla Firefox ocurre porque utiliza su propio almacén de certificados independiente (cert9.db) y no confía por defecto en el certificado raíz local 127.0.0.1 de AutoFirma. En Chrome y Safari en Mac suele deberse al bloqueo del socket local o a un antivirus que intercepta el tráfico HTTPS local."
+  }
+];
+---
+
+<Layout
+  title="AutoFirma Junta de Andalucía, GVA y Madrid: Solución Si No Deja Firmar"
+  description="¿Falla AutoFirma en la Junta de Andalucía, Generalitat Valenciana (GVA) o Comunidad de Madrid? Soluciona los bloqueos en Windows 11 y Mac o firma tu PDF online al instante."
+  canonicalPath="/blog/solucion-autofirma-junta-de-andalucia-gva-madrid/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">AutoFirma Junta de Andalucía, GVA y Madrid</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold mb-3">
+        <span>🏛️</span> Sedes Electrónicas Autonómicas · Andalucía, Valencia y Madrid
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Solución a los Fallos de AutoFirma en la Junta de Andalucía, Generalitat Valenciana (GVA) y Comunidad de Madrid
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Si estás intentando presentar una subvención, beca, inscripción en bolsa de empleo (SAS / Conselleria) o recurso administrativo y aparece el aviso <strong>"No se ha podido conectar con AutoFirma"</strong>, aquí tienes la vía rápida para firmar tus documentos PDF y completar el registro.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Immediate Web Signer above the fold -->
+      <div class="space-y-3">
+        <div class="bg-blue-900 text-white p-5 rounded-2xl shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider px-2 py-0.5 bg-blue-700 text-blue-200 rounded">
+              Alternativa Inmediata Sin Instalaciones
+            </span>
+            <h2 class="text-base sm:text-lg font-bold mt-1">
+              Firma tu solicitud, anexo o recurso PDF aquí mismo en 3 segundos
+            </h2>
+            <p class="text-xs text-blue-200 mt-0.5">
+              Válido para adjuntar en la Presentación Electrónica General (PEG Andalucía), Trámite Z (GVA) y Registro de la Comunidad de Madrid.
+            </p>
+          </div>
+        </div>
+
+        <SigningStudio
+          title="Firmador Web PAdES-B-B para Sedes Autonómicas"
+          subtitle="Sube tu PDF y tu certificado .p12/.pfx. Se genera el sello administrativo oficial sin abrir AutoFirma."
+        />
+      </div>
+
+      <!-- Breakdown by Autonomous Community -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Por qué falla AutoFirma en las sedes autonómicas y cómo resolverlo según tu comunidad
+        </h2>
+        <p>
+          Cada comunidad autónoma utiliza su propio motor de validación en su sede electrónica, lo que provoca conflictos frecuentes entre la versión estatal de AutoFirma y los componentes autonómicos:
+        </p>
+
+        <div class="space-y-4 mt-4">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-base">1. Junta de Andalucía (VEA / PEG / Bolsa SAS)</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">
+              Muchos ciudadanos descargan el instalador antiguo de los repositorios de la Junta de Andalucía, que entra en conflicto con <strong>Windows 11</strong> y procesadores <strong>Apple Silicon (M1/M2/M3/M4)</strong>. Si el componente web se queda cargando indefinidamente, cierra el navegador, firma los documentos anexos en nuestro firmador superior y súbelos como <em>Documento ya firmado</em> en la Presentación Electrónica General (PEG).
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-base">2. Generalitat Valenciana (GVA / Carpeta Ciutadana / Certificados ACCV)</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">
+              En la Comunitat Valenciana, los trámites con certificados de la <strong>ACCV (Agència de Tecnologia i Certificació Electrònica)</strong> o FNMT requieren que los certificados raíz estén correctamente importados. Si estás utilizando Mozilla Firefox, recuerda que debes marcar la casilla <em>"Confiar en esta CA para identificar sitios web"</em> dentro del almacén propio de Firefox, o bien exportar tu archivo <code>.p12</code> para firmar directamente en el navegador.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-base">3. Comunidad de Madrid (Sede Electrónica / Registro Telemático)</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-1.5 leading-relaxed">
+              En los formularios de ayudas, becas educativas y licencias de la Comunidad de Madrid, es habitual que la sede descargue un impreso PDF que debe ser firmado antes de su envío al registro. En lugar de pelear con el visor de Adobe o AutoFirma, arrastra ese PDF a nuestra herramienta, estampa tu sello digital PAdES y adjúntalo directamente en el paso de documentación.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre AutoFirma en Comunidades Autónomas
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

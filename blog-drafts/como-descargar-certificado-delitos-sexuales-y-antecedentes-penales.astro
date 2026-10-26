@@ -1,0 +1,156 @@
+---
+// blog-drafts/como-descargar-certificado-delitos-sexuales-y-antecedentes-penales.astro
+// (Move to src/pages/blog/ on Day 8)
+import Layout from '../../layouts/Layout.astro';
+import ValidatorStudio from '../../components/ValidatorStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuánto cuesta y cuánto tarda el Certificado de Delitos de Naturaleza Sexual online?",
+    a: "El Certificado de Delitos de Naturaleza Sexual es 100% gratuito y su descarga en PDF es inmediata si accedes a la Sede Electrónica del Ministerio de Justicia con tu Certificado Digital FNMT o DNI electrónico."
+  },
+  {
+    q: "¿Cuánto cuesta la tasa del Certificado de Antecedentes Penales en España?",
+    a: "A diferencia del certificado de delitos sexuales (que es gratuito), el Certificado de Antecedentes Penales requiere abonar telemáticamente la Tasa Modelo 790 Código 006 del Ministerio de Justicia, cuyo importe oficial es de 3,86 euros."
+  },
+  {
+    q: "¿Cómo verifica una empresa o colegio que el certificado PDF descargado es auténtico?",
+    a: "Todos los certificados expedidos por el Ministerio de Justicia incorporan una firma electrónica oficial PAdES/CSV en el margen del documento. Puedes subir el archivo PDF a nuestro verificador criptográfico gratuito en esta misma página para auditar al instante que no ha sido modificado."
+  }
+];
+---
+
+<Layout
+  title="Certificado de Delitos Sexuales y Antecedentes Penales Online: Descarga PDF"
+  description="Cómo solicitar y descargar al instante en PDF el Certificado de Delitos de Naturaleza Sexual (gratis) y el Certificado de Antecedentes Penales en el Ministerio de Justicia con certificado digital."
+  canonicalPath="/blog/como-descargar-certificado-delitos-sexuales-y-antecedentes-penales/"
+>
+  <header class="py-10 bg-gradient-to-b from-indigo-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Certificado de Delitos Sexuales y Antecedentes Penales</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-100 text-indigo-900 rounded-full text-xs font-bold mb-3">
+        <span>🛡️</span> Sede Electrónica del Ministerio de Justicia · LOPIVI
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Solicitar y Descargar el Certificado de Delitos Sexuales y Antecedentes Penales Online con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Si vas a trabajar como docente, monitor deportivo, sanitario, entrenador o necesitas presentar tus antecedentes penales para una oposición, visado o contrato laboral, te explicamos cómo descargar el PDF oficial en menos de 1 minuto desde casa.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Comparison Table: Delitos Sexuales vs Antecedentes Penales -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Diferencias entre el Certificado de Delitos Sexuales y el de Antecedentes Penales
+        </h2>
+        <p>
+          Aunque ambos documentos son expedidos por el Ministerio de Justicia, tienen finalidades legales, costes y procedimientos distintos:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3.5 font-bold">Característica</th>
+                <th class="p-3.5 font-bold text-emerald-400">Certificado de Delitos Sexuales</th>
+                <th class="p-3.5 font-bold text-blue-300">Certificado de Antecedentes Penales</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">¿Para qué es obligatorio?</td>
+                <td class="p-3.5 text-slate-700">Cualquier profesión o voluntariado con contacto habitual con menores (Ley Orgánica 8/2021 LOPIVI).</td>
+                <td class="p-3.5 text-slate-700">Oposiciones (Policía, Guardia Civil, Justicia), visados internacionales, licencias de armas y empleos regulados.</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Precio / Tasa Oficial</td>
+                <td class="p-3.5 text-emerald-700 font-bold">100% Gratuito (0,00 €)</td>
+                <td class="p-3.5 text-slate-700">3,86 € (Tasa Modelo 790 Código 006)</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Tiempo de entrega con Certificado Digital</td>
+                <td class="p-3.5 text-emerald-700 font-bold">Instantáneo (Descarga directa en PDF)</td>
+                <td class="p-3.5 text-emerald-700 font-medium">Instantáneo tras el pago telemático de la tasa</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Step by Step Guide -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Paso a paso: Cómo descargar el Certificado de Delitos Sexuales en PDF en 1 minuto
+        </h2>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            Accede a la <strong>Sede Electrónica del Ministerio de Justicia</strong> y entra en el apartado <em>Trámites &rarr; Certificado de Delitos de Naturaleza Sexual</em>.
+          </li>
+          <li>
+            Pulsa en <strong>Tramitación On-line</strong> e identifícate con tu <strong>Certificado Digital FNMT</strong> o DNI electrónico (si tienes dudas sobre si tu certificado sigue activo, revísalo antes en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">comprobador de caducidad</a>).
+          </li>
+          <li>
+            Verifica tus datos personales en pantalla y pulsa en <strong>Confirmar y Generar Certificado</strong>.
+          </li>
+          <li>
+            Se descargará en tu ordenador o teléfono móvil un documento PDF firmado electrónicamente por el Registro Central de Delincuentes Sexuales y de Trata de Seres Humanos.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Embedded Validator Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Verificar la Autenticidad de un Certificado del Ministerio de Justicia o Firmar tu Contrato Laboral
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Si eres el responsable de Recursos Humanos de un centro educativo, club deportivo o empresa y deseas comprobar que el PDF entregado por un candidato es íntegro y no ha sido editado, audítalo gratis aquí (o ve a nuestro <a href="/" class="text-blue-600 font-bold underline">Firmador de PDF</a> si eres trabajador y necesitas firmar tu contrato o declaración responsable):
+        </p>
+
+        <ValidatorStudio
+          title="Verificador de Certificados Oficiales y Contratos en PDF"
+          subtitle="Auditoría local SHA-256 sin subir datos personales ni antecedentes a servidores externos."
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre los Certificados del Ministerio de Justicia
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

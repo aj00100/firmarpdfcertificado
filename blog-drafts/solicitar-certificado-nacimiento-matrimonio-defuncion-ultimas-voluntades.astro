@@ -1,0 +1,167 @@
+---
+// blog-drafts/solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades.astro
+// (Move to src/pages/blog/ on Day 10)
+import Layout from '../../layouts/Layout.astro';
+import ValidatorStudio from '../../components/ValidatorStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuánto cuesta pedir un certificado de nacimiento, matrimonio o defunción en el Registro Civil?",
+    a: "Todos los certificados del Registro Civil (nacimiento, matrimonio y defunción) son 100% gratuitos (0,00 €) cuando se solicitan directamente en la Sede Electrónica del Ministerio de Justicia. Ten mucho cuidado con las páginas web privadas que aparecen en anuncios cobrando entre 30 € y 50 € por tramitar un documento que puedes descargar gratis en 1 minuto con tu certificado digital."
+  },
+  {
+    q: "¿Cuánto cuesta y cuándo se puede pedir el Certificado de Últimas Voluntades?",
+    a: "El Certificado de Actos de Última Voluntad requiere el pago telemático de la Tasa Modelo 790 Código 006 (3,86 €) y solo puede solicitarse una vez transcurridos 15 días hábiles desde la fecha del fallecimiento (sin contar sábados, domingos ni festivos)."
+  },
+  {
+    q: "¿Qué validez legal tiene el certificado PDF descargado de la Sede del Ministerio de Justicia?",
+    a: "Con la implantación del registro civil electrónico DICIREG, los certificados literales y plurilingües expedidos en formato PDF llevan incrustada una firma electrónica cualificada de la Administración y un Código Seguro de Verificación (CSV). Puedes comprobar su validez criptográfica al instante en nuestro verificador superior."
+  }
+];
+---
+
+<Layout
+  title="Certificado de Nacimiento, Matrimonio, Defunción y Últimas Voluntades Online"
+  description="Cómo solicitar y descargar gratis en PDF el certificado de nacimiento, matrimonio, defunción y últimas voluntades en la Sede del Ministerio de Justicia con certificado digital."
+  canonicalPath="/blog/solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Certificados del Registro Civil y Últimas Voluntades</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold mb-3">
+        <span>📜</span> Registro Civil Central (DICIREG) · Ministerio de Justicia
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Solicitar Gratis el Certificado de Nacimiento, Matrimonio, Defunción y Últimas Voluntades Online con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Evita pagar hasta 50 € a gestorías intermediarias por trámites que son gratuitos. Te explicamos cómo descargar al instante los certificados oficiales del <strong>Registro Civil</strong> y de <strong>Últimas Voluntades</strong> utilizando tu certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico (DNIe)</a>.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Anti-Scam Warning Box -->
+      <div class="p-5 bg-rose-50 border-l-4 border-rose-500 rounded-r-2xl space-y-1.5">
+        <h2 class="text-base font-extrabold text-rose-950">
+          ⚠️ Aviso Importante: Los certificados del Registro Civil son 100% GRATUITOS
+        </h2>
+        <p class="text-xs sm:text-sm text-rose-900 leading-relaxed">
+          Numerosas webs privadas imitan el diseño de la administración pública para cobrarte entre <strong>35 € y 60 €</strong> por enviarte un certificado de nacimiento, matrimonio o defunción. Si accedes con tu certificado digital a la Sede Electrónica del Ministerio de Justicia, la emisión y descarga del PDF oficial cuesta <strong>0,00 €</strong> (salvo Últimas Voluntades, cuya tasa estatal es de solo 3,86 €).
+        </p>
+      </div>
+
+      <!-- Summary Grid of the 4 Certificates -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Guía rápida de los 4 certificados del Registro Civil y Ministerio de Justicia
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <span class="text-xs font-bold text-blue-700 uppercase">1. Certificado de Nacimiento Online (Gratis)</span>
+            <h3 class="font-bold text-slate-900 text-base">Literal, Extracto o Plurilingüe</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Imprescindible para obtener el primer DNI de tu hijo, solicitar la baja por nacimiento, nacionalidad, herencias o matrículas escolares. Elige siempre la modalidad <strong>Literal</strong> (copia íntegra del asiento registral) o <strong>Plurilingüe</strong> si lo vas a presentar en otro país de la Unión Europea sin necesidad de traducción jurada ni Apostilla de La Haya.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <span class="text-xs font-bold text-emerald-700 uppercase">2. Certificado de Matrimonio Online (Gratis)</span>
+            <h3 class="font-bold text-slate-900 text-base">Acreditación de Estado Civil y Régimen</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Da fe del enlace matrimonial, fecha, lugar y posibles capitulaciones matrimoniales (gananciales o separación de bienes). Es obligatorio para trámites de pensiones de viudedad, reagrupación familiar en Extranjería, divorcios y trámites sucesorios.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <span class="text-xs font-bold text-slate-700 uppercase">3. Certificado de Defunción Online (Gratis)</span>
+            <h3 class="font-bold text-slate-900 text-base">Primer documento obligatorio en herencias</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Acredita oficialmente el fallecimiento de una persona. Necesitarás descargarlo en formato PDF para dar de baja suministros, cancelar cuentas bancarias, solicitar la pensión de viudedad/orfandad y pedir el certificado de últimas voluntades.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <span class="text-xs font-bold text-amber-800 uppercase">4. Certificado de Últimas Voluntades y Seguros (3,86 €)</span>
+            <h3 class="font-bold text-slate-900 text-base">¿Dejó testamento el fallecido y ante qué notario?</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Se solicita en la Sede de Justicia pasados 15 días hábiles desde la defunción. En el mismo trámite telemático puedes marcar la casilla para obtener gratis el <strong>Certificado de Contratos de Seguros de Cobertura de Fallecimiento</strong> y saber si el difunto tenía pólizas de vida activas.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contextual Internal Links to Signing Tools for Probate / Family Procedures -->
+      <div class="p-6 bg-slate-900 text-white rounded-2xl space-y-3">
+        <h2 class="text-lg font-bold">
+          ¿Necesitas firmar instancias de herencia, solicitudes a aseguradoras o escritos al Registro Civil?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+          Una vez descargados los certificados en PDF, los bancos, compañías de seguros y notarías suelen pedir a los herederos firmar la solicitud de liquidación o el inventario de bienes:
+        </p>
+        <div class="flex flex-wrap gap-3 pt-2">
+          <a href="/" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-colors">
+            ✍️ Firmar PDF con Certificado Digital &rarr;
+          </a>
+          <a href="/cofirmar-pdf-dos-firmas/" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white text-xs font-bold rounded-lg transition-colors">
+            👥 Cofirmar PDF entre varios herederos &rarr;
+          </a>
+          <a href="/poner-sello-firma-digital-pdf/" class="px-4 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white text-xs font-bold rounded-lg transition-colors">
+            🎨 Poner sello digital visible en PDF &rarr;
+          </a>
+        </div>
+      </div>
+
+      <!-- Embedded Validator Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Comprobar la Validez de un Certificado del Registro Civil o Apostilla Electrónica en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          ¿Has descargado tu certificado literal de nacimiento, matrimonio, defunción o últimas voluntades y quieres verificar que lleva incrustada la firma criptográfica oficial del Ministerio de Justicia antes de enviarlo a una notaría o consulado? Compruébalo aquí en 1 segundo (y si tu propio certificado FNMT te da fallo al entrar en la sede, audítalo en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">comprobador de certificado caducado</a>):
+        </p>
+
+        <ValidatorStudio
+          title="Verificador de Certificados del Registro Civil y Últimas Voluntades (PDF)"
+          subtitle="Comprueba la firma digital eIDAS y la integridad SHA-256 del documento 100% en tu navegador."
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Registro Civil Online
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

@@ -1,0 +1,162 @@
+---
+// blog-drafts/descargar-certificado-empadronamiento-con-certificado-digital.astro
+// (Move to src/pages/blog/ on Day 9)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué diferencia hay entre el volante de empadronamiento y el certificado de empadronamiento?",
+    a: "El volante de empadronamiento es un documento meramente informativo que sirve para trámites cotidianos (ayudas de transporte, escolarización o bonos municipales). En cambio, el certificado de empadronamiento es un documento público fehaciente firmado electrónicamente por el Secretario del Ayuntamiento, exigido ante juzgados, extranjería, herencias, parejas de hecho o el Registro Civil."
+  },
+  {
+    q: "¿Cómo empadronar a otra persona en mi vivienda o firmar la autorización de empadronamiento en PDF?",
+    a: "Si el solicitante no figura en el contrato de alquiler ni en las escrituras de la vivienda, el titular debe rellenar la hoja padronal o autorización de empadronamiento y firmarla digitalmente en PDF con su certificado electrónico antes de subirla a la sede del ayuntamiento. Si sois dos propietarios o co-inquilinos, podéis firmar ambos el mismo documento utilizando nuestra herramienta de Cofirma PDF."
+  },
+  {
+    q: "¿Qué caducidad tiene un certificado de empadronamiento descargado por internet?",
+    a: "Por norma general, los organismos públicos (Extranjería, DNI, Seguridad Social y Juzgados) exigen que el certificado o volante de empadronamiento tenga una antigüedad máxima de 3 meses desde la fecha de su expedición electrónica."
+  }
+];
+---
+
+<Layout
+  title="Descargar Certificado de Empadronamiento Online con Certificado Digital (2026)"
+  description="Cómo solicitar y descargar al instante el certificado o volante de empadronamiento por internet en Madrid, Barcelona, Valencia, Sevilla, Málaga y cualquier ayuntamiento sin cita previa."
+  canonicalPath="/blog/descargar-certificado-empadronamiento-con-certificado-digital/"
+>
+  <header class="py-10 bg-gradient-to-b from-emerald-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Certificado de Empadronamiento Online</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold mb-3">
+        <span>🏛️</span> Padrón Municipal de Habitantes · Descarga Instantánea sin Cita
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Descargar el Certificado de Empadronamiento por Internet con Certificado Digital (Sin Cita Previa)
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Conseguir cita presencial en las oficinas de atención al ciudadano puede tardar semanas. Si dispones de tu <strong>certificado digital FNMT o DNIe</strong>, puedes descargar gratis tu volante o certificado de empadronamiento en PDF en menos de 1 minuto y firmar hojas padronales desde casa.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Step-by-Step Municipal Download -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Paso a paso: Cómo sacar el certificado de empadronamiento online en tu Ayuntamiento
+        </h2>
+        <p>
+          Prácticamente todos los ayuntamientos de España (Madrid, Barcelona, Valencia, Alicante, Sevilla, Málaga, Zaragoza, Murcia, Palma de Mallorca, Las Palmas de Gran Canaria, Bilbao o Córdoba) permiten la descarga directa en PDF desde su Sede Electrónica:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            <strong>Verifica antes que tu certificado esté activo:</strong> Si hace tiempo que no usas tu archivo <code>.p12</code>, compruébalo en 1 segundo en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">verificador de validez y caducidad de certificado digital</a> para evitar bloqueos en la sede municipal.
+          </li>
+          <li>
+            <strong>Accede a la Sede Electrónica de tu Ayuntamiento:</strong> Entra en el apartado <em>Padrón Municipal de Habitantes &rarr; Volante o Certificado de Empadronamiento</em>.
+          </li>
+          <li>
+            <strong>Elige la modalidad correcta:</strong> Selecciona si necesitas un certificado <strong>Individual</strong> (solo aparecen tus datos, ideal para renovar el DNI o ayudas de viaje en Canarias/Baleares) o <strong>Colectivo / Familiar</strong> (incluye a todas las personas que conviven en el domicilio, requerido para el Ingreso Mínimo Vital, becas o parejas de hecho).
+          </li>
+          <li>
+            <strong>Descarga el PDF oficial sellado:</strong> El portal generará al instante un archivo PDF con el sello electrónico del Ayuntamiento. Si necesitas comprobar que la firma municipal es auténtica, puedes auditarla en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firma digital PDF online</a>.
+          </li>
+        </ol>
+      </div>
+
+      <!-- High-Friction Use Case: Signing the Hoja Padronal / Autorización & Rental Contract -->
+      <div class="p-6 bg-blue-50 border border-blue-200 rounded-2xl space-y-4">
+        <h2 class="text-lg sm:text-xl font-bold text-blue-950">
+          ¿Vas a darte de alta o cambiar de domicilio en el Padrón por internet?
+        </h2>
+        <p class="text-xs sm:text-sm text-blue-900 leading-relaxed">
+          Para tramitar el <strong>alta o cambio de domicilio en el padrón online</strong> sin acudir al ayuntamiento, la sede electrónica te exigirá subir dos documentos en formato PDF firmados electrónicamente:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+          <div class="bg-white p-4 rounded-xl border border-blue-200">
+            <h3 class="font-bold text-slate-900 text-sm">1. Hoja Padronal o Autorización de Vivienda</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Debe ir firmada con certificado digital por todos los mayores de edad que se empadronan (y por el titular de la vivienda si te empadronas en casa de un familiar o compañero). Si deben firmar dos personas en el mismo PDF, utiliza nuestra herramienta para <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirmar un PDF con dos firmas digitales</a> sin invalidar la primera.
+            </p>
+          </div>
+          <div class="bg-white p-4 rounded-xl border border-blue-200">
+            <h3 class="font-bold text-slate-900 text-sm">2. Contrato de Alquiler Firmado Digitalmente</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Si vives de alquiler, el ayuntamiento te pedirá adjuntar el contrato de arrendamiento en PDF firmado por arrendador e inquilino. Puedes firmarlo con sello oficial en nuestra página de <a href="/firmar-factura-contrato-pdf-certificado/" class="text-blue-600 font-bold underline">firmar contratos y facturas PDF con certificado</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Herramienta Gratuita: Firmar Hoja Padronal, Autorización de Empadronamiento o Contrato de Alquiler en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          ¿El trámite del ayuntamiento te pide adjuntar la hoja padronal firmada o te da error AutoFirma (como el habitual <a href="/ayuda/error-saf-45/" class="text-blue-600 font-bold underline">Error SAF_45</a>)? Sube aquí tu PDF y fírmalo en 3 segundos desde tu ordenador, <a href="/firmar-pdf-certificado-android/" class="text-blue-600 font-bold underline">móvil Android</a> o <a href="/firmar-pdf-certificado-mac-iphone/" class="text-blue-600 font-bold underline">Mac / iPhone</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Hoja Padronal o Autorización Municipal en PDF"
+          subtitle="Firma PAdES-B-B homologada para cualquier Ayuntamiento de España · 100% privado en tu navegador."
+        />
+      </div>
+
+      <!-- Quick Internal Links Box for Certificate Help -->
+      <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="space-y-1">
+          <h3 class="text-sm font-bold text-slate-900">¿Tu certificado está instalado en Chrome pero no encuentras el archivo .p12?</h3>
+          <p class="text-xs text-slate-600">
+            Aprende cómo extraer tu copia de seguridad en 1 minuto o cómo firmar si te has equivocado de casilla.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2 shrink-0">
+          <a href="/ayuda/exportar-certificado-fnmt/" class="px-3.5 py-2 bg-white border border-slate-300 hover:border-blue-600 text-slate-800 text-xs font-bold rounded-lg transition-colors">
+            📤 Exportar .p12 de Chrome
+          </a>
+          <a href="/quitar-firma-digital-pdf/" class="px-3.5 py-2 bg-white border border-slate-300 hover:border-blue-600 text-slate-800 text-xs font-bold rounded-lg transition-colors">
+            🔓 Quitar firma errónea
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Certificado de Empadronamiento Digital
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
