@@ -1,0 +1,190 @@
+---
+// blog-drafts/como-obtener-certificado-estar-al-corriente-seguridad-social-hacienda.astro
+// (Move to src/pages/blog/ on Day 4)
+import Layout from '../../layouts/Layout.astro';
+import ValidatorStudio from '../../components/ValidatorStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuánto tarda en descargarse el certificado de estar al corriente con la Seguridad Social y Hacienda?",
+    a: "En la Seguridad Social (portal Import@ss o Sistema RED), la descarga del PDF con código CEA/CSV es instantánea en el 100% de los casos. En la Agencia Tributaria (AEAT), si no existen deudas ni incidencias censales, el certificado se genera de forma inmediata en pantalla."
+  },
+  {
+    q: "¿Qué validez temporal tiene el certificado de estar al corriente de pago?",
+    a: "Los certificados tributarios de estar al corriente expedidos por la AEAT para contratistas y subcontratistas (Art. 43.1.f LGT) tienen una validez legal de 12 meses desde su fecha de emisión, mientras que los emitidos para subvenciones o licitaciones públicas suelen tener una vigencia de 6 meses."
+  },
+  {
+    q: "¿Por qué un cliente me exige el certificado de contratistas y subcontratistas antes de pagarme una factura?",
+    a: "Porque el artículo 43.1.f de la Ley General Tributaria establece que las empresas que contraten o subcontraten obras o servicios correspondientes a su actividad económica principal responden subsidiariamente de las deudas tributarias del subcontratista, salvo que este les entregue un certificado específico de estar al corriente emitido por la AEAT."
+  }
+];
+---
+
+<Layout
+  title="Certificado de Estar al Corriente Seguridad Social y Hacienda (AEAT) Online"
+  description="Cómo solicitar y descargar al instante el certificado de estar al corriente de pago con la Seguridad Social y la Agencia Tributaria (AEAT) con certificado digital."
+  canonicalPath="/blog/como-obtener-certificado-estar-al-corriente-seguridad-social-hacienda/"
+>
+  <header class="py-10 bg-gradient-to-b from-amber-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Certificado de Estar al Corriente AEAT y TGSS</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-900 rounded-full text-xs font-bold mb-3">
+        <span>🏢</span> Cumplimiento Empresarial B2B · Art. 43.1.f LGT y TGSS
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Obtener el Certificado de Estar al Corriente con la Seguridad Social y Hacienda (AEAT) en 2 Minutos
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Tanto si eres autónomo o pyme y necesitas cobrar facturas retenidas por una constructora o cliente principal, como si vas a solicitar una subvención, un préstamo ICO o licitar con el sector público, aquí tienes los pasos exactos para descargar ambos certificados sin esperas.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Part 1: Seguridad Social -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-blue-700 text-white font-bold flex items-center justify-center text-sm shrink-0">1</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+            Cómo descargar el Certificado de Estar al Corriente con la Seguridad Social (TGSS)
+          </h2>
+        </div>
+        <p>
+          La Tesorería General de la Seguridad Social permite obtener de forma automática el certificado oficial que acredita que el autónomo (RETA) o la empresa (Código de Cuenta de Cotización) no mantiene deudas pendientes por cuotas ni recargos:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            Entra en el portal oficial <strong>Import@ss de la Tesorería General de la Seguridad Social</strong> (apartado <em>Informes y Certificados</em>) o en la Sede Electrónica de la Seguridad Social.
+          </li>
+          <li>
+            Selecciona el trámite <strong>"Certificado de estar al corriente en las obligaciones de la Seguridad Social"</strong>.
+          </li>
+          <li>
+            Identifícate con tu <strong>Certificado Digital FNMT / Representante</strong> (si te aparece un error en el navegador, comprueba primero que no esté caducado en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">verificador de validez</a>).
+          </li>
+          <li>
+            Elige la finalidad del certificado: <em>Genérico</em>, <em>Licitación de contratos del sector público</em> o <em>Subvenciones</em>.
+          </li>
+          <li>
+            Pulsa en <strong>Descargar PDF</strong>. Obtendrás al instante el documento firmado electrónicamente por la TGSS con su código CEA de verificación.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Part 2: Hacienda (AEAT) -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-emerald-700 text-white font-bold flex items-center justify-center text-sm shrink-0">2</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+            Cómo descargar el Certificado de Estar al Corriente con Hacienda (AEAT — Contratistas Art. 43.1.f)
+          </h2>
+        </div>
+        <p>
+          En la Sede Electrónica de la Agencia Tributaria existen dos modalidades principales de este certificado tributario. Es fundamental elegir la correcta para que tu cliente no te rechace el documento:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-3">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm">A. Certificado de Contratistas y Subcontratistas (Art. 43.1.f LGT)</h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Obligatorio cuando trabajas para otra empresa y necesitas exonerarla de responsabilidad tributaria subsidiaria para que te abonen tus facturas. Debes introducir el <strong>NIF de la empresa pagadora</strong> al solicitarlo en la AEAT.
+            </p>
+          </div>
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm">B. Certificado Genérico / Subvenciones / Sector Público</h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              Se emite a tu propio nombre sin vincularlo a un pagador concreto. Es el requerido por bancos (préstamos ICO), ayuntamientos, comunidades autónomas y mesas de contratación pública.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- B2B VeriFactu / Holded Affiliate Callout -->
+      <div class="p-6 bg-amber-50 border-2 border-amber-300 rounded-2xl shadow-xs space-y-3">
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">💼</span>
+          <div>
+            <span class="text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 bg-amber-200 text-amber-950 rounded">
+              Gestión Fiscal y Facturación Homologada para Contratistas
+            </span>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mt-1">
+              Evita errores en el Modelo 303/347 y cumple con la normativa VeriFactu
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-700 mt-1 leading-relaxed">
+              La causa número uno por la que Hacienda deniega el certificado de estar al corriente a autónomos y pymes es la existencia de descuadres en autoliquidaciones trimestrales o facturas mal contabilizadas. Además, recuerda que el uso de software de facturación no certificado conlleva multas de hasta <strong>50.000 €</strong>:
+            </p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <a
+                href="/r/holded/"
+                target="_blank"
+                rel="nofollow noopener"
+                class="px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg transition-colors"
+              >
+                Probar Holded Gratis (Facturación Homologada AEAT) &rarr;
+              </a>
+              <a
+                href="/r/qonto/"
+                target="_blank"
+                rel="nofollow noopener"
+                class="px-4 py-2.5 bg-white hover:bg-amber-100 text-amber-950 border border-amber-300 text-xs font-bold rounded-lg transition-colors"
+              >
+                Abrir Cuenta Empresa Qonto &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embedded Validator Studio: Audit received contractor certificates! -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          ¿Un proveedor o subcontratista te ha enviado su certificado en PDF? Verifica su autenticidad
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Antes de pagar una factura a un subcontratista, comprueba en 1 segundo que el PDF de su certificado o contrato no ha sido manipulado con un editor de PDFs y conserva su integridad criptográfica:
+        </p>
+
+        <ValidatorStudio
+          title="Verificador de Integridad de Certificados y Contratos PDF"
+          subtitle="Comprueba que el documento PDF no ha sufrido alteraciones posteriores a su firma oficial."
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Certificado de Estar al Corriente
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

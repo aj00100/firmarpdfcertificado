@@ -1,0 +1,136 @@
+---
+// blog-drafts/como-firmar-pdf-para-lexnet-abogados-procuradores.astro
+// (Move to src/pages/blog/ on Day 5)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué formato de firma digital exige LexNET para el escrito principal y los documentos anexos?",
+    a: "Conforme al Real Decreto 1065/2015 y las guías técnicas del Ministerio de Justicia, los documentos presentados por vía electrónica en LexNET deben ir en formato PDF/A o PDF con texto seleccionable (OCR) y contar con firma electrónica avanzada o cualificada conforme al estándar europeo PAdES / CAdES."
+  },
+  {
+    q: "¿Puedo firmar mis escritos fuera de LexNET antes de adjuntarlos para evitar errores de Java?",
+    a: "Sí. Cuando el applet o el componente local de AutoFirma/LexNET Escritorio falla en macOS o Windows 11, los abogados y procuradores pueden firmar previamente el PDF de la demanda y el índice de documentos anexos con su certificado ACA, FNMT o DNIe utilizando nuestro firmador PAdES-B-B en memoria local."
+  },
+  {
+    q: "¿Es confidencial firmar demandas o escritos judiciales en FirmarPDFCertificado.com?",
+    a: "Absolutamente confidencial y estricto con el secreto profesional y el RGPD. A diferencia de los portales de firma en la nube, nuestra herramienta procesa el PDF y el certificado digital exclusivamente dentro de la memoria RAM de tu navegador web mediante Web Workers. Ningún byte del escrito judicial se transmite por internet."
+  }
+];
+---
+
+<Layout
+  title="Cómo Firmar PDF para LexNET Justicia (Abogados y Procuradores) Sin Errores"
+  description="Guía técnica para firmar demandas, escritos procesales y documentos anexos en PDF para LexNET Justicia con certificado ACA, FNMT o DNIe sin bloqueos de AutoFirma."
+  canonicalPath="/blog/como-firmar-pdf-para-lexnet-abogados-procuradores/"
+>
+  <header class="py-10 bg-gradient-to-b from-indigo-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Firmar PDF para LexNET Justicia</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-100 text-indigo-900 rounded-full text-xs font-bold mb-3">
+        <span>⚖️</span> LegalTech · Abogacía, Procuradores y Graduados Sociales
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Firmar Escritos y Documentos PDF para LexNET Justicia sin Fallos de AutoFirma ni Java
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        ¿Estás en el último día de vencimiento procesal (art. 135 LEC) y LexNET o AutoFirma se quedan bloqueados al firmar tu demanda o escrito de trámite? Firma tus documentos PDF en local conforme al estándar <strong>ETSI PAdES-B-B</strong> con total confidencialidad.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Embedded Studio Right Above the Fold for Urgent Legal Deadlines -->
+      <div>
+        <SigningStudio
+          title="Firmador Criptográfico PAdES-B-B para Escritos Judiciales (ACA / FNMT / DNIe)"
+          subtitle="Secreto profesional garantizado: el escrito PDF jamás sale de la memoria RAM de tu ordenador."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- Technical Requirements of LexNET -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Requisitos Técnicos de los Archivos PDF en LexNET Justicia (Ministerio de Justicia)
+        </h2>
+        <p>
+          La plataforma <strong>LexNET</strong> (así como los sistemas autonómicos <em>e-Justícia.cat</em> en Cataluña, <em>JustiziaSip / Avantius</em> en País Vasco y Navarra, y <em>Vereda</em> en Cantabria) aplica validaciones estrictas sobre los documentos presentados telemáticamente por abogados, procuradores y graduados sociales:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-4">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm mb-1.5">1. Estándar de Firma PAdES</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Tanto el documento principal como los documentos anexos que requieran firma propia (poderes apud acta, dictámenes periciales o minutas) deben llevar firma criptográfica basada en certificado cualificado (ACA, FNMT o DNIe).
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm mb-1.5">2. Sello Visual Identificativo</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Estampar un cajetín rectangular visible al pie del escrito permite a los Letrados de la Administración de Justicia (LAJ) y funcionarios del juzgado verificar de inmediato el nombre del letrado, colegiación y fecha.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm mb-1.5">3. Cofirma de Escritos Conjuntos</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              En convenios reguladores, acuerdos transaccionales o escritos firmados conjuntamente por Abogado y Procurador, utiliza nuestra herramienta de <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">Cofirma PDF</a> para estampar ambas firmas sin invalidar la primera.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Troubleshooting LexNET & AutoFirma on Mac/Windows -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Por qué falla la firma en LexNET con macOS y Windows 11 (y cómo evitarlo)
+        </h2>
+        <p>
+          La mayoría de incidencias técnicas en los despachos jurídicos se producen cuando el navegador intenta invocar el protocolo local de AutoFirma o el driver de tarjeta criptográfica:
+        </p>
+        <ul class="list-disc pl-6 space-y-2">
+          <li><strong>Usuarios de Mac (Apple Silicon M1/M2/M3/M4):</strong> Las actualizaciones de macOS bloquean con frecuencia el socket interno en el puerto <code>127.0.0.1</code> generando el fallo <em>Broken pipe</em> o el <a href="/ayuda/error-saf-45/" class="text-blue-600 font-bold underline">Error SAF_45</a>.</li>
+          <li><strong>Certificados en formato software (.p12 / .pfx):</strong> Si dispones de tu certificado de la FNMT o de Representante exportado en formato <code>.p12</code>, puedes firmar directamente todos tus escritos y anexos en nuestra herramienta web sin abrir ninguna aplicación de escritorio.</li>
+        </ul>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Firma Digital en LexNET
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
