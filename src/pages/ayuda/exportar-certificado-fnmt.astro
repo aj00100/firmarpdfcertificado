@@ -1,0 +1,150 @@
+---
+// src/pages/ayuda/exportar-certificado-fnmt.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+---
+
+<Layout
+  title="Cómo Exportar Certificado Digital FNMT con Clave Privada (.p12 / .pfx)"
+  description="Guía paso a paso para exportar tu certificado digital de la FNMT con clave privada en Windows, Chrome, Edge, Firefox y Mac para firmar documentos PDF online."
+  canonicalPath="/ayuda/exportar-certificado-fnmt/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
+        <span>📖</span> Guía Oficial Paso a Paso
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Cómo Exportar tu Certificado Digital FNMT (.p12 / .pfx)
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        Aprende a extraer tu certificado de la FNMT con su <strong>clave privada</strong> desde Google Chrome, Edge, Firefox o Mac para hacer copias de seguridad o firmar PDFs online.
+      </p>
+    </div>
+  </header>
+
+  <!-- Interactive Embedded Studio -->
+  <section class="py-10 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-6">
+        <h2 class="text-xl font-bold text-slate-900">¿Ya tienes tu archivo .p12 o .pfx listo?</h2>
+        <p class="text-xs text-slate-500 mt-1">Firma tu documento PDF aquí mismo en 3 segundos sin subir ningún archivo a servidores externos.</p>
+      </div>
+      <SigningStudio
+        title="Firmador Criptográfico PDF con Certificado .p12"
+        subtitle="Arrastra tu PDF y el archivo .p12 que acabas de exportar. 100% privado en tu navegador."
+      />
+    </div>
+  </section>
+
+  <!-- Tutorial Content -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-12">
+      
+      <!-- Warning Box: Private Key Crucial Step -->
+      <div class="p-5 bg-amber-50 border-l-4 border-amber-500 rounded-r-xl">
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">⚠️</span>
+          <div>
+            <h3 class="text-base font-bold text-amber-900">El error más común: Exportar sin Clave Privada</h3>
+            <p class="text-sm text-amber-800 mt-1 leading-relaxed">
+              Para poder firmar documentos digitalmente con valor legal, <strong>es obligatorio marcar la opción "Sí, exportar la clave privada"</strong>. Si exportas únicamente la clave pública (.cer o .crt), ningún programa ni firmador podrá aplicar tu firma.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Method 1: Google Chrome & Microsoft Edge (Windows) -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-sm">1</span>
+          <h2 class="text-2xl font-bold text-slate-900">Google Chrome o Microsoft Edge en Windows</h2>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Tanto Chrome como Edge utilizan el almacén central de certificados del sistema operativo Windows:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm text-slate-700 bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            <strong>Acceso directo rápido:</strong> Pulsa las teclas <kbd class="px-2 py-1 bg-white border border-slate-300 rounded text-xs font-mono">Windows + R</kbd>, escribe <code class="text-blue-600 font-mono font-bold">certmgr.msc</code> y pulsa <em>Enter</em>.
+          </li>
+          <li>
+            En el panel izquierdo, despliega la carpeta <strong>Personal</strong> y entra en la subcarpeta <strong>Certificados</strong>.
+          </li>
+          <li>
+            Localiza tu certificado de la FNMT (llevará tu Nombre y Apellidos o NIF), haz clic derecho sobre él y selecciona <strong>Todas las tareas &rarr; Exportar...</strong>
+          </li>
+          <li>
+            Se abrirá el Asistente de exportación. Haz clic en <em>Siguiente</em> y en la siguiente pantalla selecciona obligatoriamente: <strong>"Sí, exportar la clave privada"</strong>.
+          </li>
+          <li>
+            En el formato de archivo, deja seleccionado <strong>Intercambio de información personal - PKCS #12 (.PFX)</strong> y marca la casilla <em>"Incluir todos los certificados en la ruta de certificación si es posible"</em>.
+          </li>
+          <li>
+            Marca la casilla <strong>Contraseña</strong> y escribe una clave segura (recuérdala bien, ya que te la pedirá el firmador al cargar el archivo).
+          </li>
+          <li>
+            Haz clic en <strong>Examinar</strong>, elige dónde guardar el archivo (por ejemplo, en el Escritorio o Descargas), asígnale un nombre y pulsa <em>Finalizar</em>.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Method 2: Mozilla Firefox -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-orange-600 text-white font-bold flex items-center justify-center text-sm">2</span>
+          <h2 class="text-2xl font-bold text-slate-900">Mozilla Firefox (Windows y Mac)</h2>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Firefox gestiona sus certificados de manera independiente al sistema operativo:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm text-slate-700 bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>Abre Firefox y haz clic en el menú superior (tres rayas horizontales) &rarr; <strong>Ajustes</strong>.</li>
+          <li>En el menú lateral, pulsa en <strong>Privacidad & Seguridad</strong>.</li>
+          <li>Baja hasta el apartado <em>Seguridad / Certificados</em> y haz clic en el botón <strong>Ver certificados...</strong></li>
+          <li>En la pestaña <strong>Sus certificados</strong>, selecciona tu certificado digital de la lista.</li>
+          <li>Haz clic en el botón <strong>Hacer copia...</strong> (o <em>Copia de seguridad</em>).</li>
+          <li>Elige la carpeta donde guardar el archivo (se guardará como archivo <code>.p12</code>).</li>
+          <li>Introduce una contraseña de respaldo para proteger el archivo y haz clic en <em>Aceptar</em>.</li>
+        </ol>
+      </div>
+
+      <!-- Method 3: macOS Keychain -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="w-8 h-8 rounded-full bg-slate-800 text-white font-bold flex items-center justify-center text-sm">3</span>
+          <h2 class="text-2xl font-bold text-slate-900">Apple Mac (Acceso a Llaveros / macOS Keychain)</h2>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          En ordenadores Mac con Safari o Chrome, el certificado se encuentra en la aplicación del sistema:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm text-slate-700 bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>Abre el <strong>Spotlight</strong> (Cmd + Espacio) y escribe <strong>Acceso a Llaveros</strong> (<em>Keychain Access</em>).</li>
+          <li>En el panel lateral izquierdo, selecciona el llavero <strong>inicio de sesión</strong> (<em>login</em>) y la categoría <strong>Mis certificados</strong>.</li>
+          <li>Haz clic derecho sobre tu certificado de la FNMT y pulsa en <strong>Exportar "[Tu Nombre]"...</strong></li>
+          <li>Asegúrate de que en el desplegable de formato esté seleccionado <strong>Intercambio de información personal (.p12)</strong>.</li>
+          <li>Define una contraseña para proteger el archivo exportado y pulsa <em>Guardar</em>.</li>
+        </ol>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="pt-8 border-t border-slate-200">
+        <h3 class="text-xl font-bold text-slate-900 mb-4">Preguntas Frecuentes sobre Archivos .p12 y .pfx</h3>
+        <div class="space-y-4 text-sm">
+          <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+            <h4 class="font-bold text-slate-900">¿Qué diferencia hay entre un archivo .p12 y un archivo .pfx?</h4>
+            <p class="text-slate-600 mt-1">Ninguna a nivel práctico. Ambos corresponden al estándar criptográfico PKCS#12 y contienen tanto el certificado X.509 de la FNMT como tu clave privada encriptada. Nuestra herramienta acepta indistintamente ambas extensiones.</p>
+          </div>
+          <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+            <h4 class="font-bold text-slate-900">¿La opción "Exportar clave privada" me aparece en gris o deshabilitada?</h4>
+            <p class="text-slate-600 mt-1">Si la opción aparece desactivada, significa que cuando descargaste o instalaste el certificado en ese ordenador, se desmarcó la casilla de marcar la clave como exportable. En ese caso, deberás exportarlo desde el ordenador original donde lo solicitaste o solicitar uno nuevo en la web de la FNMT.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</Layout>

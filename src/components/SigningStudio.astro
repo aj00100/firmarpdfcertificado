@@ -3,11 +3,13 @@
 interface Props {
   title?: string;
   subtitle?: string;
+  defaultPosition?: 'bottom-right' | 'bottom-left' | 'bottom-center' | 'first-bottom-right' | 'top-right';
 }
 
 const {
   title = 'Firmar PDF con Certificado Digital (FNMT / DNIe)',
   subtitle = '100% privado en tu navegador. Tus archivos y tu certificado jamás salen de tu dispositivo.',
+  defaultPosition = 'bottom-right',
 } = Astro.props;
 ---
 
@@ -98,9 +100,11 @@ const {
           id="stamp-position"
           class="w-full px-3 py-2.5 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
         >
-          <option value="bottom-right" selected>Última página · Abajo Derecha</option>
-          <option value="bottom-left">Última página · Abajo Izquierda</option>
-          <option value="first-bottom-right">Primera página · Abajo Derecha</option>
+          <option value="bottom-right" selected={defaultPosition === 'bottom-right'}>Última página · Abajo Derecha (Firma principal)</option>
+          <option value="bottom-left" selected={defaultPosition === 'bottom-left'}>Última página · Abajo Izquierda (2ª Firma / Cofirma)</option>
+          <option value="bottom-center" selected={defaultPosition === 'bottom-center'}>Última página · Abajo Centro (3ª Firma)</option>
+          <option value="top-right" selected={defaultPosition === 'top-right'}>Última página · Arriba Derecha</option>
+          <option value="first-bottom-right" selected={defaultPosition === 'first-bottom-right'}>Primera página · Abajo Derecha</option>
         </select>
       </div>
 
@@ -309,10 +313,24 @@ const {
       ]);
 
       const pos = positionSelect.value;
+      let stampX: number | undefined = undefined;
+      let stampY: number = 30;
+      let pageIndex: number | undefined = undefined;
+
+      if (pos === 'first-bottom-right') {
+        pageIndex = 0;
+      } else if (pos === 'bottom-left') {
+        stampX = 35;
+      } else if (pos === 'bottom-center') {
+        stampX = 180;
+      } else if (pos === 'top-right') {
+        stampY = 720;
+      }
+
       const stampConfig = {
-        pageIndex: pos === 'first-bottom-right' ? 0 : undefined,
-        x: pos === 'bottom-left' ? 35 : undefined,
-        y: 30,
+        pageIndex,
+        x: stampX,
+        y: stampY,
         width: 220,
         height: 75,
       };

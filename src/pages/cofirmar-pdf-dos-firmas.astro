@@ -1,0 +1,95 @@
+---
+// src/pages/cofirmar-pdf-dos-firmas.astro
+import Layout from '../layouts/Layout.astro';
+import SigningStudio from '../components/SigningStudio.astro';
+---
+
+<Layout
+  title="Cofirmar PDF Online — Añadir Segunda Firma Digital sin Invalidar la Primera"
+  description="Añade una segunda o múltiple firma digital con certificado FNMT a un PDF ya firmado. Firma contratos y acuerdos entre dos partes 100% privado en tu navegador."
+  canonicalPath="/cofirmar-pdf-dos-firmas/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
+        <span>👥</span> Firma Múltiple / Cofirma PAdES-B-B
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Cofirmar PDF: Añadir Segunda Firma Digital a un Documento
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        ¿Has recibido un contrato, acta o acuerdo que ya viene firmado por la otra parte? Estampa tu certificado digital como <strong>segundo firmante</strong> sin corromper ni invalidar la firma previa.
+      </p>
+    </div>
+  </header>
+
+  <!-- Interactive Studio Pre-configured for 2nd Signature -->
+  <section class="py-10 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <SigningStudio
+        title="Estampar Segunda Firma Digital (Cofirma PAdES)"
+        subtitle="Posición recomendada: Abajo Izquierda para no solapar la firma del primer interviniente."
+        defaultPosition="bottom-left"
+      />
+    </div>
+  </section>
+
+  <!-- Technical & Legal Guide -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+
+      <!-- How it works -->
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">¿Cómo funciona la cofirma de un PDF ya firmado?</h2>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          En el estándar internacional <strong>PAdES (PDF Advanced Electronic Signatures)</strong>, cuando un documento recibe una segunda firma, no se reescribe el archivo anterior. En su lugar, el motor añade una sección incremental que contiene el nuevo diccionario criptográfico (<code>/ByteRange</code> y <code>/Contents</code>) y un nuevo sello visual administrativo, manteniendo intacta la huella SHA-256 de la primera firma.
+        </p>
+      </div>
+
+      <!-- Use Cases Grid -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="text-2xl mb-2">🏠</div>
+          <h3 class="font-bold text-slate-900 text-sm">Arrendador y Arrendatario</h3>
+          <p class="text-xs text-slate-600 mt-1">El propietario firma primero el contrato de alquiler y el inquilino estampa su certificado digital como segunda firma.</p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="text-2xl mb-2">🤝</div>
+          <h3 class="font-bold text-slate-900 text-sm">Socios y Empresas</h3>
+          <p class="text-xs text-slate-600 mt-1">Actas de junta, contratos de compraventa de participaciones o acuerdos mercantiles entre dos sociedades.</p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="text-2xl mb-2">💼</div>
+          <h3 class="font-bold text-slate-900 text-sm">Empresa y Trabajador</h3>
+          <p class="text-xs text-slate-600 mt-1">Contratos laborales, acuerdos de teletrabajo o cartas de finiquito con firma de ambas partes reconocidas legalmente.</p>
+        </div>
+      </div>
+
+      <!-- Warning Box: Avoiding Overlap -->
+      <div class="p-5 bg-blue-50 border border-blue-200 rounded-xl">
+        <h3 class="text-base font-bold text-blue-900 mb-1">💡 Consejo de posicionamiento visual:</h3>
+        <p class="text-sm text-blue-800 leading-relaxed">
+          Por defecto, la mayoría de herramientas colocan el sello en la esquina inferior derecha. Al añadir una segunda firma, selecciona en el desplegable <strong>"Última página · Abajo Izquierda (2ª Firma / Cofirma)"</strong> o <strong>"Abajo Centro"</strong> para que ambos sellos administrativos queden perfectamente legibles y ordenados en la hoja de firmas.
+        </p>
+      </div>
+
+      <!-- Verification Section -->
+      <div class="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h3 class="font-bold text-slate-900 text-base">¿Quieres verificar que ambas firmas son válidas?</h3>
+          <p class="text-xs text-slate-600 mt-0.5">Utiliza nuestro verificador eIDAS para comprobar los certificados de todos los firmantes.</p>
+        </div>
+        <a
+          href="/validar-firma-digital-pdf/"
+          class="shrink-0 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition-colors"
+        >
+          🔍 Validar Documento con 2 Firmas
+        </a>
+      </div>
+
+    </div>
+  </article>
+</Layout>

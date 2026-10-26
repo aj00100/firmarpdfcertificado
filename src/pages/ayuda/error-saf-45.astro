@@ -1,0 +1,130 @@
+---
+// src/pages/ayuda/error-saf-45.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+---
+
+<Layout
+  title="Solución Error SAF_45 y Fallos de Conexión en AutoFirma (2026)"
+  description="¿Te aparece el Error SAF_45 en AutoFirma al firmar en la AEAT o Sede Electrónica? Descubre las causas y firma tu documento PDF online de forma inmediata."
+  canonicalPath="/ayuda/error-saf-45/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-rose-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-semibold mb-4">
+        <span>🚨</span> Diagnóstico y Solución Inmediata
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Solución al Error SAF_45 y Bloqueos de AutoFirma
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        ¿AutoFirma se queda cargando, no se conecta con el navegador o lanza el código <strong>SAF_45</strong> en mitad de un trámite urgente de la AEAT o DGT?
+      </p>
+    </div>
+  </header>
+
+  <!-- Immediate Alternative: Sign Right Here -->
+  <section class="py-10 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="bg-blue-900 text-white p-5 rounded-2xl mb-6 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <span class="inline-block px-2.5 py-0.5 bg-blue-700 text-blue-200 text-xs font-bold rounded mb-1">
+            Solución Rápida Sin Esperas
+          </span>
+          <h2 class="text-base sm:text-lg font-bold">Firma tu documento PDF aquí mismo en 3 segundos</h2>
+          <p class="text-xs text-blue-200 mt-0.5">
+            No pierdas horas reiniciando el ordenador ni editando la consola. Firma directamente con tu certificado .p12 en tu navegador.
+          </p>
+        </div>
+        <a href="#firmar" class="shrink-0 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-xs rounded-lg shadow transition-colors">
+          Burlar Error y Firmar
+        </a>
+      </div>
+
+      <div id="firmar">
+        <SigningStudio
+          title="Firma tu PDF sin pasar por AutoFirma ni Java"
+          subtitle="Procesamiento 100% en tu navegador. Válido legalmente para la AEAT, DGT y registros telemáticos."
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagnostic Breakdown -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">¿Qué significa el Error SAF_45 en AutoFirma?</h2>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          El error <strong>SAF_45</strong> es una respuesta genérica del cliente de firma del Ministerio de Asuntos Económicos y Transformación Digital que indica que <strong>el navegador no ha podido establecer comunicación con la aplicación local AutoFirma</strong> (o que la conexión se ha interrumpido abruptamente antes de devolver el documento firmado).
+        </p>
+      </div>
+
+      <!-- Common Error Matrix -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+            <h3 class="font-bold text-slate-900 text-sm">Bloqueo de puertos locales (Puerto 7171)</h3>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            AutoFirma levanta un servidor web interno en <code class="bg-white px-1.5 py-0.5 rounded border">127.0.0.1:7171</code>. Antivirus como Avast, AVG o el firewall de Windows a menudo bloquean este tráfico local por considerarlo sospechoso.
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+            <h3 class="font-bold text-slate-900 text-sm">Error "Broken Pipe" en macOS</h3>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            En Mac (especialmente con chips M1, M2, M3 o M4), las restricciones de privacidad de macOS Sequoia y Sonoma cortan el socket Unix entre Safari/Chrome y la máquina virtual Java de AutoFirma.
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+            <h3 class="font-bold text-slate-900 text-sm">Error SAF_19: Sin certificados válidos</h3>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            AutoFirma no detecta el certificado porque ha caducado, se instaló sin la clave privada o no tiene marcado el permiso de confianza en el almacén del sistema.
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="w-3 h-3 rounded-full bg-amber-500"></span>
+            <h3 class="font-bold text-slate-900 text-sm">Error SAF_15: Fallo de descifrado</h3>
+          </div>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Conflicto con el componente JMulticard para lectores de DNIe. Desmarcar "Habilitar JMulticard" en las Preferencias de AutoFirma suele resolver este caso específico.
+          </p>
+        </div>
+      </div>
+
+      <!-- Step-by-Step Fixes for AutoFirma -->
+      <div class="space-y-4 pt-6 border-t border-slate-200">
+        <h3 class="text-xl font-bold text-slate-900">Pasos para intentar solucionar AutoFirma en tu equipo:</h3>
+        
+        <ol class="list-decimal list-inside space-y-3 text-sm text-slate-700 bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li><strong>Cierra y ejecuta como Administrador:</strong> Cierra el navegador y AutoFirma. Haz clic derecho sobre el icono de AutoFirma y selecciona <em>"Ejecutar como administrador"</em>.</li>
+          <li><strong>Prueba otro navegador:</strong> Si te falla en Chrome, abre el enlace del trámite en <strong>Microsoft Edge</strong> o <strong>Firefox</strong> (cada uno maneja los certificados de forma distinta).</li>
+          <li><strong>Reinstala la última versión oficial:</strong> Desinstala tu versión actual, descarga la última versión desde el portal oficial <em>firmaelectronica.gob.es</em> e instálala con permisos de administrador.</li>
+          <li><strong>En Mac (Acceso a Llaveros):</strong> Busca el certificado <code>AutoFirma ROOT</code> en la aplicación <em>Acceso a Llaveros</em> y asegúrate de que esté configurado como <strong>"Confiar siempre"</strong>.</li>
+        </ol>
+      </div>
+
+      <!-- Why Web Signing is the Ultimate Fix -->
+      <div class="p-6 bg-blue-50 border border-blue-200 rounded-xl">
+        <h3 class="text-base font-bold text-blue-900 mb-2">¿Necesitas presentar el trámite ya?</h3>
+        <p class="text-sm text-blue-800 leading-relaxed">
+          La inmensa mayoría de sedes electrónicas (Hacienda, Seguridad Social, DGT, Ayuntamientos) te permiten <strong>adjuntar un PDF ya firmado previamente</strong> en su Registro Electrónico General (REG). Usa nuestra herramienta web para estampar la firma PAdES con tu certificado y sube el PDF resultante directamente sin necesidad de que AutoFirma funcione.
+        </p>
+      </div>
+
+    </div>
+  </article>
+</Layout>

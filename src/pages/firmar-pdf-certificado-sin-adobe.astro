@@ -1,0 +1,107 @@
+---
+// src/pages/firmar-pdf-certificado-sin-adobe.astro
+import Layout from '../layouts/Layout.astro';
+import SigningStudio from '../components/SigningStudio.astro';
+---
+
+<Layout
+  title="Firmar PDF con Certificado Digital sin Adobe Acrobat Reader (Online)"
+  description="¿Cansado de la complejidad y el peso de Adobe Reader? Firma tus documentos PDF con certificado digital FNMT de forma gratuita y directa en tu navegador web."
+  canonicalPath="/firmar-pdf-certificado-sin-adobe/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-indigo-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-semibold mb-4">
+        <span>⚡</span> Alternativa Ligera a Adobe Acrobat DC
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Firmar PDF con Certificado Digital sin Adobe Reader
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        Evita instaladores de 500 MB, menús ocultos de 10 pasos y suscripciones de pago. Firma con tu certificado digital de la FNMT directamente en Google Chrome, Edge o Firefox.
+      </p>
+    </div>
+  </header>
+
+  <!-- Interactive Studio -->
+  <section class="py-10 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <SigningStudio
+        title="Firma Criptográfica PAdES sin Software de Escritorio"
+        subtitle="100% compatible con Adobe Reader cuando el destinatario abra tu PDF firmado."
+      />
+    </div>
+  </section>
+
+  <!-- Comparison Table -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">¿Por qué buscar una alternativa a Adobe Acrobat Reader?</h2>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Durante años, Adobe Acrobat Reader ha sido el estándar para firmar documentos digitalmente. Sin embargo, para la mayoría de usuarios, autónomos y empresas en España, el proceso se ha vuelto innecesariamente complejo y pesado:
+        </p>
+      </div>
+
+      <!-- Feature Comparison Matrix -->
+      <div class="overflow-x-auto border border-slate-200 rounded-xl">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead class="bg-slate-900 text-white">
+            <tr>
+              <th class="p-3.5 font-bold">Característica</th>
+              <th class="p-3.5 font-bold text-blue-400">FirmarPDFCertificado.com</th>
+              <th class="p-3.5 font-bold text-slate-300">Adobe Acrobat Reader DC</th>
+              <th class="p-3.5 font-bold text-slate-300">Visor de Chrome / Edge</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr>
+              <td class="p-3.5 font-medium">Instalación necesaria</td>
+              <td class="p-3.5 text-emerald-600 font-bold">0 MB (Directo en navegador)</td>
+              <td class="p-3.5 text-rose-600">~500 MB + Actualizaciones constantes</td>
+              <td class="p-3.5 text-emerald-600">Integrado en el navegador</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium">Validez legal en la AEAT</td>
+              <td class="p-3.5 text-emerald-600 font-bold">✅ Plena (PAdES-B-B X.509)</td>
+              <td class="p-3.5 text-emerald-600">✅ Plena (PAdES)</td>
+              <td class="p-3.5 text-rose-600 font-bold">❌ Nula (Sólo dibujo visual)</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium">Pasos requeridos</td>
+              <td class="p-3.5 text-emerald-600 font-bold">1 Clic (Subir PDF + .p12)</td>
+              <td class="p-3.5 text-slate-600">10 pasos (Menús y asistentes)</td>
+              <td class="p-3.5 text-slate-600">Dibujar con el ratón</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium">Compatibilidad Linux / Ubuntu</td>
+              <td class="p-3.5 text-emerald-600 font-bold">✅ 100% Compatible</td>
+              <td class="p-3.5 text-rose-600">❌ Descontinuado para Linux</td>
+              <td class="p-3.5 text-emerald-600">✅ Compatible</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium">Coste y registro</td>
+              <td class="p-3.5 text-emerald-600 font-bold">100% Gratis sin cuenta</td>
+              <td class="p-3.5 text-slate-600">Gratis (con avisos de pago)</td>
+              <td class="p-3.5 text-slate-600">Gratis</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Detail on Linux / Chrome -->
+      <div class="space-y-4">
+        <h3 class="text-xl font-bold text-slate-900">La trampa del visor de PDF integrado en Google Chrome</h3>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Muchos usuarios abren un PDF en Chrome o Edge y utilizan la herramienta de "Dibujar" o "Añadir texto" para escribir su nombre o pegar la imagen de su firma manuscrita. 
+        </p>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          <strong>Cuidado:</strong> Ese trazo no es una firma digital criptográfica. No contiene ningún certificado electrónico de la FNMT, no cifra el contenido del PDF con tu clave privada y <strong>será rechazado inmediatamente por la Agencia Tributaria (Hacienda), juzgados o administraciones públicas</strong>. FirmarPDFCertificado.com te permite estampar una firma criptográfica legal directamente en Chrome sin abrir ningún programa externo.
+        </p>
+      </div>
+
+    </div>
+  </article>
+</Layout>

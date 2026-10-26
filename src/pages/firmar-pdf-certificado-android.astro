@@ -1,0 +1,95 @@
+---
+// src/pages/firmar-pdf-certificado-android.astro
+import Layout from '../layouts/Layout.astro';
+import SigningStudio from '../components/SigningStudio.astro';
+---
+
+<Layout
+  title="Firmar PDF con Certificado Digital en Android (Sin Apps ni Registro)"
+  description="Firma documentos PDF con tu certificado digital FNMT directamente desde tu móvil Android. Sin descargar apps pesadas, sin Java y 100% privado en tu navegador."
+  canonicalPath="/firmar-pdf-certificado-android/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-emerald-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-semibold mb-4">
+        <span>📱</span> Optimizado para Teléfonos y Tablets Android
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Firmar PDF con Certificado Digital en Android
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        ¿Necesitas firmar un PDF urgente desde tu móvil Samsung, Xiaomi, Google Pixel o Motorola? Hazlo directamente en tu navegador <strong>sin instalar aplicaciones sospechosas de Google Play</strong>.
+      </p>
+    </div>
+  </header>
+
+  <!-- Interactive Studio -->
+  <section class="py-10 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <SigningStudio
+        title="Firmador Móvil PAdES-B-B para Android"
+        subtitle="Selecciona tu archivo PDF y tu archivo .p12 desde la carpeta Descargas de tu móvil."
+      />
+    </div>
+  </section>
+
+  <!-- Editorial Section: Android Guide -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">¿Cómo firmar un PDF desde el móvil en 3 pasos?</h2>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Hasta ahora, firmar con certificado en Android requería lidiar con la aplicación AutoFirma Móvil o instalar visores de PDF con publicidad. Con nuestra tecnología Web Worker, todo el proceso criptográfico se procesa en la memoria RAM de tu navegador móvil (Chrome, Firefox, Brave o Samsung Internet):
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-xs mb-3">1</span>
+          <h3 class="font-bold text-slate-900 text-sm">Ten tu archivo .p12 a mano</h3>
+          <p class="text-xs text-slate-600 mt-1">
+            Asegúrate de tener tu certificado digital guardado como archivo <code>.p12</code> o <code>.pfx</code> en tu móvil (en la carpeta <em>Descargas</em>, en Google Drive o recibido por email).
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-xs mb-3">2</span>
+          <h3 class="font-bold text-slate-900 text-sm">Carga ambos archivos</h3>
+          <p class="text-xs text-slate-600 mt-1">
+            Toca el botón azul para seleccionar tu PDF y luego el botón violeta para elegir tu certificado digital. Introduce tu contraseña de exportación.
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <span class="w-7 h-7 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-xs mb-3">3</span>
+          <h3 class="font-bold text-slate-900 text-sm">Descarga el PDF firmado</h3>
+          <p class="text-xs text-slate-600 mt-1">
+            Pulsa en <em>"Firmar PDF Ahora"</em> y en 2 segundos se descargará en tu teléfono el documento con el sello oficial administrativo listo para enviar.
+          </p>
+        </div>
+      </div>
+
+      <!-- FAQ Section for Android -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h3 class="text-xl font-bold text-slate-900">Preguntas Frecuentes sobre Android y Certificados Digitales</h3>
+        
+        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm">
+          <h4 class="font-bold text-slate-900">¿Dónde está mi certificado digital en Android?</h4>
+          <p class="text-slate-600 mt-1 text-xs leading-relaxed">
+            Aunque tengas el certificado instalado en los ajustes del sistema de Android (Ajustes &rarr; Seguridad &rarr; Certificados de usuario), los navegadores web por motivos de seguridad no pueden leer directamente ese almacén sin apps del sistema. Por eso, simplemente necesitas tener una copia del archivo con extensión <code>.p12</code> o <code>.pfx</code> en tu almacenamiento interno para seleccionarlo con el explorador de archivos de Android.
+          </p>
+        </div>
+
+        <div class="p-4 bg-slate-50 rounded-lg border border-slate-200 text-sm">
+          <h4 class="font-bold text-slate-900">¿Funciona en modo avión (sin cobertura)?</h4>
+          <p class="text-slate-600 mt-1 text-xs leading-relaxed">
+            ¡Sí! Una vez cargada la página web, puedes desconectar el Wi-Fi o poner el móvil en modo avión y la firma se ejecutará exactamente igual, demostrando que ningún dato viaja por Internet.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</Layout>
