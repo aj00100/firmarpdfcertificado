@@ -1,0 +1,182 @@
+---
+// src/pages/blog/index.astro
+import Layout from '../../layouts/Layout.astro';
+
+const articles = [
+  {
+    title: "Normativa VeriFactu 2026: Entrada en Vigor, Multas de 50.000 € y Qué Pasa con las Facturas en PDF",
+    slug: "normativa-verifactu-multas-facturas-pdf",
+    description: "Guía completa sobre el reglamento VeriFactu de la Agencia Tributaria. Descubre cuándo es obligatorio, las sanciones de la Ley Antifraude y los mejores softwares homologados para autónomos y pymes.",
+    date: "26 de Octubre de 2026",
+    readingTime: "8 min de lectura",
+    category: "Normativa Fiscal B2B",
+    featured: true,
+    tags: ["VeriFactu", "AEAT", "Facturación", "Autónomos", "Holded"]
+  },
+  {
+    title: "Cómo Hacer una Factura Rectificativa: Requisitos de Hacienda, Motivos y Ejemplos Prácticos",
+    slug: "como-hacer-factura-rectificativa-requisitos-hacienda",
+    description: "Aprende a emitir correctamente una factura rectificativa por sustitución o por diferencias según la normativa del Reglamento de Facturación. Incluye ejemplos numéricos y firma digital en PDF.",
+    date: "26 de Octubre de 2026",
+    readingTime: "7 min de lectura",
+    category: "Contabilidad y Fiscalidad",
+    featured: true,
+    tags: ["Factura Rectificativa", "IVA", "Hacienda", "Modelos"]
+  }
+];
+
+const upcomingGuides = [
+  {
+    title: "Guía Facturae 3.4 y Formato XML para Administraciones Públicas (FACe)",
+    desc: "Cómo generar y firmar facturas electrónicas para ayuntamientos y ministerios con certificado digital.",
+    tag: "Próximamente"
+  },
+  {
+    title: "Cómo Obtener el Certificado de Estar al Corriente con la Seguridad Social y Hacienda",
+    desc: "Guía paso a paso para descargar y verificar el certificado tributario de contratistas sin deudas.",
+    tag: "Próximamente"
+  },
+  {
+    title: "¿Se puede firmar un PDF con Cl@ve PIN o Cl@ve Permanente?",
+    desc: "Desmontando el mito de la firma con Cl@ve y cómo convertir documentos para firmar con FNMT.",
+    tag: "Próximamente"
+  },
+  {
+    title: "Cómo Firmar Documentos para LexNET: Guía para Abogados y Procuradores",
+    desc: "Especificaciones de firma PAdES, tamaño máximo y subsanación de errores en sede judicial.",
+    tag: "Próximamente"
+  }
+];
+---
+
+<Layout
+  title="Blog y Guías de Facturación, Firma Digital y Normativa Fiscal"
+  description="Artículos prácticos y actualizados sobre la normativa VeriFactu, facturación electrónica para autónomos, validez de la firma digital PAdES y trámites tributarios."
+  canonicalPath="/blog/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
+        <span>📚</span> Blog LegalTech & Fiscalidad Práctica
+      </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight">
+        Guías de Facturación, Firma Digital y Normativa Fiscal
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        Todo lo que autónomos, pymes y ciudadanos necesitan saber para cumplir con la Agencia Tributaria, la Ley Antifraude y el Reglamento eIDAS sin errores técnicos.
+      </p>
+    </div>
+  </header>
+
+  <!-- Main Articles Grid -->
+  <main class="py-12 bg-slate-50">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-10">
+
+      <!-- Featured Articles -->
+      <section class="space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+          <h2 class="text-xl font-bold text-slate-900 flex items-center gap-2">
+            <span>🔥</span> Artículos Destacados y Normativa 2026
+          </h2>
+          <span class="text-xs text-slate-500 font-medium">Actualizado Octubre 2026</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {articles.map((article) => (
+            <article class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-7 shadow-xs hover:shadow-md hover:border-blue-300 transition-all flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between text-xs mb-3">
+                  <span class="px-2.5 py-1 bg-blue-50 text-blue-700 font-bold rounded-lg border border-blue-100">
+                    {article.category}
+                  </span>
+                  <span class="text-slate-400 font-medium">{article.readingTime}</span>
+                </div>
+
+                <h3 class="text-lg sm:text-xl font-bold text-slate-900 hover:text-blue-700 transition-colors leading-snug mb-3">
+                  <a href={`/blog/${article.slug}/`}>
+                    {article.title}
+                  </a>
+                </h3>
+
+                <p class="text-xs sm:text-sm text-slate-600 leading-relaxed mb-4">
+                  {article.description}
+                </p>
+
+                <div class="flex flex-wrap gap-1.5 mb-5">
+                  {article.tags.map((tag) => (
+                    <span class="text-[11px] px-2 py-0.5 bg-slate-100 text-slate-600 rounded">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
+                <span class="text-xs text-slate-400">{article.date}</span>
+                <a
+                  href={`/blog/${article.slug}/`}
+                  class="inline-flex items-center text-xs font-bold text-blue-700 hover:text-blue-800"
+                >
+                  Leer Guía Completa →
+                </a>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- Tool Conversion Box -->
+      <section class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-7 sm:p-9 shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2">
+          <span class="px-2.5 py-0.5 bg-blue-500/40 border border-blue-400/50 rounded text-[11px] font-bold uppercase tracking-wider text-blue-200">
+            Herramienta 100% Gratuita en Navegador
+          </span>
+          <h3 class="text-xl sm:text-2xl font-bold tracking-tight">
+            ¿Necesitas firmar facturas, contratos o modelos en PDF ahora?
+          </h3>
+          <p class="text-xs sm:text-sm text-blue-100 max-w-xl leading-relaxed">
+            Sin instalar programas, sin Java y sin los fallos de AutoFirma. Firma con tu certificado FNMT o DNIe con plena validez jurídica eIDAS y sello oficial.
+          </p>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
+          <a
+            href="/"
+            class="px-5 py-3 bg-white hover:bg-slate-100 text-blue-900 font-bold text-xs rounded-xl shadow-md transition-colors text-center"
+          >
+            ✍️ Firmar PDF Gratis →
+          </a>
+          <a
+            href="/validar-firma-digital-pdf/"
+            class="px-5 py-3 bg-blue-800/80 hover:bg-blue-800 border border-blue-700 text-white font-bold text-xs rounded-xl transition-colors text-center"
+          >
+            🔍 Validar Firma PDF
+          </a>
+        </div>
+      </section>
+
+      <!-- Upcoming Knowledge Base -->
+      <section class="space-y-4">
+        <h2 class="text-lg font-bold text-slate-900">
+          Próximas Publicaciones y Guías Administrativas
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {upcomingGuides.map((guide) => (
+            <div class="bg-white border border-slate-200 rounded-xl p-4 flex flex-col justify-between">
+              <div>
+                <div class="flex items-center justify-between mb-1.5">
+                  <h4 class="font-bold text-slate-800 text-xs sm:text-sm">{guide.title}</h4>
+                  <span class="text-[10px] uppercase font-bold px-2 py-0.5 rounded bg-slate-100 text-slate-500">
+                    {guide.tag}
+                  </span>
+                </div>
+                <p class="text-xs text-slate-500 leading-relaxed">{guide.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+  </main>
+</Layout>

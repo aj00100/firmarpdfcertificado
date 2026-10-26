@@ -1,0 +1,274 @@
+---
+// src/pages/blog/como-hacer-factura-rectificativa-requisitos-hacienda.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuándo es obligatorio emitir una factura rectificativa?",
+    a: "Es obligatorio emitir una factura rectificativa siempre que la factura original no cumpla con los requisitos establecidos en los artículos 6 o 7 del Reglamento de Facturación (RD 1619/2012), cuando se hayan calculado incorrectamente las cuotas repercutidas de IVA o las retenciones de IRPF, o cuando se produzcan devoluciones de mercancías, envases, descuentos posteriores al devengo o rescisión de contratos."
+  },
+  {
+    q: "¿Qué diferencia hay entre una factura rectificativa por sustitución y por diferencias?",
+    a: "En la factura rectificativa por diferencias, se emite una factura indicando únicamente el importe que se modifica (positivo si se facturó de menos o negativo si se cobró de más). En la factura rectificativa por sustitución, la nueva factura sustituye íntegramente a la original, mostrando los importes definitivos corregidos y anulando el documento anterior."
+  },
+  {
+    q: "¿Qué serie de numeración debe llevar una factura rectificativa?",
+    a: "Por imperativo legal de la Agencia Tributaria, las facturas rectificativas deben tener una serie de numeración especial y separada de las facturas ordinarias (por ejemplo, 'R-2026-001' o 'REC-01'). Nunca se debe reutilizar la misma numeración correlativa de la serie ordinaria."
+  },
+  {
+    q: "¿Cuál es el plazo legal máximo para emitir una factura rectificativa?",
+    a: "El plazo general es de cuatro años contados a partir del momento en que se devengó el impuesto o se produjeron las circunstancias que motivan la rectificación (artículo 89 de la Ley del IVA). Sin embargo, debe expedirse tan pronto como el obligado tributario tenga constancia del error."
+  },
+  {
+    q: "¿Debe firmarse digitalmente una factura rectificativa en PDF?",
+    a: "Sí. Para garantizar la autenticidad del origen y la integridad del contenido ante una inspección de la Agencia Tributaria o en reclamaciones mercantiles, es altamente recomendable firmar el documento PDF con certificado digital cualificado (FNMT, Camerfirma o DNIe) en formato PAdES."
+  }
+];
+---
+
+<Layout
+  title="Cómo Hacer una Factura Rectificativa: Requisitos de Hacienda y Ejemplos"
+  description="Guía completa para emitir una factura rectificativa por sustitución o por diferencias conforme a la Agencia Tributaria. Incluye requisitos legales, ejemplos prácticos y firma en PDF."
+  canonicalPath="/blog/como-hacer-factura-rectificativa-requisitos-hacienda/"
+>
+  <!-- Article Header -->
+  <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center gap-2 text-xs font-semibold text-blue-700 mb-3">
+        <a href="/blog/" class="hover:underline">Blog</a>
+        <span>›</span>
+        <span>Contabilidad y Fiscalidad</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Hacer una Factura Rectificativa: Requisitos de Hacienda, Motivos y Ejemplos Prácticos
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Aprende a corregir errores en facturas emitidas sin problemas con la Agencia Tributaria: serie especial, tipos de rectificación, plazos legales y cómo firmarla digitalmente.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4 mt-6 pt-6 border-t border-slate-200/80 text-xs text-slate-500">
+        <span class="flex items-center gap-1.5 font-medium text-slate-700">
+          <span>📅</span> 26 de Octubre de 2026
+        </span>
+        <span>•</span>
+        <span>⏱️ 8 min de lectura</span>
+        <span>•</span>
+        <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-semibold">
+          Guía Contable para Autónomos y Pymes
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Article Body -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 leading-relaxed text-sm sm:text-base">
+
+      <!-- Intro -->
+      <section class="space-y-4">
+        <p>
+          Cualquier autónomo o empresa comete errores en la facturación en algún momento: un NIF mal escrito, una dirección fiscal desactualizada, un tipo de IVA del 21% aplicado a un producto exento, o un cliente que devuelve parte de un pedido tras haber cobrado la factura.
+        </p>
+        <p>
+          En España, <strong>está terminantemente prohibido eliminar, borrar o romper una factura ya emitida</strong>. La Ley General Tributaria y el Reglamento de Facturación (Real Decreto 1619/2012) exigen que cualquier modificación en una factura emitida se realice obligatoriamente mediante una <strong>factura rectificativa</strong>.
+        </p>
+      </section>
+
+      <!-- Section 1: Cuándo es obligatorio -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          ¿En qué casos es obligatorio emitir una factura rectificativa?
+        </h2>
+        <p>
+          El artículo 15 del Reglamento de Facturación determina que debe expedirse una factura rectificativa en los siguientes supuestos:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm mb-1">1. Errores en Datos</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Datos fiscales incorrectos del emisor o receptor (Razón Social, NIF/CIF o domicilio), fecha errónea o falta de menciones obligatorias.
+            </p>
+          </div>
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm mb-1">2. Errores de Cálculo</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Importes mal sumados, tipo de IVA mal repercutido (por ejemplo, aplicar el 10% en lugar del 21%) o retenciones de IRPF omitidas.
+            </p>
+          </div>
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm mb-1">3. Modificación Posterior</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Devolución de mercancías o envases, concesión de descuentos o rápeles posteriores, o concurso de acreedores del cliente.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Requisitos Legales de Hacienda -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Requisitos obligatorios que debe incluir según la Agencia Tributaria
+        </h2>
+        <p>
+          Para que una factura rectificativa sea válida ante la AEAT y no genere requerimientos tributarios, debe contener todos los datos de una factura ordinaria más <strong>4 requisitos legales específicos</strong>:
+        </p>
+
+        <ul class="list-disc list-inside space-y-2 text-slate-800 font-medium pl-2">
+          <li><strong>Mención expresa en el encabezado:</strong> Debe titularse claramente como <em>"Factura Rectificativa"</em>.</li>
+          <li><strong>Serie de numeración específica:</strong> Debe tener una serie numérica diferenciada (por ejemplo, <code>R-2026-001</code>). Nunca puede ir en la serie ordinaria de facturación.</li>
+          <li><strong>Identificación de la factura original rectificada:</strong> Número de factura original, fecha de emisión y motivo detallado de la rectificación.</li>
+          <li><strong>Detalle de la rectificación efectuada:</strong> El importe de la corrección o los importes definitivos sustituidos con el desglose exacto de Base Imponible, cuota de IVA y retención de IRPF.</li>
+        </ul>
+      </section>
+
+      <!-- Section 3: Por diferencias vs Por sustitución -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Factura rectificativa por diferencias vs. por sustitución
+        </h2>
+        <p>
+          Existen dos métodos oficiales para emitirla, y puedes elegir el que te resulte más claro o el que gestione tu software contable:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Opción A (La más común para abonos)</span>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Por Diferencias</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Solo refleja el importe que se modifica respecto a la original.
+            </p>
+            <div class="mt-3 p-3 bg-white border border-slate-200 rounded-lg text-xs space-y-1">
+              <p class="font-bold text-slate-800">Ejemplo práctico:</p>
+              <p class="text-slate-600">Facturaste 1.000 € + 21% IVA (1.210 €), pero el cliente devuelve productos por valor de 200 €.</p>
+              <p class="text-emerald-700 font-bold">Importe de la rectificativa: -200 € (+ -42 € IVA = -242 € total).</p>
+            </div>
+          </div>
+
+          <div class="p-5 bg-blue-50/70 border border-blue-200 rounded-xl">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">Opción B (Ideal para corregir errores de datos)</span>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Por Sustitución</h3>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              Anula y reemplaza por completo a la factura original, mostrando los importes correctos finales.
+            </p>
+            <div class="mt-3 p-3 bg-white border border-blue-200 rounded-lg text-xs space-y-1">
+              <p class="font-bold text-slate-800">Ejemplo práctico:</p>
+              <p class="text-slate-600">Emitiste la factura F-045 con un NIF erróneo. Emites la rectificativa R-003 que sustituye íntegramente a la F-045 indicando los datos fiscales correctos y el importe total correcto.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- B2B Affiliate Callout: Holded -->
+      <section class="p-6 md:p-8 bg-slate-900 text-white rounded-2xl shadow-xl my-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="space-y-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 bg-blue-500 text-white font-extrabold text-[11px] rounded uppercase tracking-wider">
+                Gestión Automática de Series
+              </span>
+              <span class="text-xs text-slate-400">Homologado VeriFactu</span>
+            </div>
+            <h3 class="text-xl md:text-2xl font-bold">
+              Emite facturas rectificativas en 1 clic con Holded
+            </h3>
+            <p class="text-xs md:text-sm text-slate-300 max-w-xl leading-relaxed">
+              No calcules diferencias a mano. En <strong>Holded</strong>, basta con abrir la factura original y pulsar en <em>"Crear factura rectificativa"</em>: el sistema asigna la serie especial R, calcula el IVA automáticamente y genera el documento legal listo para descargar en PDF.
+            </p>
+          </div>
+
+          <div class="shrink-0 w-full md:w-auto">
+            <a
+              href="/r/holded/"
+              target="_blank"
+              rel="nofollow noopener"
+              class="w-full md:w-auto px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm rounded-xl shadow-lg transition-all text-center flex items-center justify-center gap-2"
+            >
+              <span>🚀 Probar Holded 14 Días Gratis →</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Cómo Firmar en PDF -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Firma digital de la factura rectificativa en PDF (Obligatoria para validez plena)
+        </h2>
+        <p>
+          Para que una factura rectificativa enviada por correo electrónico a un cliente o asesoría tenga presunción legal de inalterabilidad, debes firmarla digitalmente con tu <strong>certificado digital FNMT, Camerfirma o DNIe</strong>.
+        </p>
+        <p>
+          Puedes utilizar nuestro firmador integrado a continuación: arrastra tu factura rectificativa en PDF, selecciona tu certificado <code>.p12</code> y obtén el documento firmado con el sello oficial administrativo en 2 segundos:
+        </p>
+
+        <!-- Embedded Interactive Signing Studio -->
+        <div class="pt-2">
+          <SigningStudio
+            title="Firmar Factura Rectificativa PDF con Certificado Digital"
+            subtitle="Inserta tu firma digital PAdES-B-B con sello administrativo oficial directamente en el navegador."
+          />
+        </div>
+      </section>
+
+      <!-- Section 5: Modelo 303 e Impacto Fiscal -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          ¿En qué trimestre y casilla del Modelo 303 se declara la factura rectificativa?
+        </h2>
+        <p>
+          La inclusión de una factura rectificativa en tus declaraciones trimestrales depende de si la rectificación resulta a tu favor o a favor de Hacienda:
+        </p>
+        <ul class="list-disc list-inside space-y-2 text-xs sm:text-sm pl-2">
+          <li><strong>Si la rectificación incrementa la cuota de IVA repercutida:</strong> Debes declararla en el periodo en el que se emitió la rectificativa o mediante declaración complementaria si correspondía a un periodo cerrado.</li>
+          <li><strong>Si la rectificación disminuye la cuota de IVA (por ejemplo, una devolución o descuento):</strong> Puedes computarla en la declaración-liquidación trimestral del <strong>Modelo 303</strong> en que se haya emitido la factura rectificativa o en las posteriores en el plazo de un año.</li>
+        </ul>
+      </section>
+
+      <!-- FAQs -->
+      <section class="pt-8 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Facturas Rectificativas
+        </h2>
+        <div class="space-y-3">
+          {faqs.map((f) => (
+            <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+              <h3 class="text-sm font-bold text-slate-900">{f.q}</h3>
+              <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+  </article>
+
+  <!-- Schema.org Article & FAQPage JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Cómo Hacer una Factura Rectificativa: Requisitos de Hacienda y Ejemplos",
+    "description": "Guía completa para emitir una factura rectificativa por sustitución o por diferencias conforme a la Agencia Tributaria. Requisitos y firma PDF.",
+    "datePublished": "2026-10-26T08:00:00+02:00",
+    "dateModified": "2026-10-26T08:00:00+02:00",
+    "author": {
+      "@type": "Organization",
+      "name": "FirmarPDFCertificado.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FirmarPDFCertificado.com",
+      "url": "https://firmarpdfcertificado.com"
+    }
+  })} />
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

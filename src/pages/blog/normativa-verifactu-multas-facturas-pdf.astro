@@ -1,0 +1,372 @@
+---
+// src/pages/blog/normativa-verifactu-multas-facturas-pdf.astro
+import Layout from '../../layouts/Layout.astro';
+
+const faqs = [
+  {
+    q: "¿Qué es exactamente VeriFactu y qué obligaciones impone?",
+    a: "VeriFactu es el nombre común del nuevo sistema de emisión de facturas verificables regulado por el Real Decreto 1007/2023 en desarrollo de la Ley Antifraude 11/2021. Obliga a que todos los sistemas informáticos de facturación garanticen la integridad, inalterabilidad, trazabilidad e inviolabilidad de los registros mediante encadenamiento criptográfico (hash) y la inclusión de un código QR en cada factura."
+  },
+  {
+    q: "¿Cuándo entra en vigor de forma obligatoria la normativa VeriFactu?",
+    a: "El calendario fijado por el Ministerio de Hacienda establece dos fechas clave: los desarrolladores de software deben tener sus programas adaptados y certificados antes del 29 de julio de 2025; mientras que para autónomos y empresas (pymes y grandes empresas) la obligación legal de emitir facturas adaptadas entra en vigor a lo largo de 2026."
+  },
+  {
+    q: "¿Se pueden seguir emitiendo facturas en PDF hechas con Word o Excel?",
+    a: "No como método habitual de registro. Con la entrada en vigor obligatoria de VeriFactu, las facturas generadas en plantillas de Word o Excel dejan de cumplir la Ley Antifraude, ya que permiten la edición posterior sin dejar rastro de auditoría. Si continúas usando software no certificado o de doble uso, te expones a sanciones de hasta 50.000 € por ejercicio fiscal."
+  },
+  {
+    q: "¿Existe un software VeriFactu gratis para autónomos con pocas facturas?",
+    a: "La Agencia Tributaria (AEAT) pondrá a disposición de autónomos y microempresas un formulario básico gratuito en su sede electrónica para emitir facturas adaptadas de una en una. Sin embargo, para una gestión profesional con contabilidad, presupuestos y remesas, programas en la nube como Holded ofrecen planes muy económicos y homologación oficial completa."
+  },
+  {
+    q: "¿Qué diferencia hay entre VeriFactu y la Ley Crea y Crece (Factura Electrónica B2B)?",
+    a: "Son dos normativas distintas pero complementarias. VeriFactu (Hacienda / Ley Antifraude) regula los requisitos técnicos que debe cumplir el software de facturación para evitar el fraude fiscal y la alteración de ventas. Por su parte, la Ley Crea y Crece (Ministerio de Economía) regula la obligación de intercambiar facturas electrónicas estructuradas entre empresas y autónomos (B2B) para combatir la morosidad."
+  }
+];
+---
+
+<Layout
+  title="Normativa VeriFactu 2026: Entrada en Vigor, Multas de 50.000 € y Facturas en PDF"
+  description="Guía completa sobre la normativa VeriFactu de Hacienda: fechas de entrada en vigor, sanciones de hasta 50.000 €, qué ocurrirá con las facturas en PDF y mejores softwares adaptados."
+  canonicalPath="/blog/normativa-verifactu-multas-facturas-pdf/"
+>
+  <!-- Article Header -->
+  <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center gap-2 text-xs font-semibold text-blue-700 mb-3">
+        <a href="/blog/" class="hover:underline">Blog</a>
+        <span>›</span>
+        <span>Normativa Fiscal B2B</span>
+      </div>
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Normativa VeriFactu 2026: Entrada en Vigor, Multas de 50.000 € y Qué Pasa con las Facturas en PDF
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-4 leading-relaxed">
+        Análisis exhaustivo del <strong>Real Decreto 1007/2023</strong> y la <strong>Ley Antifraude</strong>: qué exige la Agencia Tributaria, cuándo es obligatorio, cómo evitar sanciones millonarias y qué programas homologados existen.
+      </p>
+
+      <div class="flex flex-wrap items-center gap-4 mt-6 pt-6 border-t border-slate-200/80 text-xs text-slate-500">
+        <span class="flex items-center gap-1.5 font-medium text-slate-700">
+          <span>📅</span> 26 de Octubre de 2026
+        </span>
+        <span>•</span>
+        <span>⏱️ 9 min de lectura</span>
+        <span>•</span>
+        <span class="px-2 py-0.5 bg-blue-100 text-blue-800 rounded font-semibold">
+          Supervisión Legal & Contable
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Article Body -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 leading-relaxed text-sm sm:text-base">
+
+      <!-- Executive Warning Box -->
+      <div class="p-6 bg-rose-50 border-l-4 border-rose-600 rounded-r-2xl shadow-xs">
+        <div class="flex items-start gap-3">
+          <span class="text-2xl select-none">🚨</span>
+          <div>
+            <h2 class="text-base sm:text-lg font-bold text-rose-950">
+              Alerta Fiscal: Fin de las facturas manuales en Excel y Word
+            </h2>
+            <p class="text-xs sm:text-sm text-rose-900 mt-1.5 leading-relaxed">
+              La Agencia Tributaria (AEAT) ha puesto fecha definitiva al uso de software no homologado o plantillas tradicionales de hojas de cálculo. A partir del despliegue obligatorio de VeriFactu, cualquier sistema que permita modificar importes sin dejar traza inalterable conllevará <strong>multas automáticas de hasta 50.000 €</strong> por año para los usuarios y de hasta 150.000 € para los desarrolladores.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 1: Qué es VeriFactu -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          ¿Qué es VeriFactu y por qué afecta a todas las empresas y autónomos de España?
+        </h2>
+        <p>
+          El término <strong>VeriFactu</strong> hace referencia al reglamento que establece los requisitos que deben adoptar los Sistemas Informáticos de Facturación (SIF), aprobado mediante el <strong>Real Decreto 1007/2023</strong> de 5 de diciembre, en cumplimiento del artículo 29.2.j de la Ley 58/2003 General Tributaria (introducido por la Ley 11/2021 de Medidas de Prevención y Lucha contra el Fraude Fiscal).
+        </p>
+        <p>
+          El objetivo central de esta normativa es erradicar el llamado <em>software de doble uso</em> o programas de ocultación de ventas (aquellos que permitían llevar una contabilidad oficial "A" y una contabilidad paralela "B").
+        </p>
+        <p>
+          Para lograrlo, Hacienda impone que cada vez que se emita una factura en España, el software debe realizar simultáneamente dos acciones técnicas fundamentales:
+        </p>
+        <ul class="list-disc list-inside space-y-2 text-slate-800 font-medium pl-2">
+          <li><strong>Encadenamiento criptográfico (Hash Chaining):</strong> Cada registro de factura se firma con una huella SHA-256 que incluye el hash de la factura anterior, creando una cadena de bloques matemática imposible de alterar a posteriori sin romper toda la serie.</li>
+          <li><strong>Código QR VeriFactu:</strong> La factura impresa o en PDF debe incluir obligatoriamente un código QR con los datos fiscales esenciales y la URL de la Agencia Tributaria para que el cliente receptor pueda escanearlo y verificar al instante que Hacienda tiene constancia del ingreso.</li>
+        </ul>
+      </section>
+
+      <!-- Section 2: Calendario Entrada en Vigor -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Calendario oficial: ¿Cuándo entra en vigor VeriFactu de forma obligatoria?
+        </h2>
+        <p>
+          Tras la aprobación de la Orden Ministerial que desarrolla los detalles técnicos de los registros y el diseño del código QR, el calendario de exigibilidad legal queda estructurado de la siguiente forma:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <span class="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-1">Fase 1 · Desarrolladores</span>
+            <h3 class="text-base font-bold text-slate-900 mb-1">29 de Julio de 2025</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Todos los fabricantes y comercializadores de software de facturación (ERP, TPV, plataformas SaaS) deben vender exclusivamente programas certificados conforme a la normativa. Queda prohibida la venta de programas sin trazabilidad.
+            </p>
+          </div>
+
+          <div class="p-5 bg-blue-50 border border-blue-200 rounded-xl">
+            <span class="text-xs font-bold text-emerald-700 uppercase tracking-wider block mb-1">Fase 2 · Autónomos y Empresas</span>
+            <h3 class="text-base font-bold text-slate-900 mb-1">A lo largo de 2026</h3>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              Entrada en vigor generalizada y obligatoria para todos los contribuyentes que emitan facturas en el territorio español (excepto quienes ya tributan por el SII o en los territorios forales de País Vasco con TicketBAI y Navarra).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- High-Ticket Affiliate Callout #1: Holded -->
+      <section class="p-6 md:p-8 bg-gradient-to-br from-slate-900 via-blue-950 to-slate-900 text-white rounded-2xl shadow-xl my-8">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+          <div class="space-y-3">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 bg-emerald-500 text-slate-950 font-extrabold text-[11px] rounded uppercase tracking-wider">
+                Software Recomendado · 100% Homologado AEAT
+              </span>
+              <span class="text-xs text-slate-400">Garantía VeriFactu 2026</span>
+            </div>
+            <h3 class="text-xl md:text-2xl font-bold">
+              Adapta tu facturación a VeriFactu hoy mismo con Holded
+            </h3>
+            <p class="text-xs md:text-sm text-slate-300 max-w-xl leading-relaxed">
+              Evita sanciones de hasta 50.000 €. <strong>Holded</strong> ya genera automáticamente el código QR reglamentario de la AEAT, el encadenamiento hash de registros y el envío telemático opcional a Hacienda sin que tengas que preocuparte por tecnicismos.
+            </p>
+            <ul class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-200">
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-400 font-bold">✓</span> Facturas con QR VeriFactu automático
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-400 font-bold">✓</span> Conexión bancaria y conciliación en 1 clic
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-400 font-bold">✓</span> Prueba gratuita de 14 días sin compromiso
+              </li>
+              <li class="flex items-center gap-2">
+                <span class="text-emerald-400 font-bold">✓</span> Plantillas homologadas para autónomos y pymes
+              </li>
+            </ul>
+          </div>
+
+          <div class="shrink-0 flex flex-col items-center gap-2 w-full md:w-auto">
+            <a
+              href="/r/holded/"
+              target="_blank"
+              rel="nofollow noopener"
+              class="w-full md:w-auto px-6 py-3.5 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm rounded-xl shadow-lg transition-all text-center flex items-center justify-center gap-2"
+            >
+              <span>🚀 Probar Holded VeriFactu Gratis →</span>
+            </a>
+            <span class="text-[11px] text-slate-400 text-center">
+              Sin tarjeta requerida · Configuración en 2 minutos
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Qué pasa con las Facturas en PDF -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          ¿Se pueden seguir emitiendo y firmando facturas en PDF?
+        </h2>
+        <p>
+          Esta es la duda más frecuente entre profesionales y pequeñas empresas: <em>"¿Desaparecen las facturas en PDF?"</em>.
+        </p>
+        <p>
+          La respuesta es: <strong>el PDF no desaparece, pero cambia radicalmente la forma en la que se genera</strong>.
+        </p>
+        <p>
+          Hasta ahora, un profesional podía redactar una factura en Word o Google Docs, guardarla como PDF, aplicarle una firma digital con su certificado FNMT y enviarla al cliente por correo electrónico. Este flujo manual ya no es legal bajo VeriFactu porque:
+        </p>
+        <ol class="list-decimal list-inside space-y-2 text-xs sm:text-sm">
+          <li><strong>No existe registro de alta inalterable previo:</strong> El documento nace en un editor arbitrario que permite modificar importes, fechas o numeraciones antes y después de guardar.</li>
+          <li><strong>Falta el código QR homologado:</strong> El QR debe contener la firma del sistema emisor y los parámetros codificados de la AEAT.</li>
+          <li><strong>Falta la huella hash de encadenamiento con la factura anterior.</strong></li>
+        </ol>
+        <p>
+          Bajo la normativa VeriFactu, tu programa de facturación certificado genera el registro en su base de datos inviolable y <strong>exporta la factura en PDF conteniendo el código QR obligatorio</strong>.
+        </p>
+      </section>
+
+      <!-- In-Article Tool CTA: Firmador de Facturas -->
+      <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6 sm:p-7 flex flex-col sm:flex-row items-center justify-between gap-5">
+        <div class="space-y-1 text-center sm:text-left">
+          <span class="px-2.5 py-0.5 bg-blue-200 text-blue-900 text-[11px] font-bold rounded uppercase">
+            Firma Electrónica eIDAS
+          </span>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900">
+            ¿Necesitas firmar facturas o presupuestos en PDF con certificado FNMT?
+          </h3>
+          <p class="text-xs text-slate-600 max-w-lg leading-relaxed">
+            Aplica tu firma digital avanzada PAdES-B-B con sello administrativo visible en 1 segundo directamente en el navegador sin subir tus facturas a internet.
+          </p>
+        </div>
+        <a
+          href="/firmar-factura-contrato-pdf-certificado/"
+          class="px-5 py-3 bg-blue-700 hover:bg-blue-800 text-white font-bold text-xs rounded-xl shadow-xs transition-colors shrink-0 text-center"
+        >
+          ✍️ Firmar Factura PDF Gratis →
+        </a>
+      </div>
+
+      <!-- Section 4: Régimen Sancionador Multas de 50.000 € -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Régimen sancionador: Multas de hasta 50.000 € por software no certificado
+        </h2>
+        <p>
+          La Ley 11/2021 tipificó de forma extremadamente severa las infracciones relativas al software de facturación en el artículo 201 bis de la Ley General Tributaria:
+        </p>
+
+        <div class="space-y-3 pt-2">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <div class="flex items-center justify-between mb-1">
+              <h4 class="font-bold text-slate-900 text-sm">Multa de 50.000 € por ejercicio fiscal para la empresa o autónomo:</h4>
+              <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded border border-rose-200">Infracción Grave</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Se sanciona la mera tenencia de sistemas o programas informáticos que no estén debidamente certificados por la normativa, o que hayan sido manipulados para alterar los registros de ventas, independientemente de que se haya defraudado cuota o no.
+            </p>
+          </div>
+
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <div class="flex items-center justify-between mb-1">
+              <h4 class="font-bold text-slate-900 text-sm">Multa de hasta 150.000 € para los desarrolladores o distribuidores:</h4>
+              <span class="text-xs font-bold text-rose-700 bg-rose-50 px-2.5 py-0.5 rounded border border-rose-200">Infracción Muy Grave</span>
+            </div>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Por la fabricación, comercialización o distribución de programas que permitan llevar contabilidades paralelas, omitir facturas o no conserven la integridad de los registros.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Modalidades VeriFactu vs No-VeriFactu -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Modalidades de cumplimiento: Sistema "VeriFactu" vs "No VeriFactu"
+        </h2>
+        <p>
+          El Real Decreto contempla dos opciones para cumplir con la ley:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-1">
+          <div class="p-5 bg-emerald-50/70 border border-emerald-200 rounded-xl">
+            <span class="text-xs font-bold text-emerald-800 uppercase tracking-wider block mb-1">Modalidad 1 (Recomendada)</span>
+            <h3 class="text-base font-bold text-slate-900 mb-1">Envío Remoto a la AEAT (Sistema VeriFactu)</h3>
+            <p class="text-xs text-slate-700 leading-relaxed">
+              El programa remite instantáneamente cada registro de factura a la sede electrónica de Hacienda en el momento de su emisión. Ventajas: se presume la veracidad de la contabilidad, se reducen las inspecciones fiscales y no exige almacenar los registros bajo requerimientos de seguridad tan extremos.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <span class="text-xs font-bold text-slate-600 uppercase tracking-wider block mb-1">Modalidad 2</span>
+            <h3 class="text-base font-bold text-slate-900 mb-1">No VeriFactu (Almacenamiento Local Seguro)</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Las facturas no se envían en tiempo real a la AEAT, pero el software debe firmar cada registro con un certificado digital instalado en el servidor y conservar un log inalterable listo para volcado inmediato ante un requerimiento de inspección.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Secondary Affiliate Callout: Qonto -->
+      <section class="p-6 bg-slate-50 border border-slate-300 rounded-2xl flex flex-col md:flex-row items-center justify-between gap-5 my-6">
+        <div class="space-y-1 text-center md:text-left">
+          <span class="text-[11px] font-bold text-blue-700 uppercase tracking-wider">
+            Solución Financiera para Pymes y Autónomos
+          </span>
+          <h3 class="text-base sm:text-lg font-bold text-slate-900">
+            Cuenta de Empresas con Módulo de Facturación Integrado (Qonto)
+          </h3>
+          <p class="text-xs text-slate-600 max-w-xl leading-relaxed">
+            Si buscas una cuenta bancaria profesional con IBAN español que además te permita emitir presupuestos, facturas y gestionar recibos con total orden contable.
+          </p>
+        </div>
+        <a
+          href="/r/qonto/"
+          target="_blank"
+          rel="nofollow noopener"
+          class="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl shadow transition-colors shrink-0"
+        >
+          Descubrir Qonto Empresas →
+        </a>
+      </section>
+
+      <!-- Section 6: Checklist de Adaptación -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Checklist: ¿Qué debes hacer para preparar tu negocio antes de la fecha límite?
+        </h2>
+        <div class="space-y-2 text-xs sm:text-sm">
+          <div class="p-3.5 bg-white border border-slate-200 rounded-lg flex items-start gap-3">
+            <span class="text-emerald-600 font-bold text-base">1</span>
+            <p><strong>Audita tu programa de facturación actual:</strong> Pregunta a tu proveedor de software si su versión actual está homologada conforme al Real Decreto 1007/2023 o si tienen prevista una actualización gratuita.</p>
+          </div>
+          <div class="p-3.5 bg-white border border-slate-200 rounded-lg flex items-start gap-3">
+            <span class="text-emerald-600 font-bold text-base">2</span>
+            <p><strong>Abandona las facturas en Excel/Word:</strong> Si facturas de forma manual, migra tus clientes y productos a una plataforma SaaS en la nube como Holded para evitar sanciones por tenencia de software no certificado.</p>
+          </div>
+          <div class="p-3.5 bg-white border border-slate-200 rounded-lg flex items-start gap-3">
+            <span class="text-emerald-600 font-bold text-base">3</span>
+            <p><strong>Ten tu certificado digital FNMT o DNIe activo:</strong> Imprescindible para firmar las altas telemáticas y presentar tus modelos trimestrales de IVA (Modelo 303) e IRPF (Modelo 130).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FAQs Section -->
+      <section class="pt-8 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre la Normativa VeriFactu
+        </h2>
+        <div class="space-y-3">
+          {faqs.map((f) => (
+            <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+              <h3 class="text-sm font-bold text-slate-900">{f.q}</h3>
+              <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+    </div>
+  </article>
+
+  <!-- Schema.org Article & FAQPage JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Normativa VeriFactu 2026: Entrada en Vigor, Multas de 50.000 € y Facturas en PDF",
+    "description": "Guía completa sobre la normativa VeriFactu de Hacienda: fechas de entrada en vigor, sanciones de la Ley Antifraude y software homologado.",
+    "datePublished": "2026-10-26T08:00:00+02:00",
+    "dateModified": "2026-10-26T08:00:00+02:00",
+    "author": {
+      "@type": "Organization",
+      "name": "FirmarPDFCertificado.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FirmarPDFCertificado.com",
+      "url": "https://firmarpdfcertificado.com"
+    }
+  })} />
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
