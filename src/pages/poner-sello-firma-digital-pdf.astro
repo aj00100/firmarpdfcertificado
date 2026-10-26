@@ -1,0 +1,75 @@
+---
+// src/pages/poner-sello-firma-digital-pdf.astro
+import Layout from '../layouts/Layout.astro';
+import SigningStudio from '../components/SigningStudio.astro';
+---
+
+<Layout
+  title="Crear y Poner Sello de Firma Digital en PDF Online (Sello Empresa / AEAT)"
+  description="Crea y estampa un sello digital administrativo visible en tus documentos PDF con tu certificado FNMT o de representante. Personaliza tu cargo, empresa y motivo gratis."
+  canonicalPath="/poner-sello-firma-digital-pdf/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-indigo-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-semibold mb-4">
+        <span>🎨</span> Generador de Sello Rectangular Homologado + Firma PAdES
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Poner Sello de Firma Digital Visible en PDF Online
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        Personaliza e incrusta un <strong>sello digital administrativo de empresa o autónomo</strong> con tu Nombre, NIF/CIF, Cargo, Fecha y huella SHA-256 respaldado criptográficamente por tu certificado.
+      </p>
+    </div>
+  </header>
+
+  <!-- Interactive Studio with Custom Stamp Inputs Enabled -->
+  <section class="py-10 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <SigningStudio
+        title="Estudio de Sello Digital Personalizado (PAdES-B-B)"
+        subtitle="Personaliza tu Cargo/Empresa y la leyenda del sello. La vista previa inferior se actualiza en tiempo real."
+        showStampCustomizer={true}
+      />
+    </div>
+  </section>
+
+  <!-- Editorial Section -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+          ¿Por qué es importante incluir un sello digital visible en contratos y facturas PDF?
+        </h2>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Aunque a nivel técnico la firma criptográfica reside en el código interno del archivo (diccionario <code>/Contents</code>), cuando envías un presupuesto, factura o contrato a un cliente o administración pública, una firma invisible suele generar confusión porque el receptor piensa que el documento "está en blanco".
+        </p>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Nuestro generador dibuja un <strong>objeto vectorial oficial (Form XObject)</strong> vinculado al campo de firma que muestra de un vistazo quién ha firmado el documento, su NIF/CIF, el cargo o sociedad que representa y el minuto exacto de la firma.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <h3 class="font-bold text-slate-900 text-sm mb-1">🏢 Sello de Empresa / Pyme</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Añade en la casilla de Cargo el nombre de tu Sociedad Limitada (S.L.) o tu rol como Administrador Único o Apoderado.
+          </p>
+        </div>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <h3 class="font-bold text-slate-900 text-sm mb-1">📐 Nitidez Vectorial Infinita</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            A diferencia de pegar una imagen JPG borrosa de un sello de caucho, nuestro sello se genera con vectores PDF nativos que no se pixelan al imprimir.
+          </p>
+        </div>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <h3 class="font-bold text-slate-900 text-sm mb-1">🔐 Blindaje Criptográfico</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            El sello queda protegido por el hash SHA-256 de tu certificado digital FNMT, Camerfirma o DNIe. Si alguien intenta borrarlo, la firma salta como inválida.
+          </p>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>

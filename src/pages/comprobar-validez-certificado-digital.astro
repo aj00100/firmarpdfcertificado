@@ -1,0 +1,378 @@
+---
+// src/pages/comprobar-validez-certificado-digital.astro
+import Layout from '../layouts/Layout.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo saber si mi certificado digital está caducado o activo?",
+    a: "Simplemente selecciona tu archivo .p12 o .pfx en el verificador superior e introduce tu contraseña de exportación. El sistema leerá localmente las fechas criptográficas (notBefore y notAfter) de tu certificado X.509 y te indicará cuántos días exactos de vigencia te quedan."
+  },
+  {
+    q: "¿Se puede renovar un certificado digital de la FNMT ya caducado por internet?",
+    a: "Si tu certificado digital ya ha superado su fecha de caducidad, la FNMT no permite renovarlo con el propio certificado vencido. Sin embargo, puedes solicitar uno nuevo sin desplazarte utilizando un DNIe en vigor o el sistema de Vídeo-Identificación oficial de la FNMT."
+  },
+  {
+    q: "¿Cuándo puedo renovar mi certificado digital antes de que caduque?",
+    a: "La Fábrica Nacional de Moneda y Timbre (FNMT) permite renovar el certificado digital de Persona Física de forma 100% online durante los 60 días naturales previos a su fecha de caducidad."
+  },
+  {
+    q: "¿Es seguro comprobar mi archivo .p12 en esta herramienta?",
+    a: "Totalmente seguro. La auditoría de fechas y campos X.509 se ejecuta exclusivamente en la memoria RAM de tu navegador web mediante JavaScript local. Tu archivo .p12 y tu contraseña jamás se envían a ningún servidor."
+  }
+];
+---
+
+<Layout
+  title="Comprobar Validez Certificado Digital Online — ¿Está Caducado? (FNMT)"
+  description="Comprueba gratis si tu certificado digital FNMT, ACCV o Camerfirma (.p12 / .pfx) está vigente o caducado. Consulta la fecha exacta de expiración 100% en tu navegador."
+  canonicalPath="/comprobar-validez-certificado-digital/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
+        <span>⏳</span> Diagnóstico de Vigencia X.509 · 100% Local
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Comprobar Validez y Fecha de Caducidad de tu Certificado Digital
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        ¿No sabes si tu certificado digital <strong>ha caducado</strong> o cuántos días te quedan para renovarlo? Analiza tu archivo <code>.p12</code> o <code>.pfx</code> en 1 segundo sin subirlo a internet.
+      </p>
+    </div>
+  </header>
+
+  <!-- Interactive Diagnostic Tool -->
+  <section class="py-10 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
+              <span>🔎</span> Auditor de Vigencia de Certificado Digital (.p12 / .pfx)
+            </h2>
+            <p class="text-xs text-slate-300 mt-0.5">
+              Inspecciona el titular, NIF/CIF, autoridad emisora y días restantes de validez en memoria RAM.
+            </p>
+          </div>
+          <span class="text-xs bg-emerald-950 border border-emerald-700 text-emerald-300 px-3 py-1 rounded-full font-medium">
+            Cero Subida a Servidores
+          </span>
+        </div>
+
+        <div class="p-6 md:p-8 space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-stretch">
+            <!-- P12 Dropzone -->
+            <label
+              id="cert-check-dropzone"
+              for="cert-check-input"
+              class="md:col-span-7 group flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-300 hover:border-blue-600 rounded-xl bg-slate-50/70 hover:bg-blue-50/40 cursor-pointer transition-all text-center min-h-[160px]"
+            >
+              <input id="cert-check-input" type="file" accept=".p12,.pfx,application/x-pkcs12" class="sr-only" />
+              <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-2xl mb-2.5 group-hover:scale-105 transition-transform">
+                🪪
+              </div>
+              <span class="text-sm font-bold text-slate-800" id="cert-check-title">
+                1. Selecciona o arrastra tu archivo .p12 o .pfx
+              </span>
+              <span class="text-xs text-slate-500 mt-1" id="cert-check-sub">
+                Certificado FNMT, ACCV, Camerfirma, idCAT o Izenpe
+              </span>
+            </label>
+
+            <!-- Password + Button -->
+            <div class="md:col-span-5 flex flex-col justify-between bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
+              <div>
+                <label for="cert-check-pass" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  2. Contraseña del Certificado
+                </label>
+                <input
+                  id="cert-check-pass"
+                  type="password"
+                  placeholder="Clave de tu archivo .p12..."
+                  class="w-full px-3.5 py-2.5 text-sm bg-white border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-600 outline-none"
+                />
+                <p class="text-[11px] text-slate-500 mt-1.5">
+                  Necesaria para desencriptar la bolsa PKCS#12 localmente.
+                </p>
+              </div>
+
+              <button
+                id="cert-check-btn"
+                type="button"
+                class="w-full py-3 px-4 bg-blue-700 hover:bg-blue-800 text-white font-bold text-sm rounded-lg shadow-sm transition-colors cursor-pointer"
+              >
+                🔍 Comprobar Estado y Caducidad
+              </button>
+            </div>
+          </div>
+
+          <!-- Status Box -->
+          <div id="cert-check-status" class="hidden rounded-xl p-4 text-sm font-medium"></div>
+
+          <!-- Diagnostic Result Card -->
+          <div id="cert-check-result" class="hidden space-y-5 pt-2">
+            <div id="cert-banner" class="rounded-xl p-5 border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div class="space-y-1">
+                <h3 class="text-base font-bold flex items-center gap-2" id="cert-banner-title"></h3>
+                <p class="text-xs leading-relaxed" id="cert-banner-desc"></p>
+              </div>
+              <span id="cert-banner-badge" class="px-4 py-1.5 rounded-full text-xs font-extrabold shrink-0"></span>
+            </div>
+
+            <!-- Metadata Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <span class="text-slate-400 font-semibold block uppercase text-[10px]">Titular (Nombre / Razón Social)</span>
+                <span class="text-slate-900 font-bold mt-1 block" id="res-cn">—</span>
+              </div>
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <span class="text-slate-400 font-semibold block uppercase text-[10px]">NIF / NIE / CIF</span>
+                <span class="text-slate-900 font-bold mt-1 block" id="res-nif">—</span>
+              </div>
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <span class="text-slate-400 font-semibold block uppercase text-[10px]">Autoridad Emisora (CA)</span>
+                <span class="text-slate-900 font-bold mt-1 block" id="res-issuer">—</span>
+              </div>
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <span class="text-slate-400 font-semibold block uppercase text-[10px]">Fecha de Emisión</span>
+                <span class="text-slate-900 font-bold mt-1 block" id="res-from">—</span>
+              </div>
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <span class="text-slate-400 font-semibold block uppercase text-[10px]">Fecha Exacta de Caducidad</span>
+                <span class="text-slate-900 font-bold mt-1 block" id="res-to">—</span>
+              </div>
+              <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200">
+                <span class="text-slate-400 font-semibold block uppercase text-[10px]">Clave Privada para Firmar</span>
+                <span class="text-emerald-700 font-bold mt-1 block" id="res-key">—</span>
+              </div>
+            </div>
+
+            <!-- Action CTA -->
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <h4 class="text-sm font-bold text-blue-950">¿Tu certificado está en vigor y necesitas firmar un PDF?</h4>
+                <p class="text-xs text-blue-800 mt-0.5">
+                  Firma cualquier contrato, modelo de Hacienda o solicitud oficial sin instalar AutoFirma.
+                </p>
+              </div>
+              <a
+                href="/"
+                class="px-5 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg shadow-xs transition-colors shrink-0"
+              >
+                ✍️ Ir al Firmador de PDF →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Renewal & Expiration Guide -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+          ¿Qué hacer si tu certificado digital está caducado o próximo a caducar?
+        </h2>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Los certificados digitales de Persona Física emitidos por la <strong>FNMT-RCM</strong> tienen una validez legal de <strong>4 años</strong> (y 2 años en el caso de certificados de Representante de Persona Jurídica). Dependiendo del resultado que te haya mostrado nuestro verificador, debes actuar de una de estas dos formas:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 bg-amber-50 border border-amber-200 rounded-2xl">
+          <span class="inline-block px-2.5 py-0.5 bg-amber-200 text-amber-900 text-xs font-bold rounded mb-2">
+            Caso 1 · Quedan menos de 60 días
+          </span>
+          <h3 class="text-base font-bold text-slate-900">Renovación Online Sin Cita Previa</h3>
+          <p class="text-xs text-slate-700 mt-2 leading-relaxed">
+            Si tu certificado <strong>aún no ha caducado</strong> y faltan menos de 60 días para su expiración, puedes renovarlo desde casa en la web oficial de CERES-FNMT autenticándote con tu propio certificado actual. No tendrás que acudir a ninguna oficina de Hacienda ni Seguridad Social.
+          </p>
+        </div>
+
+        <div class="p-6 bg-rose-50 border border-rose-200 rounded-2xl">
+          <span class="inline-block px-2.5 py-0.5 bg-rose-200 text-rose-900 text-xs font-bold rounded mb-2">
+            Caso 2 · Certificado Ya Caducado
+          </span>
+          <h3 class="text-base font-bold text-slate-900">Solicitud de Nuevo Certificado</h3>
+          <p class="text-xs text-slate-700 mt-2 leading-relaxed">
+            Una vez superado el día y hora de vencimiento, el certificado queda invalidado irremediablemente. Para obtener uno nuevo sin esperar semanas de cita previa, puedes usar el servicio de <strong>Vídeo-Identificación de la FNMT</strong> desde el móvil o acreditar tu identidad en cualquier oficina de <strong>Correos</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">Preguntas Frecuentes sobre Certificados Caducados</h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-sm font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
+
+<script>
+  import forge from 'node-forge';
+
+  const fileInput = document.getElementById('cert-check-input') as HTMLInputElement;
+  const dropzone = document.getElementById('cert-check-dropzone') as HTMLElement;
+  const titleEl = document.getElementById('cert-check-title') as HTMLElement;
+  const subEl = document.getElementById('cert-check-sub') as HTMLElement;
+  const passInput = document.getElementById('cert-check-pass') as HTMLInputElement;
+  const checkBtn = document.getElementById('cert-check-btn') as HTMLButtonElement;
+  const statusBox = document.getElementById('cert-check-status') as HTMLElement;
+  const resultBox = document.getElementById('cert-check-result') as HTMLElement;
+
+  const banner = document.getElementById('cert-banner') as HTMLElement;
+  const bannerTitle = document.getElementById('cert-banner-title') as HTMLElement;
+  const bannerDesc = document.getElementById('cert-banner-desc') as HTMLElement;
+  const bannerBadge = document.getElementById('cert-banner-badge') as HTMLElement;
+
+  const resCn = document.getElementById('res-cn') as HTMLElement;
+  const resNif = document.getElementById('res-nif') as HTMLElement;
+  const resIssuer = document.getElementById('res-issuer') as HTMLElement;
+  const resFrom = document.getElementById('res-from') as HTMLElement;
+  const resTo = document.getElementById('res-to') as HTMLElement;
+  const resKey = document.getElementById('res-key') as HTMLElement;
+
+  let selectedFile: File | null = null;
+
+  function showMsg(text: string, isError = false) {
+    statusBox.classList.remove('hidden', 'bg-red-50', 'text-red-800', 'border-red-200', 'bg-blue-50', 'text-blue-800', 'border-blue-200');
+    statusBox.classList.add('border');
+    if (isError) {
+      statusBox.classList.add('bg-red-50', 'text-red-800', 'border-red-200');
+    } else {
+      statusBox.classList.add('bg-blue-50', 'text-blue-800', 'border-blue-200');
+    }
+    statusBox.textContent = text;
+  }
+
+  function handleFile(file: File) {
+    selectedFile = file;
+    titleEl.textContent = `✅ ${file.name}`;
+    subEl.textContent = `${(file.size / 1024).toFixed(1)} KB · Introduce tu contraseña y pulsa Comprobar`;
+    dropzone.classList.add('border-emerald-500', 'bg-emerald-50/30');
+  }
+
+  fileInput?.addEventListener('change', () => {
+    if (fileInput.files?.[0]) handleFile(fileInput.files[0]);
+  });
+
+  dropzone?.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('border-blue-600');
+  });
+  dropzone?.addEventListener('dragleave', () => {
+    dropzone.classList.remove('border-blue-600');
+  });
+  dropzone?.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('border-blue-600');
+    if (e.dataTransfer?.files?.[0]) handleFile(e.dataTransfer.files[0]);
+  });
+
+  checkBtn?.addEventListener('click', async () => {
+    if (!selectedFile) {
+      showMsg('⚠️ Por favor, selecciona primero tu archivo de certificado (.p12 o .pfx).', true);
+      return;
+    }
+
+    resultBox.classList.add('hidden');
+    showMsg('⏳ Analizando estructura X.509 localmente...', false);
+
+    try {
+      const buf = await selectedFile.arrayBuffer();
+      const der = forge.util.createBuffer(new Uint8Array(buf));
+      const asn1 = forge.asn1.fromDer(der);
+      const p12 = forge.pkcs12.pkcs12FromAsn1(asn1, false, passInput.value || '');
+
+      const certBags = p12.getBags({ bagType: forge.pki.oids.certBag })[forge.pki.oids.certBag] || [];
+      const certs = certBags.map((b) => b.cert).filter((c): c is forge.pki.Certificate => Boolean(c));
+
+      if (certs.length === 0) {
+        throw new Error('No se encontraron certificados X.509 en el archivo.');
+      }
+
+      let signerCert = certs[0];
+      for (const c of certs) {
+        const bc = c.getExtension('basicConstraints') as any;
+        if (!bc || !bc.cA) {
+          signerCert = c;
+          break;
+        }
+      }
+
+      const keyBags = p12.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag })[forge.pki.oids.pkcs8ShroudedKeyBag] || [];
+      const plainKeyBags = p12.getBags({ bagType: forge.pki.oids.keyBag })[forge.pki.oids.keyBag] || [];
+      const hasPrivateKey = [...keyBags, ...plainKeyBags].some((b) => Boolean(b.key));
+
+      const cnAttr = signerCert.subject.getField('CN');
+      const cn = cnAttr ? String(cnAttr.value) : 'Titular Reconocido';
+
+      const serialAttr = signerCert.subject.getField({ type: '2.5.4.5' }) || signerCert.subject.getField('serialNumber');
+      let nif = serialAttr ? String(serialAttr.value) : '';
+      const nifMatch = (nif || cn).match(/\b([0-9]{8}[A-Z]|[XYZ][0-9]{7}[A-Z])\b/i);
+      if (nifMatch) nif = nifMatch[1].toUpperCase();
+
+      const issuerAttr = signerCert.issuer.getField('CN') || signerCert.issuer.getField('O');
+      const issuer = issuerAttr ? String(issuerAttr.value) : 'Autoridad de Certificación';
+
+      const notBefore = signerCert.validity.notBefore;
+      const notAfter = signerCert.validity.notAfter;
+      const now = new Date();
+      const diffMs = notAfter.getTime() - now.getTime();
+      const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+
+      statusBox.classList.add('hidden');
+      resultBox.classList.remove('hidden');
+
+      resCn.textContent = cn;
+      resNif.textContent = nif || 'Incluido en Sujeto DN';
+      resIssuer.textContent = issuer;
+      resFrom.textContent = notBefore.toLocaleDateString('es-ES');
+      resTo.textContent = notAfter.toLocaleString('es-ES');
+      resKey.textContent = hasPrivateKey ? '✓ Sí (Apto para firmar PDF)' : '✗ No incluye clave privada';
+
+      banner.className = 'rounded-xl p-5 border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4';
+
+      if (diffDays < 0) {
+        banner.classList.add('bg-red-50', 'border-red-300', 'text-red-950');
+        bannerTitle.textContent = `❌ Certificado Digital CADUCADO (hace ${Math.abs(diffDays)} días)`;
+        bannerDesc.textContent = `Tu certificado expiró el ${notAfter.toLocaleDateString('es-ES')}. Ya no es admitido por las sedes electrónicas ni para firmar documentos con validez legal. Debes solicitar uno nuevo.`;
+        bannerBadge.className = 'px-4 py-1.5 rounded-full text-xs font-extrabold bg-red-200 text-red-900 shrink-0';
+        bannerBadge.textContent = 'CADUCADO';
+      } else if (diffDays <= 60) {
+        banner.classList.add('bg-amber-50', 'border-amber-300', 'text-amber-950');
+        bannerTitle.textContent = `⚠️ Certificado Próximo a Caducar (Quedan ${diffDays} días)`;
+        bannerDesc.textContent = `Tu certificado sigue siendo válido para firmar hoy, pero estás dentro de la ventana de 60 días de la FNMT. Renuévalo online ahora antes de que expire para evitar ir en persona.`;
+        bannerBadge.className = 'px-4 py-1.5 rounded-full text-xs font-extrabold bg-amber-200 text-amber-900 shrink-0';
+        bannerBadge.textContent = `EXPIRA EN ${diffDays} DÍAS`;
+      } else {
+        banner.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-950');
+        bannerTitle.textContent = `✅ Certificado Digital VÁLIDO y en Vigor (${diffDays} días restantes)`;
+        bannerDesc.textContent = `Tu certificado X.509 se encuentra plenamente operativo hasta el ${notAfter.toLocaleDateString('es-ES')} y cuenta con su clave privada lista para firmar.`;
+        bannerBadge.className = 'px-4 py-1.5 rounded-full text-xs font-extrabold bg-emerald-200 text-emerald-900 shrink-0';
+        bannerBadge.textContent = 'ACTIVO · VÁLIDO';
+      }
+    } catch (err: any) {
+      showMsg('❌ Contraseña incorrecta o archivo .p12/.pfx dañado. Verifica tu clave de exportación.', true);
+    }
+  });
+</script>

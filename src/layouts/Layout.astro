@@ -18,7 +18,7 @@ const {
 
 const siteUrl = "https://firmarpdfcertificado.com";
 const rawPath = canonicalPath ?? Astro.url.pathname;
-const normalizedPath = rawPath.replace(/\/+$/, '');
+const normalizedPath = rawPath.replace(/^\/+|\/+$/g, '');
 const canonicalUrl = `${siteUrl}${normalizedPath ? `/${normalizedPath}/` : '/'}`;
 const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title} — FirmarPDFCertificado`;
 ---
@@ -83,13 +83,13 @@ const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title}
           </span>
         </a>
 
-        <nav class="hidden lg:flex items-center space-x-5 text-xs font-semibold text-slate-600">
+        <nav class="hidden lg:flex items-center space-x-4 text-xs font-semibold text-slate-600">
           <a href="/firmar-pdf-sin-autofirma/" class="hover:text-blue-600 transition-colors">Sin AutoFirma</a>
-          <a href="/cofirmar-pdf-dos-firmas/" class="hover:text-blue-600 transition-colors">Cofirmar (2 Firmas)</a>
-          <a href="/firmar-pdf-certificado-android/" class="hover:text-blue-600 transition-colors">Android</a>
-          <a href="/firmar-pdf-certificado-sin-adobe/" class="hover:text-blue-600 transition-colors">Sin Adobe</a>
-          <a href="/firmar-factura-contrato-pdf-certificado/" class="hover:text-blue-600 transition-colors">Facturas</a>
-          <a href="/validar-firma-digital-pdf/" class="hover:text-blue-600 transition-colors">Validar Firma</a>
+          <a href="/firmar-pdf-con-dnie/" class="hover:text-blue-600 transition-colors">Con DNIe</a>
+          <a href="/cofirmar-pdf-dos-firmas/" class="hover:text-blue-600 transition-colors">Cofirmar</a>
+          <a href="/poner-sello-firma-digital-pdf/" class="hover:text-blue-600 transition-colors">Sello Digital</a>
+          <a href="/comprobar-validez-certificado-digital/" class="hover:text-blue-600 transition-colors">¿Caducado?</a>
+          <a href="/validar-firma-digital-pdf/" class="hover:text-blue-600 transition-colors">Validar PDF</a>
         </nav>
 
         <a href="/#firmar" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">
@@ -118,23 +118,26 @@ const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title}
           </div>
 
           <div>
-            <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-3">Herramientas</h4>
+            <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-3">Herramientas de Firma</h4>
             <ul class="space-y-2 text-xs">
               <li><a href="/" class="hover:text-white">Firmar PDF con Certificado</a></li>
               <li><a href="/firmar-pdf-sin-autofirma/" class="hover:text-white">Firmar sin AutoFirma</a></li>
+              <li><a href="/firmar-pdf-con-dnie/" class="hover:text-white">Firmar PDF con DNIe</a></li>
+              <li><a href="/poner-sello-firma-digital-pdf/" class="hover:text-white">Crear Sello Digital en PDF</a></li>
               <li><a href="/cofirmar-pdf-dos-firmas/" class="hover:text-white">Cofirmar PDF (2 Firmas)</a></li>
               <li><a href="/firmar-factura-contrato-pdf-certificado/" class="hover:text-white">Firmar Facturas y Contratos</a></li>
-              <li><a href="/firmar-pdf-certificado-sin-adobe/" class="hover:text-white">Firmar sin Adobe Reader</a></li>
-              <li><a href="/firmar-pdf-certificado-online-gratis/" class="hover:text-white">Firma Online Gratis</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-3">Dispositivos y Validación</h4>
+            <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-3">Verificación y Dispositivos</h4>
             <ul class="space-y-2 text-xs">
-              <li><a href="/firmar-pdf-certificado-android/" class="hover:text-white">Firmar en Android</a></li>
-              <li><a href="/firmar-pdf-certificado-mac-iphone/" class="hover:text-white">Firmar en Mac y Móvil</a></li>
               <li><a href="/validar-firma-digital-pdf/" class="hover:text-white">Validar Firma Digital PAdES</a></li>
+              <li><a href="/comprobar-validez-certificado-digital/" class="hover:text-white">Comprobar Certificado Caducado</a></li>
+              <li><a href="/quitar-firma-digital-pdf/" class="hover:text-white">Quitar Firma Digital de PDF</a></li>
+              <li><a href="/firmar-pdf-certificado-android/" class="hover:text-white">Firmar en Android</a></li>
+              <li><a href="/firmar-pdf-certificado-mac-iphone/" class="hover:text-white">Firmar en Mac y iPhone</a></li>
+              <li><a href="/firmar-pdf-certificado-sin-adobe/" class="hover:text-white">Firmar sin Adobe Reader</a></li>
             </ul>
           </div>
 
@@ -143,6 +146,7 @@ const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title}
             <ul class="space-y-2 text-xs">
               <li><a href="/ayuda/exportar-certificado-fnmt/" class="hover:text-white">Exportar Certificado FNMT</a></li>
               <li><a href="/ayuda/error-saf-45/" class="hover:text-white">Solución Error SAF_45</a></li>
+              <li><a href="/firmar-pdf-certificado-online-gratis/" class="hover:text-white">Firma Online Gratis</a></li>
               <li><a href="/privacy/" class="hover:text-white">Política de Privacidad</a></li>
               <li><a href="/terms/" class="hover:text-white">Términos de Uso</a></li>
             </ul>

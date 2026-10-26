@@ -1,0 +1,258 @@
+---
+// src/pages/quitar-firma-digital-pdf.astro
+import Layout from '../layouts/Layout.astro';
+
+const faqs = [
+  {
+    q: "¿Por qué quitar la firma digital de un archivo PDF?",
+    a: "Cuando firmas un PDF digitalmente, el estándar PAdES bloquea la edición del documento y sus campos de formulario para garantizar su integridad. Si te has equivocado al rellenar un dato, has colocado el sello en el lugar incorrecto o necesitas modificar una cláusula antes de volver a firmarlo, esta herramienta elimina los campos de firma (/Sig) y desbloquea el PDF."
+  },
+  {
+    q: "¿Por qué iLovePDF o los editores normales no pueden quitar una firma digital?",
+    a: "Porque una firma digital no es una simple imagen superpuesta, sino un diccionario criptográfico (/AcroForm -> /Sig) incrustado en el catálogo raíz del archivo PDF. Nuestra herramienta inspecciona los nodos internos del PDF y purga limpiamente las anotaciones de firma."
+  },
+  {
+    q: "¿Mis documentos se suben a algún servidor al eliminar la firma?",
+    a: "Nunca. Todo el limpiado de diccionarios criptográficos se realiza al 100% dentro de la memoria RAM de tu navegador mediante pdf-lib."
+  }
+];
+---
+
+<Layout
+  title="Quitar Firma Digital de un PDF Online Gratis — Desbloquear PDF Firmado"
+  description="Elimina firmas digitales PAdES y sellos criptográficos de cualquier archivo PDF gratis en tu navegador. Desbloquea documentos firmados por error para editarlos y volver a firmar."
+  canonicalPath="/quitar-firma-digital-pdf/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-amber-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-900 rounded-full text-xs font-semibold mb-4">
+        <span>🔓</span> Limpiador de Diccionarios /Sig y Desbloqueo de AcroForm
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Quitar Firma Digital de un PDF Online Gratis
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        ¿Has firmado un PDF con el certificado equivocado, el sello ha tapado un texto o necesitas corregir un dato bloqueado? <strong>Elimina las firmas criptográficas y sellos visuales</strong> en 1 clic sin subir el archivo.
+      </p>
+    </div>
+  </header>
+
+  <!-- Interactive Signature Remover Studio -->
+  <section class="py-10 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden">
+        <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
+              <span>🧹</span> Desbloqueador y Eliminador de Firmas PDF
+            </h2>
+            <p class="text-xs text-slate-300 mt-0.5">
+              Elimina anotaciones criptográficas (<code>/FT /Sig</code>) y sellos administrativos manteniendo intacto el resto del documento.
+            </p>
+          </div>
+          <span class="text-xs bg-amber-950 border border-amber-700 text-amber-300 px-3 py-1 rounded-full font-medium">
+            Procesamiento 100% Local
+          </span>
+        </div>
+
+        <div class="p-6 md:p-8 space-y-6">
+          <label
+            id="rm-pdf-dropzone"
+            for="rm-pdf-input"
+            class="group flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-300 hover:border-blue-600 rounded-xl bg-slate-50/70 hover:bg-blue-50/40 cursor-pointer transition-all text-center min-h-[180px]"
+          >
+            <input id="rm-pdf-input" type="file" accept="application/pdf,.pdf" class="sr-only" />
+            <div class="w-14 h-14 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-3xl mb-3 group-hover:scale-105 transition-transform">
+              🔓
+            </div>
+            <span class="text-base font-bold text-slate-800" id="rm-pdf-title">
+              Selecciona o arrastra aquí el PDF firmado que deseas limpiar
+            </span>
+            <span class="text-xs text-slate-500 mt-1 max-w-lg" id="rm-pdf-sub">
+              Se eliminarán todas las firmas digitales y sellos de firma para que puedas editarlo o firmarlo de nuevo.
+            </span>
+            <span class="mt-4 inline-flex items-center px-5 py-2.5 bg-blue-700 group-hover:bg-blue-800 text-white text-xs font-bold rounded-lg shadow-xs transition-colors">
+              Quitar Firmas Digitales y Desbloquear PDF →
+            </span>
+          </label>
+
+          <div id="rm-status-box" class="hidden rounded-xl p-4 text-sm font-medium"></div>
+
+          <div id="rm-result-box" class="hidden space-y-4">
+            <div class="bg-emerald-50 border border-emerald-300 rounded-xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="space-y-1 text-center sm:text-left">
+                <h3 class="text-base font-bold text-emerald-900" id="rm-result-title">
+                  ✅ ¡Firmas Digitales Eliminadas con Éxito!
+                </h3>
+                <p class="text-xs text-emerald-800" id="rm-result-desc"></p>
+              </div>
+              <a
+                id="rm-download-btn"
+                href="#"
+                download="Documento_Sin_Firma.pdf"
+                class="w-full sm:w-auto text-center px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm rounded-xl shadow-md transition-colors shrink-0"
+              >
+                ⬇️ Descargar PDF Limpio
+              </a>
+            </div>
+
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div>
+                <p class="text-sm font-bold text-slate-800">¿Listo para volver a firmar el documento correctamente?</p>
+                <p class="text-xs text-slate-600">Elige la nueva posición del sello y aplica tu certificado digital en 1 clic.</p>
+              </div>
+              <a
+                href="/"
+                class="px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg transition-colors shrink-0"
+              >
+                ✍️ Ir al Firmador de PDF →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Editorial Guide -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
+      <div>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+          Cómo funciona la eliminación de firmas digitales en documentos PDF
+        </h2>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Al aplicar una firma electrónica con AutoFirma, Adobe Acrobat o nuestra plataforma, el documento incorpora un indicador de bloqueo (<code>/SigFlags 3</code>) y un conjunto de widgets de tipo <code>/Sig</code>. Nuestro motor local recorre todas las páginas del PDF, elimina únicamente las anotaciones de firma y sus sellos asociados, y reconstruye una copia limpia editable sin alterar el texto ni el diseño original del documento.
+        </p>
+      </div>
+
+      <div class="pt-4 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">Preguntas Frecuentes</h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-sm font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
+
+<script>
+  import { PDFDocument, PDFName, PDFDict, PDFArray } from 'pdf-lib';
+
+  const fileInput = document.getElementById('rm-pdf-input') as HTMLInputElement;
+  const dropzone = document.getElementById('rm-pdf-dropzone') as HTMLElement;
+  const titleEl = document.getElementById('rm-pdf-title') as HTMLElement;
+  const subEl = document.getElementById('rm-pdf-sub') as HTMLElement;
+  const statusBox = document.getElementById('rm-status-box') as HTMLElement;
+  const resultBox = document.getElementById('rm-result-box') as HTMLElement;
+  const resultDesc = document.getElementById('rm-result-desc') as HTMLElement;
+  const downloadBtn = document.getElementById('rm-download-btn') as HTMLAnchorElement;
+
+  let currentBlobUrl: string | null = null;
+
+  function showStatus(msg: string, isError = false) {
+    statusBox.classList.remove('hidden', 'bg-red-50', 'text-red-800', 'border-red-200', 'bg-blue-50', 'text-blue-800', 'border-blue-200');
+    statusBox.classList.add('border');
+    if (isError) {
+      statusBox.classList.add('bg-red-50', 'text-red-800', 'border-red-200');
+    } else {
+      statusBox.classList.add('bg-blue-50', 'text-blue-800', 'border-blue-200');
+    }
+    statusBox.textContent = msg;
+  }
+
+  async function stripSignaturesFromPdf(file: File) {
+    titleEl.textContent = `📄 ${file.name}`;
+    subEl.textContent = `${(file.size / 1024).toFixed(1)} KB · Limpiando firmas criptográficas...`;
+    resultBox.classList.add('hidden');
+    showStatus('⏳ Inspeccionando estructura /AcroForm y eliminando diccionarios /Sig...', false);
+
+    try {
+      const buffer = await file.arrayBuffer();
+      const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true });
+      let removedCount = 0;
+
+      // 1. Remove /FT /Sig annotations from every page
+      for (const page of pdfDoc.getPages()) {
+        const annots = page.node.lookupMaybe(PDFName.of('Annots'), PDFArray);
+        if (!annots) continue;
+
+        for (let i = annots.size() - 1; i >= 0; i--) {
+          const annotDict = annots.lookupMaybe(i, PDFDict);
+          if (!annotDict) continue;
+          const ft = annotDict.lookup(PDFName.of('FT'));
+          if (ft && ft.toString() === '/Sig') {
+            annots.remove(i);
+            removedCount++;
+          }
+        }
+      }
+
+      // 2. Clean /AcroForm /Fields and reset /SigFlags
+      const acroForm = pdfDoc.catalog.lookupMaybe(PDFName.of('AcroForm'), PDFDict);
+      if (acroForm) {
+        acroForm.delete(PDFName.of('SigFlags'));
+        const fields = acroForm.lookupMaybe(PDFName.of('Fields'), PDFArray);
+        if (fields) {
+          for (let i = fields.size() - 1; i >= 0; i--) {
+            const fieldDict = fields.lookupMaybe(i, PDFDict);
+            if (!fieldDict) continue;
+            const ft = fieldDict.lookup(PDFName.of('FT'));
+            if (ft && ft.toString() === '/Sig') {
+              fields.remove(i);
+            }
+          }
+        }
+      }
+
+      const cleanedBytes = await pdfDoc.save();
+      if (currentBlobUrl) URL.revokeObjectURL(currentBlobUrl);
+      const blob = new Blob([cleanedBytes], { type: 'application/pdf' });
+      currentBlobUrl = URL.createObjectURL(blob);
+
+      const baseName = file.name.replace(/\.pdf$/i, '');
+      downloadBtn.href = currentBlobUrl;
+      downloadBtn.download = `${baseName}_Sin_Firma.pdf`;
+
+      statusBox.classList.add('hidden');
+      resultDesc.textContent =
+        removedCount > 0
+          ? `Se han eliminado ${removedCount} firma(s) digital(es) y sus sellos visuales asociados. El documento está desbloqueado.`
+          : `Se ha generado una copia limpia y desbloqueada del PDF sin restricciones de firma.`;
+      resultBox.classList.remove('hidden');
+    } catch (err: any) {
+      showStatus(`❌ Error al procesar el archivo PDF: ${err?.message || 'Formato no soportado.'}`, true);
+    }
+  }
+
+  fileInput?.addEventListener('change', () => {
+    if (fileInput.files?.[0]) stripSignaturesFromPdf(fileInput.files[0]);
+  });
+
+  dropzone?.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('border-blue-600');
+  });
+  dropzone?.addEventListener('dragleave', () => {
+    dropzone.classList.remove('border-blue-600');
+  });
+  dropzone?.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('border-blue-600');
+    if (e.dataTransfer?.files?.[0]) stripSignaturesFromPdf(e.dataTransfer.files[0]);
+  });
+</script>

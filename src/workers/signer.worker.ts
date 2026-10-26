@@ -22,6 +22,8 @@ interface SignRequest {
     y?: number;
     width?: number;
     height?: number;
+    customRole?: string;
+    customReason?: string;
   };
 }
 
@@ -79,6 +81,9 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
       .toUpperCase();
 
     const signDate = new Date();
+    const effectiveReason =
+      stampConfig.customReason?.trim() ||
+      'Validez jurídica conforme a Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020';
 
     // Build the Official Spanish Administrative Rectangular Stamp (/AP -> /N)
     const appearanceStreamRef = await createOfficialSpanishStamp(pdfDoc, {
@@ -89,6 +94,8 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
       issuer: identity.issuerName,
       date: signDate,
       hashPreview: prelimHashHex,
+      customRole: stampConfig.customRole?.trim(),
+      customReason: effectiveReason,
     });
 
     // Configure /AcroForm with /SigFlags 3 (SignaturesExist | AppendOnly)
@@ -121,7 +128,7 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
         PDFNumber.of(BYTE_RANGE_SENTINEL),
       ],
       Contents: PDFHexString.of('0'.repeat(SIGNATURE_HEX_CAPACITY)),
-      Reason: PDFString.of('Firmado digitalmente conforme a eIDAS (UE) 910/2014 y Ley 6/2020'),
+      Reason: PDFString.of(effectiveReason),
       M: PDFString.fromDate(signDate),
       Name: PDFString.of(identity.commonName),
     });
@@ -146,7 +153,7 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
     const fieldsArray = acroForm.lookup(PDFName.of('Fields'), PDFArray);
     fieldsArray.push(widgetRef);
 
-    // 3. SINGLE SAVE WITHOUT OBJECT STREAMS (Avoids Pitfall #1)
+    // 3. SINGLE SAVE WITHOUT OBJECT STREAMS
     const pdfBytes = await pdfDoc.save({ useObjectStreams: false });
 
     self.postMessage({ status: 'signing', message: 'Calculando firma criptográfica PAdES-B-B (SHA-256)...' });
@@ -180,16 +187,10 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
   }
 };
 
-/**
- * Dual-Engine PKCS#12 Parser:
- * Validates modern PKCS#12 via PKIjs/ASN1js and extracts key/cert structures via node-forge
- * to support both modern AES-256-CBC and legacy Spanish FNMT 3DES / RC2-40 containers.
- */
 async function extractPkcs12Identity(
   p12Buffer: ArrayBuffer,
   password: string
 ): Promise<ExtractedIdentity> {
-  // Pre-verify ASN.1 BER structure via asn1js
   const asn1 = asn1js.fromBER(p12Buffer);
   if (asn1.offset === -1) {
     throw new Error('El archivo seleccionado no es un contenedor PKCS#12 (.p12 / .pfx) válido.');
@@ -204,7 +205,6 @@ async function extractPkcs12Identity(
     throw new Error('Contraseña del certificado incorrecta o formato de cifrado no soportado.');
   }
 
-  // Extract Private Key
   let privateKeyForge: forge.pki.rsa.PrivateKey | null = null;
   const keyBags = p12Forge.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag })[
     forge.pki.oids.pkcs8ShroudedKeyBag
@@ -224,7 +224,6 @@ async function extractPkcs12Identity(
     throw new Error('No se encontró una clave privada dentro del certificado digital.');
   }
 
-  // Extract X.509 Certificate Chain
   const certBags =
     p12Forge.getBags({ bagType: forge.pki.oids.certBag })[forge.pki.oids.certBag] || [];
   const certs: forge.pki.Certificate[] = certBags
@@ -235,7 +234,6 @@ async function extractPkcs12Identity(
     throw new Error('No se encontraron certificados X.509 en el archivo .p12/.pfx.');
   }
 
-  // Identify the end-entity signer certificate (matches private key modulus or is not a CA)
   let signerCert = certs[0];
   for (const cert of certs) {
     const basicConstraints = cert.getExtension('basicConstraints') as any;
@@ -245,7 +243,6 @@ async function extractPkcs12Identity(
     }
   }
 
-  // Convert signer cert to DER Uint8Array for SHA-256 ESSCertIDv2 calculation
   const certAsn1 = forge.pki.certificateToAsn1(signerCert);
   const certDerStr = forge.asn1.toDer(certAsn1).getBytes();
   const signerCertDer = new Uint8Array(certDerStr.length);
@@ -253,7 +250,6 @@ async function extractPkcs12Identity(
     signerCertDer[i] = certDerStr.charCodeAt(i);
   }
 
-  // Parse Spanish Identity Fields (CN, serialNumber / OID 2.5.4.5 for NIF/NIE)
   const cnAttr = signerCert.subject.getField('CN');
   const commonName = cnAttr ? String(cnAttr.value) : 'Titular de Certificado Digital';
 
@@ -284,9 +280,6 @@ async function extractPkcs12Identity(
   };
 }
 
-/**
- * Generates an Official Spanish Administrative Rectangular Form XObject (/AP -> /N)
- */
 async function createOfficialSpanishStamp(
   pdfDoc: PDFDocument,
   opts: {
@@ -297,26 +290,25 @@ async function createOfficialSpanishStamp(
     issuer: string;
     date: Date;
     hashPreview: string;
+    customRole?: string;
+    customReason?: string;
   }
 ) {
   const fontBold = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
   const fontRegular = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-  // Create a temporary page to draw clean vector graphics, then extract as Form XObject
   const tempPage = pdfDoc.addPage([opts.width, opts.height]);
 
-  // Background & crisp administrative border
   tempPage.drawRectangle({
     x: 1,
     y: 1,
     width: opts.width - 2,
     height: opts.height - 2,
     color: rgb(0.97, 0.98, 1.0),
-    borderColor: rgb(0.12, 0.23, 0.54), // #1e3a8a Navy
+    borderColor: rgb(0.12, 0.23, 0.54),
     borderWidth: 1.2,
   });
 
-  // Left vertical accent bar
   tempPage.drawRectangle({
     x: 1,
     y: 1,
@@ -353,7 +345,11 @@ async function createOfficialSpanishStamp(
     color: rgb(0.1, 0.1, 0.1),
   });
 
-  tempPage.drawText(`NIF/NIE: ${cleanText(opts.nif, 20)} | Emisor: ${cleanText(opts.issuer, 18)}`, {
+  const thirdLine = opts.customRole
+    ? `NIF: ${cleanText(opts.nif, 14)} | Cargo/Entidad: ${cleanText(opts.customRole, 22)}`
+    : `NIF/NIE: ${cleanText(opts.nif, 20)} | Emisor: ${cleanText(opts.issuer, 18)}`;
+
+  tempPage.drawText(thirdLine, {
     x: 10,
     y: opts.height - 36,
     size: 6,
@@ -377,7 +373,10 @@ async function createOfficialSpanishStamp(
     color: rgb(0.35, 0.35, 0.35),
   });
 
-  tempPage.drawText('Validez jurídica conforme a Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020', {
+  const bottomLine =
+    opts.customReason || 'Validez jurídica conforme a Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020';
+
+  tempPage.drawText(cleanText(bottomLine, 56), {
     x: 10,
     y: 6,
     size: 5,
@@ -390,10 +389,6 @@ async function createOfficialSpanishStamp(
   return embeddedPage.ref;
 }
 
-/**
- * Performs direct in-memory binary patching of /ByteRange and /Contents
- * and builds an ETSI PAdES-B-B compliant detached PKCS#7 / CMS signature.
- */
 function signPdfBufferInPlace(
   pdfBytes: Uint8Array,
   identity: ExtractedIdentity,
@@ -404,7 +399,6 @@ function signPdfBufferInPlace(
   const encoder = new TextEncoder();
   const pdfStr = decoder.decode(pdfBytes);
 
-  // 1. Locate /ByteRange sentinel
   const byteRangePattern = '/ByteRange [ 0 1000000000 1000000000 1000000000 ]';
   const altByteRangePattern = '/ByteRange [0 1000000000 1000000000 1000000000]';
   let brIndex = pdfStr.indexOf(byteRangePattern);
@@ -418,7 +412,6 @@ function signPdfBufferInPlace(
     throw new Error('No se pudo localizar el marcador /ByteRange en el binario PDF.');
   }
 
-  // 2. Locate /Contents <0000...0000> right after /ByteRange
   const zerosTarget = `<${'0'.repeat(hexCapacity)}>`;
   const contentsStart = pdfStr.indexOf(zerosTarget, brIndex);
   if (contentsStart === -1) {
@@ -426,7 +419,6 @@ function signPdfBufferInPlace(
   }
   const contentsEnd = contentsStart + zerosTarget.length;
 
-  // 3. Calculate exact byte ranges excluding <000...000>
   const offset1 = contentsStart;
   const offset2 = contentsEnd;
   const length2 = pdfBytes.length - offset2;
@@ -437,11 +429,9 @@ function signPdfBufferInPlace(
   }
   const paddedByteRangeStr = newByteRangeStr.padEnd(activePattern.length, ' ');
 
-  // Overwrite /ByteRange in-place in pdfBytes
   const brBytes = encoder.encode(paddedByteRangeStr);
   pdfBytes.set(brBytes, brIndex);
 
-  // 4. Compute SHA-256 over the two signed byte ranges: [0..offset1] + [offset2..end]
   const md = forge.md.sha256.create();
   const range1Str = decoder.decode(pdfBytes.subarray(0, offset1));
   const range2Str = decoder.decode(pdfBytes.subarray(offset2));
@@ -449,7 +439,6 @@ function signPdfBufferInPlace(
   md.update(range2Str, 'raw');
   const messageDigestBytes = md.digest().getBytes();
 
-  // 5. Build ETSI PAdES-B-B Detached CMS / PKCS#7 with id-aa-signingCertificateV2
   const cmsDerHex = buildPAdESDetachedCmsHex(
     identity,
     messageDigestBytes,
@@ -462,7 +451,6 @@ function signPdfBufferInPlace(
     );
   }
 
-  // 6. Inject hex signature inside <...> (+1 skips opening '<')
   const paddedHex = cmsDerHex.padEnd(hexCapacity, '0');
   const hexBytes = encoder.encode(paddedHex);
   pdfBytes.set(hexBytes, contentsStart + 1);
@@ -470,10 +458,6 @@ function signPdfBufferInPlace(
   return pdfBytes;
 }
 
-/**
- * Constructs a DER-encoded PKCS#7 / CMS SignedData structure containing the
- * mandatory ETSI PAdES-B-B `id-aa-signingCertificateV2` (1.2.840.113549.1.9.16.2.47) signed attribute.
- */
 function buildPAdESDetachedCmsHex(
   identity: ExtractedIdentity,
   messageDigestBytes: string,
@@ -482,20 +466,15 @@ function buildPAdESDetachedCmsHex(
   const p7 = forge.pkcs7.createSignedData();
   p7.content = forge.util.createBuffer('');
 
-  // Attach full certificate chain
   for (const cert of identity.certChainForge) {
     p7.addCertificate(cert);
   }
 
-  // Compute SHA-256 hash of Signer's X.509 Certificate for ESSCertIDv2
   const certMd = forge.md.sha256.create();
   const certAsn1 = forge.pki.certificateToAsn1(identity.signerCertForge);
   certMd.update(forge.asn1.toDer(certAsn1).getBytes(), 'raw');
   const certHashBytes = certMd.digest().getBytes();
 
-  // Build ASN.1 structure for SigningCertificateV2 (RFC 5035 / ETSI EN 319 122-1)
-  // SigningCertificateV2 ::= SEQUENCE { certs SEQUENCE OF ESSCertIDv2 }
-  // ESSCertIDv2 ::= SEQUENCE { hashAlgorithm AlgorithmIdentifier DEFAULT sha256, certHash Hash }
   const signingCertificateV2Asn1 = forge.asn1.create(
     forge.asn1.Class.UNIVERSAL,
     forge.asn1.Type.SEQUENCE,
@@ -511,28 +490,19 @@ function buildPAdESDetachedCmsHex(
             forge.asn1.Type.SEQUENCE,
             true,
             [
-              // Explicit SHA-256 AlgorithmIdentifier (2.16.840.1.101.3.4.2.1)
               forge.asn1.create(
                 forge.asn1.Class.UNIVERSAL,
-                forge.asn1.Type.SEQUENCE,
-                true,
-                [
-                  forge.asn1.create(
-                    forge.asn1.Class.UNIVERSAL,
-                    forge.asn1.Type.OID,
-                    false,
-                    forge.asn1.oidToDer('2.16.840.1.101.3.4.2.1').getBytes()
-                  ),
-                ]
-              ),
-              // certHash OCTET STRING
-              forge.asn1.create(
-                forge.asn1.Class.UNIVERSAL,
-                forge.asn1.Type.OCTETSTRING,
+                forge.asn1.Type.OID,
                 false,
-                certHashBytes
+                forge.asn1.oidToDer('2.16.840.1.101.3.4.2.1').getBytes()
               ),
             ]
+          ),
+          forge.asn1.create(
+            forge.asn1.Class.UNIVERSAL,
+            forge.asn1.Type.OCTETSTRING,
+            false,
+            certHashBytes
           ),
         ]
       ),
@@ -557,14 +527,12 @@ function buildPAdESDetachedCmsHex(
         value: signDate as any,
       },
       {
-        // id-aa-signingCertificateV2 (OID 1.2.840.113549.1.9.16.2.47)
         type: '1.2.840.113549.1.9.16.2.47',
         value: signingCertificateV2Asn1,
       },
     ],
   });
 
-  // Sign detached (excludes encapsulated data content)
   p7.sign({ detached: true });
 
   const cmsAsn1 = p7.toAsn1();

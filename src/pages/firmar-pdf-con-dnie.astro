@@ -1,0 +1,141 @@
+---
+// src/pages/firmar-pdf-con-dnie.astro
+import Layout from '../layouts/Layout.astro';
+import SigningStudio from '../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo puedo firmar un PDF con mi DNI electrónico (DNIe) sin errores de AutoFirma?",
+    a: "La forma más rápida y libre de fallos consiste en utilizar tu DNIe (por lector USB o NFC con la app oficial de la FNMT) para descargar en 2 minutos tu certificado en archivo .p12, o exportar el certificado intermedio desde tu navegador. Una vez tengas tu archivo .p12, puedes firmar cualquier PDF en esta página sin depender de Java ni de AutoFirma."
+  },
+  {
+    q: "¿Qué necesito para usar el DNI electrónico en el ordenador?",
+    a: "Necesitas tres elementos: tener los certificados internos del chip de tu DNIe activos (no caducados), recordar el PIN que te entregaron en el sobre ciego de la comisaría de Policía Nacional y disponer de un lector de tarjetas inteligentes USB compatible con ISO 7816 (o un móvil con antena NFC)."
+  },
+  {
+    q: "¿Cuánto duran los certificados del chip del DNI electrónico?",
+    a: "Aunque la tarjeta física del DNI tenga una validez de 5 o 10 años, los certificados electrónicos internos del chip caducan a los 24 meses (2 años) desde su emisión o última renovación. Puedes renovarlos gratis en los Puestos de Actualización de Documentación (PAD) de cualquier comisaría sin cita previa."
+  }
+];
+---
+
+<Layout
+  title="Firmar PDF con DNI Electrónico (DNIe) Online — Sin Fallos de Java"
+  description="Firma documentos PDF con tu DNI electrónico (DNIe 3.0 / 4.0) o certificado FNMT obtenido con DNIe. Guía de activación, lectores USB y firma PAdES en tu navegador."
+  canonicalPath="/firmar-pdf-con-dnie/"
+>
+  <!-- Hero Section -->
+  <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
+        <span>🪪</span> Compatible con DNIe 3.0 / 4.0 y Certificados FNMT
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Firmar PDF con DNI Electrónico (DNIe) Online
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        Estampa tu firma electrónica cualificada <strong>PAdES-B-B</strong> en contratos, instancias y modelos oficiales evitando los bloqueos del componente <em>JMulticard</em> de AutoFirma.
+      </p>
+    </div>
+  </header>
+
+  <!-- Interactive Signing Studio -->
+  <section class="py-10 bg-slate-50 border-b border-slate-200">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <SigningStudio
+        title="Firmador Web PAdES para DNIe y Certificados .p12"
+        subtitle="Sube tu PDF y tu certificado exportado (.p12 / .pfx) para firmar en local con sello administrativo eIDAS."
+      />
+    </div>
+  </section>
+
+  <!-- DNIe Guide & Hardware Affiliate Section -->
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+
+      <!-- Hardware Affiliate Callout: Lector DNIe (>1,000/mo Easy KD) -->
+      <div class="p-6 bg-slate-900 text-white rounded-2xl shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="space-y-2">
+          <span class="inline-block px-2.5 py-0.5 bg-blue-600 text-white text-[11px] font-bold rounded uppercase tracking-wider">
+            Recomendación Hardware Homologado
+          </span>
+          <h2 class="text-lg sm:text-xl font-bold">
+            ¿Necesitas un Lector de DNI Electrónico USB para PC o Mac?
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Para leer el chip criptográfico del DNIe 3.0 y 4.0 sin desconexiones en Windows 11 y macOS, utiliza un lector SmartCard compatible con el estándar oficial <strong>ISO/IEC 7816 y PC/SC</strong> (Plug & Play sin drivers antiguos).
+          </p>
+        </div>
+        <a
+          href="https://www.amazon.es/s?k=lector+dni+electronico+usb"
+          target="_blank"
+          rel="nofollow noopener sponsored"
+          class="shrink-0 px-5 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs sm:text-sm rounded-xl shadow transition-colors text-center"
+        >
+          🛒 Ver Lectores DNIe Homologados en Amazon →
+        </a>
+      </div>
+
+      <!-- How to Sign with DNIe without JMulticard crashes -->
+      <div class="space-y-4">
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+          El truco definitivo: Cómo usar tu DNIe para obtener el archivo .p12 y firmar en 1 clic
+        </h2>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Los navegadores web modernos (Chrome, Safari, Edge) tienen bloqueado por motivos de seguridad el acceso directo desde páginas web a lectores USB físicos sin pasar por extensiones pesadas que suelen lanzar el temido <strong>Error SAF_15 (Fallo JMulticard)</strong>.
+        </p>
+        <p class="text-slate-600 text-sm leading-relaxed">
+          Por suerte, si tienes tu DNIe activo y un móvil con NFC (o lector USB), puedes descargar gratis tu archivo <code>.p12</code> oficial de la FNMT en 2 minutos desde el sofá de tu casa:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <span class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs mb-3">1</span>
+            <h3 class="font-bold text-slate-900 text-sm">Lectura NFC o USB</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Abre la app oficial <em>Certificado Digital FNMT</em> en tu móvil (o la sede CERES en PC), elige <strong>"Obtener con DNIe"</strong>, introduce el código CAN (6 dígitos de la esquina de tu DNI) y acerca el DNI al dorso del teléfono.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <span class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs mb-3">2</span>
+            <h3 class="font-bold text-slate-900 text-sm">Descarga tu copia .p12</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Al instante y sin ir a ninguna oficina, se descargará tu certificado digital en formato <code>.p12</code> válido durante 4 años.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <span class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs mb-3">3</span>
+            <h3 class="font-bold text-slate-900 text-sm">Firma sin lectores ni PIN</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Carga ese archivo <code>.p12</code> en nuestro firmador superior para firmar cualquier PDF desde el móvil o PC en 2 segundos sin volver a conectar el lector.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl font-bold text-slate-900">Preguntas Frecuentes sobre el DNI Electrónico (DNIe)</h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-sm font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
