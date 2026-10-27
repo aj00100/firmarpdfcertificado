@@ -248,6 +248,13 @@
 
     if (!root) return result;
 
+    const certsFound: Array<{
+      issuerMap: Record<string, string>;
+      subjectMap: Record<string, string>;
+      validFrom: Date | null;
+      validTo: Date | null;
+    }> = [];
+
     function walk(node: Asn1Node) {
       // Detectar TBSCertificate dentro de un Certificate X.509 (SEQUENCE -> tbsCertificate SEQUENCE)
       if (
@@ -263,16 +270,14 @@
       ) {
         const issuerMap = extractRDNMap(cmsBytes, node.children[3]);
         const subjectMap = extractRDNMap(cmsBytes, node.children[5]);
-        // Quedarnos con el certificado hoja (el del firmante final, no el de la CA raíz)
-        if (subjectMap.CN !== issuerMap.CN || Object.keys(result.subject).length === 0) {
-          result.issuer = issuerMap;
-          result.subject = subjectMap;
-          const validityNode = node.children[4];
-          if (validityNode.children && validityNode.children.length >= 2) {
-            result.validFrom = decodeAsn1Time(cmsBytes, validityNode.children[0]);
-            result.validTo = decodeAsn1Time(cmsBytes, validityNode.children[1]);
-          }
+        let validFrom: Date | null = null;
+        let validTo: Date | null = null;
+        const validityNode = node.children[4];
+        if (validityNode.children && validityNode.children.length >= 2) {
+          validFrom = decodeAsn1Time(cmsBytes, validityNode.children[0]);
+          validTo = decodeAsn1Time(cmsBytes, validityNode.children[1]);
         }
+        certsFound.push({ issuerMap, subjectMap, validFrom, validTo });
       }
 
       // Detectar OIDs de atributos CMS / PKCS#7 (messageDigest, signingTime, PAdES ESSCertIDv2)
@@ -302,6 +307,27 @@
     }
 
     walk(root);
+
+    if (certsFound.length > 0) {
+      // Quedarnos con el certificado hoja (el que NO sea emisor de ningún otro certificado del paquete)
+      const leafCert =
+        certsFound.find(
+          (c) =>
+            !certsFound.some(
+              (other) =>
+                other !== c &&
+                c.subjectMap.CN &&
+                other.issuerMap.CN &&
+                other.issuerMap.CN === c.subjectMap.CN
+            )
+        ) || certsFound[0];
+
+      result.issuer = leafCert.issuerMap;
+      result.subject = leafCert.subjectMap;
+      result.validFrom = leafCert.validFrom;
+      result.validTo = leafCert.validTo;
+    }
+
     return result;
   }
 
