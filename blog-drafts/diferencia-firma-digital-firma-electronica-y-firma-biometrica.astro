@@ -1,0 +1,151 @@
+---
+// blog-drafts/diferencia-firma-digital-firma-electronica-y-firma-biometrica.astro
+// (Move to src/pages/blog/ on Day 19)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuál es la diferencia principal entre firma electrónica y firma digital?",
+    a: "La 'firma electrónica' es el concepto jurídico amplio regulado en el Reglamento eIDAS (cualquier dato electrónico que sirva para identificar al firmante, desde marcar una casilla hasta un código SMS). En cambio, la 'firma digital' es la tecnología criptográfica concreta (basada en claves públicas y privadas RSA/SHA-256 mediante un certificado X.509 como el de la FNMT) que permite crear firmas electrónicas avanzadas y cualificadas incorruptibles."
+  },
+  {
+    q: "¿Qué validez legal tiene la firma biométrica (firmar con un lápiz sobre una tablet)?",
+    a: "La firma biométrica recoge parámetros físicos del trazo (velocidad, presión e inclinación) en tabletas digitalizadoras (muy común en sucursales bancarias como BBVA o empresas de mensajería). Jurídicamente suele considerarse una firma electrónica simple o avanzada si cifra los datos biométricos, pero no sirve para presentar trámites en las sedes electrónicas de la Administración Pública, donde se exige certificado digital."
+  },
+  {
+    q: "¿Qué tipo de firma tiene el mismo valor que la firma manuscrita en papel ante un juez?",
+    a: "Conforme al artículo 25.2 del Reglamento (UE) 910/2014 (eIDAS), únicamente la firma electrónica basada en un certificado digital cualificado (como el de la FNMT o el DNI electrónico) goza de equivalencia jurídica automática con la firma manuscrita e invierte la carga de la prueba en juicio."
+  }
+];
+---
+
+<Layout
+  title="Diferencia entre Firma Digital, Firma Electrónica y Firma Biométrica (eIDAS)"
+  description="Conoce las diferencias legales y técnicas entre firma electrónica simple, firma biométrica y firma digital con certificado cualificado en España según el Reglamento eIDAS y Ley 6/2020."
+  canonicalPath="/blog/diferencia-firma-digital-firma-electronica-y-firma-biometrica/"
+>
+  <header class="py-10 bg-gradient-to-b from-indigo-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Firma Digital vs. Electrónica vs. Biométrica</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-100 text-indigo-900 rounded-full text-xs font-bold mb-3">
+        <span>⚖️</span> Derecho Digital · Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Diferencia entre Firma Digital, Firma Electrónica y Firma Biométrica en España: ¿Cuál Tiene Validez Legal?
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        En el lenguaje cotidiano suelen confundirse términos como pegar una foto de tu rúbrica, firmar con el dedo en una pantalla o <a href="/" class="text-blue-600 font-bold underline">firmar un PDF con certificado digital</a>. Sin embargo, ante Hacienda o un tribunal, sus efectos probatorios son radicalmente distintos.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Legal Comparison Table -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Comparativa Legal según el Reglamento Europeo eIDAS y la Ley 6/2020
+        </h2>
+        <p>
+          La normativa europea clasifica las firmas en tres niveles de seguridad. Observa dónde se sitúa cada método y cuál es admitido por las Administraciones Públicas:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3.5 font-bold">Tipo de Firma</th>
+                <th class="p-3.5 font-bold">Cómo funciona técnicamente</th>
+                <th class="p-3.5 font-bold text-emerald-400">Validez ante Hacienda / Juzgados</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">1. Firma Electrónica Simple</td>
+                <td class="p-3.5 text-slate-600">Dibujar con el ratón, pegar una imagen PNG de tu firma o aceptar con un clic.</td>
+                <td class="p-3.5 text-rose-600 font-bold">❌ Muy débil (Fácilmente falsificable; rechazada en sedes públicas).</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">2. Firma Biométrica</td>
+                <td class="p-3.5 text-slate-600">Trazo con lápiz óptico sobre tablet midiendo presión, velocidad y aceleración.</td>
+                <td class="p-3.5 text-amber-700 font-semibold">⚠️ Media (Usada en banca presencial y entregas, pero requiere prueba pericial en caso de litigio).</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">3. Firma Digital con Certificado (PAdES)</td>
+                <td class="p-3.5 text-slate-600">Cifrado asimétrico RSA + huella SHA-256 con certificado X.509 (FNMT, DNIe, ACCV).</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Máxima (Plena validez jurídica e integridad inalterable en toda la UE).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Deep Dive on Cryptographic Digital Signature -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Por qué solo la Firma Digital con Certificado Cualificado garantiza la integridad del PDF
+        </h2>
+        <p>
+          Cuando utilizas nuestra herramienta para <a href="/" class="text-blue-600 font-bold underline">firmar un PDF con certificado digital online</a>, no solo se estampa un sello visual con tu nombre y NIF: el motor criptográfico genera un resumen matemático único (hash SHA-256) de todo el contenido del documento y lo cifra con tu clave privada.
+        </p>
+        <p>
+          Esto garantiza dos propiedades legales que ninguna imagen ni firma biométrica básica puede ofrecer sin terceros de confianza:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-xs sm:text-sm">
+          <li><strong>No repudio de origen:</strong> Como el certificado ha sido emitido tras verificar presencialmente tu DNI ante una Autoridad de Certificación oficial (FNMT-RCM), ninguna parte puede negar la autoría de la firma.</li>
+          <li><strong>Detección inmediata de alteraciones:</strong> Si alguien modifica una sola coma o cifra del contrato PDF un minuto después de haberlo firmado, el hash SHA-256 deja de coincidir y cualquier lector muestra una alerta roja de documento modificado.</li>
+        </ul>
+      </div>
+
+      <!-- Embedded Specific Tool: SigningStudio ONLY -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Herramienta Gratuita: Aplica tu Firma Digital Criptográfica PAdES-B-B en Segundos
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          No te arriesgues a que te rechacen un contrato o escrito oficial por pegar un dibujo de tu firma. Carga tu archivo PDF y tu certificado digital (<code>.p12</code> o <code>.pfx</code>) para generar una firma criptográfica real conforme al estándar europeo eIDAS:
+        </p>
+
+        <SigningStudio
+          title="Firmar Documento PDF con Certificado Digital Reconocido (PAdES-B-B)"
+          subtitle="Procesamiento 100% local en la memoria RAM de tu navegador · Plena eficacia jurídica en España."
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Firma Digital, Electrónica y Biométrica
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

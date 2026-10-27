@@ -245,4 +245,46 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'amber',
   },
   */
+
+  // UNCOMMENT DAY 18: Notificaciones Electrónicas DEHú (>100/mo x5) & Código Seguro de Verificación CSV (>100/mo x2 — Easy KD)
+  /*
+  {
+    slug: 'como-verificar-codigo-seguro-verificacion-csv-notificaciones-dehu',
+    title: 'Notificaciones Electrónicas DEHú y Código Seguro de Verificación (CSV): Cómo Comprobar un PDF Oficial',
+    description:
+      'Cómo abrir notificaciones electrónicas obligatorias en DEHú (AEAT, Seguridad Social y DGT) y verificar la autenticidad de cualquier documento PDF con Código Seguro de Verificación (CSV).',
+    category: 'Verificación y Notificaciones DEHú',
+    readTime: '6 min de lectura',
+    updatedDate: '13 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  */
+
+  // UNCOMMENT DAY 19: Firma Digital vs. Firma Electrónica (>1,000/mo) vs. Firma Biométrica (>100/mo — Easy KD)
+  /*
+  {
+    slug: 'diferencia-firma-digital-firma-electronica-y-firma-biometrica',
+    title: 'Diferencia entre Firma Digital, Firma Electrónica y Firma Biométrica en España (Validez Legal eIDAS)',
+    description:
+      'Guía jurídica sobre qué diferencia una firma simple o biométrica en tablet de una firma digital cualificada PAdES con certificado FNMT según el Reglamento eIDAS y la Ley 6/2020.',
+    category: 'Marco Legal eIDAS',
+    readTime: '7 min de lectura',
+    updatedDate: '14 de noviembre de 2026',
+    badgeColor: 'indigo',
+  },
+  */
+
+  // UNCOMMENT DAY 20: Acreditar Identidad FNMT Sin Cita (Correos >100/mo) & Revocar Certificado (>100/mo — Easy KD)
+  /*
+  {
+    slug: 'donde-acreditar-identidad-certificado-digital-sin-cita-y-como-revocar',
+    title: 'Dónde Acreditar la Identidad para el Certificado Digital Sin Cita Previa (Correos) y Cómo Revocarlo',
+    description:
+      'Cómo acreditar tu identidad presencialmente sin cita previa en oficinas de Correos para obtener el certificado FNMT y cómo anular o revocar un certificado perdido o caducado.',
+    category: 'Gestión de Certificados FNMT',
+    readTime: '6 min de lectura',
+    updatedDate: '15 de noviembre de 2026',
+    badgeColor: 'emerald',
+  },
+  */
 ];

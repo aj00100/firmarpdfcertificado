@@ -1,0 +1,126 @@
+---
+// blog-drafts/como-verificar-codigo-seguro-verificacion-csv-notificaciones-dehu.astro
+// (Move to src/pages/blog/ on Day 18)
+import Layout from '../../layouts/Layout.astro';
+import ValidatorStudio from '../../components/ValidatorStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué es el Código Seguro de Verificación (CSV) de un documento PDF administrativo?",
+    a: "El Código Seguro de Verificación (CSV) es una secuencia alfanumérica única impresa en el margen lateral o inferior de las resoluciones y notificaciones en PDF emitidas por la AEAT, Seguridad Social, DGT, Catastro o juzgados. Permite cotejar el documento en la sede electrónica emisora y garantiza su autenticidad conforme al artículo 27 de la Ley 39/2015."
+  },
+  {
+    q: "¿Qué pasa si no abro una notificación electrónica en DEHú en el plazo de 10 días?",
+    a: "Según el artículo 43.2 de la Ley 39/2015 del Procedimiento Administrativo Común, las notificaciones electrónicas depositadas en el buzón DEHú (Dirección Electrónica Habilitada única) se entienden rechazadas y legalmente notificadas si transcurren 10 días naturales desde su puesta a disposición sin que el titular o su representante accedan a su contenido."
+  },
+  {
+    q: "¿Cómo puedo saber si un PDF con CSV descargado de DEHú o Hacienda ha sido manipulado?",
+    a: "Además del código CSV impreso, los PDFs oficiales incorporan un sello electrónico criptográfico PAdES en su estructura binaria. Al subir el archivo a nuestro validador de firma digital PDF, el sistema calcula el resumen SHA-256 de los bytes del documento y confirma al instante si el contenido permanece íntegro."
+  }
+];
+---
+
+<Layout
+  title="Notificaciones Electrónicas DEHú y Código Seguro de Verificación (CSV)"
+  description="Cómo abrir notificaciones electrónicas obligatorias en DEHú (Hacienda, Seguridad Social, DGT) y comprobar la autenticidad de cualquier PDF con Código Seguro de Verificación (CSV)."
+  canonicalPath="/blog/como-verificar-codigo-seguro-verificacion-csv-notificaciones-dehu/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Notificaciones DEHú y Código Seguro de Verificación (CSV)</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold mb-3">
+        <span>📬</span> Cotejo Electrónico Oficial · Ley 39/2015 y Ley 40/2015
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Notificaciones Electrónicas DEHú y Código Seguro de Verificación (CSV): Cómo Comprobar si un PDF Oficial es Auténtico
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Tanto al descargar una notificación del buzón único <strong>DEHú</strong> como al recibir un certificado tributario de la AEAT, una multa de la DGT o un documento del Catastro, es fundamental saber verificar su autenticidad criptográfica mediante nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firma digital PDF</a>.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: DEHú Mandatory Notifications -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          1. Cómo funcionan las Notificaciones Electrónicas Obligatorias en DEHú (AEAT, Seguridad Social y DGT)
+        </h2>
+        <p>
+          La <strong>Dirección Electrónica Habilitada única (DEHú)</strong> centraliza en un solo buzón todas las comunicaciones y requerimientos administrativos emitidos por la Agencia Tributaria (AEAT), la Seguridad Social (TGSS), el SEPE, la Dirección General de Tráfico (DEV) y las Comunidades Autónomas.
+        </p>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+          <h3 class="text-sm font-bold text-slate-900">El plazo crítico de los 10 días naturales:</h3>
+          <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+            Para las sociedades mercantiles (S.L. y S.A.), profesionales colegiados y autónomos, comparecer en el buzón electrónico es obligatorio. Al pulsar en <em>"Comparecer y abrir notificación"</em> con tu certificado digital, el portal genera dos archivos PDF: el <strong>Acuse de Recibo firmado</strong> (que acredita la fecha y hora exacta de apertura) y el <strong>Acto Administrativo notificado</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 2: What is CSV and where to find it -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          2. ¿Qué es el Código Seguro de Verificación (CSV) y dónde está en el PDF?
+        </h2>
+        <p>
+          El <strong>Código Seguro de Verificación (CSV)</strong> es el mecanismo regulado en el artículo 42 de la Ley 40/2015 de Régimen Jurídico del Sector Público que permite que una copia impresa en papel o un archivo PDF conserve el carácter de <strong>copia auténtica</strong>:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-xs sm:text-sm">
+          <li><strong>En documentos de la Agencia Tributaria (AEAT):</strong> Es un código de 16 caracteres alfanuméricos situado en el pie de página o en el margen vertical izquierdo junto al código de barras.</li>
+          <li><strong>En documentos del Catastro, DGT y Ministerio de Justicia:</strong> Aparece en el cajetín inferior indicando la URL de la sede electrónica donde puede realizarse el cotejo público.</li>
+          <li><strong>Doble blindaje (CSV + Sello PAdES):</strong> Además del CSV visual, el archivo PDF original descargado contiene un diccionario criptográfico interno que puedes auditar en nuestra herramienta de <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validar firma digital PDF online</a> para confirmar que nadie ha alterado una cifra con un editor antes de enviártelo.</li>
+        </ul>
+      </div>
+
+      <!-- Embedded Specific Tool: ValidatorStudio ONLY -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Herramienta Gratuita: Verificar la Integridad y Sello Criptográfico de un PDF Oficial
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Arrastra aquí cualquier notificación descargada de DEHú, certificado de Hacienda, resolución de la Seguridad Social o contrato en PDF para comprobar su firma digital y verificar que el archivo es 100% íntegro:
+        </p>
+
+        <ValidatorStudio
+          title="Verificador de Documentos PDF Oficiales y Firmas PAdES"
+          subtitle="Comprueba el sello criptográfico del organismo emisor y la huella SHA-256 sin subir el archivo a internet."
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Código Seguro de Verificación (CSV) y DEHú
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

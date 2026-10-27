@@ -1,0 +1,148 @@
+---
+// blog-drafts/donde-acreditar-identidad-certificado-digital-sin-cita-y-como-revocar.astro
+// (Move to src/pages/blog/ on Day 20)
+import Layout from '../../layouts/Layout.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo puedo acreditar mi identidad para el certificado digital de la FNMT sin cita previa?",
+    a: "La forma más rápida de acreditar tu identidad presencialmente sin esperar semanas de cita previa en Hacienda o la Seguridad Social es acudir a cualquiera de las más de 2.400 oficinas de Correos habilitadas como Oficinas de Registro de la FNMT. Solo necesitas llevar tu DNI/NIE original en vigor y el Código de Solicitud que has recibido por correo electrónico."
+  },
+  {
+    q: "¿Cuándo debo revocar o anular mi certificado digital de la FNMT?",
+    a: "Debes solicitar la revocación inmediata de tu certificado digital si has perdido o te han robado el ordenador o teléfono móvil donde tenías guardado el archivo .p12, si sospechas que otra persona conoce tu contraseña de exportación, o cuando cesa el administrador o apoderado de una empresa."
+  },
+  {
+    q: "¿Cómo comprobar si mi certificado digital actual sigue activo o ya ha expirado antes de pedir uno nuevo?",
+    a: "Antes de iniciar una nueva solicitud o acudir a una oficina de registro, puedes cargar tu archivo .p12 o .pfx en nuestro comprobador de validez de certificado digital online para ver al instante su fecha exacta de caducidad sin subir el archivo a ningún servidor."
+  }
+];
+---
+
+<Layout
+  title="Acreditar Identidad Certificado Digital Sin Cita Previa (Correos) y Revocar"
+  description="Dónde acreditar tu identidad para el certificado digital FNMT sin cita previa en oficinas de Correos y cómo anular o revocar un certificado digital por pérdida o robo."
+  canonicalPath="/blog/donde-acreditar-identidad-certificado-digital-sin-cita-y-como-revocar/"
+>
+  <header class="py-10 bg-gradient-to-b from-emerald-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Acreditar Identidad Sin Cita (Correos) y Revocar Certificado</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold mb-3">
+        <span>📮</span> Ciclo de Vida del Certificado FNMT · Emisión Presencial y Revocación
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Dónde Acreditar tu Identidad para el Certificado Digital Sin Cita Previa (Oficinas de Correos) y Cómo Revocar un Certificado
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        ¿Tienes un trámite urgente y en tu ayuntamiento o delegación de la AEAT no hay cita previa hasta dentro de varias semanas? Te explicamos cómo acreditar tu identidad hoy mismo sin cita en <strong>Correos</strong>, cómo revocar un certificado extraviado y cómo auditar tu archivo <code>.p12</code> en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">comprobador de validez de certificado digital</a>.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Correos Walk-In Accreditation -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          1. Cómo acreditar tu identidad en Oficinas de Correos sin cita previa (Convenio FNMT)
+        </h2>
+        <p>
+          Gracias al convenio entre la <strong>Fábrica Nacional de Moneda y Timbre (FNMT-RCM)</strong> y la red estatal de <strong>Correos</strong>, cualquier ciudadano puede completar el Paso 3 de obtención del certificado digital de Persona Física acudiendo directamente en horario de mañana o tarde a una oficina de Correos sin pedir cita previa:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            <strong>Obtén primero tu Código de Solicitud:</strong> Entra desde tu casa en la sede de CERES-FNMT (<em>Certificado de Persona Física &rarr; Obtener Certificado Software &rarr; Solicitar Certificado</em>) e introduce tu DNI, primer apellido y correo electrónico. Recibirás un código numérico en tu email.
+          </li>
+          <li>
+            <strong>Completa el formulario previo de Correos o acude con tu DNI:</strong> Rellena la hoja de solicitud e imprímela (o lleva anotado el Código de Solicitud de la FNMT junto con tu DNI/NIE físico original en vigor).
+          </li>
+          <li>
+            <strong>Descarga el certificado en el mismo ordenador:</strong> En menos de 1 hora tras pasar por la ventanilla de Correos, recibirás un correo de la FNMT confirmando que ya puedes descargar tu certificado en el mismo navegador donde iniciaste la solicitud.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Dedicated Single-Tool CTA Box: Comprobar Validez Certificado Digital ONLY -->
+      <div class="p-6 bg-slate-900 text-white rounded-2xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="space-y-1.5">
+          <span class="inline-block px-2.5 py-0.5 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-bold rounded uppercase tracking-wider">
+            Diagnóstico Local X.509
+          </span>
+          <h2 class="text-lg sm:text-xl font-bold">
+            ¿No sabes si un archivo .p12 antiguo de tu ordenador sigue activo o ya está caducado?
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Antes de ir a una oficina o pedir una renovación, comprueba en 1 segundo la fecha exacta de expiración y los días restantes de tu certificado digital en nuestra herramienta gratuita.
+          </p>
+        </div>
+        <a
+          href="/comprobar-validez-certificado-digital/"
+          class="shrink-0 px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm rounded-xl shadow transition-colors text-center"
+        >
+          🔎 Comprobar Validez de Certificado &rarr;
+        </a>
+      </div>
+
+      <!-- Section 2: How to Revoke a Compromised or Lost Certificate -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          2. Cómo anular o revocar tu Certificado Digital por pérdida, robo o cambio de empresa
+        </h2>
+        <p>
+          La <strong>revocación (anulación)</strong> deja sin efecto legal un certificado digital antes de que llegue su fecha de caducidad normal. Una vez revocado, el número de serie del certificado pasa a la lista pública de certificados revocados (CRL / OCSP) y nadie podrá utilizarlo para entrar en Hacienda ni firmar documentos en tu nombre:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-3">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">Opción A: Tienes acceso al certificado</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Si aún conservas una copia del archivo <code>.p12</code> pero quieres anularlo porque sospechas que un tercero o una antigua gestoría tiene copia de él, puedes revocarlo online al instante en la sede de la FNMT (apartado <em>Anulación / Revocación</em>) autenticándote con el propio certificado.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">Opción B: Has perdido el ordenador o móvil</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Si no tienes acceso al certificado, puedes llamar al teléfono de revocaciones 24 horas de la FNMT si conservas el código de solicitud original, o bien acudir presencialmente con tu DNI a cualquier oficina de registro (Correos, AEAT o Seguridad Social) para que lo anulen en el acto.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Acreditación en Correos y Revocación FNMT
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
