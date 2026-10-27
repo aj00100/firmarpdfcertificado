@@ -1,3 +1,13 @@
+# Block .pages.dev staging domain from being indexed and redirect to root
+https://firmarpdfcertificado.pages.dev/* https://firmarpdfcertificado.com/:splat 301
+
+# Block www and consolidate SEO authority to non-www root domain
+https://www.firmarpdfcertificado.com/* https://firmarpdfcertificado.com/:splat 301
+
+# Sitemap discovery redirect for Googlebot & Bingbot
+/sitemap.xml /sitemap-index.xml 301
+
+# Legacy/English aliases redirect to native Spanish policy pages
 /about/ /sobre-nosotros/ 301
 /about /sobre-nosotros/ 301
 /contact/ /contacto/ 301
