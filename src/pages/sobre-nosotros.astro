@@ -1,0 +1,77 @@
+---
+// src/pages/sobre-nosotros.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Sobre Nosotros — Arquitectura Criptográfica Local y Misión"
+  description="Conoce el equipo técnico y la arquitectura de privacidad cero-servidor detrás de FirmarPDFCertificado.com, el firmador PAdES-B-B en el navegador para España."
+  canonicalPath="/sobre-nosotros/"
+>
+  <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
+        <span>🇪🇸</span> Ingeniería Criptográfica y Privacidad por Diseño
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Sobre FirmarPDFCertificado.com
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        Democratizando la firma electrónica avanzada en España sin instalaciones pesadas, sin errores de Java y sin comprometer jamás la privacidad de tus documentos.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-slate-900">1. Por qué creamos FirmarPDFCertificado.com</h2>
+        <p>
+          En España, millones de ciudadanos, trabajadores autónomos, abogados, procuradores y pymes necesitan relacionarse a diario con las Administraciones Públicas (Agencia Tributaria, Seguridad Social, DGT, LexNET, Red.es, Catastro y registros autonómicos o municipales). Sin embargo, el software tradicional de escritorio presenta barreras técnicas constantes: conflictos con versiones de Java, bloqueos de puertos locales (como el <strong>Error SAF_45</strong>), incompatibilidades con procesadores Apple Silicon en macOS y la imposibilidad de firmar cómodamente desde dispositivos móviles Android o iOS.
+        </p>
+        <p>
+          Al mismo tiempo, las plataformas comerciales de firma en la nube obligan al usuario a subir sus contratos confidenciales, escrituras o facturas a servidores de terceros y cobran suscripciones mensuales por funciones básicas. <strong>FirmarPDFCertificado.com</strong> nació para resolver ambos problemas de raíz mediante estándares abiertos del consorcio W3C y ETSI.
+        </p>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-slate-900">2. Nuestra Arquitectura "Cero-Servidor" (100% Client-Side RAM)</h2>
+        <p>
+          A diferencia de cualquier convertidor o firmador online convencional, nuestra plataforma opera bajo un paradigma estricto de <strong>ejecución 100% local en el navegador</strong>:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm mb-2">🔐 Web Crypto API + PKI.js</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              El desencriptado de tu contenedor PKCS#12 (<code>.p12</code> o <code>.pfx</code>) y la generación de la firma RSA/SHA-256 ocurren dentro de un hilo aislado (Web Worker) en la memoria RAM de tu propio dispositivo.
+            </p>
+          </div>
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm mb-2">📜 Estándar ETSI PAdES-B-B</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Inyectamos estructuras criptográficas CMS / PKCS#7 con el atributo obligatorio <code>signingCertificateV2</code> (OID <code>1.2.840.113549.1.9.16.2.47</code>) conforme a la norma europea ETSI EN 319 142-1.
+            </p>
+          </div>
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="font-bold text-slate-900 text-sm mb-2">🛡️ Cumplimiento RGPD Nativo</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Como ningún byte de tu PDF ni tu contraseña viajan por la red hacia nuestros servidores, garantizamos por diseño técnico el secreto profesional de abogados, gestorías y empresas.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-2xl font-bold text-slate-900">3. Compromiso de Gratuidad y Transparencia</h2>
+        <p>
+          El uso de todas nuestras herramientas (Firmador PAdES, Cofirmador de múltiples firmas, Personalizador de sello administrativo, Verificador de firmas PDF y Comprobador de caducidad X.509) es <strong>100% gratuito y sin límites de uso</strong>. El proyecto se mantiene gracias a espacios publicitarios no intrusivos (Google AdSense) y recomendaciones de software de facturación homologado para autónomos y pymes.
+        </p>
+        <p>
+          ¿Tienes alguna sugerencia técnica, has detectado un caso de uso especial con algún colegio profesional o deseas contactar con nosotros? Visita nuestra <a href="/contacto/" class="text-blue-600 font-bold underline">página de Contacto y Soporte</a> o escríbenos directamente a <a href="mailto:contacto@firmarpdfcertificado.com" class="text-blue-600 font-bold underline">contacto@firmarpdfcertificado.com</a>.
+        </p>
+      </section>
+
+    </div>
+  </article>
+</Layout>

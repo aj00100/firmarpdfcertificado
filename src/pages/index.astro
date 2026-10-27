@@ -5,406 +5,340 @@ import SigningStudio from '../components/SigningStudio.astro';
 
 const faqs = [
   {
-    q: "¿Tiene esta firma la misma validez legal que la de AutoFirma o Adobe Acrobat Reader?",
-    a: "Sí, exactamente la misma eficacia jurídica y probatoria. Nuestra herramienta genera una firma electrónica avanzada o cualificada bajo el estándar europeo PAdES-B-B (ETSI EN 319 142-1) utilizando tu propio certificado digital reconocido. Conforme al Artículo 25 del Reglamento (UE) 910/2014 (eIDAS) y a la Ley 6/2020 de servicios electrónicos de confianza, los documentos firmados son admitidos en la Agencia Tributaria (AEAT), Seguridad Social (TGSS/INSS), Dirección General de Tráfico (DGT), LexNET Justicia, SEPE y cualquier registro electrónico público o juzgado de España."
+    q: "¿Tiene la misma validez legal que firmar con AutoFirma o Adobe Acrobat?",
+    a: "Sí, exactamente la misma validez jurídica plena. Nuestra herramienta genera una firma criptográfica avanzada en formato estándar europeo PAdES-B-B (ETSI EN 319 142-1) incrustando tu certificado X.509 reconocido (FNMT, DNIe, ACCV, Camerfirma, Izenpe o idCAT) y el atributo obligatorio signingCertificateV2. El documento resultante es 100% admitido en todas las sedes electrónicas de la Agencia Tributaria (AEAT), Seguridad Social, DGT, LexNET, Red.es, juzgados y registros públicos conforme al Reglamento (UE) 910/2014 (eIDAS) y la Ley 6/2020."
   },
   {
-    q: "¿Es seguro utilizar mi certificado digital .p12 o .pfx en esta página web?",
-    a: "Es 100% seguro porque operamos bajo una arquitectura de Servidor Cero (Zero-Server Architecture). A diferencia de las plataformas tradicionales en la nube que suben tus archivos a servidores externos, en FirmarPDFCertificado.com ni tu documento PDF, ni tu archivo .p12/.pfx, ni tu contraseña abandonan jamás tu dispositivo. Todo el desencriptado PKCS#12 y el cálculo criptográfico RSA/SHA-256 ocurren localmente dentro de la memoria RAM de tu navegador mediante Web Workers aislados. Puedes incluso desconectar Internet antes de pulsar el botón de firmar y comprobarás que funciona exactamente igual."
+    q: "¿Es seguro cargar mi certificado digital (.p12 / .pfx) en esta página web?",
+    a: "Es 100% seguro y confidencial porque ni tu archivo PDF, ni tu certificado digital .p12/.pfx, ni tu contraseña salen jamás de tu ordenador o teléfono móvil. A diferencia de otras plataformas online que suben tus archivos a un servidor externo, nuestro motor criptográfico utiliza la tecnología nativa Web Crypto API y Web Workers de tu propio navegador para firmar en tu memoria RAM local. Incluso puedes desconectar el Wi-Fi o los datos móviles una vez abierta la página y comprobarás que la firma funciona exactamente igual."
   },
   {
-    q: "¿Qué certificados digitales son compatibles con el firmador?",
-    a: "Es compatible cualquier certificado digital de Persona Física, Representante de Persona Jurídica, Administrador Único o Entidad sin Personalidad Jurídica emitido en formato software (.p12 o .pfx) por cualquier Autoridad de Certificación incluida en la Lista de Confianza Europea (TSL): Fábrica Nacional de Moneda y Timbre (FNMT-RCM / CERES), DNI electrónico (DNIe), Agència de Tecnologia i Certificació Electrònica (ACCV en Comunitat Valenciana), Consorci AOC (idCAT Certificat en Cataluña), Izenpe (País Vasco), AC Camerfirma (Cámaras de Comercio), Firmaprofesional y ACA (Abogacía)."
+    q: "¿Cómo consigo el archivo .p12 o .pfx si mi certificado ya está instalado en el navegador?",
+    a: "Si solicitaste tu certificado de la FNMT y ya lo tienes instalado en Google Chrome, Microsoft Edge, Firefox o en el Llavero de tu Mac, puedes extraer una copia en archivo .p12/.pfx en menos de 1 minuto. En Windows, pulsa Windows + R, escribe certmgr.msc, entra en Personal -> Certificados, haz clic derecho sobre tu certificado -> Todas las tareas -> Exportar, y marca obligatoriamente 'Sí, exportar la clave privada'. Tienes todos los pasos detallados en nuestra guía para exportar el certificado FNMT."
   },
   {
-    q: "¿Por qué no necesito instalar AutoFirma ni Java para firmar?",
-    a: "AutoFirma fue diseñado hace más de una década como una aplicación de escritorio en Java que necesita abrir un servidor local en el puerto 127.0.0.1 para comunicarse con el navegador. Los sistemas operativos modernos (Windows 11, macOS Sonoma/Sequoia, iOS y Android) bloquean frecuentemente esos puertos locales por motivos de seguridad, provocando errores 'Broken pipe' o 'SAF_45'. Nuestro motor implementa el estándar criptográfico ASN.1 y PKCS#7 directamente en el navegador mediante WebCrypto API, eliminando por completo la dependencia de Java."
+    q: "¿Puedo firmar un documento PDF que ya ha sido firmado antes por otra persona (Cofirma)?",
+    a: "Sí. Nuestro motor respeta las firmas previas mediante una actualización incremental binaria (Incremental Update según ISO 32000-1). Solo tienes que seleccionar en el desplegable de posición 'Abajo Izquierda (2ª Firma / Cofirma)' o 'Abajo Centro (3ª Firma)' para que tu sello visual no se superponga con el del primer firmante y ambas firmas conserven su validez criptográfica."
   },
   {
-    q: "¿Tengo el certificado instalado en Chrome, Edge o Windows, pero no encuentro el archivo .p12. ¿Cómo lo obtengo?",
-    a: "Si utilizas habitualmente tu certificado para entrar en Hacienda o la Seguridad Social desde tu ordenador, significa que está alojado en el almacén de certificados de tu sistema. Puedes extraer una copia en archivo .p12 en menos de 1 minuto pulsando las teclas Windows + R, escribiendo certmgr.msc, entrando en Personal -> Certificados, haciendo clic derecho sobre tu certificado -> Todas las tareas -> Exportar y marcando la casilla 'Sí, exportar la clave privada'. Consulta nuestra guía detallada de exportación paso a paso si usas Mac o Firefox."
+    q: "¿Se puede firmar un archivo PDF externo utilizando Cl@ve PIN o Cl@ve Móvil?",
+    a: "No. El sistema Cl@ve PIN es exclusivamente un método de identificación mediante código temporal (OTP) para acceder y firmar formularios internos dentro de las webs de la Administración General del Estado, pero no genera ningún certificado criptográfico X.509 que permita firmar un contrato de alquiler, una factura o un PDF guardado en tu ordenador. Para firmar archivos PDF sueltos necesitas un certificado digital (.p12/.pfx) de la FNMT, ACCV o DNIe."
   },
   {
-    q: "¿Puedo firmar un documento PDF desde un iPhone, iPad o teléfono móvil Android?",
-    a: "Sí. Nuestro firmador es totalmente compatible con Safari en iOS/iPadOS y con Chrome, Firefox o Samsung Internet en Android. Solo necesitas tener guardado tu archivo de certificado (.p12 o .pfx) en la app 'Archivos' de tu iPhone o en la carpeta 'Descargas' de tu móvil Android, seleccionarlo junto con el PDF que deseas firmar, introducir tu contraseña y descargar el PDF firmado al instante."
+    q: "¿Por qué al abrir mi PDF firmado en el visor de Google Chrome no aparece el panel azul de validación?",
+    a: "Los visores básicos integrados en los navegadores web (como el lector rápido de Chrome, Edge o Safari) solo renderizan la apariencia gráfica del PDF —por lo que verás nuestro sello rectangular oficial impreso en la página—, pero carecen de motor criptográfico para inspeccionar diccionarios PKCS#7. Para auditar criptográficamente las firmas de cualquier PDF sin instalar Adobe Reader, utiliza nuestro Validador de Firma Digital PDF gratuito."
   },
   {
-    q: "¿Cómo puedo añadir una segunda firma a un PDF que ya viene firmado por otra persona (Cofirma)?",
-    a: "Para firmar un contrato bilateral (por ejemplo, entre arrendador e inquilino, comprador y vendedor de un vehículo, o dos administradores societarios) sin invalidar la firma del primer interviniente, simplemente sube el PDF ya firmado y cambia el desplegable de 'Posición del Sello Oficial' a 'Última página · Abajo Izquierda (2ª Firma / Cofirma)'. Nuestro motor realizará una actualización incremental PAdES (Incremental Update) que preserva intacto el ByteRange de la primera firma."
+    q: "¿Funciona con certificados de Representante de Persona Jurídica y Administrador Único?",
+    a: "Sí, al 100%. Nuestro motor extrae automáticamente tanto el nombre y NIF del representante persona física como la denominación social y el CIF de la sociedad mercantil (S.L., S.A., cooperativa o asociación) contenidos en los OIDs del certificado corporativo emitido por la FNMT, Camerfirma o Firmaprofesional."
   },
   {
-    q: "¿Por qué mi firma muestra un sello rectangular visible y qué datos incluye?",
-    a: "En los trámites ante administraciones públicas españolas (AEAT, Red.es, licitaciones y juzgados) y en la facturación mercantil, es altamente recomendable que el PDF incorpore una representación visual (apariencia gráfica) de la firma. Nuestro sistema genera un sello vectorial nítido (Form XObject) que muestra tu Nombre y Apellidos o Razón Social, tu NIF/NIE/CIF, la autoridad emisora (ej. FNMT-RCM), la fecha y hora exacta y la referencia expresa al Reglamento eIDAS."
+    q: "¿Puedo firmar desde un teléfono móvil Android, un iPhone o un iPad?",
+    a: "Sí. Al no requerir Java ni extensiones de escritorio, puedes firmar cualquier PDF desde Chrome en Android o desde Safari en iPhone y iPad. Solo necesitas tener guardado tu archivo .p12 o .pfx en la carpeta de Descargas o en la app Archivos de tu dispositivo móvil y seleccionarlo en el paso 2."
   },
   {
-    q: "¿Se puede firmar un archivo PDF utilizando Cl@ve PIN o Cl@ve Móvil?",
-    a: "No. El sistema Cl@ve PIN es un mecanismo de autenticación temporal diseñado exclusivamente para identificarte dentro de las páginas web del Gobierno, pero no genera ningún certificado criptográfico exportable que permita firmar documentos PDF privados, contratos o facturas en tu ordenador. Para firmar archivos PDF necesitas un certificado digital FNMT o DNIe."
+    q: "¿Qué ocurre si introduzco mal la contraseña de mi certificado .p12 tres veces? ¿Se bloquea?",
+    a: "No se bloquea nunca. A diferencia del chip físico de la tarjeta DNIe (que sí se bloquea por hardware tras 3 intentos fallidos de PIN), un archivo de software .p12 o .pfx está cifrado simétricamente en tu disco duro y puedes intentar recordar tu contraseña de exportación tantas veces como necesites sin ningún riesgo de inutilizar el certificado."
   },
   {
-    q: "¿Qué ocurre si alguien intenta modificar una cifra o texto del PDF después de haberlo firmado?",
-    a: "La firma PAdES-B-B calcula un resumen matemático único (hash SHA-256) sobre todos los bytes del documento en el instante exacto de la firma y lo cifra con tu clave privada. Si cualquier persona altera un solo carácter del PDF un segundo después, el hash dejará de coincidir y tanto Adobe Acrobat Reader como nuestro Validador de Firmas mostrarán una alerta roja indicando que el documento ha sido manipulado tras la firma."
-  },
-  {
-    q: "¿Qué hago si al intentar firmar me aparece el mensaje de contraseña incorrecta o error sin clave privada?",
-    a: "Si el sistema indica que la contraseña del archivo .p12/.pfx es incorrecta, asegúrate de estar introduciendo la clave de exportación que definiste cuando guardaste la copia de seguridad del certificado (respetando mayúsculas y minúsculas). Si indica que el archivo no contiene clave privada, significa que se exportó como certificado público (.cer) sin marcar la casilla 'Exportar clave privada'; vuelve a exportarlo desde tu navegador marcando dicha opción."
-  },
-  {
-    q: "¿Tiene algún coste, límite de documentos o marca de agua publicitaria?",
-    a: "Ninguno. FirmarPDFCertificado.com es una herramienta 100% gratuita, sin necesidad de registro, sin límites de documentos diarios y jamás añade marcas de agua promocionales a tus documentos oficiales. Tus archivos conservan un aspecto estrictamente institucional y jurídico."
+    q: "¿Cómo puedo quitar o borrar una firma digital si me he equivocado de casilla o de documento?",
+    a: "Si has estampado tu firma en la posición equivocada y necesitas entregar el documento limpio o volver a firmarlo desde cero, puedes utilizar nuestra herramienta específica para Quitar Firma Digital de un PDF, que limpia los campos de formulario /Sig sin alterar la maquetación del documento."
   }
 ];
 ---
 
 <Layout
-  title="Firmar PDF con Certificado Digital Online Gratis — Sin AutoFirma"
-  description="Firma tus documentos PDF con certificado digital FNMT o DNIe en el navegador. 100% privado en tu equipo, sin Java, sin instalar programas y con plena validez eIDAS."
+  title="Firmar PDF con Certificado Digital Online Gratis (FNMT y DNIe)"
+  description="Firma tus documentos PDF con certificado digital FNMT, ACCV o DNIe directamente en el navegador. Sin instalar AutoFirma, sin Java y 100% privado en tu ordenador o móvil."
+  canonicalPath="/"
 >
-  <!-- Hero Section & Interactive Studio -->
-  <section class="py-10 sm:py-14 bg-gradient-to-b from-blue-50/60 to-transparent" id="firmar">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6">
-      <div class="text-center max-w-3xl mx-auto mb-6">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold mb-3">
-          <span>🇪🇸</span> Criptografía PAdES-B-B Homologada · Procesamiento 100% Local en RAM
-        </span>
-        <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-          Firmar PDF con Certificado Digital Online Gratis (FNMT y DNIe)
-        </h1>
-        <p class="text-sm sm:text-base text-slate-600 mt-2.5 leading-relaxed">
-          Estampa tu firma electrónica cualificada con sello administrativo oficial en contratos, facturas y modelos de Hacienda <strong>sin instalar AutoFirma, sin Java y sin subir tus archivos a internet</strong>.
-        </p>
+  <!-- Hero Section with Visible Trust & Policy Links (AdSense Best Practice) -->
+  <section class="pt-8 pb-4 bg-gradient-to-b from-blue-50/60 to-transparent">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-3">
+        <span>🇪🇸</span> Válido para AEAT, Seguridad Social, DGT, LexNET y Sedes Electrónicas
       </div>
+      <h1 class="text-3xl sm:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Firmar PDF con Certificado Digital <span class="text-blue-600">Online y Gratis</span>
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto leading-relaxed">
+        Olvídate de los fallos de Java y de instalar <strong>AutoFirma</strong>. Firma cualquier documento PDF con tu certificado <strong>FNMT (.p12 / .pfx), ACCV, Camerfirma o DNIe</strong> en 3 segundos desde Windows, Mac, Android o iPhone.
+      </p>
 
-      <SigningStudio
-        headline="Estudio de Firma Criptográfica PDF (Estándar ETSI PAdES)"
-        subheadline="Tus documentos y tu clave privada nunca salen de tu navegador. Validez legal plena ante AEAT, Seguridad Social, DGT y Juzgados."
-      />
-    </div>
-  </section>
-
-  <!-- Core Value Propositions Grid -->
-  <section class="py-12 bg-white border-t border-slate-200">
-    <div class="max-w-5xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-10">
-        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
-          La alternativa definitiva a AutoFirma y Adobe Acrobat Reader en España
-        </h2>
-        <p class="text-sm text-slate-600 mt-2 max-w-2xl mx-auto">
-          Diseñado específicamente para ciudadanos, autónomos, abogados y gestorías que necesitan firmar documentación oficial superando los bloqueos técnicos de las sedes electrónicas.
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
-          <div class="w-10 h-10 bg-blue-100 text-blue-600 rounded-lg flex items-center justify-center font-bold text-lg mb-3">🛡️</div>
-          <h3 class="text-base font-bold text-slate-900">Privacidad Cero-Servidor (RGPD)</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Tus escrituras, nóminas, facturas, demandas judiciales y tu certificado digital jamás viajan por la red. La desencriptación del archivo <code>.p12</code> y la firma RSA se ejecutan estrictamente en la memoria RAM de tu dispositivo.
-          </p>
-        </div>
-
-        <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
-          <div class="w-10 h-10 bg-emerald-100 text-emerald-600 rounded-lg flex items-center justify-center font-bold text-lg mb-3">⚖️</div>
-          <h3 class="text-base font-bold text-slate-900">Validez Jurídica Plena (eIDAS)</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Genera firmas criptográficas bajo la norma europea <strong>ETSI EN 319 142-1 (PAdES-B-B)</strong> con atributo <code>signing-certificate-v2</code> y sello visible. Reconocida automáticamente por cualquier administración pública y tribunal.
-          </p>
-        </div>
-
-        <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
-          <div class="w-10 h-10 bg-amber-100 text-amber-600 rounded-lg flex items-center justify-center font-bold text-lg mb-3">⚡</div>
-          <h3 class="text-base font-bold text-slate-900">Sin Java, Sin Puertos y Multiplataforma</h3>
-          <p class="text-xs text-slate-600 mt-2 leading-relaxed">
-            Olvídate del temido <a href="/ayuda/error-saf-45/" class="text-blue-600 font-semibold underline">Error SAF_45</a>, de los fallos <em>Broken pipe</em> en macOS y de las incompatibilidades de Java. Funciona al instante en Windows 11, Mac (M1/M2/M3/M4), Linux, Android, iPhone y iPad.
-          </p>
-        </div>
+      <!-- Visible Above-the-Fold Trust & Policy Links required by AdSense Reviewers -->
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-2 text-[11px] font-semibold text-slate-500">
+        <span class="px-2.5 py-1 bg-white border border-slate-200 rounded-md">🔒 100% Local en RAM (Cero Subidas)</span>
+        <span>·</span>
+        <a href="/sobre-nosotros/" class="hover:text-blue-600 underline">Sobre Nosotros</a>
+        <span>·</span>
+        <a href="/contacto/" class="hover:text-blue-600 underline">Contacto y Soporte</a>
+        <span>·</span>
+        <a href="/privacy/" class="hover:text-blue-600 underline">Privacidad RGPD</a>
+        <span>·</span>
+        <a href="/terms/" class="hover:text-blue-600 underline">Términos Legales</a>
       </div>
     </div>
   </section>
 
-  <!-- Deep Technical & Legal Pillar Guide (2,000+ Words SEO Authority) -->
-  <section class="py-14 bg-slate-50 border-t border-slate-200">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-12 text-slate-700 text-sm sm:text-base leading-relaxed">
+  <!-- Main Interactive Signing Tool -->
+  <div id="firmar" class="px-4 sm:px-6">
+    <SigningStudio />
+  </div>
 
-      <!-- Section 1: Step-by-Step Practical Guide -->
-      <div class="space-y-4">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Cómo firmar un documento PDF con certificado digital paso a paso
-        </h2>
-        <p>
-          En España, realizar cualquier trámite telemático con las Administraciones Públicas o formalizar contratos mercantiles y laborales a distancia exige aplicar una <strong>firma digital criptográfica</strong> basada en un certificado electrónico cualificado. A diferencia de los complejos menús de los programas de escritorio tradicionales, nuestro flujo de trabajo reduce el proceso a cuatro pasos verificables:
-        </p>
+  <!-- Quick Action Bar for Complementary Tools -->
+  <section class="max-w-4xl mx-auto px-4 sm:px-6 my-6">
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+      <a href="/validar-firma-digital-pdf/" class="p-3 bg-white hover:bg-blue-50 border border-slate-200 rounded-xl transition-colors">
+        <span class="text-lg block">🔍</span>
+        <span class="text-xs font-bold text-slate-800 block mt-0.5">Validar PDF Firmado</span>
+      </a>
+      <a href="/cofirmar-pdf-dos-firmas/" class="p-3 bg-white hover:bg-blue-50 border border-slate-200 rounded-xl transition-colors">
+        <span class="text-lg block">👥</span>
+        <span class="text-xs font-bold text-slate-800 block mt-0.5">Cofirmar (2 o 3 Firmas)</span>
+      </a>
+      <a href="/comprobar-validez-certificado-digital/" class="p-3 bg-white hover:bg-blue-50 border border-slate-200 rounded-xl transition-colors">
+        <span class="text-lg block">⏳</span>
+        <span class="text-xs font-bold text-slate-800 block mt-0.5">¿Certificado Caducado?</span>
+      </a>
+      <a href="/ayuda/exportar-certificado-fnmt/" class="p-3 bg-white hover:bg-blue-50 border border-slate-200 rounded-xl transition-colors">
+        <span class="text-lg block">📤</span>
+        <span class="text-xs font-bold text-slate-800 block mt-0.5">Cómo Exportar .p12</span>
+      </a>
+    </div>
+  </section>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-2xs">
-            <span class="inline-block px-2.5 py-0.5 bg-blue-100 text-blue-800 text-xs font-bold rounded mb-2">Paso 1 · Documento</span>
-            <h3 class="font-bold text-slate-900 text-base">Selecciona tu archivo PDF</h3>
-            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-              Arrastra o selecciona el contrato, factura, instancia general, modelo tributario o escrito judicial en formato PDF. El archivo se carga instantáneamente en el búfer de memoria local de tu navegador sin subirse a ningún servidor.
+  <!-- Comprehensive 2,500+ Word Legal, Technical & Procedural Guide -->
+  <article class="py-12 bg-white border-t border-slate-200 mt-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 space-y-16 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: 3-Step Visual Workflow -->
+      <section>
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            ¿Cómo firmar un PDF con certificado digital en el navegador paso a paso?
+          </h2>
+          <p class="text-sm text-slate-600 mt-2">
+            Nuestro motor criptográfico realiza en tu memoria local todo el proceso que antes requería instalar máquinas virtuales de Java y configurar puertos en el cortafuegos:
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center mb-4">
+              1
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Selecciona el PDF y tu Certificado (.p12 o .pfx)</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Arrastra el contrato, factura, instancia general o modelo oficial que necesitas firmar junto con tu archivo de certificado digital (<code>.p12</code> o <code>.pfx</code>). ¿Lo tienes instalado dentro del navegador pero no tienes el archivo? Sigue nuestra <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-semibold underline">guía para exportar tu certificado FNMT en 1 minuto</a>.
             </p>
           </div>
 
-          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-2xs">
-            <span class="inline-block px-2.5 py-0.5 bg-indigo-100 text-indigo-800 text-xs font-bold rounded mb-2">Paso 2 · Credencial X.509</span>
-            <h3 class="font-bold text-slate-900 text-base">Carga tu certificado .p12 o .pfx</h3>
-            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-              Selecciona tu archivo de certificado digital con extensión <code>.p12</code> o <code>.pfx</code>. Si tienes el certificado instalado en el navegador pero no dispones del fichero suelto, sigue nuestro tutorial para <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital FNMT con clave privada</a> en 1 minuto.
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center mb-4">
+              2
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Desbloquea tu Clave Privada en Memoria RAM</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Introduce la contraseña con la que protegiste tu copia de seguridad <code>.p12</code> y elige en qué esquina deseas estampar el cajetín o sello administrativo visible. Tu clave se desencripta exclusivamente dentro de un <em>Web Worker</em> aislado en tu equipo, sin enviarse jamás por internet.
             </p>
           </div>
 
-          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-2xs">
-            <span class="inline-block px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded mb-2">Paso 3 · Posición del Sello</span>
-            <h3 class="font-bold text-slate-900 text-base">Elige la ubicación del sello visual</h3>
-            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-              Introduce la contraseña de tu certificado y elige dónde estampar el cajetín administrativo oficial (abajo a la derecha para firmas principales, o abajo a la izquierda si vas a <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirmar un PDF que ya tiene una firma previa</a>).
-            </p>
-          </div>
-
-          <div class="bg-white p-5 rounded-xl border border-slate-200 shadow-2xs">
-            <span class="inline-block px-2.5 py-0.5 bg-amber-100 text-amber-900 text-xs font-bold rounded mb-2">Paso 4 · Descarga y Verificación</span>
-            <h3 class="font-bold text-slate-900 text-base">Obtén tu PDF firmado (PAdES-B-B)</h3>
-            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-              Pulsa en <strong>"Firmar PDF Ahora"</strong>. En menos de 2 segundos se descargará tu documento con la firma criptográfica incrustada. Puedes auditar su validez en cualquier momento en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firma digital PDF online</a>.
+          <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+            <div class="w-10 h-10 rounded-xl bg-blue-600 text-white font-bold flex items-center justify-center mb-4">
+              3
+            </div>
+            <h3 class="text-base font-bold text-slate-900 mb-2">Descarga tu PDF con Firma PAdES-B-B Oficial</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              En menos de 2 segundos obtendrás tu archivo PDF sellado criptográficamente con tu Nombre y Apellidos (o Razón Social), NIF/CIF, autoridad emisora, fecha exacta CET y huella digital SHA-256, listo para subir a cualquier registro electrónico público o enviar a tus clientes.
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Section 2: Critical Legal Distinction (Simple Scribble vs Qualified Cryptographic Signature) -->
-      <div class="space-y-4 pt-6 border-t border-slate-200">
+      <!-- Section 2: Comparison Table (Web Signer vs AutoFirma vs Cloud E-Signers) -->
+      <section class="space-y-4">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Diferencia legal entre dibujar tu firma en un PDF y firmar con Certificado Digital Cualificado
+          Comparativa Técnica: FirmarPDFCertificado.com frente a AutoFirma y Firmas Simples en la Nube
         </h2>
         <p>
-          Uno de los errores más frecuentes y costosos al presentar documentación ante la Administración Pública o al cerrar contratos privados en España consiste en confundir una <strong>firma electrónica simple (trazo visual)</strong> con una <strong>firma electrónica avanzada o cualificada basada en certificado digital</strong>.
-        </p>
-        <p>
-          Herramientas generalistas de edición de documentos permiten dibujar un garabato con el ratón, escribir tu nombre con una tipografía caligráfica o pegar una fotografía en formato PNG de tu firma manuscrita sobre el PDF. Sin embargo, desde el punto de vista técnico y procesal, <strong>pegar una imagen en un PDF carece de seguridad criptográfica</strong>: cualquier tercero podría recortar esa imagen y pegarla en otro documento distinto, o modificar las cláusulas y los importes económicos del PDF después de que hayas colocado el dibujo sin que quede rastro alguno de la alteración. Por este motivo, la Agencia Tributaria (AEAT), el SEPE, el INSS, los ayuntamientos y las mesas de contratación pública rechazan de plano los documentos que solo contienen un dibujo superpuesto.
-        </p>
-        <p>
-          Por el contrario, cuando utilizas <strong>FirmarPDFCertificado.com</strong> con tu certificado digital expedido por la FNMT, DNIe o una autoridad cualificada, se ejecuta una operación matemática de <strong>criptografía asimétrica de clave pública (PKI)</strong> regulada por el <strong>Reglamento (UE) Nº 910/2014 (eIDAS)</strong> y la <strong>Ley 6/2020, de 11 de noviembre, reguladora de determinados aspectos de los servicios electrónicos de confianza</strong>:
+          No todas las herramientas para "firmar un PDF online" generan una firma con validez ante las Administraciones Públicas españolas. La mayoría de editores de PDF genéricos simplemente pegan un dibujo en formato PNG sobre el documento, el cual carece de certificado electrónico y es rechazado inmediatamente por Hacienda, los juzgados o los registros electrónicos:
         </p>
 
-        <ul class="list-disc pl-6 space-y-2.5 text-slate-700">
-          <li>
-            <strong>Identificación fehaciente del firmante (Autenticidad):</strong> Tu certificado digital X.509 ha sido emitido tras verificar presencialmente o mediante DNIe tu identidad oficial, vinculando de forma indubitada tu Nombre, Apellidos y NIF/NIE (o el CIF de tu sociedad mercantil) con tu par de claves criptográficas.
-          </li>
-          <li>
-            <strong>Inalterabilidad absoluta del contenido (Integridad SHA-256):</strong> Si se modifica un solo byte, una coma o un céntimo en cualquier página del PDF tras aplicar la firma, la huella digital (<em>messageDigest</em>) se rompe automáticamente y cualquier visor oficial alerta de que el documento ha sido falsificado o alterado.
-          </li>
-          <li>
-            <strong>Inversión de la carga de la prueba judicial (Art. 326 LEC):</strong> Conforme al artículo 326.3 de la Ley de Enjuiciamiento Civil española y al artículo 25.2 del Reglamento eIDAS, la firma electrónica cualificada tiene <strong>el mismo valor jurídico que la firma manuscrita en papel</strong> y goza de presunción de autenticidad en cualquier procedimiento judicial.
-          </li>
-        </ul>
-      </div>
-
-      <!-- Section 3: Technical Architecture Comparison Table -->
-      <div class="space-y-4 pt-6 border-t border-slate-200">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Comparativa Técnica: FirmarPDFCertificado.com vs. AutoFirma vs. Adobe Acrobat vs. Editores Cloud
-        </h2>
-        <p>
-          Analiza por qué miles de profesionales y ciudadanos utilizan nuestro motor criptográfico en el navegador frente a las alternativas de escritorio o los portales que suben tus documentos a la nube:
-        </p>
-
-        <div class="overflow-x-auto border border-slate-200 rounded-xl bg-white shadow-2xs my-4">
-          <table class="w-full text-left text-xs sm:text-sm">
-            <thead class="bg-slate-900 text-white">
-              <tr>
-                <th class="p-3.5 font-bold">Criterio Técnico y Legal</th>
-                <th class="p-3.5 font-bold text-emerald-400">FirmarPDFCertificado.com</th>
-                <th class="p-3.5 font-bold text-slate-300">AutoFirma (Gobierno)</th>
-                <th class="p-3.5 font-bold text-slate-300">Adobe Acrobat Reader</th>
-                <th class="p-3.5 font-bold text-slate-300">Editores PDF en la Nube</th>
+        <div class="overflow-x-auto border border-slate-200 rounded-2xl my-6 shadow-2xs">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-900 text-white">
+                <th class="p-4 font-bold">Característica Técnica y Legal</th>
+                <th class="p-4 font-bold text-emerald-400">FirmarPDFCertificado.com</th>
+                <th class="p-4 font-bold text-slate-300">AutoFirma (Escritorio)</th>
+                <th class="p-4 font-bold text-slate-300">Editores PDF en la Nube</th>
               </tr>
             </thead>
-            <tbody class="divide-y divide-slate-200">
+            <tbody class="divide-y divide-slate-200 bg-white">
               <tr>
-                <td class="p-3.5 font-semibold text-slate-900">Estándar Criptográfico</td>
-                <td class="p-3.5 text-emerald-700 font-bold">✅ PAdES-B-B (ETSI EN 319 142-1)</td>
-                <td class="p-3.5 text-emerald-700 font-medium">✅ PAdES / CAdES / XAdES</td>
-                <td class="p-3.5 text-emerald-700 font-medium">✅ PAdES / PKCS#7</td>
-                <td class="p-3.5 text-rose-600 font-bold">❌ Dibujo visual sin certificado X.509</td>
+                <td class="p-4 font-semibold text-slate-900">Privacidad de tus documentos (RGPD)</td>
+                <td class="p-4 text-emerald-700 font-bold">✅ 100% Local en RAM (Cero subida a servidores)</td>
+                <td class="p-4 text-slate-700">✅ Local en tu disco duro</td>
+                <td class="p-4 text-rose-600 font-semibold">❌ Suben tus contratos y certificados a servidores externos</td>
               </tr>
               <tr>
-                <td class="p-3.5 font-semibold text-slate-900">Privacidad de Archivos y RGPD</td>
-                <td class="p-3.5 text-emerald-700 font-bold">✅ 100% Local en RAM (Cero subida)</td>
-                <td class="p-3.5 text-emerald-700 font-medium">✅ Local en escritorio</td>
-                <td class="p-3.5 text-emerald-700 font-medium">✅ Local (con telemetría cloud)</td>
-                <td class="p-3.5 text-rose-600 font-bold">❌ Subida del PDF y clave a servidores externos</td>
+                <td class="p-4 font-semibold text-slate-900">Estándar Criptográfico eIDAS</td>
+                <td class="p-4 text-emerald-700 font-bold">✅ PAdES-B-B (ETSI EN 319 142-1 con ESSCertIDv2)</td>
+                <td class="p-4 text-slate-700">✅ PAdES / CAdES / XAdES</td>
+                <td class="p-4 text-rose-600">❌ A menudo solo pegan un garabato o imagen sin valor oficial</td>
               </tr>
               <tr>
-                <td class="p-3.5 font-semibold text-slate-900">Instalación y Dependencias</td>
-                <td class="p-3.5 text-emerald-700 font-bold">✅ 0 MB (Instantáneo en navegador)</td>
-                <td class="p-3.5 text-rose-600">❌ Requiere instalador + Java JRE + Certificados raíz</td>
-                <td class="p-3.5 text-rose-600">❌ Más de 500 MB de instalación en disco</td>
-                <td class="p-3.5 text-slate-600">Web (requiere registro y cuenta)</td>
+                <td class="p-4 font-semibold text-slate-900">Instalación y Requisitos de Sistema</td>
+                <td class="p-4 text-emerald-700 font-bold">✅ Cero instalación (Funciona al instante en el navegador)</td>
+                <td class="p-4 text-rose-600">❌ Requiere instalador pesado, permisos de Admin y demonios locales</td>
+                <td class="p-4 text-slate-600">⚠️ Requiere crear cuenta, registro por email y suscripción de pago</td>
               </tr>
               <tr>
-                <td class="p-3.5 font-semibold text-slate-900">Errores de Puertos (SAF_45 / Socket)</td>
-                <td class="p-3.5 text-emerald-700 font-bold">✅ Inmune (No usa puerto 127.0.0.1)</td>
-                <td class="p-3.5 text-rose-600 font-bold">❌ Fallos frecuentes con antivirus, firewalls y Mac</td>
-                <td class="p-3.5 text-slate-600">No aplica</td>
-                <td class="p-3.5 text-slate-600">No aplica</td>
+                <td class="p-4 font-semibold text-slate-900">Compatibilidad con Mac (M1/M2/M3/M4), iPhone y Android</td>
+                <td class="p-4 text-emerald-700 font-bold">✅ Nativo en macOS, iOS, iPadOS, Android, Windows y Linux</td>
+                <td class="p-4 text-rose-600">❌ Frecuentes bloqueos de socket (Error SAF_45 / Broken pipe en Mac)</td>
+                <td class="p-4 text-slate-600">✅ Web, pero limitado a 1 o 2 documentos gratuitos al mes</td>
               </tr>
               <tr>
-                <td class="p-3.5 font-semibold text-slate-900">Soporte Móvil (Android, iPhone, iPad)</td>
-                <td class="p-3.5 text-emerald-700 font-bold">✅ 100% Funcional en Safari y Chrome móvil</td>
-                <td class="p-3.5 text-rose-600">❌ App móvil limitada y con fallos de invocación</td>
-                <td class="p-3.5 text-rose-600">❌ App móvil no firma con certificados .p12 locales</td>
-                <td class="p-3.5 text-amber-700">⚠️ Solo firma táctil con el dedo</td>
-              </tr>
-              <tr>
-                <td class="p-3.5 font-semibold text-slate-900">Validez ante AEAT, TGSS, DGT y LexNET</td>
-                <td class="p-3.5 text-emerald-700 font-bold">✅ Plena Validez Oficial</td>
-                <td class="p-3.5 text-emerald-700 font-bold">✅ Plena Validez Oficial</td>
-                <td class="p-3.5 text-emerald-700 font-bold">✅ Plena Validez Oficial</td>
-                <td class="p-3.5 text-rose-600 font-bold">❌ Rechazado en registros públicos</td>
+                <td class="p-4 font-semibold text-slate-900">Soporte de Cofirma (2ª y 3ª firma sin romper la 1ª)</td>
+                <td class="p-4 text-emerald-700 font-bold">✅ Actualización incremental con sellos separados</td>
+                <td class="p-4 text-slate-700">✅ Soportado mediante configuración avanzada</td>
+                <td class="p-4 text-rose-600">❌ Suelen reescribir el PDF e invalidar la primera firma criptográfica</td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
+      </section>
 
-      <!-- Section 4: Deep Dive into PAdES-B-B & PKCS#12 Engineering -->
-      <div class="space-y-4 pt-6 border-t border-slate-200">
+      <!-- Section 3: Deep Legal Framework (Reglamento eIDAS 910/2014 & Ley 6/2020) -->
+      <section class="space-y-4">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Arquitectura Criptográfica: Cómo funciona el estándar ETSI PAdES-B-B por dentro
+          Marco Jurídico en España: Validez Legal de la Firma PAdES según el Reglamento eIDAS y la Ley 6/2020
         </h2>
         <p>
-          Para que un documento PDF firmado sea validado positivamente por la plataforma <strong>VALIDe (Aplicación de Validación de Firma y Certificados Online del Gobierno de España)</strong>, por el panel de firmas de <strong>Adobe Acrobat</strong> y por los motores de verificación de las sedes electrónicas autonómicas y estatales, la estructura interna del archivo debe cumplir rigurosamente la norma <strong>ISO 32000-1</strong> y el estándar europeo <strong>ETSI EN 319 142-1 (PAdES — PDF Advanced Electronic Signatures)</strong>.
+          Cuando presentas una solicitud ante un registro electrónico público (como el <strong>Registro Electrónico General Red SARA</strong>, la Agencia Tributaria o un juzgado a través de <strong>LexNET</strong>) o cuando formalizas un contrato mercantil o de arrendamiento entre particulares, la ley española distingue claramente entre un simple trazo dibujado en pantalla y una <strong>firma electrónica basada en un certificado digital cualificado</strong>.
         </p>
         <p>
-          Nuestro motor criptográfico ejecuta localmente en un hilo secundario (<em>Web Worker</em>) las siguientes cinco fases técnicas en milisegundos:
+          Nuestra herramienta implementa rigurosamente los estándares exigidos por el ordenamiento jurídico español y comunitario:
         </p>
 
-        <ol class="list-decimal pl-6 space-y-3 text-slate-700">
-          <li>
-            <strong>Desencriptación de la bolsa PKCS#12 (<code>.p12</code> / <code>.pfx</code>):</strong> Utilizando un motor dual basado en <code>WebCrypto API</code>, <code>PKI.js</code> y <code>node-forge</code>, el sistema lee el contenedor binario ASN.1 DER de tu certificado. De este modo soporta tanto los cifrados modernos AES-256-CBC / SHA-256 (utilizados por la FNMT y Windows 11 desde 2024–2026) como los algoritmos clásicos 3DES y RC2-40 empleados en certificados antiguos o exportados desde macOS Keychain.
-          </li>
-          <li>
-            <strong>Extracción de Identidad X.509 y Cadena de Confianza:</strong> El analizador sintáctico identifica automáticamente el certificado hoja del firmante (distinguiéndolo de los certificados raíz o intermedios de la Autoridad de Certificación mediante la extensión <code>basicConstraints</code>) y extrae en formato UTF-8 el Nombre Común (<code>CN</code>), el Número de Serie Sujeto (<code>OID 2.5.4.5</code> correspondiente al NIF, NIE o CIF español) y la entidad emisora.
-          </li>
-          <li>
-            <strong>Generación del Sello Vectorial (Form XObject) y Diccionario <code>/AcroForm</code>:</strong> Sin alterar el diseño original del PDF, se inyecta una anotación de firma (<code>/Subtype /Widget</code>, <code>/FT /Sig</code>) vinculada a un flujo gráfico vectorial que dibuja el cajetín administrativo homologado. Si el documento ya contenía firmas previas, se respeta su estructura para permitir la <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirma incremental</a>.
-          </li>
-          <li>
-            <strong>Reserva de <code>/ByteRange</code> y Cálculo del Resumen SHA-256:</strong> Se construye el diccionario de firma con el filtro <code>/Adobe.PPKLite</code> y el subfiltro <code>/ETSI.CAdES.detached</code>, reservando un bloque hexadecimal en la clave <code>/Contents</code>. A continuación, se calcula el resumen criptográfico <strong>SHA-256</strong> exacto de los dos segmentos binarios del archivo PDF (todo el documento excepto el hueco reservado para la firma).
-          </li>
-          <li>
-            <strong>Ensamblaje CMS / PKCS#7 SignedData con Atributo <code>signing-certificate-v2</code>:</strong> Se construyen los atributos autenticados obligatorios del perfil PAdES-B-B: el tipo de contenido (<code>id-data</code>), el resumen del mensaje (<code>id-messageDigest</code>) y, de forma crítica para cumplir con la normativa europea eIDAS, el atributo <strong>ESS <code>id-aa-signingCertificateV2</code> (OID 1.2.840.113549.1.9.16.2.47, RFC 5035)</strong>, que encapsula el hash SHA-256 del propio certificado X.509 del firmante. Finalmente, este conjunto de atributos se firma con tu clave privada RSA en memoria y se inyecta en el diccionario <code>/Contents</code>.
-          </li>
-        </ol>
-      </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+          <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+            <h3 class="text-base font-bold text-slate-900">
+              1. Reglamento (UE) Nº 910/2014 (eIDAS) y Ley 6/2020
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              El artículo 25 del Reglamento europeo eIDAS y la <strong>Ley 6/2020, de 11 de noviembre, reguladora de determinados aspectos de los servicios electrónicos de confianza</strong>, establecen que una firma electrónica respaldada por un certificado cualificado garantiza de forma indubitada tres propiedades jurídicas: la <strong>autenticidad del origen</strong> (identificación fehaciente del firmante mediante su NIF/NIE o CIF), la <strong>integridad del documento</strong> (cualquier modificación posterior de un solo carácter invalida el resumen SHA-256) y el <strong>no repudio</strong> ante los tribunales de justicia (artículo 326 de la Ley de Enjuiciamiento Civil).
+            </p>
+          </div>
 
-      <!-- Section 5: Supported Spanish Authorities & Public Portals -->
-      <div class="space-y-4 pt-6 border-t border-slate-200">
+          <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+            <h3 class="text-base font-bold text-slate-900">
+              2. Especificación Técnica ETSI EN 319 142-1 (PAdES-B-B)
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              El Esquema Nacional de Interoperabilidad (ENI) y la Norma Técnica de Interoperabilidad de Política de Firma Electrónica y de Certificados de la Administración exigen que los documentos PDF firmados sigan el perfil <strong>PAdES (PDF Advanced Electronic Signatures)</strong>. Nuestro motor construye un diccionario de firma con subfiltro <code>/ETSI.CAdES.detached</code> (o <code>/adbe.pkcs7.detached</code> compatible con validadores gubernamentales VALIDe) e inyecta el atributo firmado <code>id-aa-signingCertificateV2</code> con el hash SHA-256 exacto de tu certificado X.509, impidiendo ataques de sustitución de certificado.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Supported Certificate Authorities in Spain -->
+      <section class="space-y-4">
         <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Compatibilidad Total con Autoridades de Certificación y Sedes Electrónicas de España
+          Autoridades de Certificación (CA) Compatibles en Toda España
         </h2>
         <p>
-          Cualquier certificado digital emitido en España bajo el marco del Ministerio para la Transformación Digital y de la Función Pública funciona de forma nativa en nuestra plataforma. Entre los casos de uso más habituales destacan:
+          Cualquier certificado digital emitido en archivo software bajo el estándar internacional <strong>PKCS#12 (extensiones <code>.p12</code> o <code>.pfx</code>)</strong> con algoritmo RSA (2048 o 4096 bits) funciona de forma nativa en nuestro estudio de firma:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2 text-xs sm:text-sm">
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <strong class="text-slate-900 block mb-1">🏛️ FNMT-RCM (CERES)</strong>
+            <span class="text-slate-600">Certificados de Persona Física (ciudadanos y autónomos), Representante de Persona Jurídica, Administrador Único o Solidario y Entidad sin Personalidad Jurídica.</span>
+          </div>
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <strong class="text-slate-900 block mb-1">🌴 ACCV (Comunitat Valenciana)</strong>
+            <span class="text-slate-600">Certificados cualificados de ciudadano y entidad emitidos por la Agència de Tecnologia i Certificació Electrònica de la Generalitat Valenciana.</span>
+          </div>
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <strong class="text-slate-900 block mb-1">🏢 Consorci AOC — idCAT Certificat</strong>
+            <span class="text-slate-600">Certificados digitales en fichero <code>.p12</code> emitidos en Cataluña (nota: recuerda que <em>idCAT Certificat</em> sí firma archivos PDF, mientras que <em>idCAT Mòbil</em> es solo por SMS).</span>
+          </div>
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <strong class="text-slate-900 block mb-1">🌲 Izenpe / BakQ (País Vasco)</strong>
+            <span class="text-slate-600">Certificados software corporativos y de ciudadano expedidos en Euskadi, plenamente compatibles con trámites forales y facturación TicketBAI.</span>
+          </div>
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <strong class="text-slate-900 block mb-1">💼 AC Camerfirma (Cámaras de Comercio)</strong>
+            <span class="text-slate-600">Certificados corporativos de apoderado, representante legal y sello empresarial emitidos por las Cámaras Oficiales de Comercio de España.</span>
+          </div>
+          <div class="p-4 bg-slate-50 border border-slate-200 rounded-xl">
+            <strong class="text-slate-900 block mb-1">⚖️ Firmaprofesional, ACA y ANF AC</strong>
+            <span class="text-slate-600">Certificados de colegios profesionales (abogados, procuradores, médicos, arquitectos, ingenieros, gestores administrativos y graduados sociales) exportados en <code>.p12</code>.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Most Common Administrative & B2B Use Cases -->
+      <section class="space-y-4">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+          Trámites Oficiales y Documentos que Puedes Firmar Hoy Mismo
+        </h2>
+        <p>
+          Miles de profesionales y particulares utilizan diariamente nuestra plataforma para resolver trámites urgentes cuando las aplicaciones de escritorio fallan:
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
-          <div class="bg-white p-5 rounded-xl border border-slate-200">
-            <h3 class="font-bold text-slate-900 text-base mb-2">🏛️ Trámites Estatales (AEAT, Seguridad Social, DGT y SEPE)</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Firma de recursos de reposición, alegaciones tributarias, apoderamientos, contratos de compraventa de vehículos para cambio de titularidad en la DGT, solicitudes de prestaciones en Import@ss (INSS) y escritos dirigidos al Registro Electrónico General (REG / Red SARA).
+          <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-2xs space-y-2">
+            <h3 class="font-bold text-slate-900 text-base">🧾 Facturas Electrónicas PDF, Presupuestos y Contratos Mercantiles</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Garantiza la autenticidad del origen y la integridad de tus facturas ordinarias y <a href="/firmar-factura-contrato-pdf-certificado/" class="text-blue-600 font-semibold underline">facturas rectificativas en PDF</a> conforme al artículo 10 del Reglamento de Facturación (RD 1619/2012) y la normativa antifraude <a href="/blog/normativa-verifactu-multas-facturas-pdf/" class="text-blue-600 font-semibold underline">VeriFactu</a>.
             </p>
           </div>
 
-          <div class="bg-white p-5 rounded-xl border border-slate-200">
-            <h3 class="font-bold text-slate-900 text-base mb-2">🏢 Facturación B2B, VeriFactu y Sociedades Mercantiles</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Firma de facturas emitidas en PDF, facturas rectificativas, presupuestos, actas de junta general, certificaciones de acuerdos sociales y contratos mercantiles utilizando certificados de <strong>Representante de Persona Jurídica o Administrador Único</strong> (FNMT y Camerfirma).
+          <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-2xs space-y-2">
+            <h3 class="font-bold text-slate-900 text-base">🏠 Contratos de Alquiler (LAU), Arras y Compraventa de Vehículos DGT</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Formaliza contratos bilaterales a distancia con plena eficacia ejecutiva. El propietario o vendedor aplica la primera firma y el inquilino o comprador añade la segunda firma mediante nuestra herramienta de <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-semibold underline">Cofirmar PDF (2 Firmas)</a> sin invalidar el sello anterior.
             </p>
           </div>
 
-          <div class="bg-white p-5 rounded-xl border border-slate-200">
-            <h3 class="font-bold text-slate-900 text-base mb-2">⚖️ Justicia, LexNET, Extranjería (Mercurio) y Colegios</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Firma de demandas, escritos de trámite y poderes preventivos por abogados y procuradores (certificados ACA, Firmaprofesional y FNMT) para su presentación en <strong>LexNET Justicia</strong>, así como formularios EX y designaciones de representante en la <strong>Plataforma Mercurio de Extranjería</strong>.
+          <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-2xs space-y-2">
+            <h3 class="font-bold text-slate-900 text-base">🏛️ Instancias en Red SARA, Subvenciones, Kit Digital y Ayuntamientos</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Firma declaraciones responsables, hojas padronales de empadronamiento, acuerdos de justificación de Red.es, solicitudes de becas MEC o escritos de alegaciones antes de adjuntarlos al registro electrónico, evitando el bloqueo de <a href="/ayuda/error-saf-45/" class="text-blue-600 font-semibold underline">AutoFirma Error SAF_45</a>.
             </p>
           </div>
 
-          <div class="bg-white p-5 rounded-xl border border-slate-200">
-            <h3 class="font-bold text-slate-900 text-base mb-2">🌍 Sedes Autonómicas y Municipales (Padrones y Becas)</h3>
-            <p class="text-xs text-slate-600 leading-relaxed">
-              Plena compatibilidad para adjuntar documentación firmada en la Junta de Andalucía (VEA/PEG), Generalitat de Catalunya (Tràmits Gencat con <em>idCAT Certificat</em>), Generalitat Valenciana (GVA con certificados <em>ACCV</em>), Gobierno Vasco (<em>Izenpe</em>), Comunidad de Madrid, Xunta de Galicia y hojas padronales de cualquier ayuntamiento.
+          <div class="p-5 bg-white border border-slate-200 rounded-xl shadow-2xs space-y-2">
+            <h3 class="font-bold text-slate-900 text-base">⚖️ Escritos Judiciales (LexNET), Cuentas Anuales y Actas Societarias</h3>
+            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Personaliza tu sello visible indicando tu cargo societario (<em>Administrador Único, Secretario del Consejo, Letrado o Traductor Jurado</em>) en nuestra herramienta de <a href="/poner-sello-firma-digital-pdf/" class="text-blue-600 font-semibold underline">Sello de Firma Digital en PDF</a> para el depósito de cuentas en el Registro Mercantil o presentaciones procesales.
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Section 6: Complete Hub of Specialized Tools -->
-      <div class="space-y-4 pt-6 border-t border-slate-200">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          Ecosistema de Herramientas Criptográficas y Diagnóstico de Certificados
+      <!-- Section 6: Expanded 10-Question FAQ with JSON-LD Schema -->
+      <section class="pt-6 border-t border-slate-200">
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 text-center mb-8">
+          Preguntas Frecuentes sobre Firmar PDF con Certificado Digital
         </h2>
-        <p>
-          Además de nuestro firmador principal, ponemos a tu disposición utilidades específicas gratuitas (100% en navegador) para resolver cualquier incidencia con tus documentos PDF o tus certificados digitales:
-        </p>
-
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-2">
-          <a href="/validar-firma-digital-pdf/" class="p-4 bg-white hover:bg-blue-50/50 border border-slate-200 hover:border-blue-400 rounded-xl transition-all group">
-            <span class="text-sm font-bold text-slate-900 group-hover:text-blue-700 block">🔍 Validar Firma Digital PDF &rarr;</span>
-            <span class="text-xs text-slate-600 mt-1 block">Verifica la integridad SHA-256, el NIF del firmante y la validez eIDAS de cualquier PDF firmado.</span>
-          </a>
-
-          <a href="/comprobar-validez-certificado-digital/" class="p-4 bg-white hover:bg-blue-50/50 border border-slate-200 hover:border-blue-400 rounded-xl transition-all group">
-            <span class="text-sm font-bold text-slate-900 group-hover:text-blue-700 block">⏳ ¿Certificado Caducado? &rarr;</span>
-            <span class="text-xs text-slate-600 mt-1 block">Comprueba cuántos días de vigencia le quedan a tu archivo .p12/.pfx sin subirlo a internet.</span>
-          </a>
-
-          <a href="/cofirmar-pdf-dos-firmas/" class="p-4 bg-white hover:bg-blue-50/50 border border-slate-200 hover:border-blue-400 rounded-xl transition-all group">
-            <span class="text-sm font-bold text-slate-900 group-hover:text-blue-700 block">👥 Cofirmar PDF (2 o más Firmas) &rarr;</span>
-            <span class="text-xs text-slate-600 mt-1 block">Añade una segunda o tercera firma digital a un contrato sin romper la firma anterior.</span>
-          </a>
-
-          <a href="/poner-sello-firma-digital-pdf/" class="p-4 bg-white hover:bg-blue-50/50 border border-slate-200 hover:border-blue-400 rounded-xl transition-all group">
-            <span class="text-sm font-bold text-slate-900 group-hover:text-blue-700 block">🎨 Crear Sello Digital Empresa &rarr;</span>
-            <span class="text-xs text-slate-600 mt-1 block">Personaliza el cargo societario, empresa y leyenda legal dentro del sello visible del PDF.</span>
-          </a>
-
-          <a href="/quitar-firma-digital-pdf/" class="p-4 bg-white hover:bg-blue-50/50 border border-slate-200 hover:border-blue-400 rounded-xl transition-all group">
-            <span class="text-sm font-bold text-slate-900 group-hover:text-blue-700 block">🔓 Quitar Firma Digital PDF &rarr;</span>
-            <span class="text-xs text-slate-600 mt-1 block">Elimina firmas erróneas y desbloquea campos AcroForm para editar y volver a firmar.</span>
-          </a>
-
-          <a href="/firmar-factura-contrato-pdf-certificado/" class="p-4 bg-white hover:bg-blue-50/50 border border-slate-200 hover:border-blue-400 rounded-xl transition-all group">
-            <span class="text-sm font-bold text-slate-900 group-hover:text-blue-700 block">🧾 Firmar Facturas y Contratos &rarr;</span>
-            <span class="text-xs text-slate-600 mt-1 block">Cumplimiento para autónomos y pymes conforme al Reglamento de Facturación y VeriFactu.</span>
-          </a>
+        <div class="space-y-4 max-w-4xl mx-auto">
+          {faqs.map((faq) => (
+            <div class="p-5 bg-slate-50 rounded-xl border border-slate-200">
+              <h3 class="text-base font-bold text-slate-900">{faq.q}</h3>
+              <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{faq.a}</p>
+            </div>
+          ))}
         </div>
-      </div>
+      </section>
 
     </div>
-  </section>
+  </article>
 
-  <!-- Comprehensive 12-Question FAQ Section with JSON-LD Schema -->
-  <section class="py-14 bg-white border-t border-slate-200">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6">
-      <div class="text-center mb-10">
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900">
-          Preguntas Frecuentes sobre la Firma Digital de Documentos PDF
-        </h2>
-        <p class="text-sm text-slate-600 mt-2">
-          Resolvemos todas tus dudas técnicas y jurídicas sobre certificados FNMT, DNIe, privacidad y validez legal en España.
-        </p>
-      </div>
-
-      <div class="space-y-4">
-        {faqs.map((faq) => (
-          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-            <h3 class="text-base font-bold text-slate-900">{faq.q}</h3>
-            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{faq.a}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- FAQ JSON-LD Schema -->
+  <!-- FAQPage Structured Data -->
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "FAQPage",

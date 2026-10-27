@@ -4,39 +4,58 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout
-  title="Política de Privacidad y RGPD — Procesamiento 100% en Local"
-  description="Política de privacidad de FirmarPDFCertificado.com. Garantía de procesamiento 100% en local sin almacenamiento ni subida de archivos a servidores."
+  title="Política de Privacidad y Protección de Datos (RGPD)"
+  description="Política de privacidad de FirmarPDFCertificado.com. Procesamiento 100% local en el navegador sin subida de documentos ni certificados digitales a servidores."
   canonicalPath="/privacy/"
 >
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 py-12 prose prose-slate text-sm sm:text-base leading-relaxed">
-    <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Política de Privacidad y Protección de Datos (RGPD)</h1>
-    <p class="text-slate-600 mt-2">Última actualización: 26 de octubre de 2026</p>
+  <article class="py-12 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 space-y-6 text-sm text-slate-700 leading-relaxed">
+      <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Política de Privacidad y Protección de Datos (RGPD)</h1>
+      <p class="text-xs text-slate-500">Última actualización: 27 de octubre de 2026</p>
 
-    <div class="my-6 p-4 bg-emerald-50 border-l-4 border-emerald-500 rounded-r-xl not-prose">
-      <p class="text-sm font-bold text-emerald-900">Principio Fundamental: Privacidad por Diseño (Zero-Server Architecture)</p>
-      <p class="text-xs text-emerald-700 mt-1">
-        FirmarPDFCertificado.com no recopila, no almacena ni transmite por internet ningún archivo PDF, certificado digital (.p12 / .pfx) ni contraseña que introduzcas en la plataforma.
+      <h2 class="text-lg font-bold text-slate-900 pt-4">1. Procesamiento 100% Local (Arquitectura Cero-Servidor)</h2>
+      <p>
+        En <strong>FirmarPDFCertificado.com</strong> hemos diseñado nuestra herramienta bajo el principio de <em>Privacidad desde el Diseño</em> (Artículo 25 del Reglamento General de Protección de Datos - RGPD UE 2016/679 y Ley Orgánica 3/2018 LOPDGDD).
+      </p>
+      <p>
+        <strong>Ningún archivo PDF, certificado digital (.p12 / .pfx) ni contraseña abandona jamás tu dispositivo.</strong> Todo el procesamiento criptográfico (lectura del contenedor PKCS#12, cálculo de hash SHA-256 y empaquetado de la firma PAdES-B-B) se ejecuta exclusivamente en la memoria RAM local de tu navegador web mediante las APIs nativas <code>Web Crypto API</code> y <code>Web Workers</code>.
+      </p>
+
+      <h2 class="text-lg font-bold text-slate-900 pt-4">2. Datos que NO recopilamos</h2>
+      <ul class="list-disc pl-5 space-y-2">
+        <li>No subimos ni almacenamos copias de los documentos PDF que firmas, auditas o desbloqueas.</li>
+        <li>No transmitimos ni almacenamos tus certificados electrónicos de la FNMT, DNIe, ACCV ni de ninguna otra autoridad.</li>
+        <li>No tenemos acceso técnico a tu clave privada ni a la contraseña de tu certificado.</li>
+      </ul>
+
+      <h2 class="text-lg font-bold text-slate-900 pt-4">3. Cookies Publicitarias (Google AdSense y Cookie DART) y Analítica</h2>
+      <p>
+        Para mantener esta herramienta 100% gratuita para todos los usuarios, utilizamos servicios de analítica agregada (Google Analytics) y publicidad gestionada por <strong>Google AdSense</strong>:
+      </p>
+      <ul class="list-disc pl-5 space-y-2">
+        <li>
+          <strong>Proveedores terceros, incluido Google:</strong> Utilizan cookies para mostrar anuncios relevantes basados en las visitas anteriores del usuario a este sitio web o a otros sitios de Internet.
+        </li>
+        <li>
+          <strong>Cookie DART de DoubleClick:</strong> El uso de cookies publicitarias por parte de Google le permite a él y a sus socios mostrar anuncios basados en su visita a <code>firmarpdfcertificado.com</code> y/o a otros sitios de Internet.
+        </li>
+        <li>
+          <strong>Gestión del Consentimiento (CMP Europeo) e Inhabilitación:</strong> Al acceder desde la Unión Europea o el Espacio Económico Europeo, puedes aceptar, rechazar o personalizar el uso de cookies publicitarias mediante nuestro panel de gestión de consentimiento certificado por IAB TCF. Asimismo, los usuarios pueden inhabilitar la publicidad personalizada en cualquier momento visitando la página oficial de <a href="https://www.google.com/settings/ads" target="_blank" rel="nofollow noopener" class="text-blue-600 underline">Configuración de anuncios de Google</a> o a través de <a href="https://www.aboutads.info" target="_blank" rel="nofollow noopener" class="text-blue-600 underline">www.aboutads.info</a>.
+        </li>
+      </ul>
+      <p>
+        Ningún script analítico o publicitario tiene acceso al contenido de los archivos locales procesados dentro del Web Worker criptográfico.
+      </p>
+
+      <h2 class="text-lg font-bold text-slate-900 pt-4">4. Enlaces de Afiliación y Recomendaciones B2B</h2>
+      <p>
+        Algunas páginas informativas incluyen enlaces recomendados hacia proveedores de software de facturación homologado (como Holded o Qonto). Si decides registrarte en dichos servicios externos, sus respectivas políticas de privacidad regirán el tratamiento de los datos que les proporciones directamente.
+      </p>
+
+      <h2 class="text-lg font-bold text-slate-900 pt-4">5. Derechos del Usuario y Contacto del Responsable</h2>
+      <p>
+        Para cualquier consulta técnica sobre nuestra arquitectura de seguridad local, ejercicio de derechos ARCO/RGPD o dudas sobre privacidad, puedes escribirnos a través de nuestra <a href="/contacto/" class="text-blue-600 font-bold underline">página de Contacto</a> o directamente al correo electrónico: <strong>privacidad@firmarpdfcertificado.com</strong>.
       </p>
     </div>
-
-    <h2 class="text-lg font-bold text-slate-900 mt-6">1. Responsable del Tratamiento</h2>
-    <p class="text-slate-600">
-      En cumplimiento del Reglamento General de Protección de Datos (RGPD - Reglamento UE 2016/679) y de la Ley Orgánica 3/2018 (LOPDGDD), te informamos de que el uso de nuestras herramientas no requiere el registro de usuario ni la cesión de datos personales.
-    </p>
-
-    <h2 class="text-lg font-bold text-slate-900 mt-6">2. Cómo funciona el procesamiento en tu dispositivo</h2>
-    <p class="text-slate-600">
-      Todas las operaciones de desencriptación de claves PKCS#12, cálculo del resumen criptográfico SHA-256, estampado del sello visual y ensamblaje de la firma PAdES-B-B se ejecutan exclusivamente en la memoria RAM de tu navegador web mediante tecnologías Web Workers. Ningún byte abandona tu ordenador, tablet o teléfono móvil.
-    </p>
-
-    <h2 class="text-lg font-bold text-slate-900 mt-6">3. Cookies y Publicidad</h2>
-    <p class="text-slate-600">
-      Este sitio web puede utilizar cookies técnicas indispensables para el funcionamiento básico y servicios publicitarios de Google AdSense que utilizan cookies para mostrar anuncios relevantes basados en visitas anteriores a este o a otros sitios web. Los usuarios pueden inhabilitar la publicidad personalizada consultando las Preferencias de Anuncios de Google.
-    </p>
-
-    <h2 class="text-lg font-bold text-slate-900 mt-6">4. Contacto</h2>
-    <p class="text-slate-600">
-      Para cualquier duda o consulta sobre nuestra arquitectura de privacidad, puedes contactarnos a través de nuestro repositorio oficial de GitHub.
-    </p>
-  </div>
+  </article>
 </Layout>

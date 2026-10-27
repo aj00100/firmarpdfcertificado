@@ -1,0 +1,38 @@
+---
+// src/pages/500.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Error 500 — Incidencia Temporal"
+  description="Se ha producido un error inesperado al cargar la vista. Tus archivos locales permanecen seguros en tu dispositivo."
+  noindex={true}
+>
+  <section class="py-20 bg-white text-center">
+    <div class="max-w-xl mx-auto px-4 sm:px-6 space-y-6">
+      <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-amber-100 text-amber-800 text-3xl font-extrabold">
+        500
+      </div>
+      <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">
+        Incidencia técnica temporal
+      </h1>
+      <p class="text-sm sm:text-base text-slate-600 leading-relaxed">
+        Ha ocurrido un problema inesperado al procesar la vista. Como todo el motor criptográfico funciona en la memoria RAM de tu navegador, ningún archivo ha salido de tu dispositivo.
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+        <a
+          href="/"
+          class="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-sm transition-colors"
+        >
+          🔄 Volver al Inicio y Recargar
+        </a>
+        <a
+          href="/contacto/"
+          class="px-5 py-3 bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs sm:text-sm font-bold rounded-xl transition-colors"
+        >
+          ✉️ Contactar con Soporte
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>

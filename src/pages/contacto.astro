@@ -1,0 +1,104 @@
+---
+// src/pages/contacto.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="Contacto y Soporte Técnico — FirmarPDFCertificado.com"
+  description="Contacta con el equipo técnico de FirmarPDFCertificado.com para dudas sobre firma digital PAdES, certificados FNMT, ACCV, DNIe o consultas legales y de privacidad."
+  canonicalPath="/contacto/"
+>
+  <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
+        <span>✉️</span> Atención al Usuario y Soporte Técnico · España
+      </div>
+      <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+        Contacto y Soporte Técnico
+      </h1>
+      <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
+        ¿Tienes alguna consulta sobre el funcionamiento de nuestra herramienta de firma PAdES-B-B, sugerencias de mejora o cuestiones de privacidad? Estamos a tu disposición.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-12 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+          <div class="text-2xl">🛠️</div>
+          <h2 class="text-base font-bold text-slate-900">Soporte General y Técnico</h2>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Para dudas sobre compatibilidad de certificados digitales (<code>.p12</code> / <code>.pfx</code>), navegadores o sugerencias de nuevas herramientas:
+          </p>
+          <p class="pt-2">
+            <a href="mailto:contacto@firmarpdfcertificado.com" class="text-blue-600 font-bold text-xs sm:text-sm hover:underline break-all">
+              contacto@firmarpdfcertificado.com
+            </a>
+          </p>
+        </div>
+
+        <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+          <div class="text-2xl">🔒</div>
+          <h2 class="text-base font-bold text-slate-900">Privacidad y Protección de Datos</h2>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Para consultas relacionadas con el Reglamento General de Protección de Datos (RGPD), LOPDGDD o gestión de cookies:
+          </p>
+          <p class="pt-2">
+            <a href="mailto:privacidad@firmarpdfcertificado.com" class="text-blue-600 font-bold text-xs sm:text-sm hover:underline break-all">
+              privacidad@firmarpdfcertificado.com
+            </a>
+          </p>
+        </div>
+
+        <div class="p-6 bg-slate-50 border border-slate-200 rounded-2xl space-y-2">
+          <div class="text-2xl">⚖️</div>
+          <h2 class="text-base font-bold text-slate-900">Consultas Legales y Prensa</h2>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Para avisos legales, colaboraciones institucionales con colegios profesionales, gestorías o medios de comunicación:
+          </p>
+          <p class="pt-2">
+            <a href="mailto:legal@firmarpdfcertificado.com" class="text-blue-600 font-bold text-xs sm:text-sm hover:underline break-all">
+              legal@firmarpdfcertificado.com
+            </a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Important Security Reminder -->
+      <div class="p-6 bg-amber-50 border-l-4 border-amber-500 rounded-r-2xl space-y-2">
+        <h3 class="text-base font-bold text-amber-950">
+          ⚠️ Aviso Importante de Seguridad: Nunca nos envíes tu archivo .p12 ni tu contraseña por correo
+        </h3>
+        <p class="text-xs sm:text-sm text-amber-900 leading-relaxed">
+          Recuerda que tu certificado digital es personal e intransferible. Nuestro equipo de soporte <strong>jamás te solicitará que nos adjuntes tu archivo <code>.p12</code> / <code>.pfx</code> ni tu clave privada</strong>. Si necesitas ayuda con un error al firmar, indícanos únicamente qué navegador y sistema operativo utilizas y el mensaje que aparece en pantalla.
+        </p>
+      </div>
+
+      <!-- Quick Self-Help Links -->
+      <div class="space-y-4 pt-4 border-t border-slate-200">
+        <h2 class="text-xl font-bold text-slate-900">Respuestas Rápidas a las Consultas más Frecuentes</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm">
+          <a href="/ayuda/exportar-certificado-fnmt/" class="p-4 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-xl transition-colors block">
+            <span class="font-bold text-slate-900 block">📤 No encuentro mi archivo .p12 para firmar</span>
+            <span class="text-slate-600 mt-1 block">Guía paso a paso para exportar tu certificado desde Chrome, Edge, Firefox o Mac.</span>
+          </a>
+          <a href="/comprobar-validez-certificado-digital/" class="p-4 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-xl transition-colors block">
+            <span class="font-bold text-slate-900 block">⏳ No sé si mi certificado digital ha caducado</span>
+            <span class="text-slate-600 mt-1 block">Comprueba gratis la fecha exacta de expiración de tu certificado en 1 segundo.</span>
+          </a>
+          <a href="/ayuda/error-saf-45/" class="p-4 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-xl transition-colors block">
+            <span class="font-bold text-slate-900 block">🚨 Me sale el Error SAF_45 en AutoFirma</span>
+            <span class="text-slate-600 mt-1 block">Diagnóstico de bloqueos de puertos locales y alternativa de firma web inmediata.</span>
+          </a>
+          <a href="/validar-firma-digital-pdf/" class="p-4 bg-slate-50 hover:bg-blue-50 border border-slate-200 rounded-xl transition-colors block">
+            <span class="font-bold text-slate-900 block">🔍 Quiero verificar si un PDF está bien firmado</span>
+            <span class="text-slate-600 mt-1 block">Audita la integridad SHA-256 y el certificado X.509 de cualquier PDF oficial.</span>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </article>
+</Layout>

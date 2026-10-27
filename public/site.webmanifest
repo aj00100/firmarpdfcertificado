@@ -1,0 +1,18 @@
+{
+  "name": "FirmarPDFCertificado — Firmar PDF con Certificado Digital",
+  "short_name": "FirmarPDF",
+  "description": "Firma documentos PDF con certificado digital FNMT o DNIe gratis en tu navegador sin instalar AutoFirma.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#1e3a8a",
+  "lang": "es-ES",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

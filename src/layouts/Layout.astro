@@ -21,6 +21,16 @@ const rawPath = canonicalPath ?? Astro.url.pathname;
 const normalizedPath = rawPath.replace(/^\/+|\/+$/g, '');
 const canonicalUrl = `${siteUrl}${normalizedPath ? `/${normalizedPath}/` : '/'}`;
 const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title} — FirmarPDFCertificado`;
+const ogImageUrl = `${siteUrl}/og-image.svg`;
+
+// BreadcrumbList Schema
+const pathSegments = normalizedPath ? normalizedPath.split('/') : [];
+const breadcrumbItems = [
+  { name: 'Inicio', url: `${siteUrl}/` },
+  ...(pathSegments.length > 0
+    ? [{ name: title.split('—')[0].trim(), url: canonicalUrl }]
+    : []),
+];
 ---
 
 <!doctype html>
@@ -33,6 +43,11 @@ const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title}
     <link rel="canonical" href={canonicalUrl} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
+    <!-- Hreflang Internationalization Tags (Spain & Global Spanish) -->
+    <link rel="alternate" hreflang="es" href={canonicalUrl} />
+    <link rel="alternate" hreflang="es-ES" href={canonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="FirmarPDFCertificado" />
@@ -40,17 +55,44 @@ const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title}
     <meta property="og:title" content={computedTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-    <!-- Twitter -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={computedTitle} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
 
-    <!-- Favicon -->
+    <!-- Favicon & Manifest -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
     <meta name="theme-color" content="#1e3a8a" />
 
-    <!-- Structured Data (JSON-LD) -->
+    <!-- Dark Mode Persistence Script (Runs before paint to prevent FOUC) -->
+    <script is:inline>
+      (function () {
+        try {
+          const savedTheme = localStorage.getItem('theme');
+          if (savedTheme === 'dark') {
+            document.documentElement.classList.add('dark');
+          }
+        } catch (_) {}
+      })();
+    </script>
+
+    <!-- Google tag (gtag.js) - Replace G-XXXXXXXXXX with your GA4 Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX');
+    </script>
+
+    <!-- Structured Data: WebApplication + BreadcrumbList -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebApplication",
@@ -69,16 +111,26 @@ const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title}
         "priceCurrency": "EUR"
       }
     })} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": breadcrumbItems.map((item, idx) => ({
+        "@type": "ListItem",
+        "position": idx + 1,
+        "name": item.name,
+        "item": item.url,
+      })),
+    })} />
   </head>
-  <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans">
+  <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans transition-colors duration-200">
     <!-- Top Navigation -->
     <header class="bg-white border-b border-slate-200 sticky top-0 z-40">
-      <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-        <a href="/" class="flex items-center space-x-2.5">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-2">
+        <a href="/" class="flex items-center space-x-2.5 shrink-0">
           <span class="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
             ✍️
           </span>
-          <span class="font-extrabold text-slate-900 text-lg tracking-tight">
+          <span class="font-extrabold text-slate-900 text-base sm:text-lg tracking-tight">
             Firmar<span class="text-blue-600">PDF</span>Certificado
           </span>
         </a>
@@ -91,11 +143,59 @@ const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title}
           <a href="/comprobar-validez-certificado-digital/" class="hover:text-blue-600 transition-colors">¿Caducado?</a>
           <a href="/validar-firma-digital-pdf/" class="hover:text-blue-600 transition-colors">Validar PDF</a>
           <a href="/blog/" class="text-blue-600 hover:text-blue-800 font-bold transition-colors">Guías / Blog</a>
+
+          <!-- Visible AdSense Compliance Dropdown in Header -->
+          <details class="relative nav-dropdown">
+            <summary class="cursor-pointer list-none hover:text-blue-600 transition-colors flex items-center gap-1">
+              <span>Info / Legal</span>
+              <span class="text-[10px]">▾</span>
+            </summary>
+            <div class="absolute right-0 mt-3 w-48 bg-white border border-slate-200 rounded-xl shadow-xl py-2 px-3 flex flex-col gap-2 z-50">
+              <a href="/sobre-nosotros/" class="hover:text-blue-600 py-1">Sobre Nosotros</a>
+              <a href="/contacto/" class="hover:text-blue-600 py-1">Contacto y Soporte</a>
+              <a href="/privacy/" class="hover:text-blue-600 py-1">Política de Privacidad</a>
+              <a href="/terms/" class="hover:text-blue-600 py-1">Términos y Condiciones</a>
+            </div>
+          </details>
         </nav>
 
-        <a href="/#firmar" class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">
-          Firmar PDF Ahora
-        </a>
+        <div class="flex items-center gap-2">
+          <!-- Dark Mode Toggle Button (Also supports pressing 'D') -->
+          <button
+            id="theme-toggle-btn"
+            type="button"
+            title="Cambiar modo oscuro / claro (Atajo: tecla D)"
+            aria-label="Cambiar tema oscuro o claro"
+            class="p-2 rounded-lg border border-slate-200 text-slate-600 hover:text-blue-600 hover:border-blue-300 text-xs font-semibold transition-colors cursor-pointer"
+          >
+            🌓
+          </button>
+
+          <!-- Mobile Menu Dropdown -->
+          <details class="lg:hidden relative nav-dropdown">
+            <summary class="px-3 py-2 rounded-lg border border-slate-200 text-xs font-bold text-slate-700 cursor-pointer list-none">
+              Menú ▾
+            </summary>
+            <div class="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-xl p-3 flex flex-col gap-2 text-xs font-semibold z-50">
+              <a href="/firmar-pdf-sin-autofirma/" class="py-1 hover:text-blue-600">Firmar sin AutoFirma</a>
+              <a href="/firmar-pdf-con-dnie/" class="py-1 hover:text-blue-600">Firmar con DNIe</a>
+              <a href="/cofirmar-pdf-dos-firmas/" class="py-1 hover:text-blue-600">Cofirmar PDF (2 Firmas)</a>
+              <a href="/poner-sello-firma-digital-pdf/" class="py-1 hover:text-blue-600">Sello Digital en PDF</a>
+              <a href="/comprobar-validez-certificado-digital/" class="py-1 hover:text-blue-600">¿Certificado Caducado?</a>
+              <a href="/validar-firma-digital-pdf/" class="py-1 hover:text-blue-600">Validar Firma PDF</a>
+              <a href="/blog/" class="py-1 text-blue-600 font-bold">Guías y Blog</a>
+              <hr class="border-slate-200 my-1" />
+              <a href="/sobre-nosotros/" class="py-1 text-slate-600 hover:text-blue-600">Sobre Nosotros</a>
+              <a href="/contacto/" class="py-1 text-slate-600 hover:text-blue-600">Contacto</a>
+              <a href="/privacy/" class="py-1 text-slate-600 hover:text-blue-600">Política de Privacidad</a>
+              <a href="/terms/" class="py-1 text-slate-600 hover:text-blue-600">Términos de Uso</a>
+            </div>
+          </details>
+
+          <a href="/#firmar" class="hidden sm:inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg shadow-sm transition-colors">
+            Firmar PDF Ahora
+          </a>
+        </div>
       </div>
     </header>
 
@@ -115,6 +215,9 @@ const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title}
             </p>
             <p class="text-[11px] text-slate-500 mt-3">
               🔒 <strong>Privacidad absoluta:</strong> El PDF y la clave privada nunca abandonan la memoria de tu dispositivo.
+            </p>
+            <p class="text-[11px] text-slate-400 mt-2">
+              ✉️ Contacto oficial: <a href="mailto:contacto@firmarpdfcertificado.com" class="text-blue-400 hover:underline">contacto@firmarpdfcertificado.com</a>
             </p>
           </div>
 
@@ -143,22 +246,58 @@ const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title}
           </div>
 
           <div>
-            <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-3">Guías y Legal</h4>
+            <h4 class="text-white text-xs font-bold uppercase tracking-wider mb-3">Guías, Soporte y Legal</h4>
             <ul class="space-y-2 text-xs">
               <li><a href="/blog/" class="hover:text-white font-medium text-blue-300">Blog y Normativa</a></li>
               <li><a href="/ayuda/exportar-certificado-fnmt/" class="hover:text-white">Exportar Certificado FNMT</a></li>
               <li><a href="/ayuda/error-saf-45/" class="hover:text-white">Solución Error SAF_45</a></li>
-              <li><a href="/firmar-pdf-certificado-online-gratis/" class="hover:text-white">Firma Online Gratis</a></li>
+              <li><a href="/sobre-nosotros/" class="hover:text-white">Sobre Nosotros</a></li>
+              <li><a href="/contacto/" class="hover:text-white">Contacto</a></li>
               <li><a href="/privacy/" class="hover:text-white">Política de Privacidad</a></li>
-              <li><a href="/terms/" class="hover:text-white">Términos de Uso</a></li>
+              <li><a href="/terms/" class="hover:text-white">Términos y Condiciones</a></li>
             </ul>
           </div>
         </div>
 
-        <div class="border-t border-slate-800 pt-6 text-center text-xs text-slate-500">
+        <div class="border-t border-slate-800 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-2">
           <p>© 2026 FirmarPDFCertificado.com · Desarrollado para Autónomos, Pymes y Ciudadanos en España.</p>
+          <div class="flex items-center space-x-4">
+            <a href="/sobre-nosotros/" class="hover:text-slate-300">Sobre Nosotros</a>
+            <a href="/contacto/" class="hover:text-slate-300">Contacto</a>
+            <a href="/privacy/" class="hover:text-slate-300">Privacidad</a>
+            <a href="/terms/" class="hover:text-slate-300">Términos</a>
+          </div>
         </div>
       </div>
     </footer>
+
+    <script>
+      const themeBtn = document.getElementById('theme-toggle-btn');
+      function toggleTheme() {
+        const isDark = document.documentElement.classList.toggle('dark');
+        try {
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        } catch (_) {}
+      }
+      themeBtn?.addEventListener('click', toggleTheme);
+
+      // Keyboard shortcut 'D' for Dark Mode (when not typing in an input)
+      document.addEventListener('keydown', (e) => {
+        const tag = (e.target as HTMLElement)?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+        if (e.key === 'd' || e.key === 'D') {
+          toggleTheme();
+        }
+      });
+
+      // Close nav dropdowns when clicking outside
+      document.addEventListener('click', (e) => {
+        document.querySelectorAll('details.nav-dropdown[open]').forEach((el) => {
+          if (!el.contains(e.target as Node)) {
+            el.removeAttribute('open');
+          }
+        });
+      });
+    </script>
   </body>
 </html>
