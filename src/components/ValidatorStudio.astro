@@ -482,7 +482,8 @@
         const subj = sig.cmsInfo.subject;
         const iss = sig.cmsInfo.issuer;
         const signerName = subj.CN || `${subj.GN || ""} ${subj.SN || ""}`.trim() || "Certificado X.509 Detectado";
-        const signerId = subj.serialNumber || subj.organizationIdentifier || "No especificado en OID";
+        const rawId = (subj.serialNumber || subj.organizationIdentifier || "").replace(/\b(VATES-|IDCES-)/gi, "").trim();
+        const signerId = rawId || "No especificado en OID";
         const orgName = subj.O || "Persona Física / Particular";
         const issuerName = iss.CN || iss.O || "Autoridad de Certificación (CA)";
         const signDate = sig.cmsInfo.signingTime ? sig.cmsInfo.signingTime.toLocaleString("es-ES") : "Sello temporal local / No embebido";

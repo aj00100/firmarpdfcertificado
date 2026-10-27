@@ -1,3 +1,4 @@
+// src/workers/signer.worker.ts
 import {
   PDFDocument,
   PDFName,
@@ -51,19 +52,33 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
   try {
     self.postMessage({ status: 'parsing', message: 'Desencriptando certificado digital (.p12 / .pfx)...' });
 
-    // 1. EXTRACT IDENTITY
+    // 1. EXTRACT IDENTITY (Matches exact Public/Private Key Modulus + Corporate CIFs)
     const identity = await extractPkcs12Identity(p12Buffer, password);
 
     const now = new Date();
-    if (now < identity.notBefore || now > identity.notAfter) {
+    if (now < identity.notBefore) {
       throw new Error(
-        `El certificado digital está caducado o aún no es válido (Validez: ${identity.notBefore.toLocaleDateString('es-ES')} - ${identity.notAfter.toLocaleDateString('es-ES')}).`
+        `El certificado digital aún no es válido (su vigencia comienza el ${identity.notBefore.toLocaleDateString('es-ES')}).`
+      );
+    }
+    if (now > identity.notAfter) {
+      throw new Error(
+        `El certificado digital está caducado (expiró el ${identity.notAfter.toLocaleDateString('es-ES')}).`
       );
     }
 
     self.postMessage({ status: 'preparing', message: 'Generando sello administrativo y estructura PAdES-B-B...' });
 
     const originalUint8 = new Uint8Array(pdfBuffer);
+    const existingText = new TextDecoder('latin1').decode(originalUint8);
+
+    // E18: Detect password-protected / encrypted PDFs before signing
+    if (/\/Encrypt\s+(\d+\s+\d+\s+R|<<)/.test(existingText)) {
+      throw new Error(
+        'Este PDF está protegido con contraseña o cifrado. Debe desbloquearlo antes de firmar para no corromper el documento.'
+      );
+    }
+
     const prelimHashBuffer = await crypto.subtle.digest('SHA-256', originalUint8);
     const prelimHashHex = Array.from(new Uint8Array(prelimHashBuffer))
       .map((b) => b.toString(16).padStart(2, '0'))
@@ -77,13 +92,11 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
       'Validez jurídica conforme a Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020';
 
     // Detect if the PDF already contains an active cryptographic signature
-    const existingText = new TextDecoder('latin1').decode(originalUint8);
     const hasExistingSignatures = /\/ByteRange\s*\[\s*\d+\s+\d+\s+\d+\s+\d+\s*\]/.test(existingText);
 
     let preparedPdfBytes: Uint8Array;
 
     if (!hasExistingSignatures) {
-      // FIRST SIGNATURE: Standard single-save without object streams so xref is classic ISO 32000-1
       preparedPdfBytes = await prepareInitialSignedPdf(
         originalUint8,
         identity,
@@ -93,8 +106,6 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
         stampConfig
       );
     } else {
-      // CO-SIGNATURE (2nd, 3rd, Nth Signature): True ISO 32000-1 Incremental Update
-      // Preserves bytes 0..originalUint8.length-1 100% untouched so all prior signatures stay GREEN
       preparedPdfBytes = await prepareIncrementalCoSignedPdf(
         originalUint8,
         existingText,
@@ -108,7 +119,6 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
 
     self.postMessage({ status: 'signing', message: 'Calculando firma criptográfica PAdES-B-B (SHA-256)...' });
 
-    // 4. PATCH LAST BYTERANGE SENTINEL & INJECT DETACHED CMS SIGNATURE
     const signedPdfBytes = signPdfBufferInPlace(
       preparedPdfBytes,
       identity,
@@ -138,8 +148,32 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
 };
 
 /**
- * First signature path: prepares clean classic xref table (useObjectStreams: false)
+ * Computes safe visual stamp coordinates respecting non-zero MediaBox/CropBox origins
+ * and landscape /Rotate flags (E15 & E17).
  */
+function resolveStampCoordinates(
+  targetPage: any,
+  stampWidth: number,
+  stampHeight: number,
+  stampConfig: NonNullable<SignRequest['stampConfig']>
+) {
+  const box = targetPage.getCropBox() || targetPage.getMediaBox();
+  const originX = box.x || 0;
+  const originY = box.y || 0;
+  const rotation = targetPage.getRotation().angle % 360;
+
+  // Effective visible dimensions
+  const effectiveWidth = rotation === 90 || rotation === 270 ? box.height : box.width;
+
+  const stampX =
+    stampConfig.x !== undefined
+      ? originX + stampConfig.x
+      : Math.max(originX + 30, originX + effectiveWidth - stampWidth - 30);
+  const stampY = stampConfig.y !== undefined ? originY + stampConfig.y : originY + 30;
+
+  return { stampX, stampY };
+}
+
 async function prepareInitialSignedPdf(
   pdfBytes: Uint8Array,
   identity: ExtractedIdentity,
@@ -148,7 +182,7 @@ async function prepareInitialSignedPdf(
   effectiveReason: string,
   stampConfig: NonNullable<SignRequest['stampConfig']>
 ): Promise<Uint8Array> {
-  const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+  const pdfDoc = await PDFDocument.load(pdfBytes);
   const pages = pdfDoc.getPages();
   const targetPageIndex =
     stampConfig.pageIndex !== undefined && stampConfig.pageIndex < pages.length
@@ -158,8 +192,7 @@ async function prepareInitialSignedPdf(
 
   const stampWidth = stampConfig.width ?? 220;
   const stampHeight = stampConfig.height ?? 75;
-  const stampX = stampConfig.x ?? Math.max(30, targetPage.getWidth() - stampWidth - 30);
-  const stampY = stampConfig.y ?? 30;
+  const { stampX, stampY } = resolveStampCoordinates(targetPage, stampWidth, stampHeight, stampConfig);
 
   const appearanceStreamRef = await createOfficialSpanishStamp(pdfDoc, {
     width: stampWidth,
@@ -231,10 +264,6 @@ async function prepareInitialSignedPdf(
   return await pdfDoc.save({ useObjectStreams: false });
 }
 
-/**
- * Co-signature path: True ISO 32000-1 Incremental Update
- * Appends a new revision at EOF without altering a single byte of the existing signed PDF.
- */
 async function prepareIncrementalCoSignedPdf(
   originalBytes: Uint8Array,
   originalText: string,
@@ -244,15 +273,13 @@ async function prepareIncrementalCoSignedPdf(
   effectiveReason: string,
   stampConfig: NonNullable<SignRequest['stampConfig']>
 ): Promise<Uint8Array> {
-  // 1. Find previous startxref offset from the end of the original PDF
   const startXrefMatches = [...originalText.matchAll(/startxref\s+(\d+)/g)];
   if (startXrefMatches.length === 0) {
     throw new Error('No se encontró la tabla startxref en el PDF firmado original.');
   }
   const prevXrefOffset = parseInt(startXrefMatches[startXrefMatches.length - 1][1], 10);
 
-  // 2. Load the original PDF read-only to inspect object numbers and dictionaries
-  const pdfDoc = await PDFDocument.load(originalBytes, { ignoreEncryption: true });
+  const pdfDoc = await PDFDocument.load(originalBytes);
   const pages = pdfDoc.getPages();
   const targetPageIndex =
     stampConfig.pageIndex !== undefined && stampConfig.pageIndex < pages.length
@@ -263,10 +290,8 @@ async function prepareIncrementalCoSignedPdf(
 
   const stampWidth = stampConfig.width ?? 220;
   const stampHeight = stampConfig.height ?? 75;
-  const stampX = stampConfig.x ?? Math.max(30, targetPage.getWidth() - stampWidth - 30);
-  const stampY = stampConfig.y ?? 30;
+  const { stampX, stampY } = resolveStampCoordinates(targetPage, stampWidth, stampHeight, stampConfig);
 
-  // Determine the highest existing object number in the original PDF
   let maxObjNum = pdfDoc.context.largestObjectNumber;
   const objHeaderRegex = /(\d+)\s+\d+\s+obj\b/g;
   for (const m of originalText.matchAll(objHeaderRegex)) {
@@ -277,7 +302,6 @@ async function prepareIncrementalCoSignedPdf(
   let nextObjNum = maxObjNum + 1;
   const allocRef = () => PDFRef.of(nextObjNum++, 0);
 
-  // 3. Build the visual stamp in an isolated scratch document and clone its objects with fresh IDs
   const scratchDoc = await PDFDocument.create();
   const scratchStampRef = await createOfficialSpanishStamp(scratchDoc, {
     width: stampWidth,
@@ -291,10 +315,8 @@ async function prepareIncrementalCoSignedPdf(
     customReason: effectiveReason,
   });
 
-  // Materialize lazy page embedders into concrete indirect objects
   await scratchDoc.save();
 
-  // Collect reachable objects from scratchStampRef inside scratchDoc
   const scratchMap = new Map<number, PDFRef>();
   const reachableScratchNums: number[] = [];
 
@@ -354,7 +376,6 @@ async function prepareIncrementalCoSignedPdf(
 
   const mappedAppearanceRef = scratchMap.get(scratchStampRef.objectNumber)!;
 
-  // 4. Create new Signature Dictionary & Widget Annotation
   const sigDictRef = allocRef();
   const widgetRef = allocRef();
 
@@ -389,7 +410,6 @@ async function prepareIncrementalCoSignedPdf(
   incrementalObjects.push({ ref: sigDictRef, obj: sigDict });
   incrementalObjects.push({ ref: widgetRef, obj: widgetDict });
 
-  // 5. Update Target Page (/Annots)
   const annotsEntry = targetPage.node.get(PDFName.of('Annots'));
   if (annotsEntry instanceof PDFRef) {
     const annotsArray = pdfDoc.context.lookup(annotsEntry, PDFArray);
@@ -400,7 +420,6 @@ async function prepareIncrementalCoSignedPdf(
     incrementalObjects.push({ ref: targetPageRef, obj: targetPage.node });
   }
 
-  // 6. Update Catalog /AcroForm (/Fields)
   let rootRef: PDFRef | null = null;
   for (const [ref, obj] of pdfDoc.context.enumerateIndirectObjects()) {
     if (obj === pdfDoc.catalog) {
@@ -449,10 +468,8 @@ async function prepareIncrementalCoSignedPdf(
     incrementalObjects.push({ ref: rootRef, obj: pdfDoc.catalog });
   }
 
-  // Sort modified/new objects by object number for clean xref subsection emission
   incrementalObjects.sort((a, b) => a.ref.objectNumber - b.ref.objectNumber);
 
-  // 7. Serialize Incremental Update Buffer
   const encoder = new TextEncoder();
   const chunks: Uint8Array[] = [originalBytes];
   let currentOffset = originalBytes.length;
@@ -463,7 +480,6 @@ async function prepareIncrementalCoSignedPdf(
   };
   const pushStr = (str: string) => pushBytes(encoder.encode(str));
 
-  // Ensure newline before starting incremental section
   if (
     originalBytes[originalBytes.length - 1] !== 0x0a &&
     originalBytes[originalBytes.length - 1] !== 0x0d
@@ -483,7 +499,6 @@ async function prepareIncrementalCoSignedPdf(
     pushStr('\nendobj\n');
   }
 
-  // 8. Build Incremental Cross-Reference Table (xref subsections)
   const newXrefOffset = currentOffset;
   pushStr('xref\n');
 
@@ -504,14 +519,12 @@ async function prepareIncrementalCoSignedPdf(
       const objNum = incrementalObjects[k].ref.objectNumber;
       const genNum = incrementalObjects[k].ref.generationNumber;
       const offset = xrefOffsets.get(objNum)!;
-      // Exact 20-byte ISO 32000-1 xref entry: "oooooooooo ggggg n \n"
       const entry = `${String(offset).padStart(10, '0')} ${String(genNum).padStart(5, '0')} n \n`;
       pushStr(entry);
     }
     idx = endIdx + 1;
   }
 
-  // 9. Build Incremental Trailer with /Prev pointing to the previous xref table
   const infoMatch = originalText.match(/\/Info\s+(\d+\s+\d+\s+R)/);
   const idMatch = originalText.match(/\/ID\s*(\[\s*<[^>]+>\s*<[^>]+>\s*\])/);
 
@@ -525,7 +538,6 @@ async function prepareIncrementalCoSignedPdf(
   trailerStr += `>>\nstartxref\n${newXrefOffset}\n%%EOF\n`;
   pushStr(trailerStr);
 
-  // Concatenate all chunks into a single Uint8Array
   const finalBuffer = new Uint8Array(currentOffset);
   let writePos = 0;
   for (const chunk of chunks) {
@@ -550,17 +562,17 @@ async function extractPkcs12Identity(
     const derBytes = forge.util.createBuffer(new Uint8Array(p12Buffer));
     const p12Asn1 = forge.asn1.fromDer(derBytes);
     p12Forge = forge.pkcs12.pkcs12FromAsn1(p12Asn1, false, password);
-  } catch (err: any) {
+  } catch {
     throw new Error('Contraseña del certificado incorrecta o formato de cifrado no soportado.');
   }
 
   let privateKeyForge: forge.pki.rsa.PrivateKey | null = null;
-  const keyBags = p12Forge.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag })[
-    forge.pki.oids.pkcs8ShroudedKeyBag
-  ] || [];
-  const plainKeyBags = p12Forge.getBags({ bagType: forge.pki.oids.keyBag })[
-    forge.pki.oids.keyBag
-  ] || [];
+  const keyBags =
+    p12Forge.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag })[
+      forge.pki.oids.pkcs8ShroudedKeyBag
+    ] || [];
+  const plainKeyBags =
+    p12Forge.getBags({ bagType: forge.pki.oids.keyBag })[forge.pki.oids.keyBag] || [];
 
   for (const bag of [...keyBags, ...plainKeyBags]) {
     if (bag.key) {
@@ -570,7 +582,7 @@ async function extractPkcs12Identity(
   }
 
   if (!privateKeyForge) {
-    throw new Error('No se encontró una clave privada dentro del certificado digital.');
+    throw new Error('El archivo no contiene clave privada (.p12/.pfx exportado sin clave privada).');
   }
 
   const certBags =
@@ -583,12 +595,24 @@ async function extractPkcs12Identity(
     throw new Error('No se encontraron certificados X.509 en el archivo .p12/.pfx.');
   }
 
-  let signerCert = certs[0];
-  for (const cert of certs) {
-    const basicConstraints = cert.getExtension('basicConstraints') as any;
-    if (!basicConstraints || !basicConstraints.cA) {
-      signerCert = cert;
-      break;
+  // E13: Match the exact certificate whose public key modulus equals the private key modulus
+  const matchingCert = certs.find((c) => {
+    try {
+      const pub = c.publicKey as forge.pki.rsa.PublicKey;
+      return Boolean(pub?.n && privateKeyForge?.n && pub.n.compareTo(privateKeyForge.n) === 0);
+    } catch {
+      return false;
+    }
+  });
+
+  let signerCert = matchingCert || certs[0];
+  if (!matchingCert) {
+    for (const cert of certs) {
+      const basicConstraints = cert.getExtension('basicConstraints') as any;
+      if (!basicConstraints || !basicConstraints.cA) {
+        signerCert = cert;
+        break;
+      }
     }
   }
 
@@ -602,16 +626,25 @@ async function extractPkcs12Identity(
   const cnAttr = signerCert.subject.getField('CN');
   const commonName = cnAttr ? String(cnAttr.value) : 'Titular de Certificado Digital';
 
+  // E14: Support both personal serialNumber (2.5.4.5) and corporate organizationIdentifier (2.5.4.97)
+  const orgIdAttr = signerCert.subject.getField({ type: '2.5.4.97' });
   const serialAttr =
     signerCert.subject.getField({ type: '2.5.4.5' }) ||
     signerCert.subject.getField('serialNumber');
-  let nif = serialAttr ? String(serialAttr.value) : '';
-  const nifMatch = (nif || commonName).match(/\b([0-9]{8}[A-Z]|[XYZ][0-9]{7}[A-Z])\b/i);
-  if (nifMatch) {
-    nif = nifMatch[1].toUpperCase();
-  } else if (nif.startsWith('IDCES-')) {
-    nif = nif.replace('IDCES-', '');
-  }
+
+  const rawId = [
+    orgIdAttr ? String(orgIdAttr.value) : '',
+    serialAttr ? String(serialAttr.value) : '',
+    commonName,
+  ].join(' ');
+
+  const cleanedId = rawId.replace(/\b(VATES-|IDCES-)/gi, '');
+  // Matches DNI (8 digits + letter), NIE (X/Y/Z + 7 digits + letter), or Spanish CIF (Letter + 7 digits + control char)
+  const nifMatch = cleanedId.match(
+    /\b([0-9]{8}[A-Z]|[XYZ][0-9]{7}[A-Z]|[ABCDEFGHJNPQRSUVW][0-9]{7}[0-9A-J])\b/i
+  );
+
+  const nif = nifMatch ? nifMatch[1].toUpperCase() : (serialAttr ? String(serialAttr.value) : 'Verificado en Certificado');
 
   const issuerCn = signerCert.issuer.getField('CN') || signerCert.issuer.getField('O');
   const issuerName = issuerCn ? String(issuerCn.value) : 'FNMT-RCM / Autoridad de Certificación';
@@ -622,7 +655,7 @@ async function extractPkcs12Identity(
     certChainForge: certs,
     signerCertDer,
     commonName,
-    nif: nif || 'Verificado en Certificado',
+    nif,
     issuerName,
     notBefore: signerCert.validity.notBefore,
     notAfter: signerCert.validity.notAfter,
@@ -695,8 +728,8 @@ async function createOfficialSpanishStamp(
   });
 
   const thirdLine = opts.customRole
-    ? `NIF: ${cleanText(opts.nif, 14)} | Cargo/Entidad: ${cleanText(opts.customRole, 35)}`
-    : `NIF/NIE: ${cleanText(opts.nif, 20)} | Emisor: ${cleanText(opts.issuer, 18)}`;
+    ? `NIF/CIF: ${cleanText(opts.nif, 14)} | Cargo/Entidad: ${cleanText(opts.customRole, 35)}`
+    : `NIF/CIF: ${cleanText(opts.nif, 20)} | Emisor: ${cleanText(opts.issuer, 18)}`;
 
   tempPage.drawText(thirdLine, {
     x: 10,
@@ -748,7 +781,6 @@ function signPdfBufferInPlace(
   const encoder = new TextEncoder();
   const pdfStr = decoder.decode(pdfBytes);
 
-  // Use lastIndexOf so we always target the newly appended signature dictionary
   const byteRangePattern = '/ByteRange [ 0 1000000000 1000000000 1000000000 ]';
   const altByteRangePattern = '/ByteRange [0 1000000000 1000000000 1000000000]';
   let brIndex = pdfStr.lastIndexOf(byteRangePattern);
@@ -785,12 +817,7 @@ function signPdfBufferInPlace(
   const part1Bytes = forge.util.createBuffer(pdfBytes.subarray(0, offset1)).getBytes();
   const part2Bytes = forge.util.createBuffer(pdfBytes.subarray(offset2)).getBytes();
 
-  const cmsDerHex = buildPAdESDetachedCmsHex(
-    identity,
-    part1Bytes,
-    part2Bytes,
-    signDate
-  );
+  const cmsDerHex = buildPAdESDetachedCmsHex(identity, part1Bytes, part2Bytes, signDate);
 
   if (cmsDerHex.length > hexCapacity) {
     throw new Error(

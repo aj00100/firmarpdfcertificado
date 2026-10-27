@@ -232,7 +232,27 @@ const faqs = [
       const pdfDoc = await PDFDocument.load(buffer, { ignoreEncryption: true });
       let removedCount = 0;
 
-      // 1. Remove /FT /Sig annotations from every page
+      // Helper to detect signature widgets/fields even when /FT /Sig is inherited from /Parent or /V points to /Type /Sig
+      const isSignatureDict = (dict: PDFDict): boolean => {
+        const ft = dict.lookup(PDFName.of('FT'));
+        if (ft && ft.toString() === '/Sig') return true;
+
+        const vDict = dict.lookupMaybe(PDFName.of('V'), PDFDict);
+        if (vDict) {
+          const vType = vDict.lookup(PDFName.of('Type'));
+          if (vType && vType.toString() === '/Sig') return true;
+          if (vDict.get(PDFName.of('ByteRange'))) return true;
+        }
+
+        const parentDict = dict.lookupMaybe(PDFName.of('Parent'), PDFDict);
+        if (parentDict) {
+          const parentFt = parentDict.lookup(PDFName.of('FT'));
+          if (parentFt && parentFt.toString() === '/Sig') return true;
+        }
+        return false;
+      };
+
+      // 1. Remove signature annotations (visible & invisible) from every page
       for (const page of pdfDoc.getPages()) {
         const annots = page.node.lookupMaybe(PDFName.of('Annots'), PDFArray);
         if (!annots) continue;
@@ -240,15 +260,14 @@ const faqs = [
         for (let i = annots.size() - 1; i >= 0; i--) {
           const annotDict = annots.lookupMaybe(i, PDFDict);
           if (!annotDict) continue;
-          const ft = annotDict.lookup(PDFName.of('FT'));
-          if (ft && ft.toString() === '/Sig') {
+          if (isSignatureDict(annotDict)) {
             annots.remove(i);
             removedCount++;
           }
         }
       }
 
-      // 2. Clean /AcroForm /Fields and reset /SigFlags
+      // 2. Clean /AcroForm /Fields (including hierarchical Kids) and reset /SigFlags
       const acroForm = pdfDoc.catalog.lookupMaybe(PDFName.of('AcroForm'), PDFDict);
       if (acroForm) {
         acroForm.delete(PDFName.of('SigFlags'));
@@ -257,9 +276,9 @@ const faqs = [
           for (let i = fields.size() - 1; i >= 0; i--) {
             const fieldDict = fields.lookupMaybe(i, PDFDict);
             if (!fieldDict) continue;
-            const ft = fieldDict.lookup(PDFName.of('FT'));
-            if (ft && ft.toString() === '/Sig') {
+            if (isSignatureDict(fieldDict)) {
               fields.remove(i);
+              removedCount++;
             }
           }
         }
