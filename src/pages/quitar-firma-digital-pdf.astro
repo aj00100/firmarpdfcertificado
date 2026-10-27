@@ -4,16 +4,28 @@ import Layout from '../layouts/Layout.astro';
 
 const faqs = [
   {
-    q: "¿Por qué quitar la firma digital de un archivo PDF?",
-    a: "Cuando firmas un PDF digitalmente, el estándar PAdES bloquea la edición del documento y sus campos de formulario para garantizar su integridad. Si te has equivocado al rellenar un dato, has colocado el sello en el lugar incorrecto o necesitas modificar una cláusula antes de volver a firmarlo, esta herramienta elimina los campos de firma (/Sig) y desbloquea el PDF."
+    q: "¿Por qué quitar o eliminar una firma digital de un archivo PDF?",
+    a: "Cuando un documento PDF se firma digitalmente bajo el estándar PAdES, el archivo activa internamente indicadores de protección criptográfica (/SigFlags 3) que bloquean la edición de textos y campos de formulario. Si necesitas corregir un error tipográfico en una cláusula, rellenar una casilla olvidada, recolocar un sello visual que tapa información importante o cambiar el certificado digital utilizado, es imprescindible eliminar los diccionarios de firma antiguos para devolver el PDF a su estado original editable."
   },
   {
-    q: "¿Por qué iLovePDF o los editores normales no pueden quitar una firma digital?",
-    a: "Porque una firma digital no es una simple imagen superpuesta, sino un diccionario criptográfico (/AcroForm -> /Sig) incrustado en el catálogo raíz del archivo PDF. Nuestra herramienta inspecciona los nodos internos del PDF y purga limpiamente las anotaciones de firma."
+    q: "¿Por qué iLovePDF, Smallpdf o los editores tradicionales no pueden borrar firmas digitales?",
+    a: "La mayoría de herramientas web convencionales tratan las firmas como meras imágenes superpuestas. Al encontrarse con una firma criptográfica real incrustada en el árbol de objetos del catálogo (/AcroForm -> /Fields con widgets /Sig), no pueden modificarla sin corromper la estructura interna del archivo. Algunas herramientas recurren a 'imprimir como imagen', lo que destruye la nitidez tipográfica, elimina la selección de texto OCR y aumenta exponencialmente el peso del archivo. Nuestro motor inspecciona el árbol binario con pdf-lib y retira con precisión quirúrgica únicamente los nodos /Sig sin perder calidad vectorial."
   },
   {
-    q: "¿Mis documentos se suben a algún servidor al eliminar la firma?",
-    a: "Nunca. Todo el limpiado de diccionarios criptográficos se realiza al 100% dentro de la memoria RAM de tu navegador mediante pdf-lib."
+    q: "¿Es legal eliminar una firma digital de un documento PDF?",
+    a: "Sí, es completamente legal siempre que actúes sobre tus propios documentos, borradores o contratos en fase de negociación antes de su elevación o presentación definitiva. Al eliminar la firma digital, el documento pierde su certificación y pasa a ser un borrador sin certificar. Nunca se produce una falsificación, ya que el documento resultante queda sin firma oficial hasta que se vuelva a firmar válidamente con el certificado correspondiente."
+  },
+  {
+    q: "¿Mis documentos confidenciales se suben a algún servidor en internet?",
+    a: "Bajo ninguna circunstancia. La eliminación de firmas digitales y el desbloqueo del archivo se realizan al 100% dentro de la memoria RAM de tu navegador mediante JavaScript y WebAssembly. Ni el texto del documento, ni tus datos personales abandonan jamás tu ordenador o teléfono móvil, garantizando el cumplimiento estricto del RGPD."
+  },
+  {
+    q: "¿Qué ocurre con los sellos visuales (rúbricas) colocados en las páginas del PDF?",
+    a: "Al procesar el documento con nuestra herramienta, las anotaciones visuales vinculadas al campo de firma (/Widget) se retiran limpiamente de la página, dejando el espacio en blanco original para que puedas estampar un nuevo sello en la posición correcta."
+  },
+  {
+    q: "¿Cómo vuelvo a firmar el documento una vez corregido el texto?",
+    a: "Una vez descargado el PDF desbloqueado, puedes editarlo con cualquier lector o editor de PDF. Cuando esté listo con los datos correctos, accede a nuestro firmador principal gratuito (FirmarPDFCertificado.com), arrastra el PDF y aplica tu certificado digital FNMT o DNIe con un solo clic."
   }
 ];
 ---
@@ -33,7 +45,7 @@ const faqs = [
         Quitar Firma Digital de un PDF Online Gratis
       </h1>
       <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
-        ¿Has firmado un PDF con el certificado equivocado, el sello ha tapado un texto o necesitas corregir un dato bloqueado? <strong>Elimina las firmas criptográficas y sellos visuales</strong> en 1 clic sin subir el archivo.
+        ¿Has firmado un PDF con el certificado equivocado, el sello ha tapado texto o necesitas corregir un dato bloqueado? <strong>Elimina las firmas criptográficas y sellos visuales</strong> en 1 clic sin subir el archivo a ningún servidor.
       </p>
     </div>
   </header>
@@ -48,11 +60,11 @@ const faqs = [
               <span>🧹</span> Desbloqueador y Eliminador de Firmas PDF
             </h2>
             <p class="text-xs text-slate-300 mt-0.5">
-              Elimina anotaciones criptográficas (<code>/FT /Sig</code>) y sellos administrativos manteniendo intacto el resto del documento.
+              Elimina anotaciones criptográficas (<code>/FT /Sig</code>) y sellos administrativos manteniendo intacto el texto y diseño original.
             </p>
           </div>
           <span class="text-xs bg-amber-950 border border-amber-700 text-amber-300 px-3 py-1 rounded-full font-medium">
-            Procesamiento 100% Local
+            Procesamiento 100% Local en RAM
           </span>
         </div>
 
@@ -60,19 +72,19 @@ const faqs = [
           <label
             id="rm-pdf-dropzone"
             for="rm-pdf-input"
-            class="group flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-300 hover:border-blue-600 rounded-xl bg-slate-50/70 hover:bg-blue-50/40 cursor-pointer transition-all text-center min-h-[180px]"
+            class="group flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-300 hover:border-amber-600 rounded-xl bg-slate-50/70 hover:bg-amber-50/40 cursor-pointer transition-all text-center min-h-[180px]"
           >
             <input id="rm-pdf-input" type="file" accept="application/pdf,.pdf" class="sr-only" />
             <div class="w-14 h-14 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center text-3xl mb-3 group-hover:scale-105 transition-transform">
               🔓
             </div>
             <span class="text-base font-bold text-slate-800" id="rm-pdf-title">
-              Selecciona o arrastra aquí el PDF firmado que deseas limpiar
+              Selecciona o arrastra aquí el PDF firmado que deseas desbloquear
             </span>
             <span class="text-xs text-slate-500 mt-1 max-w-lg" id="rm-pdf-sub">
-              Se eliminarán todas las firmas digitales y sellos de firma para que puedas editarlo o firmarlo de nuevo.
+              Se eliminarán todas las firmas digitales y sellos visuales para que puedas editarlo o firmarlo de nuevo sin bloqueos.
             </span>
-            <span class="mt-4 inline-flex items-center px-5 py-2.5 bg-blue-700 group-hover:bg-blue-800 text-white text-xs font-bold rounded-lg shadow-xs transition-colors">
+            <span class="mt-4 inline-flex items-center px-5 py-2.5 bg-amber-700 group-hover:bg-amber-800 text-white text-xs font-bold rounded-lg shadow-xs transition-colors">
               Quitar Firmas Digitales y Desbloquear PDF →
             </span>
           </label>
@@ -99,14 +111,14 @@ const faqs = [
 
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
-                <p class="text-sm font-bold text-slate-800">¿Listo para volver a firmar el documento correctamente?</p>
-                <p class="text-xs text-slate-600">Elige la nueva posición del sello y aplica tu certificado digital en 1 clic.</p>
+                <p class="text-sm font-bold text-slate-800">¿Listo para volver a firmar el documento corregido?</p>
+                <p class="text-xs text-slate-600">Elige la nueva posición del sello y aplica tu certificado digital FNMT o DNIe en 1 clic.</p>
               </div>
               <a
                 href="/"
                 class="px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg transition-colors shrink-0"
               >
-                ✍️ Ir al Firmador de PDF →
+                ✍️ Ir al Firmador Principal →
               </a>
             </div>
           </div>
@@ -115,23 +127,56 @@ const faqs = [
     </div>
   </section>
 
-  <!-- Editorial Guide -->
+  <!-- Editorial & Technical Guide -->
   <article class="py-12 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-8">
       <div>
         <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
-          Cómo funciona la eliminación de firmas digitales en documentos PDF
+          Arquitectura técnica: Cómo funciona la purga de firmas criptográficas en PDF
         </h2>
         <p class="text-slate-600 text-sm mt-3 leading-relaxed">
-          Al aplicar una firma electrónica con AutoFirma, Adobe Acrobat o nuestra plataforma, el documento incorpora un indicador de bloqueo (<code>/SigFlags 3</code>) y un conjunto de widgets de tipo <code>/Sig</code>. Nuestro motor local recorre todas las páginas del PDF, elimina únicamente las anotaciones de firma y sus sellos asociados, y reconstruye una copia limpia editable sin alterar el texto ni el diseño original del documento.
+          En la especificación oficial <strong>ISO 32000-1</strong> del formato PDF, una firma digital no es una capa gráfica editable ordinaria, sino un conjunto complejo de estructuras de datos criptográficos vinculados al catálogo raíz (<code>/Root</code>). Al firmar un documento con AutoFirma, Adobe Acrobat o cualquier certificado de la FNMT, se generan dos elementos inmutables:
+        </p>
+        <ul class="list-disc list-inside text-xs sm:text-sm text-slate-600 mt-2 space-y-1">
+          <li><strong>El diccionario de formulario (/AcroForm):</strong> Contiene el campo de firma de tipo <code>/FT /Sig</code> y establece la bandera <code>/SigFlags 3</code> para indicar que el archivo contiene firmas activas y prohibir alteraciones no autorizadas.</li>
+          <li><strong>Las anotaciones visuales (/Annots):</strong> Corresponden al recuadro o sello visual donde se muestran los datos del firmante, fecha y motivo de la firma.</li>
+        </ul>
+        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
+          Nuestra utilidad web procesa el árbol de objetos del documento sin recurrir a impresiones virtuales. Recorre cada página, extrae con seguridad las referencias a los widgets de firma, neutraliza los indicadores de bloqueo en el catálogo <code>/AcroForm</code> y recompila un PDF totalmente limpio, preservando el 100% de la calidad tipográfica vectorial, enlaces hipertexto y formularios interactivos.
         </p>
       </div>
 
-      <div class="pt-4 border-t border-slate-200 space-y-4">
-        <h2 class="text-xl font-bold text-slate-900">Preguntas Frecuentes</h2>
+      <!-- Common Scenarios -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="text-2xl mb-2">🏷️</div>
+          <h3 class="font-bold text-slate-900 text-sm">Sello Mal Posicionado</h3>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Si el sello de firma se estampó sobre el número de cuenta bancaria o el texto del contrato, retira la firma y vuelve a estamparlo en la zona correcta.
+          </p>
+        </div>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="text-2xl mb-2">👤</div>
+          <h3 class="font-bold text-slate-900 text-sm">Certificado Equivocado</h3>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Si firmaste como persona física cuando debías firmar como representante de persona jurídica (CIF de empresa), desbloquea el PDF en segundos.
+          </p>
+        </div>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="text-2xl mb-2">✏️</div>
+          <h3 class="font-bold text-slate-900 text-sm">Corrección de Cláusulas</h3>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Modifica cualquier importe o fecha en el borrador antes de enviar la versión definitiva a la otra parte firmante.
+          </p>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h3 class="text-xl font-bold text-slate-900">Preguntas Frecuentes sobre el desbloqueo de PDFs firmados</h3>
         {faqs.map((f) => (
           <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-            <h3 class="text-sm font-bold text-slate-900">{f.q}</h3>
+            <h4 class="text-sm font-bold text-slate-900">{f.q}</h4>
             <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">{f.a}</p>
           </div>
         ))}
@@ -139,6 +184,7 @@ const faqs = [
     </div>
   </article>
 
+  <!-- Schema JSON-LD -->
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -245,14 +291,14 @@ const faqs = [
 
   dropzone?.addEventListener('dragover', (e) => {
     e.preventDefault();
-    dropzone.classList.add('border-blue-600');
+    dropzone.classList.add('border-amber-600');
   });
   dropzone?.addEventListener('dragleave', () => {
-    dropzone.classList.remove('border-blue-600');
+    dropzone.classList.remove('border-amber-600');
   });
   dropzone?.addEventListener('drop', (e) => {
     e.preventDefault();
-    dropzone.classList.remove('border-blue-600');
+    dropzone.classList.remove('border-amber-600');
     if (e.dataTransfer?.files?.[0]) stripSignaturesFromPdf(e.dataTransfer.files[0]);
   });
 </script>

@@ -2,18 +2,46 @@
 // src/pages/firmar-pdf-certificado-mac-iphone.astro
 import Layout from '../layouts/Layout.astro';
 import SigningStudio from '../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Por qué AutoFirma falla constantemente en macOS con el error 'Broken pipe' o 'Conexión rechazada'?",
+    a: "AutoFirma para macOS se ejecuta mediante una máquina virtual Java que intenta comunicarse con los navegadores web (Safari o Google Chrome) a través de un socket TCP local (ws://localhost:17272). Los sistemas de seguridad de macOS (Gatekeeper y el cortafuegos interno) bloquean con frecuencia este túnel por sospecha de script cruzado (cross-site scripting), provocando el temido error 'Broken pipe'. En FirmarPDFCertificado.com eliminamos por completo los servidores y sockets locales: el motor criptográfico se ejecuta de forma nativa en la memoria RAM del navegador mediante Web Workers y Web Crypto API."
+  },
+  {
+    q: "¿Puedo usar el certificado digital que tengo instalado en Ajustes > Perfiles de iOS en iPhone o iPad?",
+    a: "Apple aísla estrictamente los perfiles de certificados instalados en iOS/iPadOS dentro del Keychain del sistema operativo, impidiendo por motivos de sandbox que Safari o cualquier navegador web acceda a ellos para firmar archivos PDF en sedes electrónicas públicas. Para firmar en iPhone o iPad con nuestra herramienta, simplemente guarda una copia de tu archivo .p12 o .pfx en la app Archivos (iCloud Drive o 'En mi iPhone') y selecciónalo en el firmador web."
+  },
+  {
+    q: "¿Es 100% compatible con los procesadores Apple Silicon (M1, M2, M3 y M4)?",
+    a: "Sí, de forma completamente nativa. Al ejecutarse directamente dentro del motor JavaScript de Safari, Chrome o Edge, aprovecha las instrucciones criptográficas aceleradas por hardware de los chips Apple Silicon sin necesidad de emulación Rosetta 2 ni entornos de ejecución Java desactualizados."
+  },
+  {
+    q: "¿Cómo transfiero de forma segura mi certificado digital .p12 de mi Mac a mi iPhone?",
+    a: "El método más seguro y rápido dentro del ecosistema Apple es AirDrop. En tu Mac, haz clic derecho en tu archivo .p12 exportado, pulsa 'Compartir' > 'AirDrop' y selecciona tu iPhone o iPad. Al recibirlo, guárdalo en la aplicación 'Archivos'. Nunca envíes tu certificado con clave privada por correo electrónico no cifrado ni aplicaciones de mensajería pública."
+  },
+  {
+    q: "¿Tienen las firmas realizadas en Mac o iPhone validez legal ante Hacienda y la Seguridad Social?",
+    a: "Tienen exactamente la misma validez legal que las firmas realizadas con AutoFirma en un PC con Windows. Nuestra plataforma estampa firmas electrónicas avanzadas bajo el estándar PAdES-B-B (ETSI EN 319 142-1) conforme al Reglamento eIDAS (Reglamento UE 910/2014) y la Ley 6/2020. Son aceptadas sin reserva alguna por la Agencia Tributaria (AEAT), Seguridad Social, Dirección General de Tráfico (DGT), LexNET Justicia y cualquier registro electrónico de España."
+  },
+  {
+    q: "¿Por qué no se requiere instalar software adicional ni permisos especiales en macOS?",
+    a: "Porque aprovechamos las especificaciones web modernas de W3C. La generación de la estructura PKCS#7 / CMS y el cálculo de la huella digital SHA-256 se ejecutan directamente en el hilo aislado de JavaScript en Safari. No requiere instalar JRE (Java Runtime Environment), ni otorgar permisos de accesibilidad, ni ejecutar comandos en la Terminal para desactivar Gatekeeper."
+  }
+];
 ---
 
 <Layout
   title="Firmar PDF con Certificado Digital en Mac, iPhone y iPad (Safari)"
-  description="Firma archivos PDF desde Safari en macOS, iOS y iPadOS con tu certificado digital .p12. Sin problemas de Java ni errores Broken pipe de AutoFirma."
+  description="Firma archivos PDF desde Safari en macOS, iOS y iPadOS con tu certificado digital .p12. Sin Java, sin errores Broken pipe de AutoFirma y con validez eIDAS."
   canonicalPath="/firmar-pdf-certificado-mac-iphone/"
 >
+  <!-- Hero Section -->
   <section class="py-10 sm:py-14 bg-gradient-to-b from-blue-50/60 to-transparent">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <SigningStudio
         headline="Firmar PDF en Mac, iPhone y iPad con Certificado Digital"
-        subheadline="Firma en segundos desde Safari en macOS, iOS y iPadOS. Compatible al 100% con chips Apple Silicon (M1, M2, M3, M4) y dispositivos móviles."
+        subheadline="Firma en segundos desde Safari en macOS, iOS y iPadOS. Compatible al 100% con chips Apple Silicon (M1, M2, M3, M4) y dispositivos móviles sin instalar Java ni AutoFirma."
       />
     </div>
   </section>
@@ -21,33 +49,130 @@ import SigningStudio from '../components/SigningStudio.astro';
   <!-- Step-by-Step for Apple Users -->
   <section class="py-12 bg-white border-t border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 prose prose-slate text-sm sm:text-base leading-relaxed">
-      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Guía de firma con certificado digital en el ecosistema Apple</h2>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-slate-100 text-slate-800 rounded-full text-xs font-semibold mb-3 not-prose">
+        <span>🍎</span> Ecosistema macOS, iOS y iPadOS sin dependencias
+      </div>
+      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+        Guía de firma con certificado digital en el ecosistema Apple sin AutoFirma
+      </h2>
       <p class="text-slate-600 mt-3">
-        Los usuarios de Apple (macOS y iOS) sufren históricamente las mayores incompatibilidades con las sedes electrónicas españolas y la aplicación oficial AutoFirma. En esta guía te explicamos cómo firmar fácilmente sin instalar Java ni configurar terminales:
+        Los usuarios de Apple (macOS y iOS) sufren históricamente las mayores incompatibilidades con las sedes electrónicas públicas de la Administración española y la aplicación oficial AutoFirma. Desde el error <em>"Broken pipe"</em> en Safari hasta el bloqueo de aplicaciones de desarrolladores no identificados por Gatekeeper en macOS Sonoma y Sequoia, tramitar un documento puede convertirse en una pesadilla.
+      </p>
+      <p class="text-slate-600">
+        En <strong>FirmarPDFCertificado.com</strong> resolvemos esta barrera técnica ofreciendo una solución 100% web que procesa tus archivos criptográficamente dentro de la memoria RAM de tu propio navegador Safari o Chrome, sin requerir Java ni instalaciones que comprometan la seguridad de tu equipo:
       </p>
 
-      <div class="space-y-4 my-6 not-prose">
+      <div class="space-y-4 my-8 not-prose">
         <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-          <h4 class="font-bold text-slate-900 text-sm">Paso 1: Exportar tu certificado desde Acceso a Llaveros (macOS)</h4>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-6 h-6 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center justify-center">1</span>
+            <h3 class="font-bold text-slate-900 text-sm">Exportar tu certificado desde Acceso a Llaveros en Mac</h3>
+          </div>
           <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-            Abre la app <em>Acceso a Llaveros</em> en tu Mac, busca tu certificado en la sección "Mis certificados", haz clic derecho y selecciona <strong>Exportar</strong>. Elige formato <code>.p12</code> y ponle una contraseña que recuerdes.
+            Abre la aplicación <strong>Acceso a Llaveros</strong> (<em>Keychain Access</em>) en tu Mac, dirígete a la pestaña "Mis certificados", localiza tu certificado de la FNMT o DNIe, haz clic derecho y selecciona <strong>Exportar</strong>. Guarda el archivo con extensión <code>.p12</code> y asígnale una contraseña que recuerdes. Si necesitas ayuda detallada, consulta nuestra <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-700 font-semibold hover:underline">guía para exportar certificado FNMT</a>.
           </p>
         </div>
 
         <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-          <h4 class="font-bold text-slate-900 text-sm">Paso 2: En iPhone o iPad</h4>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-6 h-6 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center justify-center">2</span>
+            <h3 class="font-bold text-slate-900 text-sm">En iPhone o iPad: Guardar en la app Archivos</h3>
+          </div>
           <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-            Envía el archivo <code>.p12</code> a tu iPhone mediante AirDrop o guárdalo en la app <em>Archivos</em> (iCloud Drive).
+            Envía el archivo <code>.p12</code> desde tu Mac a tu dispositivo móvil mediante <strong>AirDrop</strong> o descárgalo desde iCloud Drive / Google Drive y guárdalo dentro de la carpeta "Archivos" (en tu iPhone o iPad). No es necesario instalarlo como perfil en Ajustes.
           </p>
         </div>
 
         <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-          <h4 class="font-bold text-slate-900 text-sm">Paso 3: Firmar en Safari</h4>
+          <div class="flex items-center gap-2 mb-1">
+            <span class="w-6 h-6 rounded-full bg-blue-700 text-white text-xs font-bold flex items-center justify-center">3</span>
+            <h3 class="font-bold text-slate-900 text-sm">Firmar directamente en Safari con validez oficial</h3>
+          </div>
           <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-            Entra en <strong>FirmarPDFCertificado.com</strong> desde Safari, arrastra tu PDF y tu archivo <code>.p12</code>, escribe la contraseña y pulsa en <strong>Firmar PDF</strong>. El documento se descargará sellado y con validez oficial.
+            Abre Safari en tu Mac, iPhone o iPad, arrastra o selecciona tu archivo PDF y tu certificado <code>.p12</code> en el firmador web superior, introduce la contraseña de protección y haz clic en <strong>Firmar PDF Ahora</strong>. Tu navegador calculará la firma PAdES-B-B en 2 segundos y descargará el documento firmado con sello visual administrativo.
           </p>
         </div>
       </div>
+
+      <h3 class="text-xl font-bold text-slate-900 mt-8">Ventajas frente a Adobe Acrobat Reader y AutoFirma en macOS</h3>
+      <p class="text-slate-600">
+        Adobe Acrobat Reader para macOS requiere una instalación superior a 500 MB y solicita continuamente permisos de actualización en segundo plano. Por su parte, AutoFirma sufre frecuentes desincronizaciones cada vez que Apple publica una actualización de seguridad del sistema.
+      </p>
+
+      <div class="overflow-x-auto not-prose border border-slate-200 rounded-xl my-6">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead class="bg-slate-900 text-white">
+            <tr>
+              <th class="p-3 font-bold">Criterio</th>
+              <th class="p-3 font-bold text-blue-400">FirmarPDFCertificado (Safari)</th>
+              <th class="p-3 font-bold text-slate-300">AutoFirma Mac</th>
+              <th class="p-3 font-bold text-slate-300">Adobe Reader DC Mac</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr>
+              <td class="p-3 font-medium">Instalación y espacio</td>
+              <td class="p-3 text-emerald-600 font-bold">0 MB (Web instantánea)</td>
+              <td class="p-3 text-rose-600">~220 MB + JRE</td>
+              <td class="p-3 text-rose-600">~550 MB</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">Compatibilidad iPhone / iPad</td>
+              <td class="p-3 text-emerald-600 font-bold">✅ 100% Funcional</td>
+              <td class="p-3 text-rose-600">❌ Incompatible en navegadores</td>
+              <td class="p-3 text-amber-600">Limitada (Plan de pago)</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">Errores de puertos / Sockets</td>
+              <td class="p-3 text-emerald-600 font-bold">✅ Cero errores (Sin sockets)</td>
+              <td class="p-3 text-rose-600">Frecuente ("Broken pipe")</td>
+              <td class="p-3 text-slate-600">No aplica</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">Privacidad (Cero servidores)</td>
+              <td class="p-3 text-emerald-600 font-bold">✅ 100% Local en RAM</td>
+              <td class="p-3 text-emerald-600 font-bold">✅ Local</td>
+              <td class="p-3 text-amber-600">Sincroniza con Document Cloud</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Related Tools Navigation -->
+      <div class="p-5 bg-blue-50/70 border border-blue-200 rounded-xl not-prose my-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div>
+          <h4 class="font-bold text-blue-900 text-sm">¿Necesitas verificar un documento firmado recibido de un tercero?</h4>
+          <p class="text-xs text-blue-800 mt-0.5">Comprueba la validez de las firmas digitales y certificados X.509 en cualquier PDF sin instalar visores externos.</p>
+        </div>
+        <a
+          href="/validar-firma-digital-pdf/"
+          class="shrink-0 px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg transition-colors"
+        >
+          🔍 Validar Firma Digital →
+        </a>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="pt-6 border-t border-slate-200 not-prose space-y-4">
+        <h3 class="text-xl font-bold text-slate-900 mb-4">Preguntas Frecuentes sobre la firma en Mac, iPhone y iPad</h3>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h4 class="text-sm font-bold text-slate-900">{f.q}</h4>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
+
+  <!-- Schema JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
 </Layout>

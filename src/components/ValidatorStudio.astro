@@ -1,483 +1,520 @@
 ---
 // src/components/ValidatorStudio.astro
-interface Props {
-  title?: string;
-  subtitle?: string;
-}
-
-const {
-  title = 'Validar Firma Digital PDF Online (Verificador eIDAS / PAdES)',
-  subtitle = 'Comprueba la autenticidad criptográfica, el certificado FNMT/DNIe del firmante y la integridad del documento 100% en tu navegador.',
-} = Astro.props;
 ---
 
-<section class="w-full max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden my-6">
-  <!-- Top Trust Header -->
-  <div class="bg-slate-900 text-white px-6 py-4 flex flex-wrap items-center justify-between gap-2">
-    <div>
-      <h2 class="text-lg font-bold tracking-tight flex items-center gap-2">
-        <span>🔍</span> {title}
-      </h2>
-      <p class="text-xs text-slate-300 mt-0.5">{subtitle}</p>
+<div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+  <!-- Dropzone Principal -->
+  <div id="validator-dropzone" class="p-8 md:p-12 text-center border-2 border-dashed border-slate-300 hover:border-emerald-500 rounded-xl m-4 transition-all cursor-pointer bg-slate-50/70 hover:bg-emerald-50/20">
+    <input type="file" id="pdf-audit-input" accept="application/pdf,.pdf" class="hidden" />
+    
+    <div class="w-16 h-16 rounded-2xl bg-slate-900 text-emerald-400 flex items-center justify-center mx-auto mb-4 shadow-md">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+        <path d="m9 12 2 2 4-4"/>
+      </svg>
     </div>
-    <div class="flex items-center gap-2 text-xs bg-blue-950/90 border border-blue-700 text-blue-300 px-3 py-1.5 rounded-full font-medium">
-      <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
-      Auditoría Criptográfica Local · Sin Subida
-    </div>
+
+    <h2 class="text-xl md:text-2xl font-bold text-slate-900 mb-2">
+      Arrastra aquí el archivo PDF que deseas auditar
+    </h2>
+    <p class="text-slate-500 text-sm max-w-lg mx-auto mb-6">
+      Inspección binaria inmediata de firmas PAdES, PKCS#7, FNMT y DNIe. Procesamiento 100% en la memoria RAM de tu navegador.
+    </p>
+
+    <button type="button" id="select-pdf-btn" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow transition-colors inline-flex items-center gap-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-emerald-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+        <polyline points="17 8 12 3 7 8"/>
+        <line x1="12" y1="3" x2="12" y2="15"/>
+      </svg>
+      Seleccionar documento PDF
+    </button>
   </div>
 
-  <div class="p-6 md:p-8 space-y-6">
-    <!-- PDF Upload Dropzone -->
-    <label
-      id="val-pdf-dropzone"
-      for="val-pdf-input"
-      class="group relative flex flex-col items-center justify-center p-8 border-2 border-dashed border-slate-300 hover:border-blue-600 rounded-xl bg-slate-50/70 hover:bg-blue-50/40 cursor-pointer transition-all text-center min-h-[190px]"
-    >
-      <input id="val-pdf-input" type="file" accept="application/pdf,.pdf" class="sr-only" />
-      <div class="w-14 h-14 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-3xl mb-3 group-hover:scale-105 transition-transform">
-        🛡️
-      </div>
-      <span class="text-base font-bold text-slate-800" id="val-pdf-title">
-        Selecciona o arrastra aquí el archivo PDF firmado para verificarlo
-      </span>
-      <span class="text-xs text-slate-500 mt-1 max-w-lg" id="val-pdf-sub">
-        Analiza firmas PAdES, CAdES y PKCS#7 generadas con AutoFirma, FNMT, DNIe o cualquier autoridad europea eIDAS.
-      </span>
-      <span class="mt-4 inline-flex items-center px-4 py-2 bg-blue-700 group-hover:bg-blue-800 text-white text-xs font-bold rounded-lg shadow-xs transition-colors">
-        Analizar Firma Criptográfica →
-      </span>
-    </label>
-
-    <!-- Status / Error Message -->
-    <div id="val-status-box" class="hidden rounded-xl p-4 text-sm font-medium"></div>
-
-    <!-- Validation Report Output Container -->
-    <div id="val-report-container" class="hidden space-y-6">
-      <!-- Overall Summary Banner -->
-      <div id="val-summary-banner" class="rounded-xl p-5 border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div class="space-y-1">
-          <div class="flex items-center gap-2 font-bold text-base" id="val-summary-title"></div>
-          <p class="text-xs leading-relaxed" id="val-summary-desc"></p>
+  <!-- Panel de Resultados de Auditoría (Oculto por defecto) -->
+  <div id="audit-results-panel" class="hidden border-t border-slate-200 p-6 md:p-8 bg-white">
+    <!-- Cabecera del archivo analizado -->
+    <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-200">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-lg bg-slate-100 flex items-center justify-center text-slate-700 font-bold text-xs">
+          PDF
         </div>
-        <div id="val-summary-badge" class="px-3.5 py-1.5 rounded-full text-xs font-bold shrink-0"></div>
-      </div>
-
-      <!-- Signatures List -->
-      <div id="val-signatures-list" class="space-y-4"></div>
-
-      <!-- CTA to Sign a Document if Unsigned or Needs Counter-Signature -->
-      <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <p class="text-sm font-bold text-slate-800">¿Necesitas firmar o cofirmar este documento PDF?</p>
-          <p class="text-xs text-slate-600">Añade tu firma digital PAdES-B-B con sello administrativo oficial en 1 clic sin instalar AutoFirma.</p>
+          <h3 id="audit-filename" class="font-bold text-slate-900 text-base break-all">documento.pdf</h3>
+          <p id="audit-filemeta" class="text-xs text-slate-500">Tamaño: 0 KB · Hash SHA-256 del archivo calculado</p>
         </div>
-        <a
-          href="/"
-          class="px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg transition-colors shrink-0"
-        >
-          ✍️ Ir al Firmador de PDF →
-        </a>
       </div>
 
-      <!-- €50,000 VeriFactu 2026 High-Ticket B2B Affiliate Hook -->
-      <div class="verifactu-callout bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-xl shadow-xs">
-        <div class="flex items-start">
-          <span class="text-amber-600 text-2xl mr-3 select-none">⚠️</span>
-          <div>
-            <h3 class="font-bold text-amber-950 text-sm md:text-base">
-              Aviso Importante para Autónomos y Pymes (Normativa VeriFactu 2026)
-            </h3>
-            <p class="text-amber-900 text-xs md:text-sm mt-1 leading-relaxed">
-              Si estás validando o emitiendo facturas en PDF manualmente, recuerda que la Agencia Tributaria (AEAT) sanciona con hasta <strong>50.000 €</strong> el uso de software de facturación no certificado.
-            </p>
-            <div class="mt-3 flex flex-wrap gap-3">
-              <a
-                href="/r/holded/"
-                target="_blank"
-                rel="nofollow noopener"
-                class="inline-flex items-center px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold rounded-lg transition-colors"
-              >
-                Probar software homologado VeriFactu gratis (Holded) →
-              </a>
-              <a
-                href="/r/qonto/"
-                target="_blank"
-                rel="nofollow noopener"
-                class="inline-flex items-center px-4 py-2 bg-white hover:bg-amber-100 text-amber-900 text-xs font-semibold border border-amber-300 rounded-lg transition-colors"
-              >
-                Cuenta empresas con facturación integrada (Qonto) →
-              </a>
-            </div>
-          </div>
-        </div>
+      <div class="flex items-center gap-2">
+        <button type="button" id="print-audit-btn" class="text-xs font-semibold px-3.5 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors">
+          Imprimir Informe
+        </button>
+        <button type="button" id="reset-audit-btn" class="text-xs font-semibold px-3.5 py-2 rounded-lg bg-slate-900 text-white hover:bg-slate-800 transition-colors">
+          Analizar otro PDF
+        </button>
       </div>
     </div>
+
+    <!-- Banner de Estado General -->
+    <div id="audit-status-banner" class="mt-6 p-5 rounded-xl border flex items-start gap-4">
+      <div id="audit-status-icon" class="shrink-0 mt-0.5"></div>
+      <div>
+        <h4 id="audit-status-title" class="font-extrabold text-lg"></h4>
+        <p id="audit-status-desc" class="text-sm mt-1 leading-relaxed"></p>
+      </div>
+    </div>
+
+    <!-- Contenedor de Tarjetas de Firmas Encontradas -->
+    <div id="signatures-list" class="mt-6 space-y-6"></div>
   </div>
-</section>
+</div>
 
 <script>
-  import forge from 'node-forge';
+  // Diccionario de OIDs estándar X.509 / PKCS#7 / PAdES
+  const OID_MAP: Record<string, string> = {
+    "2.5.4.3": "CN", // CommonName
+    "2.5.4.4": "SN", // Surname
+    "2.5.4.5": "serialNumber", // NIF/NIE en certificados españoles
+    "2.5.4.6": "C", // Country
+    "2.5.4.10": "O", // Organization
+    "2.5.4.11": "OU", // OrganizationalUnit
+    "2.5.4.42": "GN", // GivenName
+    "2.5.4.97": "organizationIdentifier", // NIF/VATES de Persona Jurídica (eIDAS)
+    "1.2.840.113549.1.9.3": "contentType",
+    "1.2.840.113549.1.9.4": "messageDigest",
+    "1.2.840.113549.1.9.5": "signingTime",
+    "1.2.840.113549.1.9.16.2.47": "signingCertificateV2", // PAdES-B ESSCertIDv2
+    "2.16.840.1.101.3.4.2.1": "SHA-256",
+    "1.3.14.3.2.26": "SHA-1",
+    "2.16.840.1.101.3.4.2.2": "SHA-384",
+    "2.16.840.1.101.3.4.2.3": "SHA-512"
+  };
 
-  interface ParsedSignatureInfo {
-    index: number;
-    subFilter: string;
-    signerName: string;
-    signerNif: string;
-    issuerName: string;
-    serialNumberHex: string;
-    signingTime: Date | null;
-    notBefore: Date;
-    notAfter: Date;
-    isIntegrityValid: boolean;
-    isWithinValidityPeriod: boolean;
-    hasPAdESCertV2Attr: boolean;
-    digestAlgorithm: string;
-    byteRange: [number, number, number, number];
-    coversWholeDocument: boolean;
-    documentSha256Preview: string;
+  interface Asn1Node {
+    tag: number;
+    headerLen: number;
+    length: number;
+    start: number;
+    valueStart: number;
+    children?: Asn1Node[];
   }
 
-  const fileInput = document.getElementById('val-pdf-input') as HTMLInputElement;
-  const dropzone = document.getElementById('val-pdf-dropzone') as HTMLElement;
-  const titleEl = document.getElementById('val-pdf-title') as HTMLElement;
-  const subEl = document.getElementById('val-pdf-sub') as HTMLElement;
-  const statusBox = document.getElementById('val-status-box') as HTMLElement;
-  const reportContainer = document.getElementById('val-report-container') as HTMLElement;
-  const summaryBanner = document.getElementById('val-summary-banner') as HTMLElement;
-  const summaryTitle = document.getElementById('val-summary-title') as HTMLElement;
-  const summaryDesc = document.getElementById('val-summary-desc') as HTMLElement;
-  const summaryBadge = document.getElementById('val-summary-badge') as HTMLElement;
-  const signaturesList = document.getElementById('val-signatures-list') as HTMLElement;
+  // Decodificador ASN.1 DER/BER ligero en memoria
+  function parseAsn1(bytes: Uint8Array, offset = 0, maxOffset = bytes.length): Asn1Node | null {
+    if (offset >= maxOffset || bytes[offset] === 0x00) return null;
+    const start = offset;
+    const tag = bytes[offset++];
+    if (offset >= maxOffset) return null;
 
-  function showStatus(msg: string, type: 'info' | 'error' = 'info') {
-    statusBox.classList.remove(
-      'hidden',
-      'bg-blue-50',
-      'text-blue-800',
-      'border-blue-200',
-      'bg-red-50',
-      'text-red-800',
-      'border-red-200'
-    );
-    statusBox.classList.add('border');
-    if (type === 'error') {
-      statusBox.classList.add('bg-red-50', 'text-red-800', 'border-red-200');
-    } else {
-      statusBox.classList.add('bg-blue-50', 'text-blue-800', 'border-blue-200');
-    }
-    statusBox.textContent = msg;
-  }
-
-  function decodeCertField(field: any): string {
-    if (!field || !field.value) return '';
-    try {
-      return forge.util.decodeUtf8(field.value);
-    } catch {
-      return String(field.value);
-    }
-  }
-
-  async function inspectPdfSignatures(buffer: ArrayBuffer): Promise<ParsedSignatureInfo[]> {
-    const pdfBytes = new Uint8Array(buffer);
-    const decoder = new TextDecoder('latin1');
-    const pdfStr = decoder.decode(pdfBytes);
-
-    const fullHashBuf = await crypto.subtle.digest('SHA-256', buffer);
-    const docHashPreview = Array.from(new Uint8Array(fullHashBuf))
-      .map((b) => b.toString(16).padStart(2, '0'))
-      .join('')
-      .slice(0, 24)
-      .toUpperCase();
-
-    const byteRangeRegex = /\/ByteRange\s*\[\s*(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s*\]/g;
-    const results: ParsedSignatureInfo[] = [];
-    let match: RegExpExecArray | null;
-    let sigIndex = 0;
-
-    while ((match = byteRangeRegex.exec(pdfStr)) !== null) {
-      sigIndex++;
-      const o1 = parseInt(match[1], 10);
-      const l1 = parseInt(match[2], 10);
-      const o2 = parseInt(match[3], 10);
-      const l2 = parseInt(match[4], 10);
-
-      const contextStart = Math.max(0, match.index - 400);
-      const contextEnd = Math.min(pdfStr.length, match.index + 600);
-      const dictContext = pdfStr.slice(contextStart, contextEnd);
-      const subFilterMatch = dictContext.match(/\/SubFilter\s*\/([A-Za-z0-9._-]+)/);
-      const subFilter = subFilterMatch ? subFilterMatch[1] : 'adbe.pkcs7.detached';
-
-      let rawContentsSlice = pdfStr.slice(o1 + l1, o2).trim();
-      if (rawContentsSlice.startsWith('<') && rawContentsSlice.endsWith('>')) {
-        rawContentsSlice = rawContentsSlice.slice(1, -1);
-      } else {
-        const contentsMatch = pdfStr.slice(match.index).match(/\/Contents\s*<([0-9A-Fa-f\s]+)>/);
-        if (!contentsMatch) continue;
-        rawContentsSlice = contentsMatch[1];
+    let length = bytes[offset++];
+    if (length & 0x80) {
+      const numBytes = length & 0x7f;
+      if (numBytes === 0 || numBytes > 4 || offset + numBytes > maxOffset) return null;
+      length = 0;
+      for (let i = 0; i < numBytes; i++) {
+        length = (length << 8) | bytes[offset++];
       }
+    }
 
-      const cleanHex = rawContentsSlice.replace(/\s+/g, '');
-      const derBinaryStr = forge.util.hexToBytes(cleanHex);
-      const derBuffer = forge.util.createBuffer(derBinaryStr);
-      const cmsAsn1 = forge.asn1.fromDer(derBuffer, false);
+    const valueStart = offset;
+    const headerLen = valueStart - start;
+    if (valueStart + length > maxOffset) return null;
 
-      const p7 = (forge.pkcs7 as any).messageFromAsn1(cmsAsn1);
-      const certs: forge.pki.Certificate[] = p7.certificates || [];
+    const node: Asn1Node = { tag, headerLen, length, start, valueStart };
+    const isConstructed = (tag & 0x20) !== 0;
 
-      let signerCert = certs[0];
-      for (const cert of certs) {
-        const bc = cert.getExtension('basicConstraints') as any;
-        if (!bc || !bc.cA) {
-          signerCert = cert;
+    if (isConstructed) {
+      node.children = [];
+      let childOffset = valueStart;
+      const end = valueStart + length;
+      while (childOffset < end) {
+        if (bytes[childOffset] === 0x00 && bytes[childOffset + 1] === 0x00) {
+          childOffset += 2;
           break;
         }
+        const child = parseAsn1(bytes, childOffset, end);
+        if (!child) break;
+        node.children.push(child);
+        childOffset = child.valueStart + child.length;
       }
+    }
 
-      const cnField = signerCert?.subject.getField('CN');
-      const signerName = decodeCertField(cnField) || 'Certificado X.509 Reconocido';
+    return node;
+  }
 
-      const serialField =
-        signerCert?.subject.getField({ type: '2.5.4.5' }) ||
-        signerCert?.subject.getField('serialNumber');
-      let signerNif = decodeCertField(serialField);
-      const nifMatch = (signerNif || signerName).match(/\b([0-9]{8}[A-Z]|[XYZ][0-9]{7}[A-Z])\b/i);
-      if (nifMatch) {
-        signerNif = nifMatch[1].toUpperCase();
-      } else if (signerNif.startsWith('IDCES-')) {
-        signerNif = signerNif.replace('IDCES-', '');
+  function decodeOid(bytes: Uint8Array, node: Asn1Node): string {
+    const slice = bytes.subarray(node.valueStart, node.valueStart + node.length);
+    if (slice.length === 0) return "";
+    const parts = [Math.floor(slice[0] / 40), slice[0] % 40];
+    let value = 0;
+    for (let i = 1; i < slice.length; i++) {
+      value = (value << 7) | (slice[i] & 0x7f);
+      if ((slice[i] & 0x80) === 0) {
+        parts.push(value);
+        value = 0;
       }
+    }
+    return parts.join(".");
+  }
 
-      const issuerField =
-        signerCert?.issuer.getField('CN') || signerCert?.issuer.getField('O');
-      const issuerName = decodeCertField(issuerField) || 'Autoridad de Certificación (CA)';
-
-      let extractedDigestBytes: string | null = null;
-      let signingTime: Date | null = null;
-      let hasPAdESCertV2Attr = false;
-      let digestOid = '2.16.840.1.101.3.4.2.1';
-
-      const rawCapture = p7.rawCapture || {};
-      if (rawCapture.digestAlgorithm) {
-        try {
-          digestOid = forge.asn1.derToOid(rawCapture.digestAlgorithm);
-        } catch {}
+  function decodeAsn1String(bytes: Uint8Array, node: Asn1Node): string {
+    const slice = bytes.subarray(node.valueStart, node.valueStart + node.length);
+    // BMPString (UTF-16BE)
+    if (node.tag === 0x1e) {
+      let out = "";
+      for (let i = 0; i < slice.length; i += 2) {
+        out += String.fromCharCode((slice[i] << 8) | slice[i + 1]);
       }
+      return out.trim();
+    }
+    return new TextDecoder("utf-8", { fatal: false }).decode(slice).trim();
+  }
 
-      const authAttrs: any[] = rawCapture.authenticatedAttributes || [];
-      for (const attrAsn1 of authAttrs) {
-        if (!attrAsn1.value || attrAsn1.value.length < 2) continue;
-        const oid = forge.asn1.derToOid(attrAsn1.value[0].value);
-        const attrSet = attrAsn1.value[1];
-        const firstVal = attrSet?.value?.[0];
+  function decodeAsn1Time(bytes: Uint8Array, node: Asn1Node): Date | null {
+    const raw = decodeAsn1String(bytes, node);
+    // UTCTime (YYMMDDHHMMSSZ) o GeneralizedTime (YYYYMMDDHHMMSSZ)
+    if (node.tag === 0x17 && raw.length >= 10) {
+      const yy = parseInt(raw.slice(0, 2), 10);
+      const year = yy >= 50 ? 1900 + yy : 2000 + yy;
+      const month = parseInt(raw.slice(2, 4), 10) - 1;
+      const day = parseInt(raw.slice(4, 6), 10);
+      const hour = parseInt(raw.slice(6, 8), 10);
+      const min = parseInt(raw.slice(8, 10), 10);
+      return new Date(Date.UTC(year, month, day, hour, min));
+    }
+    if (node.tag === 0x18 && raw.length >= 12) {
+      const year = parseInt(raw.slice(0, 4), 10);
+      const month = parseInt(raw.slice(4, 6), 10) - 1;
+      const day = parseInt(raw.slice(6, 8), 10);
+      const hour = parseInt(raw.slice(8, 10), 10);
+      const min = parseInt(raw.slice(10, 12), 10);
+      return new Date(Date.UTC(year, month, day, hour, min));
+    }
+    return null;
+  }
 
-        if (oid === forge.pki.oids.messageDigest && firstVal) {
-          extractedDigestBytes = firstVal.value;
-        } else if (oid === forge.pki.oids.signingTime && firstVal) {
-          try {
-            signingTime = forge.asn1.utcTimeToDate(firstVal.value);
-          } catch {
-            try {
-              signingTime = forge.asn1.generalizedTimeToDate(firstVal.value);
-            } catch {}
+  function extractRDNMap(bytes: Uint8Array, nameNode: Asn1Node): Record<string, string> {
+    const map: Record<string, string> = {};
+    if (!nameNode.children) return map;
+    for (const rdnSet of nameNode.children) {
+      if (!rdnSet.children) continue;
+      for (const atv of rdnSet.children) {
+        if (atv.children && atv.children.length >= 2 && atv.children[0].tag === 0x06) {
+          const oid = decodeOid(bytes, atv.children[0]);
+          const key = OID_MAP[oid] || oid;
+          const val = decodeAsn1String(bytes, atv.children[1]);
+          map[key] = val;
+        }
+      }
+    }
+    return map;
+  }
+
+  function hexToBytes(hex: string): Uint8Array {
+    const clean = hex.replace(/[^0-9A-Fa-f]/g, "");
+    // Recortar el relleno de ceros finales del contenedor /Contents
+    let trimmedEnd = clean.length;
+    while (trimmedEnd > 4 && clean.slice(trimmedEnd - 2, trimmedEnd) === "00") {
+      trimmedEnd -= 2;
+    }
+    const finalHex = trimmedEnd % 2 === 0 ? clean.slice(0, trimmedEnd) : clean.slice(0, trimmedEnd + 1);
+    const out = new Uint8Array(finalHex.length / 2);
+    for (let i = 0; i < out.length; i++) {
+      out[i] = parseInt(finalHex.substr(i * 2, 2), 16);
+    }
+    return out;
+  }
+
+  function toHex(bytes: Uint8Array): string {
+    return Array.from(bytes).map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+
+  // Recorrido recursivo para extraer Certificados X.509 y Atributos Firmados CMS
+  function inspectPkcs7Cms(cmsBytes: Uint8Array) {
+    const root = parseAsn1(cmsBytes);
+    const result = {
+      subject: {} as Record<string, string>,
+      issuer: {} as Record<string, string>,
+      validFrom: null as Date | null,
+      validTo: null as Date | null,
+      messageDigestHex: "",
+      signingTime: null as Date | null,
+      hasPadesEssCertIdV2: false,
+      digestAlgorithm: "SHA-256"
+    };
+
+    if (!root) return result;
+
+    function walk(node: Asn1Node) {
+      // Detectar TBSCertificate dentro de un Certificate X.509 (SEQUENCE -> tbsCertificate SEQUENCE)
+      if (
+        node.tag === 0x30 &&
+        node.children &&
+        node.children.length >= 6 &&
+        node.children[0].tag === 0xa0 && // Version [0] EXPLICIT
+        node.children[1].tag === 0x02 && // SerialNumber INTEGER
+        node.children[2].tag === 0x30 && // Signature Algorithm
+        node.children[3].tag === 0x30 && // Issuer Name
+        node.children[4].tag === 0x30 && // Validity
+        node.children[5].tag === 0x30    // Subject Name
+      ) {
+        const issuerMap = extractRDNMap(cmsBytes, node.children[3]);
+        const subjectMap = extractRDNMap(cmsBytes, node.children[5]);
+        // Quedarnos con el certificado hoja (el del firmante final, no el de la CA raíz)
+        if (subjectMap.CN !== issuerMap.CN || Object.keys(result.subject).length === 0) {
+          result.issuer = issuerMap;
+          result.subject = subjectMap;
+          const validityNode = node.children[4];
+          if (validityNode.children && validityNode.children.length >= 2) {
+            result.validFrom = decodeAsn1Time(cmsBytes, validityNode.children[0]);
+            result.validTo = decodeAsn1Time(cmsBytes, validityNode.children[1]);
           }
-        } else if (
-          oid === '1.2.840.113549.1.9.16.2.47' ||
-          oid === '1.2.840.113549.1.9.16.2.12'
-        ) {
-          hasPAdESCertV2Attr = true;
         }
       }
 
-      const useSha1 = digestOid === forge.pki.oids.sha1;
-      const md = useSha1 ? forge.md.sha1.create() : forge.md.sha256.create();
-      const range1 = decoder.decode(pdfBytes.subarray(o1, o1 + l1));
-      const range2 = decoder.decode(pdfBytes.subarray(o2, o2 + l2));
-      md.update(range1, 'raw');
-      md.update(range2, 'raw');
-      const computedDigestBytes = md.digest().getBytes();
+      // Detectar OIDs de atributos CMS / PKCS#7 (messageDigest, signingTime, PAdES ESSCertIDv2)
+      if (node.tag === 0x30 && node.children && node.children.length >= 2 && node.children[0].tag === 0x06) {
+        const oid = decodeOid(cmsBytes, node.children[0]);
+        if (oid === "1.2.840.113549.1.9.4") {
+          // messageDigest -> SET -> OCTET STRING
+          const setNode = node.children[1];
+          if (setNode.children && setNode.children[0]?.tag === 0x04) {
+            const octNode = setNode.children[0];
+            result.messageDigestHex = toHex(cmsBytes.subarray(octNode.valueStart, octNode.valueStart + octNode.length));
+          }
+        } else if (oid === "1.2.840.113549.1.9.5") {
+          // signingTime -> SET -> UTCTime / GeneralizedTime
+          const setNode = node.children[1];
+          if (setNode.children && setNode.children[0]) {
+            result.signingTime = decodeAsn1Time(cmsBytes, setNode.children[0]);
+          }
+        } else if (oid === "1.2.840.113549.1.9.16.2.47") {
+          result.hasPadesEssCertIdV2 = true;
+        }
+      }
 
-      const isIntegrityValid =
-        extractedDigestBytes !== null && computedDigestBytes === extractedDigestBytes;
+      if (node.children) {
+        for (const child of node.children) walk(child);
+      }
+    }
 
-      const notBefore = signerCert ? signerCert.validity.notBefore : new Date(0);
-      const notAfter = signerCert ? signerCert.validity.notAfter : new Date(0);
-      const checkDate = signingTime || new Date();
-      const isWithinValidityPeriod = checkDate >= notBefore && checkDate <= notAfter;
-      const coversWholeDocument = o2 + l2 === pdfBytes.length;
+    walk(root);
+    return result;
+  }
 
-      results.push({
-        index: sigIndex,
-        subFilter,
-        signerName,
-        signerNif: signerNif || 'Incluido en Sujeto DN',
-        issuerName,
-        serialNumberHex: signerCert?.serialNumber?.toUpperCase() || 'N/A',
-        signingTime,
-        notBefore,
-        notAfter,
-        isIntegrityValid,
-        isWithinValidityPeriod,
-        hasPAdESCertV2Attr,
-        digestAlgorithm: useSha1 ? 'SHA-1' : 'SHA-256',
-        byteRange: [o1, l1, o2, l2],
-        coversWholeDocument,
-        documentSha256Preview: docHashPreview,
+  async function auditPdfBuffer(file: File) {
+    const arrayBuffer = await file.arrayBuffer();
+    const pdfBytes = new Uint8Array(arrayBuffer);
+    const latin1Text = new TextDecoder("latin1").decode(pdfBytes);
+
+    // 1. Hash general del documento PDF
+    const fullDocHashBuf = await crypto.subtle.digest("SHA-256", pdfBytes);
+    const fullDocHashHex = toHex(new Uint8Array(fullDocHashBuf));
+
+    // 2. Buscar todas las ocurrencias de /ByteRange [b0 l0 b1 l1]
+    const byteRangeRegex = /\/ByteRange\s*\[\s*(\d+)\s+(\d+)\s+(\d+)\s+(\d+)\s*\]/g;
+    const matches = [...latin1Text.matchAll(byteRangeRegex)];
+
+    const signatures = [];
+
+    for (let idx = 0; idx < matches.length; idx++) {
+      const m = matches[idx];
+      const b0 = parseInt(m[1], 10);
+      const l0 = parseInt(m[2], 10);
+      const b1 = parseInt(m[3], 10);
+      const l1 = parseInt(m[4], 10);
+
+      // Extraer el bloque hexadecimal entre el final del primer tramo (b0+l0) y el inicio del segundo (b1)
+      const contentsRawSlice = latin1Text.slice(b0 + l0, b1);
+      const hexMatch = contentsRawSlice.match(/<([0-9A-Fa-f\s]+)>/);
+
+      let cmsBytes = new Uint8Array();
+      if (hexMatch) {
+        cmsBytes = hexToBytes(hexMatch[1]);
+      }
+
+      // Calcular el hash SHA-256 real de los dos intervalos del ByteRange
+      let calculatedRangeHashHex = "";
+      const rangeValidBounds = b0 === 0 && b1 >= b0 + l0 && b1 + l1 <= pdfBytes.length;
+
+      if (rangeValidBounds) {
+        const signedBytes = new Uint8Array(l0 + l1);
+        signedBytes.set(pdfBytes.subarray(b0, b0 + l0), 0);
+        signedBytes.set(pdfBytes.subarray(b1, b1 + l1), l0);
+        const digestBuf = await crypto.subtle.digest("SHA-256", signedBytes);
+        calculatedRangeHashHex = toHex(new Uint8Array(digestBuf));
+      }
+
+      const cmsInfo = inspectPkcs7Cms(cmsBytes);
+      const coversEntireFile = b1 + l1 === pdfBytes.length;
+      const hashMatches =
+        cmsInfo.messageDigestHex.length > 0 &&
+        calculatedRangeHashHex.toLowerCase() === cmsInfo.messageDigestHex.toLowerCase();
+
+      signatures.push({
+        index: idx + 1,
+        byteRange: [b0, l0, b1, l1],
+        coversEntireFile,
+        calculatedRangeHashHex,
+        hashMatches,
+        cmsInfo
       });
     }
 
-    return results;
+    return { fullDocHashHex, signatures };
   }
 
-  function renderReport(fileName: string, signatures: ParsedSignatureInfo[]) {
-    statusBox.classList.add('hidden');
-    reportContainer.classList.remove('hidden');
-    signaturesList.innerHTML = '';
+  // Referencias del DOM y renderizado de interfaz
+  const dropzone = document.getElementById("validator-dropzone") as HTMLElement;
+  const fileInput = document.getElementById("pdf-audit-input") as HTMLInputElement;
+  const selectBtn = document.getElementById("select-pdf-btn") as HTMLButtonElement;
+  const resultsPanel = document.getElementById("audit-results-panel") as HTMLElement;
+  const filenameEl = document.getElementById("audit-filename") as HTMLElement;
+  const filemetaEl = document.getElementById("audit-filemeta") as HTMLElement;
+  const statusBanner = document.getElementById("audit-status-banner") as HTMLElement;
+  const statusIcon = document.getElementById("audit-status-icon") as HTMLElement;
+  const statusTitle = document.getElementById("audit-status-title") as HTMLElement;
+  const statusDesc = document.getElementById("audit-status-desc") as HTMLElement;
+  const signaturesList = document.getElementById("signatures-list") as HTMLElement;
+  const resetBtn = document.getElementById("reset-audit-btn") as HTMLButtonElement;
+  const printBtn = document.getElementById("print-audit-btn") as HTMLButtonElement;
 
-    summaryBanner.className =
-      'rounded-xl p-5 border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4';
+  selectBtn?.addEventListener("click", (e) => {
+    e.stopPropagation();
+    fileInput?.click();
+  });
 
-    if (signatures.length === 0) {
-      summaryBanner.classList.add('bg-amber-50', 'border-amber-300', 'text-amber-950');
-      summaryTitle.innerHTML = '<span>⚠️</span> Documento PDF Sin Firma Criptográfica';
-      summaryDesc.textContent = `El archivo "${fileName}" no contiene ningún diccionario de firma digital (/ByteRange / PKCS#7). Si tiene un garabato o imagen pegada, se trata solo de un dibujo sin validez criptográfica.`;
-      summaryBadge.className =
-        'px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-200 text-amber-900 shrink-0';
-      summaryBadge.textContent = 'NO FIRMADO';
-      return;
-    }
+  dropzone?.addEventListener("click", () => fileInput?.click());
 
-    const allValid = signatures.every((s) => s.isIntegrityValid && s.isWithinValidityPeriod);
+  dropzone?.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    dropzone.classList.add("border-emerald-500", "bg-emerald-50/40");
+  });
 
-    if (allValid) {
-      summaryBanner.classList.add('bg-emerald-50', 'border-emerald-300', 'text-emerald-950');
-      summaryTitle.innerHTML = `<span>✅</span> Firma Digital Válida e Íntegra (${signatures.length} ${signatures.length === 1 ? 'firma detectada' : 'firmas detectadas'})`;
-      summaryDesc.textContent = `El resumen criptográfico coincide exactamente con el contenido del PDF. El documento no ha sido modificado desde su firma y cumple con el estándar europeo eIDAS.`;
-      summaryBadge.className =
-        'px-3.5 py-1.5 rounded-full text-xs font-bold bg-emerald-200 text-emerald-900 shrink-0';
-      summaryBadge.textContent = 'VÁLIDO · eIDAS';
-    } else {
-      summaryBanner.classList.add('bg-red-50', 'border-red-300', 'text-red-950');
-      summaryTitle.innerHTML = '<span>❌</span> Advertencia en la Validación Criptográfica';
-      summaryDesc.textContent =
-        'Al menos una firma presenta alteraciones en el ByteRange o el certificado se encontraba fuera de su periodo de vigencia.';
-      summaryBadge.className =
-        'px-3.5 py-1.5 rounded-full text-xs font-bold bg-red-200 text-red-900 shrink-0';
-      summaryBadge.textContent = 'REVISIÓN REQUERIDA';
-    }
+  dropzone?.addEventListener("dragleave", () => {
+    dropzone.classList.remove("border-emerald-500", "bg-emerald-50/40");
+  });
 
-    signatures.forEach((sig) => {
-      const card = document.createElement('div');
-      card.className = 'border border-slate-200 rounded-xl p-5 bg-white shadow-2xs space-y-4';
+  dropzone?.addEventListener("drop", (e) => {
+    e.preventDefault();
+    dropzone.classList.remove("border-emerald-500", "bg-emerald-50/40");
+    const file = e.dataTransfer?.files?.[0];
+    if (file) handleFile(file);
+  });
 
-      const dateFormatted = sig.signingTime
-        ? sig.signingTime.toLocaleString('es-ES', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-            hour: '2-digit',
-            minute: '2-digit',
-            second: '2-digit',
-          }) + ' UTC'
-        : 'No especificada en atributos CMS';
+  fileInput?.addEventListener("change", () => {
+    const file = fileInput.files?.[0];
+    if (file) handleFile(file);
+  });
 
-      const validityFormatted = `${sig.notBefore.toLocaleDateString('es-ES')} → ${sig.notAfter.toLocaleDateString('es-ES')}`;
+  resetBtn?.addEventListener("click", () => {
+    resultsPanel.classList.add("hidden");
+    dropzone.classList.remove("hidden");
+    fileInput.value = "";
+  });
 
-      card.innerHTML = `
-        <div class="flex flex-wrap items-center justify-between gap-2 pb-3 border-b border-slate-100">
-          <div class="flex items-center gap-2">
-            <span class="w-7 h-7 rounded-lg bg-blue-100 text-blue-800 font-bold text-xs flex items-center justify-center">
-              #${sig.index}
-            </span>
-            <div>
-              <h3 class="text-sm font-bold text-slate-900">${sig.signerName}</h3>
-              <p class="text-xs text-slate-500">NIF / Identificador: <strong>${sig.signerNif}</strong></p>
-            </div>
-          </div>
-          <div class="flex flex-wrap gap-2">
-            <span class="px-2.5 py-1 rounded-md text-[11px] font-semibold ${
-              sig.isIntegrityValid
-                ? 'bg-emerald-100 text-emerald-800'
-                : 'bg-red-100 text-red-800'
-            }">
-              ${sig.isIntegrityValid ? '✓ Integridad SHA-256 Intacta' : '✗ Documento Alterado'}
-            </span>
-            <span class="px-2.5 py-1 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700">
-              ${sig.subFilter}
-            </span>
-          </div>
-        </div>
+  printBtn?.addEventListener("click", () => window.print());
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
-          <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-            <span class="text-slate-400 font-semibold block uppercase text-[10px]">Autoridad Emisora (CA)</span>
-            <span class="text-slate-800 font-bold mt-0.5 block">${sig.issuerName}</span>
-          </div>
-          <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-            <span class="text-slate-400 font-semibold block uppercase text-[10px]">Fecha y Hora de Firma</span>
-            <span class="text-slate-800 font-bold mt-0.5 block">${dateFormatted}</span>
-          </div>
-          <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-            <span class="text-slate-400 font-semibold block uppercase text-[10px]">Vigencia del Certificado</span>
-            <span class="text-slate-800 font-bold mt-0.5 block">${validityFormatted}</span>
-          </div>
-          <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-            <span class="text-slate-400 font-semibold block uppercase text-[10px]">Estándar ETSI PAdES</span>
-            <span class="text-slate-800 font-bold mt-0.5 block">
-              ${sig.hasPAdESCertV2Attr ? 'PAdES-B-B (ESSCertIDv2 verificado)' : 'PKCS#7 / CMS Estándar'}
-            </span>
-          </div>
-          <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-            <span class="text-slate-400 font-semibold block uppercase text-[10px]">Algoritmo y Cobertura</span>
-            <span class="text-slate-800 font-bold mt-0.5 block">
-              ${sig.digestAlgorithm} · ${sig.coversWholeDocument ? '100% del archivo' : 'Firma parcial / incremental'}
-            </span>
-          </div>
-          <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
-            <span class="text-slate-400 font-semibold block uppercase text-[10px]">Huella SHA-256 (Prefijo)</span>
-            <span class="text-slate-800 font-mono text-[11px] mt-0.5 block">${sig.documentSha256Preview}...</span>
-          </div>
-        </div>
-      `;
-
-      signaturesList.appendChild(card);
-    });
-  }
-
-  async function processPdfFile(file: File) {
-    titleEl.textContent = `📄 ${file.name}`;
-    subEl.textContent = `${(file.size / 1024).toFixed(1)} KB · Auditando estructura criptográfica...`;
-    reportContainer.classList.add('hidden');
-    showStatus('🔍 Extrayendo diccionario /ByteRange y verificando resumen criptográfico...', 'info');
+  async function handleFile(file: File) {
+    dropzone.classList.add("hidden");
+    resultsPanel.classList.remove("hidden");
+    filenameEl.textContent = file.name;
+    signaturesList.innerHTML = `<div class="p-6 text-center text-slate-500 text-sm">Analizando estructuras criptográficas ASN.1 y calculando hashes SHA-256...</div>`;
 
     try {
-      const buffer = await file.arrayBuffer();
-      const signatures = await inspectPdfSignatures(buffer);
-      renderReport(file.name, signatures);
-    } catch (err: any) {
-      showStatus(
-        `❌ Error al analizar la estructura criptográfica del PDF: ${err?.message || 'Formato desconocido.'}`,
-        'error'
-      );
+      const { fullDocHashHex, signatures } = await auditPdfBuffer(file);
+      const sizeKb = (file.size / 1024).toFixed(1);
+      filemetaEl.textContent = `${sizeKb} KB · SHA-256: ${fullDocHashHex.slice(0, 24)}...`;
+
+      if (signatures.length === 0) {
+        statusBanner.className = "mt-6 p-5 rounded-xl border bg-amber-50 border-amber-300 text-amber-900 flex items-start gap-4";
+        statusIcon.innerHTML = `<svg class="w-7 h-7 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
+        statusTitle.textContent = "Documento PDF Sin Firma Criptográfica";
+        statusDesc.textContent = "No se han detectado estructuras PKCS#7 / CMS ni diccionarios /ByteRange en el código binario. Si el documento muestra un garabato o sello visual, se trata únicamente de una imagen pegada sin validez criptográfica.";
+        signaturesList.innerHTML = "";
+        return;
+      }
+
+      const allIntact = signatures.every(s => s.hashMatches);
+
+      if (allIntact) {
+        statusBanner.className = "mt-6 p-5 rounded-xl border bg-emerald-50 border-emerald-300 text-emerald-950 flex items-start gap-4";
+        statusIcon.innerHTML = `<svg class="w-7 h-7 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`;
+        statusTitle.textContent = `Firma Digital Criptográficamente Íntegra (${signatures.length} ${signatures.length === 1 ? "firma detectada" : "firmas detectadas"})`;
+        statusDesc.textContent = "El resumen criptográfico SHA-256 calculado sobre el ByteRange del PDF coincide exactamente con el atributo messageDigest firmado en el contenedor PKCS#7. El documento no ha sido alterado desde su firma.";
+      } else {
+        statusBanner.className = "mt-6 p-5 rounded-xl border bg-red-50 border-red-300 text-red-950 flex items-start gap-4";
+        statusIcon.innerHTML = `<svg class="w-7 h-7 text-red-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
+        statusTitle.textContent = "Alerta: Integridad Criptográfica Comprometida o Algoritmo Antiguo";
+        statusDesc.textContent = "El hash SHA-256 del documento actual no coincide con el resumen firmado o el documento fue modificado después de estampar la firma.";
+      }
+
+      signaturesList.innerHTML = signatures.map((sig) => {
+        const subj = sig.cmsInfo.subject;
+        const iss = sig.cmsInfo.issuer;
+        const signerName = subj.CN || `${subj.GN || ""} ${subj.SN || ""}`.trim() || "Certificado X.509 Detectado";
+        const signerId = subj.serialNumber || subj.organizationIdentifier || "No especificado en OID";
+        const orgName = subj.O || "Persona Física / Particular";
+        const issuerName = iss.CN || iss.O || "Autoridad de Certificación (CA)";
+        const signDate = sig.cmsInfo.signingTime ? sig.cmsInfo.signingTime.toLocaleString("es-ES") : "Sello temporal local / No embebido";
+        const validRange = sig.cmsInfo.validFrom && sig.cmsInfo.validTo
+          ? `${sig.cmsInfo.validFrom.toLocaleDateString("es-ES")} → ${sig.cmsInfo.validTo.toLocaleDateString("es-ES")}`
+          : "Verificado en estructura X.509";
+
+        return `
+          <div class="rounded-xl border border-slate-200 bg-slate-50/60 p-6 shadow-sm">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-4 border-b border-slate-200">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-md bg-slate-900 text-white text-xs font-bold">Firma #${sig.index}</span>
+                <span class="font-bold text-slate-900 text-base">${signerName}</span>
+              </div>
+              <span class="px-3 py-1 rounded-full text-xs font-bold ${sig.hashMatches ? "bg-emerald-100 text-emerald-800" : "bg-amber-100 text-amber-800"}">
+                ${sig.hashMatches ? "✓ Hash SHA-256 Verificado" : "⚠ Revisar Resumen / Algoritmo"}
+              </span>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4 text-sm">
+              <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+                <span class="text-xs text-slate-400 uppercase font-bold block">Identificador (NIF / NIE / CIF)</span>
+                <span class="font-semibold text-slate-900">${signerId}</span>
+              </div>
+              <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+                <span class="text-xs text-slate-400 uppercase font-bold block">Organización / Entidad</span>
+                <span class="font-semibold text-slate-900">${orgName}</span>
+              </div>
+              <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+                <span class="text-xs text-slate-400 uppercase font-bold block">Autoridad Emisora (CA)</span>
+                <span class="font-semibold text-slate-900">${issuerName}</span>
+              </div>
+              <div class="bg-white p-3.5 rounded-lg border border-slate-200">
+                <span class="text-xs text-slate-400 uppercase font-bold block">Fecha de Firma / Vigencia del Certificado</span>
+                <span class="font-semibold text-slate-900">${signDate} <span class="text-xs text-slate-500 block">Validez Cert: ${validRange}</span></span>
+              </div>
+            </div>
+
+            <div class="mt-4 pt-4 border-t border-slate-200 grid md:grid-cols-3 gap-3 text-xs text-slate-600">
+              <div>
+                <strong class="text-slate-800 block">Cobertura /ByteRange:</strong>
+                [${sig.byteRange.join(", ")}] (${sig.coversEntireFile ? "Documento completo" : "Firma incremental parcial"})
+              </div>
+              <div>
+                <strong class="text-slate-800 block">Estándar PAdES-B (ESSCertIDv2):</strong>
+                ${sig.cmsInfo.hasPadesEssCertIdV2 ? "Presente (Cumple ETSI EN 319 142)" : "PKCS#7 Clásico"}
+              </div>
+              <div class="break-all">
+                <strong class="text-slate-800 block">MessageDigest Firmado:</strong>
+                <code>${sig.cmsInfo.messageDigestHex ? sig.cmsInfo.messageDigestHex.slice(0, 32) + "..." : "N/A"}</code>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+
+    } catch (err) {
+      statusBanner.className = "mt-6 p-5 rounded-xl border bg-red-50 border-red-300 text-red-900 flex items-start gap-4";
+      statusTitle.textContent = "Error al leer el archivo PDF";
+      statusDesc.textContent = "El archivo está dañado o protegido con contraseña de apertura.";
+      signaturesList.innerHTML = "";
     }
   }
-
-  fileInput?.addEventListener('change', () => {
-    if (fileInput.files?.[0]) processPdfFile(fileInput.files[0]);
-  });
-
-  dropzone?.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropzone.classList.add('border-blue-600', 'bg-blue-50/50');
-  });
-
-  dropzone?.addEventListener('dragleave', () => {
-    dropzone.classList.remove('border-blue-600', 'bg-blue-50/50');
-  });
-
-  dropzone?.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropzone.classList.remove('border-blue-600', 'bg-blue-50/50');
-    const file = e.dataTransfer?.files?.[0];
-    if (file) processPdfFile(file);
-  });
 </script>

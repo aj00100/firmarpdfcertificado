@@ -2,6 +2,33 @@
 // src/pages/firmar-pdf-certificado-sin-adobe.astro
 import Layout from '../layouts/Layout.astro';
 import SigningStudio from '../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Por qué buscar una alternativa a Adobe Acrobat Reader para firmar documentos PDF?",
+    a: "Adobe Acrobat Reader DC se ha convertido en un programa excesivamente pesado (ocupa más de 500 MB en disco), instala procesos secundarios en segundo plano (como Adobe ARM) y obliga al usuario a navegar por un laberinto de más de 10 clics y menús ocultos (Herramientas > Certificados > Firmar digitalmente > Dibujar cuadro > Seleccionar ID > Guardar como). Además, muestra insistentes avisos publicitarios para contratar la suscripción de pago de Adobe Acrobat Pro (más de 24€/mes). En FirmarPDFCertificado.com firmas en 3 segundos sin instalar nada."
+  },
+  {
+    q: "¿Los documentos firmados en esta web se abren correctamente en Adobe Reader con el 'Tick Verde'?",
+    a: "Sí, de forma impecable. Nuestra herramienta implementa con rigor el estándar europeo PAdES-B-B (ETSI EN 319 142-1) y la especificación ISO 32000-1. Cuando el destinatario abra tu PDF firmado en Adobe Acrobat Reader en su ordenador, el panel superior de firmas de Adobe mostrará la barra azul y el sello verde oficial: 'Firmado y todas las firmas son válidas'."
+  },
+  {
+    q: "¿Qué peligro tiene usar la herramienta 'Dibujar firma' del visor de Google Chrome o Edge?",
+    a: "Muchos usuarios abren un PDF en Google Chrome o Microsoft Edge y utilizan la herramienta de lápiz para dibujar su rúbrica o insertar una imagen de su firma escaneada. Jurídicamente, eso es una simple imagen sin valor probatorio alguno: no está vinculada a ningún certificado criptográfico X.509 de la FNMT o DNIe, no calcula el hash SHA-256 del documento y no garantiza que el texto no haya sido manipulado. Será rechazada inmediatamente por la Agencia Tributaria (Hacienda), juzgados, la Seguridad Social y cualquier administración pública."
+  },
+  {
+    q: "¿Puedo firmar archivos PDF en sistemas operativos Linux (Ubuntu, Debian, Fedora)?",
+    a: "Sí. Adobe descontinuó oficialmente el desarrollo de Adobe Reader para Linux hace años, dejando a los usuarios de software libre sin soporte oficial. Como nuestra plataforma se ejecuta de manera nativa en cualquier navegador web moderno (Firefox, Chromium, Brave), los usuarios de Linux pueden firmar con sus certificados digitales .p12 con total normalidad y máxima rapidez."
+  },
+  {
+    q: "¿Necesito Adobe Sign o pagar una suscripción para firmar contratos comerciales?",
+    a: "No. Adobe Sign es una plataforma de pago pensada para flujos de trabajo corporativos que cobra por cada transacción o usuario mensual. Para la inmensa mayoría de autónomos, pymes y ciudadanos que necesitan firmar contratos de alquiler, facturas o recursos oficiales, utilizar tu propio certificado digital FNMT en FirmarPDFCertificado.com es 100% legal, tiene mayor validez probatoria (firma cualificada/avanzada) y es gratis para siempre."
+  },
+  {
+    q: "¿Se transmiten mis documentos a los servidores de Adobe o de terceros?",
+    a: "No. A diferencia de Adobe Document Cloud, que sincroniza tus archivos en servidores externos, en FirmarPDFCertificado.com todo el proceso ocurre de manera local y confidencial en la memoria RAM de tu dispositivo. Ningún dato abandona tu navegador."
+  }
+];
 ---
 
 <Layout
@@ -13,13 +40,13 @@ import SigningStudio from '../components/SigningStudio.astro';
   <header class="py-12 bg-gradient-to-b from-indigo-50/70 to-transparent border-b border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-semibold mb-4">
-        <span>⚡</span> Alternativa Ligera a Adobe Acrobat DC
+        <span>⚡</span> Alternativa Ligera, Rápida y Gratuita a Adobe Acrobat DC
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
         Firmar PDF con Certificado Digital sin Adobe Reader
       </h1>
       <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
-        Evita instaladores de 500 MB, menús ocultos de 10 pasos y suscripciones de pago. Firma con tu certificado digital de la FNMT directamente en Google Chrome, Edge o Firefox.
+        Evita instaladores de 500 MB, asistentes de 10 pasos y suscripciones de pago. Firma con tu certificado digital FNMT o DNIe directamente en Google Chrome, Edge o Firefox con <strong>plena compatibilidad PAdES</strong>.
       </p>
     </div>
   </header>
@@ -29,19 +56,21 @@ import SigningStudio from '../components/SigningStudio.astro';
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <SigningStudio
         title="Firma Criptográfica PAdES sin Software de Escritorio"
-        subtitle="100% compatible con Adobe Reader cuando el destinatario abra tu PDF firmado."
+        subtitle="100% compatible con Adobe Reader: cuando el destinatario abra tu PDF firmado, verá el sello verde oficial de validez."
       />
     </div>
   </section>
 
-  <!-- Comparison Table -->
+  <!-- Editorial & Technical Guide -->
   <article class="py-12 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
 
       <div>
-        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">¿Por qué buscar una alternativa a Adobe Acrobat Reader?</h2>
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+          ¿Por qué buscar una alternativa ágil a Adobe Acrobat Reader DC?
+        </h2>
         <p class="text-slate-600 text-sm mt-3 leading-relaxed">
-          Durante años, Adobe Acrobat Reader ha sido el estándar para firmar documentos digitalmente. Sin embargo, para la mayoría de usuarios, autónomos y empresas en España, el proceso se ha vuelto innecesariamente complejo y pesado:
+          Durante más de dos décadas, Adobe Acrobat Reader ha sido el programa de referencia para visualizar y firmar archivos PDF. Sin embargo, para la mayoría de autónomos, despachos profesionales y empresas en España, la herramienta se ha convertido en un obstáculo burocrático:
         </p>
       </div>
 
@@ -58,50 +87,90 @@ import SigningStudio from '../components/SigningStudio.astro';
           </thead>
           <tbody class="divide-y divide-slate-200 text-slate-700">
             <tr>
-              <td class="p-3.5 font-medium">Instalación necesaria</td>
+              <td class="p-3.5 font-medium">Instalación y peso</td>
               <td class="p-3.5 text-emerald-600 font-bold">0 MB (Directo en navegador)</td>
-              <td class="p-3.5 text-rose-600">~500 MB + Actualizaciones constantes</td>
+              <td class="p-3.5 text-rose-600">~500 MB + Actualizaciones periódicas</td>
               <td class="p-3.5 text-emerald-600">Integrado en el navegador</td>
             </tr>
             <tr>
-              <td class="p-3.5 font-medium">Validez legal en la AEAT</td>
+              <td class="p-3.5 font-medium">Validez legal en la AEAT y Juzgados</td>
               <td class="p-3.5 text-emerald-600 font-bold">✅ Plena (PAdES-B-B X.509)</td>
               <td class="p-3.5 text-emerald-600">✅ Plena (PAdES)</td>
               <td class="p-3.5 text-rose-600 font-bold">❌ Nula (Sólo dibujo visual)</td>
             </tr>
             <tr>
-              <td class="p-3.5 font-medium">Pasos requeridos</td>
-              <td class="p-3.5 text-emerald-600 font-bold">1 Clic (Subir PDF + .p12)</td>
-              <td class="p-3.5 text-slate-600">10 pasos (Menús y asistentes)</td>
-              <td class="p-3.5 text-slate-600">Dibujar con el ratón</td>
+              <td class="p-3.5 font-medium">Pasos y complejidad</td>
+              <td class="p-3.5 text-emerald-600 font-bold">1 Clic (Arrastrar PDF + .p12)</td>
+              <td class="p-3.5 text-slate-600">10 pasos (Asistente complejo)</td>
+              <td class="p-3.5 text-slate-600">Dibujar trazo con ratón</td>
             </tr>
             <tr>
-              <td class="p-3.5 font-medium">Compatibilidad Linux / Ubuntu</td>
+              <td class="p-3.5 font-medium">Compatibilidad Linux (Ubuntu, Debian)</td>
               <td class="p-3.5 text-emerald-600 font-bold">✅ 100% Compatible</td>
               <td class="p-3.5 text-rose-600">❌ Descontinuado para Linux</td>
               <td class="p-3.5 text-emerald-600">✅ Compatible</td>
             </tr>
             <tr>
-              <td class="p-3.5 font-medium">Coste y registro</td>
+              <td class="p-3.5 font-medium">Coste y suscripciones</td>
               <td class="p-3.5 text-emerald-600 font-bold">100% Gratis sin cuenta</td>
-              <td class="p-3.5 text-slate-600">Gratis (con avisos de pago)</td>
+              <td class="p-3.5 text-slate-600">Gratis (con ofertas a Acrobat Pro 24€/m)</td>
               <td class="p-3.5 text-slate-600">Gratis</td>
             </tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Detail on Linux / Chrome -->
+      <!-- Detail on Linux & Chrome -->
       <div class="space-y-4">
         <h3 class="text-xl font-bold text-slate-900">La trampa del visor de PDF integrado en Google Chrome</h3>
         <p class="text-slate-600 text-sm leading-relaxed">
-          Muchos usuarios abren un PDF en Chrome o Edge y utilizan la herramienta de "Dibujar" o "Añadir texto" para escribir su nombre o pegar la imagen de su firma manuscrita. 
+          Muchos usuarios abren un contrato o impreso oficial en el visor nativo de Google Chrome o Microsoft Edge y pulsan en el botón de lápiz para "Dibujar" su firma manuscrita.
         </p>
         <p class="text-slate-600 text-sm leading-relaxed">
-          <strong>Cuidado:</strong> Ese trazo no es una firma digital criptográfica. No contiene ningún certificado electrónico de la FNMT, no cifra el contenido del PDF con tu clave privada y <strong>será rechazado inmediatamente por la Agencia Tributaria (Hacienda), juzgados o administraciones públicas</strong>. FirmarPDFCertificado.com te permite estampar una firma criptográfica legal directamente en Chrome sin abrir ningún programa externo.
+          <strong>Advertencia legal crítica:</strong> Ese dibujo es una mera anotación gráfica sin ninguna clave criptográfica. No vincula tu identidad con el documento, carece de hash de integridad SHA-256 y <strong>será automáticamente rechazado por Hacienda, la Seguridad Social, la DGT o un tribunal de justicia</strong> en caso de disputa legal. FirmarPDFCertificado.com te permite aplicar una auténtica firma criptográfica PAdES en tu navegador en 3 segundos sin instalar Adobe Reader.
         </p>
+      </div>
+
+      <!-- Related Navigation -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose my-8">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <h4 class="font-bold text-slate-900 text-sm">¿Fallas también con AutoFirma?</h4>
+          <p class="text-xs text-slate-600 mt-1">Conoce por qué la herramienta estatal de Java se cuelga y cómo firmar en segundos desde cualquier equipo.</p>
+          <a href="/firmar-pdf-sin-autofirma/" class="mt-3 inline-block text-xs font-bold text-blue-700 hover:underline">
+            Firmar PDF sin AutoFirma →
+          </a>
+        </div>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <h4 class="font-bold text-slate-900 text-sm">¿Quieres validar firmas existentes?</h4>
+          <p class="text-xs text-slate-600 mt-1">Inspecciona el certificado, emisor, integridad y fecha exacta de cualquier PDF firmado.</p>
+          <a href="/validar-firma-digital-pdf/" class="mt-3 inline-block text-xs font-bold text-blue-700 hover:underline">
+            Validador eIDAS Online →
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="pt-6 border-t border-slate-200 not-prose space-y-4">
+        <h3 class="text-xl font-bold text-slate-900 mb-4">Preguntas Frecuentes sobre la firma de PDF sin Adobe Reader</h3>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h4 class="text-sm font-bold text-slate-900">{f.q}</h4>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
       </div>
 
     </div>
   </article>
+
+  <!-- Schema JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
 </Layout>

@@ -2,24 +2,43 @@
 // src/pages/poner-sello-firma-digital-pdf.astro
 import Layout from '../layouts/Layout.astro';
 import SigningStudio from '../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo crear y poner un sello de firma digital visible en un PDF con mi certificado de la FNMT?",
+    a: "Simplemente sube tu documento PDF y tu archivo de certificado digital (.p12 o .pfx) en el estudio superior. Si deseas personalizar el texto del cajetín con el nombre de tu empresa, tu cargo (por ejemplo, 'Administrador Único' o 'Colegiado Nº 12345') o el motivo de la firma, escríbelo en las dos casillas azules opcionales. La vista previa se actualizará en tiempo real y el sello quedará incrustado en vectores de alta definición junto con tu firma PAdES-B-B."
+  },
+  {
+    q: "¿Qué datos extrae automáticamente el sello digital de mi certificado electrónico?",
+    a: "Para evitar falsificaciones, los datos principales de identidad no se escriben a mano, sino que nuestro motor los lee directamente del interior criptográfico de tu certificado X.509: extrae el Nombre y Apellidos (o Razón Social del certificado de representante), el NIF/NIE/CIF oficial, la Autoridad de Certificación emisora y la fecha exacta."
+  },
+  {
+    q: "¿Cuál es la diferencia entre pegar la imagen de un sello de caucho escaneado y poner un sello de firma digital?",
+    a: "Pegar una imagen JPG o PNG de un sello de empresa tradicional sobre un PDF no tiene ningún valor criptográfico: cualquiera puede copiar esa imagen con una captura de pantalla y pegarla en una factura o contrato falso. Nuestro sello digital administrativo está vinculado matemáticamente a una firma PAdES-B-B con resumen SHA-256, de modo que es imposible falsificarlo o alterar el documento."
+  },
+  {
+    q: "¿Puedo elegir en qué página y esquina del PDF se coloca el sello administrativo?",
+    a: "Sí. Desde el selector 'Posición del Sello Oficial' puedes elegir estampar el sello en la última página (Abajo a la Derecha, Abajo a la Izquierda para cofirmas, Abajo en el Centro o Arriba a la Derecha) o bien en la Primera página del documento."
+  }
+];
 ---
 
 <Layout
   title="Crear y Poner Sello de Firma Digital en PDF Online (Sello Empresa / AEAT)"
-  description="Crea y estampa un sello digital administrativo visible en tus documentos PDF con tu certificado FNMT o de representante. Personaliza tu cargo, empresa y motivo gratis."
+  description="Crea y estampa un sello digital administrativo visible en tus documentos PDF con tu certificado FNMT, Camerfirma o DNIe. Personaliza tu cargo, empresa y motivo gratis."
   canonicalPath="/poner-sello-firma-digital-pdf/"
 >
   <!-- Hero Section -->
   <header class="py-12 bg-gradient-to-b from-indigo-50/70 to-transparent border-b border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-100 text-indigo-800 rounded-full text-xs font-semibold mb-4">
-        <span>🎨</span> Generador de Sello Rectangular Homologado + Firma PAdES
+        <span>🎨</span> Generador de Sello Rectangular Homologado + Firma Criptográfica PAdES
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
         Poner Sello de Firma Digital Visible en PDF Online
       </h1>
       <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
-        Personaliza e incrusta un <strong>sello digital administrativo de empresa o autónomo</strong> con tu Nombre, NIF/CIF, Cargo, Fecha y huella SHA-256 respaldado criptográficamente por tu certificado.
+        Diseña e incrusta un <strong>sello digital administrativo de empresa, colegio profesional o autónomo</strong> con tu Nombre, NIF/CIF, Cargo, Fecha y huella SHA-256 respaldado por tu certificado cualificado.
       </p>
     </div>
   </header>
@@ -37,39 +56,76 @@ import SigningStudio from '../components/SigningStudio.astro';
 
   <!-- Editorial Section -->
   <article class="py-12 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
-      <div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+      <div class="space-y-4">
         <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
-          ¿Por qué es importante incluir un sello digital visible en contratos y facturas PDF?
+          ¿Por qué es fundamental incluir un sello digital visible en contratos, licitaciones y facturas PDF?
         </h2>
-        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
-          Aunque a nivel técnico la firma criptográfica reside en el código interno del archivo (diccionario <code>/Contents</code>), cuando envías un presupuesto, factura o contrato a un cliente o administración pública, una firma invisible suele generar confusión porque el receptor piensa que el documento "está en blanco".
+        <p>
+          Aunque a nivel estrictamente informático la firma electrónica avanzada reside en el diccionario interno del archivo PDF (<code>/Contents</code> y <code>/ByteRange</code>), en la práctica empresarial y administrativa española enviar un PDF con una "firma invisible" genera constantes problemas: el cliente, el proveedor, el banco o incluso el técnico de una mesa de contratación que imprime el documento o lo abre en el visor básico de su navegador o correo electrónico ve el pie de página en blanco y piensa que <strong>"el documento se ha enviado sin firmar"</strong>.
         </p>
-        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
-          Nuestro generador dibuja un <strong>objeto vectorial oficial (Form XObject)</strong> vinculado al campo de firma que muestra de un vistazo quién ha firmado el documento, su NIF/CIF, el cargo o sociedad que representa y el minuto exacto de la firma.
+        <p>
+          Para evitar rechazos y subsanaciones innecesarias, nuestro generador construye un <strong>objeto vectorial oficial (PDF Form XObject)</strong> vinculado directamente al campo criptográfico de firma (<code>/Widget /Sig</code>) que cumple los estándares de legibilidad de las administraciones públicas (AEAT, Red.es y Plataforma de Contratación del Sector Público):
         </p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-          <h3 class="font-bold text-slate-900 text-sm mb-1">🏢 Sello de Empresa / Pyme</h3>
+          <h3 class="font-bold text-slate-900 text-sm mb-1.5">🏢 Sello Societario para Empresas y Pymes</h3>
           <p class="text-xs text-slate-600 leading-relaxed">
-            Añade en la casilla de Cargo el nombre de tu Sociedad Limitada (S.L.) o tu rol como Administrador Único o Apoderado.
+            Indica en el campo personalizable la denominación de tu Sociedad Limitada (S.L. / S.A.) o tu calidad de <em>Administrador Único, Solidario o Apoderado</em> al firmar actas, cuentas anuales o presupuestos.
           </p>
         </div>
         <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-          <h3 class="font-bold text-slate-900 text-sm mb-1">📐 Nitidez Vectorial Infinita</h3>
+          <h3 class="font-bold text-slate-900 text-sm mb-1.5">📐 Nitidez Vectorial al Imprimir</h3>
           <p class="text-xs text-slate-600 leading-relaxed">
-            A diferencia de pegar una imagen JPG borrosa de un sello de caucho, nuestro sello se genera con vectores PDF nativos que no se pixelan al imprimir.
+            A diferencia de quienes pegan una imagen JPG borrosa de un antiguo sello de caucho con tinta, nuestro cajetín se dibuja mediante primitivas vectoriales nativas de PDF, manteniendo una nitidez perfecta a cualquier zoom o en papel.
           </p>
         </div>
         <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-          <h3 class="font-bold text-slate-900 text-sm mb-1">🔐 Blindaje Criptográfico</h3>
+          <h3 class="font-bold text-slate-900 text-sm mb-1.5">🔐 Blindaje Criptográfico eIDAS</h3>
           <p class="text-xs text-slate-600 leading-relaxed">
-            El sello queda protegido por el hash SHA-256 de tu certificado digital FNMT, Camerfirma o DNIe. Si alguien intenta borrarlo, la firma salta como inválida.
+            El sello visual forma parte indivisible del resumen criptográfico SHA-256 firmado con tu certificado FNMT, Camerfirma, ACCV, Izenpe o Firmaprofesional. Si alguien intenta recortarlo o alterarlo, la firma se invalida.
           </p>
         </div>
       </div>
+
+      <!-- Anatomy Breakdown -->
+      <div class="p-6 bg-indigo-50/70 border border-indigo-200 rounded-2xl space-y-3">
+        <h2 class="text-lg font-bold text-indigo-950">
+          Elementos que componen nuestro Sello Administrativo Homologado
+        </h2>
+        <ul class="list-disc pl-6 space-y-1.5 text-xs sm:text-sm text-indigo-950">
+          <li><strong>Cabecera institucional en azul marino:</strong> Leyenda <code>DOCUMENTO FIRMADO DIGITALMENTE</code> con barra lateral de alto contraste.</li>
+          <li><strong>Identificación extraída del certificado X.509:</strong> Nombre completo del titular o entidad junto con su NIF, NIE o CIF.</li>
+          <li><strong>Línea personalizable de Cargo / Entidad:</strong> Espacio dedicado para indicar tu colegio profesional (Abogado, Arquitecto, Ingeniero, Médico) o cargo mercantil.</li>
+          <li><strong>Sello de tiempo y referencia legal:</strong> Fecha exacta en huso horario español (CET) y mención expresa al Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020.</li>
+        </ul>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Sello de Firma Digital en PDF
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
     </div>
   </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
 </Layout>

@@ -2,34 +2,53 @@
 // src/pages/cofirmar-pdf-dos-firmas.astro
 import Layout from '../layouts/Layout.astro';
 import SigningStudio from '../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo añadir una segunda firma digital a un PDF ya firmado sin invalidar la primera?",
+    a: "Para que la primera firma conserve intacta su validez criptográfica, el segundo firmante debe cargar el archivo PDF que ya contiene la primera firma y seleccionar en el desplegable de posición 'Última página · Abajo Izquierda (2ª Firma / Cofirma)'. Nuestro motor aplica una actualización incremental (Incremental Update) según la norma ISO 32000-1 que añade la segunda firma al final del archivo sin alterar un solo byte del bloque firmado por la primera persona."
+  },
+  {
+    q: "¿Por qué se rompe o invalida la primera firma cuando intento firmar con otros editores de PDF?",
+    a: "Muchos programas y convertidores de PDF reescriben y comprimen de nuevo todo el archivo al guardarlo. Al reescribir la tabla de referencias cruzadas original (xref), cambian los bytes que estaban protegidos por el resumen SHA-256 del primer firmante, haciendo que Adobe Reader muestre un error rojo de 'La revisión firmada por el firmante 1 ha sido modificada'. Nuestra herramienta respeta estrictamente los bytes previos."
+  },
+  {
+    q: "¿Cuántas personas pueden firmar un mismo documento PDF (Cofirma múltiple)?",
+    a: "El estándar PAdES permite añadir dos, tres o más firmas sucesivas en un mismo documento PDF. En nuestra herramienta hemos preconfigurado tres posiciones independientes en el pie de página (Abajo Derecha para el 1º firmante, Abajo Izquierda para el 2º firmante y Abajo Centro para un 3º firmante, como un avalista o tercer socio) para que todos los sellos visuales queden perfectamente alineados."
+  },
+  {
+    q: "¿Cómo puedo comprobar que las dos firmas digitales del contrato son válidas?",
+    a: "Una vez que ambas partes hayan firmado el documento PDF, puedes subir el archivo resultante a nuestro Validador de Firma Digital PDF. El informe mostrará por separado la tarjeta #1 y la tarjeta #2 con el Nombre, NIF, fecha exacta y verificación de integridad SHA-256 de cada uno de los intervinientes."
+  }
+];
 ---
 
 <Layout
   title="Cofirmar PDF Online — Añadir Segunda Firma Digital sin Invalidar la Primera"
-  description="Añade una segunda o múltiple firma digital con certificado FNMT a un PDF ya firmado. Firma contratos y acuerdos entre dos partes 100% privado en tu navegador."
+  description="Añade una segunda o tercera firma digital con certificado FNMT o DNIe a un PDF ya firmado. Firma contratos de alquiler, compraventa de coches y actas entre dos partes."
   canonicalPath="/cofirmar-pdf-dos-firmas/"
 >
   <!-- Hero Section -->
   <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
-        <span>👥</span> Firma Múltiple / Cofirma PAdES-B-B
+        <span>👥</span> Firma Múltiple Secuencial / Cofirma Incremental PAdES-B-B
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-        Cofirmar PDF: Añadir Segunda Firma Digital a un Documento
+        Cofirmar PDF: Añadir Segunda Firma Digital a un Documento Ya Firmado
       </h1>
       <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
-        ¿Has recibido un contrato, acta o acuerdo que ya viene firmado por la otra parte? Estampa tu certificado digital como <strong>segundo firmante</strong> sin corromper ni invalidar la firma previa.
+        ¿Has recibido un contrato de alquiler, compraventa o acuerdo societario que ya viene firmado digitalmente por la otra parte? Estampa tu certificado como <strong>segundo firmante</strong> sin corromper ni solapar la firma previa.
       </p>
     </div>
   </header>
 
-  <!-- Interactive Studio Pre-configured for 2nd Signature -->
+  <!-- Interactive Studio Pre-configured for 2nd Signature (bottom-left) -->
   <section class="py-10 bg-slate-50 border-b border-slate-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <SigningStudio
-        title="Estampar Segunda Firma Digital (Cofirma PAdES)"
-        subtitle="Posición recomendada: Abajo Izquierda para no solapar la firma del primer interviniente."
+        title="Estampar Segunda Firma Digital (Cofirma PAdES sin Invalidar la 1ª)"
+        subtitle="Posición preseleccionada: Abajo Izquierda (2ª Firma) para que ambos sellos queden visibles uno al lado del otro."
         defaultPosition="bottom-left"
       />
     </div>
@@ -37,59 +56,100 @@ import SigningStudio from '../components/SigningStudio.astro';
 
   <!-- Technical & Legal Guide -->
   <article class="py-12 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
 
       <!-- How it works -->
-      <div>
-        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">¿Cómo funciona la cofirma de un PDF ya firmado?</h2>
-        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
-          En el estándar internacional <strong>PAdES (PDF Advanced Electronic Signatures)</strong>, cuando un documento recibe una segunda firma, no se reescribe el archivo anterior. En su lugar, el motor añade una sección incremental que contiene el nuevo diccionario criptográfico (<code>/ByteRange</code> y <code>/Contents</code>) y un nuevo sello visual administrativo, manteniendo intacta la huella SHA-256 de la primera firma.
+      <div class="space-y-4">
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+          ¿Qué es la Cofirma PDF y cómo funciona técnicamente sin romper la firma anterior?
+        </h2>
+        <p>
+          En la administración electrónica española y en el derecho contractual, se denomina <strong>cofirma (o firma múltiple en paralelo/secuencial)</strong> a la acción por la cual dos o más personas físicas o jurídicas estampan su firma electrónica cualificada sobre un mismo documento PDF para manifestar su consentimiento bilateral o plurilateral.
+        </p>
+        <p>
+          Desde el punto de vista criptográfico, una firma digital PAdES protege un rango exacto de bytes del archivo (definido en el vector <code>/ByteRange [0 L1 O2 L2]</code>). Si un segundo firmante abre ese PDF en un editor que modifica o reordena los objetos originales del archivo, el hash SHA-256 del primer firmante se invalida inmediatamente. Para evitarlo, nuestro motor utiliza la técnica de <strong>Actualización Incremental (Incremental Save)</strong> especificada en la norma <strong>ETSI EN 319 142-1</strong>: conserva intactos hasta el último byte del PDF firmado originalmente y anexa al final del fichero una nueva revisión con el diccionario <code>/Sig</code> y el sello visual del segundo firmante.
         </p>
       </div>
 
       <!-- Use Cases Grid -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
-        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-          <div class="text-2xl mb-2">🏠</div>
-          <h3 class="font-bold text-slate-900 text-sm">Arrendador y Arrendatario</h3>
-          <p class="text-xs text-slate-600 mt-1">El propietario firma primero el contrato de alquiler y el inquilino estampa su certificado digital como segunda firma.</p>
-        </div>
+      <div class="space-y-3">
+        <h2 class="text-xl font-bold text-slate-900">
+          Trámites y contratos donde es imprescindible cofirmar un PDF con dos certificados
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 pt-2">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <div class="text-2xl mb-2">🏠</div>
+            <h3 class="font-bold text-slate-900 text-sm">1. Contratos de Alquiler de Vivienda o Local (LAU)</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              El propietario (arrendador) firma primero en la esquina inferior derecha, envía el PDF al inquilino (arrendatario) y este añade su segunda firma en la esquina inferior izquierda (y si hay avalista, una tercera en el centro). Válido para depositar fianzas en IVIMA, INCASÒL o sedes autonómicas y para empadronarse.
+            </p>
+          </div>
 
-        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-          <div class="text-2xl mb-2">🤝</div>
-          <h3 class="font-bold text-slate-900 text-sm">Socios y Empresas</h3>
-          <p class="text-xs text-slate-600 mt-1">Actas de junta, contratos de compraventa de participaciones o acuerdos mercantiles entre dos sociedades.</p>
-        </div>
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <div class="text-2xl mb-2">🚗</div>
+            <h3 class="font-bold text-slate-900 text-sm">2. Contrato de Compraventa de Vehículo (DGT)</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Para realizar la transferencia o cambio de titularidad de un coche o moto entre particulares en la Sede Electrónica de la DGT, comprador y vendedor deben aportar el contrato de compraventa en PDF firmado digitalmente por ambos.
+            </p>
+          </div>
 
-        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-          <div class="text-2xl mb-2">💼</div>
-          <h3 class="font-bold text-slate-900 text-sm">Empresa y Trabajador</h3>
-          <p class="text-xs text-slate-600 mt-1">Contratos laborales, acuerdos de teletrabajo o cartas de finiquito con firma de ambas partes reconocidas legalmente.</p>
-        </div>
-      </div>
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <div class="text-2xl mb-2">🏢</div>
+            <h3 class="font-bold text-slate-900 text-sm">3. Administradores Mancomunados y Actas de Junta</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              En las Sociedades Limitadas (S.L.) con administración mancomunada, o en las certificaciones de acuerdos sociales que requieren el visto bueno del Presidente y la firma del Secretario del Consejo, ambos deben cofirmar el mismo PDF.
+            </p>
+          </div>
 
-      <!-- Warning Box: Avoiding Overlap -->
-      <div class="p-5 bg-blue-50 border border-blue-200 rounded-xl">
-        <h3 class="text-base font-bold text-blue-900 mb-1">💡 Consejo de posicionamiento visual:</h3>
-        <p class="text-sm text-blue-800 leading-relaxed">
-          Por defecto, la mayoría de herramientas colocan el sello en la esquina inferior derecha. Al añadir una segunda firma, selecciona en el desplegable <strong>"Última página · Abajo Izquierda (2ª Firma / Cofirma)"</strong> o <strong>"Abajo Centro"</strong> para que ambos sellos administrativos queden perfectamente legibles y ordenados en la hoja de firmas.
-        </p>
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <div class="text-2xl mb-2">⚖️</div>
+            <h3 class="font-bold text-slate-900 text-sm">4. Convenios Reguladores, Abogado y Procurador</h3>
+            <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+              Escritos procesales conjuntos presentados en LexNET, designaciones de representante para la Plataforma Mercurio de Extranjería o autorizaciones de unidades familiares para las Becas MEC y la Declaración de la Renta.
+            </p>
+          </div>
+        </div>
       </div>
 
       <!-- Verification Section -->
-      <div class="pt-6 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="p-6 bg-slate-900 text-white rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
-          <h3 class="font-bold text-slate-900 text-base">¿Quieres verificar que ambas firmas son válidas?</h3>
-          <p class="text-xs text-slate-600 mt-0.5">Utiliza nuestro verificador eIDAS para comprobar los certificados de todos los firmantes.</p>
+          <h3 class="font-bold text-base">¿Quieres comprobar que las 2 firmas del PDF se han aplicado correctamente?</h3>
+          <p class="text-xs text-slate-300 mt-1">
+            Audita gratis el archivo cofirmado en nuestro verificador eIDAS para inspeccionar los certificados de todos los firmantes.
+          </p>
         </div>
         <a
           href="/validar-firma-digital-pdf/"
-          class="shrink-0 px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition-colors"
+          class="shrink-0 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 text-xs font-extrabold rounded-xl transition-colors"
         >
-          🔍 Validar Documento con 2 Firmas
+          🔍 Validar PDF con Múltiples Firmas &rarr;
         </a>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Cofirmar Documentos PDF
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
       </div>
 
     </div>
   </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
 </Layout>

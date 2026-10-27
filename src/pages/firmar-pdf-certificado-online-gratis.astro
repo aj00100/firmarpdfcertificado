@@ -2,6 +2,29 @@
 // src/pages/firmar-pdf-certificado-online-gratis.astro
 import Layout from '../layouts/Layout.astro';
 import SigningStudio from '../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Por qué este servicio de firma digital es 100% gratuito y sin límite de documentos?",
+    a: "Las plataformas tradicionales de firma electrónica cobran suscripciones mensuales porque almacenan los archivos de sus usuarios en costosos servidores en la nube y procesan los documentos en su propia infraestructura. En FirmarPDFCertificado.com operamos bajo una arquitectura de 'Servidor Cero' (Zero-Server Architecture): el motor de firma se descarga una sola vez en tu navegador y utiliza la memoria RAM y el procesador de tu propio ordenador o móvil para realizar el sellado criptográfico. Al tener un coste de infraestructura de 0€ por archivo firmado, podemos ofrecer un servicio completamente gratuito, ilimitado y sin publicidad invasiva."
+  },
+  {
+    q: "¿Qué diferencia legal existe entre una firma dibujada online y la firma con certificado digital PAdES?",
+    a: "Muchos servicios 'gratuitos' de internet te permiten dibujar un garabato con el ratón o pegar una foto de tu firma en un PDF. Jurídicamente, eso es una simple 'firma electrónica básica' (Ley 6/2020), fácilmente falsificable y sin presunción legal de autoría, la cual es rechazada de inmediato por la Agencia Tributaria (Hacienda), Seguridad Social o juzgados. En contraste, nuestra herramienta estampa una 'Firma Electrónica Avanzada' bajo el estándar PAdES-B-B (ETSI EN 319 142-1) utilizando la clave criptográfica privada de tu certificado digital reconocido (FNMT, DNIe, Camerfirma). Esto confiere plena validez jurídica e invierte la carga de la prueba según el Artículo 326 de la Ley de Enjuiciamiento Civil."
+  },
+  {
+    q: "¿Se almacenan mis archivos PDF o mis certificados en alguna base de datos externa?",
+    a: "No. En ningún momento se suben ni transmiten a ningún servidor externo. El archivo PDF, tu certificado .p12 o .pfx y tu contraseña se procesan exclusivamente en la memoria volátil de tu navegador mediante Web Workers. En cuanto cierras la pestaña o recargas la página, toda la información se elimina por completo de la memoria RAM."
+  },
+  {
+    q: "¿Es necesario registrarse, crear una cuenta o introducir una tarjeta de crédito?",
+    a: "No exigimos ningún tipo de registro, ni correo electrónico, ni suscripción previa. Creemos en la privacidad digital y en el libre acceso a la administración pública sin barreras de entrada ni muros de pago (paywalls)."
+  },
+  {
+    q: "¿Puedo firmar trámites oficiales de la AEAT, SEPE, DGT y Seguridad Social de forma gratuita?",
+    a: "Sí. Los documentos generados cumplen con todos los requisitos técnicos exigidos por el Esquema Nacional de Interoperabilidad (ENI) y el Reglamento Europeo eIDAS (Reglamento UE 910/2014). Puedes presentar los PDFs firmados en el Registro Electrónico General del Estado (REG), Sede Electrónica de la AEAT, Sede de la Seguridad Social (Import@ss), LexNET y portales autonómicos."
+  }
+];
 ---
 
 <Layout
@@ -9,29 +32,139 @@ import SigningStudio from '../components/SigningStudio.astro';
   description="Firma digital gratuita de documentos PDF con certificado FNMT o DNIe. Sin registro, sin suscripciones y sin subir tus archivos a la nube. Validez legal eIDAS."
   canonicalPath="/firmar-pdf-certificado-online-gratis/"
 >
+  <!-- Hero Section -->
   <section class="py-10 sm:py-14 bg-gradient-to-b from-blue-50/60 to-transparent">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <SigningStudio
         headline="Firmar PDF con Certificado Digital Online Gratis"
-        subheadline="Sin cuentas, sin tarjeta de crédito y sin límites de páginas. Firma tantos documentos como necesites con tu certificado digital en tu navegador."
+        subheadline="Sin cuentas de usuario, sin tarjeta de crédito y sin límites de páginas. Firma todos los documentos que necesites con tu certificado digital FNMT o DNIe directamente en tu navegador."
       />
     </div>
   </section>
 
-  <!-- Privacy Comparison -->
+  <!-- Editorial: Transparency & Zero-Server Tech -->
   <section class="py-12 bg-white border-t border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 prose prose-slate text-sm sm:text-base leading-relaxed">
-      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Firma digital 100% gratuita y privada</h2>
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-semibold mb-3 not-prose">
+        <span>✨</span> Servicio Público Libre: Sin Muros de Pago ni Registro Obligatorio
+      </div>
+      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+        Firma digital de documentos PDF 100% gratuita, privada e ilimitada
+      </h2>
       <p class="text-slate-600 mt-3">
-        La mayoría de servicios online de firma de documentos te exigen crear una cuenta, introducir tu tarjeta de crédito o te limitan a firmar 2 o 3 documentos al mes. Además, la mayoría de ellos <strong>suben tus documentos confidenciales a servidores en el extranjero</strong>, lo que supone un grave riesgo de incumplimiento del RGPD si manejas datos fiscales, contratos de trabajo o información médica.
+        La inmensa mayoría de herramientas en internet para firmar documentos PDF presentan dos graves inconvenientes: o bien imponen un límite abusivo de dos o tres documentos al mes antes de exigir una tarjeta de crédito, o bien operan subiendo tus archivos a servidores en el extranjero, lo que compromete gravemente la privacidad de tus nóminas, contratos mercantiles o declaraciones de la renta bajo el Reglamento General de Protección de Datos (RGPD).
+      </p>
+      <p class="text-slate-600">
+        En <strong>FirmarPDFCertificado.com</strong> nacemos como una utilidad pública sin intermediarios: no almacenamos copias, no solicitamos correos para fines de marketing y no limitamos el tamaño ni la cantidad de documentos que puedes firmar en tu día a día.
       </p>
 
-      <div class="my-6 not-prose p-6 bg-slate-50 border border-slate-200 rounded-xl">
-        <h3 class="text-base font-bold text-slate-900 mb-4">¿Por qué es gratis para siempre?</h3>
-        <p class="text-xs text-slate-600 leading-relaxed">
-          Nuestra tecnología ejecuta el 100% del procesamiento criptográfico en tu propio dispositivo (utilizando la CPU de tu teléfono u ordenador). Como no almacenamos tus archivos en servidores en la nube ni pagamos costes de almacenamiento por tus documentos, podemos ofrecer un servicio <strong>completamente gratuito, ilimitado y de máxima privacidad</strong> para toda la comunidad hispanohablante.
-        </p>
+      <div class="my-8 not-prose grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="text-2xl mb-2">🚫</div>
+          <h3 class="font-bold text-slate-900 text-sm">Cero Registro Obligatorio</h3>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Sin formularios de registro, sin confirmar emails en tu bandeja de entrada y sin solicitar números de teléfono.
+          </p>
+        </div>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="text-2xl mb-2">⚡</div>
+          <h3 class="font-bold text-slate-900 text-sm">Sin Cuotas ni Tarifas Ocultas</h3>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Puedes firmar 1 o 100 contratos al día de forma completamente libre y gratuita para autónomos, empresas y particulares.
+          </p>
+        </div>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+          <div class="text-2xl mb-2">🔒</div>
+          <h3 class="font-bold text-slate-900 text-sm">Privacidad por Diseño (RGPD)</h3>
+          <p class="text-xs text-slate-600 mt-1 leading-relaxed">
+            Tus datos confidenciales no viajan por internet ni tocan ningún disco duro externo. Todo se firma en tu propio procesador.
+          </p>
+        </div>
+      </div>
+
+      <h3 class="text-xl font-bold text-slate-900 mt-8">Comparativa: FirmarPDFCertificado vs Otras Plataformas del Mercado</h3>
+      <div class="overflow-x-auto not-prose border border-slate-200 rounded-xl my-6">
+        <table class="w-full text-left text-xs sm:text-sm">
+          <thead class="bg-slate-900 text-white">
+            <tr>
+              <th class="p-3 font-bold">Característica</th>
+              <th class="p-3 font-bold text-emerald-400">FirmarPDFCertificado.com</th>
+              <th class="p-3 font-bold text-slate-300">Portales Cloud (DocuSign, Smallpdf)</th>
+              <th class="p-3 font-bold text-slate-300">AutoFirma Escritorio</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-slate-200 text-slate-700">
+            <tr>
+              <td class="p-3 font-medium">Coste real</td>
+              <td class="p-3 text-emerald-600 font-bold">100% Gratis sin límites</td>
+              <td class="p-3 text-rose-600">Freemium (Desde 15€/mes tras 3 firmas)</td>
+              <td class="p-3 text-emerald-600">Gratis</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">Privacidad de datos</td>
+              <td class="p-3 text-emerald-600 font-bold">✅ 100% Local en RAM</td>
+              <td class="p-3 text-rose-600">❌ Subida a servidores externos</td>
+              <td class="p-3 text-emerald-600 font-bold">✅ Local en equipo</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">Uso de tu propio certificado FNMT</td>
+              <td class="p-3 text-emerald-600 font-bold">✅ Tu certificado personal (.p12)</td>
+              <td class="p-3 text-rose-600">❌ Certificado genérico de la empresa SaaS</td>
+              <td class="p-3 text-emerald-600 font-bold">✅ Tu certificado</td>
+            </tr>
+            <tr>
+              <td class="p-3 font-medium">Facilidad de uso en móvil</td>
+              <td class="p-3 text-emerald-600 font-bold">✅ 1 Clic en Safari y Chrome</td>
+              <td class="p-3 text-amber-600">Requiere instalar app nativa</td>
+              <td class="p-3 text-rose-600">❌ No funciona en móviles</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Quick Action Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 not-prose my-8">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between">
+          <div>
+            <h4 class="font-bold text-slate-900 text-sm">¿Necesitas añadir una segunda firma a un contrato?</h4>
+            <p class="text-xs text-slate-600 mt-1">Cofirma cualquier documento PDF ya firmado por otra persona sin invalidar la firma anterior.</p>
+          </div>
+          <a href="/cofirmar-pdf-dos-firmas/" class="mt-4 inline-block text-xs font-bold text-blue-700 hover:underline">
+            Cofirmar PDF con dos firmas →
+          </a>
+        </div>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl flex flex-col justify-between">
+          <div>
+            <h4 class="font-bold text-slate-900 text-sm">¿Quieres personalizar el sello visual con tu empresa?</h4>
+            <p class="text-xs text-slate-600 mt-1">Genera un sello homologado con tu razón social, NIF y cargo administrativo.</p>
+          </div>
+          <a href="/poner-sello-firma-digital-pdf/" class="mt-4 inline-block text-xs font-bold text-blue-700 hover:underline">
+            Personalizar Sello de Empresa →
+          </a>
+        </div>
+      </div>
+
+      <!-- FAQ Section -->
+      <div class="pt-6 border-t border-slate-200 not-prose space-y-4">
+        <h3 class="text-xl font-bold text-slate-900 mb-4">Preguntas Frecuentes sobre la firma digital online gratuita</h3>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h4 class="text-sm font-bold text-slate-900">{f.q}</h4>
+            <p class="text-xs text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
+
+  <!-- Schema JSON-LD -->
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
 </Layout>

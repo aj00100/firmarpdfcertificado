@@ -2,53 +2,132 @@
 // src/pages/firmar-pdf-sin-autofirma.astro
 import Layout from '../layouts/Layout.astro';
 import SigningStudio from '../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Puedo presentar en una Sede Electrónica (Hacienda, Seguridad Social, DGT o Junta de Andalucía) un PDF firmado sin AutoFirma?",
+    a: "Sí. Cuando una sede electrónica te pide adjuntar una solicitud, un escrito de alegaciones, un contrato o una memoria técnica firmada en PDF, lo único que verifica el servidor del organismo público es que el archivo PDF contenga una firma criptográfica PAdES válida generada con un certificado cualificado (FNMT, DNIe, ACCV, etc.). Al servidor le resulta indiferente si esa firma PAdES se ha generado con AutoFirma, con Adobe Reader o con nuestro motor criptográfico en el navegador."
+  },
+  {
+    q: "¿Por qué AutoFirma da tantos errores en Windows 11 y macOS ('No se ha podido conectar con AutoFirma' o 'SAF_45')?",
+    a: "Porque AutoFirma funciona levantando un servidor web oculto en tu propio ordenador (en la dirección local https://127.0.0.1 en puertos como el 63117 o 7171) usando un certificado autofirmado. Cuando el navegador (Chrome, Firefox o Safari) intenta conectarse a ese puerto local, los cortafuegos, los antivirus (Avast, Kaspersky, Bitdefender) o las actualizaciones de seguridad de macOS bloquean la comunicación por considerarla una intrusión local."
+  },
+  {
+    q: "¿Cómo puedo firmar en esta página si mi certificado está instalado en el navegador y no tengo el archivo .p12?",
+    a: "Es muy sencillo: cualquier certificado instalado en Google Chrome, Microsoft Edge, Firefox o el Llavero de Mac se puede exportar a un archivo .p12 en menos de 1 minuto. Consulta nuestra guía paso a paso para exportar tu certificado FNMT con clave privada y guárdalo en una carpeta segura para no volver a depender nunca más de AutoFirma."
+  },
+  {
+    q: "¿Funciona esta alternativa sin AutoFirma en ordenadores de empresa donde no tengo permisos de Administrador?",
+    a: "Sí. En muchos ordenadores corporativos o de teletrabajo el departamento de IT bloquea la instalación de programas .exe o máquinas virtuales Java. Como FirmarPDFCertificado.com se ejecuta al 100% dentro de una pestaña normal del navegador web sin instalar nada en el sistema operativo, puedes firmar tus documentos PDF sin necesitar permisos de administrador."
+  }
+];
 ---
 
 <Layout
   title="Firmar PDF sin AutoFirma — Alternativa Web en Navegador (Sin Java)"
-  description="¿AutoFirma no abre o falla en Mac y Windows? Firma tus documentos PDF con certificado digital FNMT directamente online sin instalar programas ni Java."
+  description="¿AutoFirma no abre, se queda cargando o falla en Mac y Windows 11? Firma tus documentos PDF con certificado digital FNMT directamente online sin instalar programas ni Java."
   canonicalPath="/firmar-pdf-sin-autofirma/"
 >
   <section class="py-10 sm:py-14 bg-gradient-to-b from-blue-50/60 to-transparent">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-3xl mx-auto mb-6">
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold mb-3">
+          <span>⚡</span> Cero Instalaciones · Sin Java · Sin Errores de Puerto Local 127.0.0.1
+        </span>
+        <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+          Firmar PDF con Certificado Digital sin AutoFirma
+        </h1>
+        <p class="text-sm sm:text-base text-slate-600 mt-2.5 leading-relaxed">
+          ¿AutoFirma se queda bloqueado en mitad de un trámite urgente? Firma tus documentos PDF conforme al estándar oficial <strong>ETSI PAdES-B-B</strong> directamente en tu navegador web en 3 segundos.
+        </p>
+      </div>
+
       <SigningStudio
-        headline="Firmar PDF sin AutoFirma (Directo en tu Navegador)"
-        subheadline="Olvídate de los errores de Java, certificados corruptos y problemas de conexión local. Sube tu PDF y firma con tu .p12 en 3 segundos."
+        headline="Firmador Web PAdES-B-B (Alternativa Directa a AutoFirma)"
+        subheadline="Olvídate de los errores de Java, certificados raíz corruptos y fallos SAF_45. Sube tu PDF y tu certificado .p12/.pfx."
       />
     </div>
   </section>
 
-  <!-- Editorial Section: Why AutoFirma Fails -->
-  <section class="py-12 bg-white border-t border-slate-200">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 prose prose-slate text-sm sm:text-base leading-relaxed">
-      <h2 class="text-2xl font-bold text-slate-900 tracking-tight">¿Por qué falla AutoFirma y cómo firmar sin ella?</h2>
-      <p class="text-slate-600 mt-3">
-        AutoFirma es la aplicación oficial del Gobierno de España para firmar electrónicamente. Sin embargo, su arquitectura basada en Java y comunicación por socket local (<code>127.0.0.1</code>) genera constantes dolores de cabeza a particulares y profesionales:
-      </p>
+  <!-- Editorial Section: Why AutoFirma Fails & How WebCrypto Solves It -->
+  <article class="py-12 bg-white border-t border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-6 not-prose">
-        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
-          <h4 class="font-bold text-rose-900 text-sm">Error "Broken pipe" en macOS</h4>
-          <p class="text-xs text-rose-700 mt-1">Java intenta comunicarse con Safari o Chrome por un túnel que macOS bloquea por seguridad, impidiendo completar el trámite.</p>
-        </div>
-        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
-          <h4 class="font-bold text-rose-900 text-sm">Dependencias de Java Runtime</h4>
-          <p class="text-xs text-rose-700 mt-1">Las actualizaciones del sistema operativo suelen desconfigurar la versión de Java requerida por AutoFirma.</p>
-        </div>
-        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
-          <h4 class="font-bold text-rose-900 text-sm">Error SAF_45 y Cortafuegos</h4>
-          <p class="text-xs text-rose-700 mt-1">El antivirus o firewall bloquea el puerto interno necesario para que la página web se comunique con la app de escritorio.</p>
-        </div>
-        <div class="p-4 bg-rose-50 border border-rose-200 rounded-xl">
-          <h4 class="font-bold text-rose-900 text-sm">Incompatible con iPhone y Android</h4>
-          <p class="text-xs text-rose-700 mt-1">AutoFirma no se puede ejecutar en los navegadores móviles de iOS ni en la mayoría de dispositivos móviles.</p>
+      <div class="space-y-4">
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+          ¿Por qué falla AutoFirma constantemente y cómo firmar tus PDFs sin instalarlo?
+        </h2>
+        <p>
+          <strong>AutoFirma</strong> (el cliente de firma desarrollado por el Ministerio para la Transformación Digital) fue concebido originalmente para sustituir a los antiguos <em>applets</em> de Java que los navegadores prohibieron en 2015. Sin embargo, su arquitectura técnica sigue arrastrando una enorme complejidad: requiere instalar un ejecutable pesado en el sistema operativo, inyectar un certificado raíz propio (<code>AutoFirma ROOT</code>) en el almacén de confianza del equipo y abrir un túnel de red local (<em>websocket</em> en <code>127.0.0.1</code>) cada vez que quieres firmar un simple archivo PDF.
+        </p>
+        <p>
+          Esto provoca que cada actualización de <strong>Windows 11</strong>, de <strong>macOS (Apple Silicon M1/M2/M3/M4)</strong> o del propio navegador Chrome/Firefox rompa la comunicación y lance errores críticos en el peor momento:
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+          <div class="p-5 bg-rose-50 border border-rose-200 rounded-xl">
+            <h3 class="font-bold text-rose-900 text-sm">1. Error "Broken pipe" y bloqueos en macOS</h3>
+            <p class="text-xs text-rose-800 mt-1.5 leading-relaxed">
+              En ordenadores Mac, el sistema de seguridad Gatekeeper y el llavero de macOS rechazan con frecuencia el certificado local de AutoFirma, cortando la tubería de datos entre Safari/Chrome y la máquina virtual Java.
+            </p>
+          </div>
+          <div class="p-5 bg-rose-50 border border-rose-200 rounded-xl">
+            <h3 class="font-bold text-rose-900 text-sm">2. Error SAF_45, SAF_09 y Cortafuegos</h3>
+            <p class="text-xs text-rose-800 mt-1.5 leading-relaxed">
+              Los antivirus comerciales y los firewalls de redes de oficina interceptan el tráfico HTTPS dirigido a <code>127.0.0.1:7171</code>, lanzando el temido <a href="/ayuda/error-saf-45/" class="text-rose-950 font-bold underline">Error SAF_45</a> e impidiendo completar el registro.
+            </p>
+          </div>
+          <div class="p-5 bg-rose-50 border border-rose-200 rounded-xl">
+            <h3 class="font-bold text-rose-900 text-sm">3. Conflicto de Almacén en Mozilla Firefox</h3>
+            <p class="text-xs text-rose-800 mt-1.5 leading-relaxed">
+              Firefox utiliza su propia base de datos de seguridad independiente (<code>cert9.db</code>), por lo que a menudo AutoFirma lanza el aviso <em>"No hay ningún certificado válido en el almacén"</em> (SAF_19) aunque el certificado funcione en Chrome.
+            </p>
+          </div>
+          <div class="p-5 bg-rose-50 border border-rose-200 rounded-xl">
+            <h3 class="font-bold text-rose-900 text-sm">4. Sedes Autonómicas (Junta de Andalucía, GVA, Madrid)</h3>
+            <p class="text-xs text-rose-800 mt-1.5 leading-relaxed">
+              Portales como la Ventanilla Electrónica de la <a href="/blog/solucion-autofirma-junta-de-andalucia-gva-madrid/" class="text-rose-950 font-bold underline">Junta de Andalucía, GVA o Comunidad de Madrid</a> sufren incompatibilidades entre distintas versiones del cliente de firma.
+            </p>
+          </div>
         </div>
       </div>
 
-      <h3 class="text-lg font-bold text-slate-900 mt-6">Nuestra solución: Firma en memoria Web Crypto</h3>
-      <p class="text-slate-600">
-        Con <strong>FirmarPDFCertificado.com</strong>, no necesitas tener instalado AutoFirma ni ningún complemento Java. El motor de firma PAdES corre de forma nativa en tu navegador web gracias a la tecnología Web Workers y Web Crypto API. Esto te permite firmar contratos, recursos, formularios de la AEAT o solicitudes de becas en cualquier ordenador o teléfono en cuestión de segundos.
-      </p>
+      <!-- How WebCrypto Replaces AutoFirma -->
+      <div class="space-y-4">
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+          Nuestra solución: Motor PAdES-B-B nativo en el navegador mediante WebCrypto API
+        </h2>
+        <p>
+          En lugar de obligar a tu navegador a comunicarse con un programa externo en Java a través de puertos bloqueados, <strong>FirmarPDFCertificado.com</strong> ejecuta el algoritmo criptográfico de firma directamente dentro de la memoria RAM de tu navegador web utilizando el estándar <strong>W3C Web Cryptography API</strong> y Web Workers.
+        </p>
+        <p>
+          El archivo PDF resultante contiene exactamente la misma estructura binaria <strong>ETSI EN 319 142-1 (PAdES-B-B)</strong> que genera AutoFirma, incluyendo tu certificado X.509, el resumen SHA-256 y el sello visual administrativo. Así puedes firmar memorias, anexos, contratos, recursos y solicitudes en segundos y subirlos ya firmados a cualquier sede electrónica.
+        </p>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Firmar PDF sin AutoFirma
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
     </div>
-  </section>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
 </Layout>
