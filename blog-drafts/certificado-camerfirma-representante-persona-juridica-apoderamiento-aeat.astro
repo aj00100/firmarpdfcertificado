@@ -1,0 +1,179 @@
+---
+// blog-drafts/certificado-camerfirma-representante-persona-juridica-apoderamiento-aeat.astro
+// (Move to src/pages/blog/ on Day 17)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué diferencia hay entre el Certificado de Representante de Administrador Único/Solidario y el de Persona Jurídica?",
+    a: "Si el órgano de administración de tu Sociedad Limitada (S.L.) o Sociedad Anónima (S.A.) es un Administrador Único o Administradores Solidarios inscritos en el Registro Mercantil, la FNMT y Camerfirma emiten el certificado de forma telemática cruzando datos de oficio con el Registro Mercantil sin necesidad de aportar certificados en papel. En cambio, si eres apoderado general o administrador mancomunado, deberás solicitar el certificado de Representante de Persona Jurídica acreditando las escrituras de poder vigentes."
+  },
+  {
+    q: "¿Cuánto cuesta el Certificado de Representante de la FNMT frente al de Camerfirma?",
+    a: "La FNMT-RCM aplica una tasa oficial regulada de 24 € (+ IVA) para el Certificado de Representante de Administrador Único o Solidario y de 14 € (+ IVA) para el de Representante de Persona Jurídica (las entidades sin personalidad jurídica como comunidades de propietarios o asociaciones están exentas y es gratuito). Camerfirma, al ser una autoridad emitida por las Cámaras de Comercio, comercializa sus certificados corporativos según sus propias tarifas de emisión y soporte."
+  },
+  {
+    q: "¿Por qué otorgar un Apoderamiento Electrónico en la AEAT a mi gestoría en lugar de enviarle mi archivo .p12?",
+    a: "Por seguridad jurídica y control empresarial. Si das de alta un apoderamiento en el Registro de Apoderamientos de la AEAT con el certificado de tu empresa, autorizas a tu asesoría a presentar impuestos o recibir notificaciones electrónicas sin entregarles la custodia de tu clave privada societaria, pudiendo revocar el apoderamiento en 1 clic cuando cambies de gestoría."
+  }
+];
+---
+
+<Layout
+  title="Certificado de Representante (FNMT y Camerfirma) y Apoderamiento AEAT"
+  description="Cómo solicitar y renovar el certificado digital de Representante de Persona Jurídica en la FNMT o Camerfirma, dar de alta un apoderamiento en la AEAT y firmar PDFs de empresa."
+  canonicalPath="/blog/certificado-camerfirma-representante-persona-juridica-apoderamiento-aeat/"
+>
+  <header class="py-10 bg-gradient-to-b from-amber-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Certificado de Representante, Camerfirma y Apoderamiento AEAT</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-900 rounded-full text-xs font-bold mb-3">
+        <span>🏢</span> Identidad Corporativa B2B · Sociedades Mercantiles (CIF), Cámaras y AEAT
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Certificado Digital de Representante (FNMT y Camerfirma) y Registro de Apoderamientos AEAT: Guía para Empresas
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Las sociedades mercantiles (S.L. y S.A.), asociaciones y comunidades de bienes están obligadas por la Ley 39/2015 a relacionarse exclusivamente por vía electrónica con Hacienda, la Seguridad Social y el Registro Mercantil. Te explicamos cómo gestionar tus certificados corporativos y firmar documentos societarios.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: FNMT vs Camerfirma for Companies -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          1. Cómo solicitar o renovar el Certificado de Representante en la FNMT o Camerfirma
+        </h2>
+        <p>
+          Tanto los certificados corporativos emitidos por la <strong>Fábrica Nacional de Moneda y Timbre (CERES-FNMT)</strong> como los expedidos por <strong>AC Camerfirma (Cámaras de Comercio)</strong> vinculan criptográficamente la identidad del administrador o apoderado (NIF) con el <strong>CIF de la sociedad</strong>:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-3">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">Emisión 100% Online sin ir a Hacienda</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Si ya dispones de tu certificado personal de Persona Física o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a> en vigor y constas inscrito como Administrador Único o Solidario en el Registro Mercantil, puedes solicitar y descargar el certificado de empresa desde tu ordenador sin pedir cita presencial en la AEAT.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">Control de Caducidad (Vigencia de 2 Años)</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Recuerda que los certificados de representante caducan a los <strong>24 meses</strong> (la mitad que los de persona física). Comprueba hoy mismo cuántos días le quedan a tu archivo corporativo <code>.p12</code> en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">auditor de validez y caducidad de certificados</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Section 2: Apoderamiento AEAT -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          2. Cómo dar de alta, aceptar o revocar un Apoderamiento en la AEAT con Certificado Digital
+        </h2>
+        <p>
+          El <strong>Registro de Apoderamientos de la Agencia Tributaria</strong> permite que cualquier sociedad o autónomo delegue trámites fiscales (presentación de impuestos trimestrales, consulta de notificaciones DEHú o remisión de registros <strong>VeriFactu / SII</strong>) en su asesoría fiscal sin necesidad de acudir a un notario:
+        </p>
+        <ol class="list-decimal list-inside space-y-2.5 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            <strong>Otorgamiento por el Poderdante (Empresa):</strong> Entra en <em>Sede AEAT &rarr; Colaborar con la Agencia Tributaria &rarr; Registro de Apoderamientos &rarr; Alta de poder</em>, introduce el NIF de tu gestoría y selecciona el trámite general (<strong>GENERALDATPE</strong> o recepción de notificaciones).
+          </li>
+          <li>
+            <strong>Aceptación por el Apoderado (Asesoría):</strong> Para que el apoderamiento surta efectos legales, el asesor o gestoría debe entrar con su propio certificado digital y firmar la <strong>Aceptación del apoderamiento</strong>.
+          </li>
+          <li>
+            <strong>Prórroga o Revocación inmediata:</strong> Los apoderamientos tienen una duración máxima de 5 años, pero puedes revocarlos en cualquier segundo desde la sede si cambias de proveedor contable.
+          </li>
+        </ol>
+      </div>
+
+      <!-- High-Ticket B2B Affiliate Callout -->
+      <div class="p-6 bg-amber-50 border-2 border-amber-300 rounded-2xl shadow-xs space-y-3">
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">⚠️</span>
+          <div>
+            <span class="text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 bg-amber-200 text-amber-950 rounded">
+              Obligatorio para Sociedades (S.L. / S.A.) · Normativa VeriFactu
+            </span>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mt-1">
+              Las sociedades mercantiles son las primeras obligadas a facturar con VeriFactu
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-700 mt-1 leading-relaxed">
+              Los contribuyentes del Impuesto sobre Sociedades encabezan el calendario de implantación obligatoria del Real Decreto 1007/2023. Evita sanciones de <strong>50.000 €</strong> gestionando tu facturación, contabilidad y conciliación bancaria en plataformas homologadas:
+            </p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <a
+                href="/r/holded/"
+                target="_blank"
+                rel="nofollow noopener"
+                class="px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg transition-colors"
+              >
+                Probar ERP y Facturación Holded Gratis &rarr;
+              </a>
+              <a
+                href="/r/qonto/"
+                target="_blank"
+                rel="nofollow noopener"
+                class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition-colors"
+              >
+                Cuenta de Empresa Qonto con Facturación &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embedded Corporate Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar Actas de Junta, Cuentas Anuales, Facturas y Contratos Mercantiles con Sello Societario
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Con nuestro <a href="/poner-sello-firma-digital-pdf/" class="text-blue-600 font-bold underline">generador de sello digital de empresa</a> puedes indicar tu cargo (<em>Administrador Único, Consejero Delegado o Apoderado</em>) y estampar la firma PAdES-B-B de tu certificado FNMT o Camerfirma. Si sois dos administradores mancomunados o socios, utilizad nuestra página de <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">Cofirma PDF</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Documento Societario o Contrato B2B con Sello de Empresa"
+          subtitle="Compatible con certificados de Representante FNMT, Camerfirma, ACCV e Izenpe · 100% privado en RAM."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Certificados de Empresa y Apoderamientos
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

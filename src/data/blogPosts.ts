@@ -203,4 +203,46 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'indigo',
   },
   */
+
+  // UNCOMMENT DAY 15: DGT Duplicado Carnet (>1,000/mo Easy KD), Informe Vehículo & Compraventa Coche (>1,000/mo)
+  /*
+  {
+    slug: 'duplicado-carnet-conducir-informe-vehiculo-contrato-compraventa-dgt',
+    title: 'DGT Online: Duplicado Carnet de Conducir, Informe de Vehículo y Contrato de Compraventa en PDF',
+    description:
+      'Cómo pedir un duplicado del permiso de conducir por pérdida o robo (Tasa 4.4), descargar el informe de vehículo gratis y firmar el contrato de compraventa de coche en PDF.',
+    category: 'Tráfico y Vehículos (DGT)',
+    readTime: '7 min de lectura',
+    updatedDate: '10 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  */
+
+  // UNCOMMENT DAY 16: Regional CAs: idCAT Mòbil (>1,000/mo Easy KD), Chave 365 (>1,000/mo Easy KD), ACCV & Izenpe
+  /*
+  {
+    slug: 'certificados-digitales-regionales-idcat-mobil-chave-365-accv-izenpe',
+    title: 'Certificados Digitales Autonómicos: idCAT Mòbil, Chave 365, ACCV e Izenpe vs. FNMT',
+    description:
+      'Guía comparativa entre los sistemas de identificación autonómicos (Cataluña, Galicia, Valencia y País Vasco) y cómo firmar documentos PDF con validez en toda España.',
+    category: 'Certificados Autonómicos',
+    readTime: '7 min de lectura',
+    updatedDate: '11 de noviembre de 2026',
+    badgeColor: 'emerald',
+  },
+  */
+
+  // UNCOMMENT DAY 17: Camerfirma (>1,000/mo Easy KD), Representante Persona Jurídica & Apoderamiento AEAT
+  /*
+  {
+    slug: 'certificado-camerfirma-representante-persona-juridica-apoderamiento-aeat',
+    title: 'Certificado de Representante de Persona Jurídica (FNMT y Camerfirma) y Apoderamiento AEAT',
+    description:
+      'Cómo solicitar o renovar el certificado digital de administrador único o representante de empresa (S.L. / S.A.), otorgar apoderamientos en la AEAT y firmar con sello societario.',
+    category: 'Empresas y Sociedades (B2B)',
+    readTime: '8 min de lectura',
+    updatedDate: '12 de noviembre de 2026',
+    badgeColor: 'amber',
+  },
+  */
 ];

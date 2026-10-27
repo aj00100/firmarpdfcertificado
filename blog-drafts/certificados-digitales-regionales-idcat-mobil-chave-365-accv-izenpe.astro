@@ -1,0 +1,188 @@
+---
+// blog-drafts/certificados-digitales-regionales-idcat-mobil-chave-365-accv-izenpe.astro
+// (Move to src/pages/blog/ on Day 16)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuál es la diferencia entre idCAT Mòbil e idCAT Certificat en Cataluña?",
+    a: "idCAT Mòbil es un sistema de identificación basado en el envío de códigos SMS de un solo uso válido únicamente para trámites dentro de las administraciones catalanas (Generalitat de Catalunya, ayuntamientos y CatSalut). En cambio, idCAT Certificat es un archivo criptográfico X.509 (.p12) emitido por el Consorci AOC que permite firmar cualquier documento PDF con validez legal en toda España y la Unión Europea."
+  },
+  {
+    q: "¿Puedo firmar un archivo PDF externo con Chave365 de la Xunta de Galicia?",
+    a: "Chave365 funciona mediante claves concertadas y códigos SMS para operar dentro de la sede electrónica de la Xunta de Galicia y el portal sanitario FIDES/SERGAS, pero no permite firmar contratos o archivos PDF sueltos en tu ordenador. Para firmar documentos PDF fuera de la sede gallega necesitas un certificado digital FNMT o DNIe."
+  },
+  {
+    q: "¿Son compatibles los certificados de la ACCV (Valencia), Izenpe (País Vasco) y Firmaprofesional con este firmador web?",
+    a: "Sí, al 100%. Cualquier certificado digital emitido en archivo software (.p12 o .pfx) por la ACCV, Izenpe, Consorci AOC (idCAT), Camerfirma, Firmaprofesional o la FNMT sigue el estándar internacional PKCS#12 y funciona de forma nativa en nuestro firmador local."
+  }
+];
+---
+
+<Layout
+  title="idCAT Mòbil, Chave 365, ACCV e Izenpe vs. Certificado FNMT: Guía Completa"
+  description="Diferencias entre sistemas autonómicos por SMS (idCAT Mòbil en Cataluña y Chave 365 en Galicia) y certificados digitales X.509 (ACCV, Izenpe, idCAT, FNMT) para firmar PDFs."
+  canonicalPath="/blog/certificados-digitales-regionales-idcat-mobil-chave-365-accv-izenpe/"
+>
+  <header class="py-10 bg-gradient-to-b from-emerald-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">idCAT Mòbil, Chave 365, ACCV e Izenpe</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold mb-3">
+        <span>🏛️</span> Identidad Digital en Cataluña, Galicia, Comunitat Valenciana y Euskadi
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Certificados Digitales Autonómicos (idCAT Mòbil, Chave 365, ACCV e Izenpe) vs. FNMT: ¿Con Cuál Puedes Firmar un PDF?
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        En España conviven dos tipos de identificaciones electrónicas autonómicas: las claves por SMS (como <strong>idCAT Mòbil</strong> o <strong>Chave 365</strong>) y los certificados digitales cualificados en archivo <code>.p12</code> (como <strong>ACCV, idCAT Certificat, Izenpe o FNMT</strong>). Descubre cuál necesitas para cada trámite.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Comparison Matrix Across Regions -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Mapa de Sistemas de Identificación y Certificados por Comunidad Autónoma
+        </h2>
+        <p>
+          Revisa en esta tabla qué alcance legal tiene cada credencial autonómica y si permite firmar documentos PDF privados, facturas o trámites estatales (AEAT, Seguridad Social, DGT):
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3.5 font-bold">Credencial / Autoridad</th>
+                <th class="p-3.5 font-bold">Comunidad Autónoma</th>
+                <th class="p-3.5 font-bold text-emerald-400">¿Permite Firmar Archivos PDF (.p12)?</th>
+                <th class="p-3.5 font-bold text-blue-300">Validez en Hacienda Estatal (AEAT)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">idCAT Mòbil</td>
+                <td class="p-3.5 text-slate-600">Cataluña (AOC / Gencat)</td>
+                <td class="p-3.5 text-rose-600 font-bold">❌ No (Solo código SMS en portales catalanes)</td>
+                <td class="p-3.5 text-rose-600">❌ Solo ámbito catalán</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">idCAT Certificat (.p12)</td>
+                <td class="p-3.5 text-slate-600">Cataluña (Consorci AOC)</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Sí (Firma PAdES-B-B completa)</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Plena en toda España y UE</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Chave 365</td>
+                <td class="p-3.5 text-slate-600">Galicia (Xunta / FIDES SERGAS)</td>
+                <td class="p-3.5 text-rose-600 font-bold">❌ No (Solo clave SMS en sede gallega)</td>
+                <td class="p-3.5 text-rose-600">❌ Solo Xunta y SERGAS</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Certificado ACCV (.p12)</td>
+                <td class="p-3.5 text-slate-600">Comunitat Valenciana (GVA)</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Sí (Firma PAdES-B-B completa)</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Plena en toda España y UE</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Certificado Izenpe / BakQ</td>
+                <td class="p-3.5 text-slate-600">País Vasco (Euskadi / TicketBAI)</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Sí (Certificados software/corporativos .p12)</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Plena en Haciendas Forales y AEAT</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">FNMT-RCM / DNIe</td>
+                <td class="p-3.5 text-slate-600">Estatal (Toda España)</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Sí (Estándar universal en España)</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Admitido en el 100% de sedes</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Detailed Regional Breakdown -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+          <h3 class="font-bold text-slate-900 text-base">Cataluña: Darse de alta en idCAT Mòbil vs. Exportar idCAT Certificat</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Puedes darte de <strong>alta en idCAT Mòbil</strong> en 2 minutos desde el móvil con tu DNI y la tarjeta sanitaria del CatSalut (TSI), ideal para trámites con la Generalitat o ayuntamientos catalanes. Sin embargo, cuando necesites firmar un contrato en PDF o un recurso estatal, deberás <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu idCAT Certificat o FNMT en formato .p12</a> y cargarlo en nuestro firmador.
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+          <h3 class="font-bold text-slate-900 text-base">Galicia: Chave 365 y el Portal FIDES del SERGAS</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            El sistema <strong>Chave 365</strong> es utilizado masivamente por el personal sanitario del SERGAS (expediente electrónico <strong>FIDES</strong>) y ciudadanos gallegos. Si tu Chave 365 ha caducado o necesitas firmar un PDF de méritos o un contrato privado, puedes renovarla online al instante autenticándote con un certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a>.
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+          <h3 class="font-bold text-slate-900 text-base">Valencia (ACCV) y País Vasco (Izenpe / TicketBAI)</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Los certificados en fichero emitidos por la <strong>ACCV</strong> en Valencia y por <strong>Izenpe</strong> en Euskadi (incluidos los certificados para facturación <strong>TicketBAI</strong>) son certificados cualificados X.509 exactamente equivalentes al de la FNMT. Puedes auditar su fecha de expiración en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">comprobador de validez de certificados</a>.
+          </p>
+        </div>
+
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+          <h3 class="font-bold text-slate-900 text-base">Colegios Profesionales: Firmaprofesional y ACA</h3>
+          <p class="text-xs text-slate-600 leading-relaxed">
+            Médicos, arquitectos (COAC), farmacéuticos, ingenieros y abogados utilizan certificados corporativos emitidos por <strong>Firmaprofesional</strong> o <strong>ACA</strong>. Si los tienes en archivo <code>.p12</code>, puedes <a href="/poner-sello-firma-digital-pdf/" class="text-blue-600 font-bold underline">estampar tu sello profesional visible</a> indicando tu número de colegiado en 1 clic.
+          </p>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmador Universal Compatible con FNMT, ACCV, idCAT, Izenpe, Camerfirma y Firmaprofesional
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Carga tu documento PDF y cualquier certificado digital en formato <code>.p12</code> o <code>.pfx</code> para firmarlo en local <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a> (y comprueba cualquier documento firmado en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador eIDAS</a>):
+        </p>
+
+        <SigningStudio
+          title="Firmar PDF con Certificado FNMT, ACCV, idCAT, Izenpe o Camerfirma"
+          subtitle="Compatible con todas las Autoridades de Certificación reconocidas en la Lista de Confianza Europea (TSL)."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Certificados Autonómicos
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
