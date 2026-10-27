@@ -1,0 +1,171 @@
+---
+// blog-drafts/como-firmar-facturas-electronicas-face-facturae-xsig-pdf.astro
+// (Move to src/pages/blog/ on Day 21)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué diferencia hay entre presentar una factura en FACe (.xsig) y enviar una factura en PDF firmado?",
+    a: "El portal FACe (Punto General de Entrada de Facturas Electrónicas de la Administración General del Estado) exige obligatoriamente el formato estructurado XML Facturae 3.2.2 con firma electrónica XAdES (.xsig) para contratos públicos. Sin embargo, para presupuestos previos, albaranes conformados, contratos menores adjuntos o facturación entre empresas privadas (B2B), el estándar exigido es el archivo PDF firmado con certificado digital bajo formato PAdES-B-B."
+  },
+  {
+    q: "¿Qué son los códigos DIR3 de una factura electrónica para la Administración?",
+    a: "Los códigos DIR3 son tres identificadores alfanuméricos del Directorio Común de Unidades Orgánicas y Oficinas que indican obligatoriamente la Oficina Contable, el Órgano Gestor y la Unidad Tramitadora del ayuntamiento, ministerio u hospital público al que va dirigida la factura."
+  },
+  {
+    q: "¿Puedo adjuntar un anexo en PDF firmado dentro de una factura electrónica en FACe?",
+    a: "Sí. El portal FACe permite adjuntar documentos anexos en formato PDF (como certificaciones de obra, partes de horas, albaranes de entrega o pliegos técnicos) que deben ir previamente firmados en formato PAdES con tu certificado digital FNMT o de Representante."
+  }
+];
+---
+
+<Layout
+  title="FACe y Facturae (.xsig) vs. Factura PDF Firmada: Guía para Proveedores Públicos"
+  description="Diferencias entre el formato Facturae XML (.xsig) para el portal FACe y las facturas o anexos en PDF firmados con certificado digital (PAdES) para licitaciones y empresas."
+  canonicalPath="/blog/como-firmar-facturas-electronicas-face-facturae-xsig-pdf/"
+>
+  <header class="py-10 bg-gradient-to-b from-amber-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">FACe, Facturae (.xsig) y Anexos PDF</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-900 rounded-full text-xs font-bold mb-3">
+        <span>🏛️</span> Licitaciones y Proveedores del Estado · Ley 25/2013 y Ley Crea y Crece
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Firmar Facturas y Anexos para FACe (Facturae .xsig vs. PDF PAdES) con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Si eres proveedor de un Ayuntamiento, Comunidad Autónoma, Universidad o Ministerio, debes conocer cuándo utilizar el archivo estructurado <code>.xsig</code> y cómo <a href="/firmar-factura-contrato-pdf-certificado/" class="text-blue-600 font-bold underline">firmar en PDF tus certificaciones de obra, albaranes y contratos</a> sin errores.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Comparison Table: XAdES (.xsig) vs PAdES (.pdf) -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Diferencia Técnica entre Facturae (.xsig / XAdES) y Factura PDF Firmada (PAdES)
+        </h2>
+        <p>
+          En la contratación pública y mercantil en España conviven dos estándares de firma electrónica regulados por el Reglamento Europeo eIDAS:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3.5 font-bold">Característica</th>
+                <th class="p-3.5 font-bold text-amber-300">Facturae XML (.xsig · XAdES)</th>
+                <th class="p-3.5 font-bold text-emerald-400">Factura / Anexo PDF (.pdf · PAdES)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">¿Dónde es obligatorio?</td>
+                <td class="p-3.5 text-slate-700">Plataforma estatal FACe, e-FACT (Cataluña) y Osakidetza para facturas superiores a 5.000 €.</td>
+                <td class="p-3.5 text-slate-700">Facturación B2B entre empresas privadas, presupuestos, albaranes y anexos justificativos en FACe.</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Legibilidad visual humana</td>
+                <td class="p-3.5 text-rose-600 font-medium">Baja (Código de etiquetas XML con códigos DIR3).</td>
+                <td class="p-3.5 text-emerald-700 font-bold">Total (Diseño visual intacto + Sello administrativo rectangular).</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Cómo se genera y firma</td>
+                <td class="p-3.5 text-slate-700">Requiere un ERP homologado (como Holded) que exporte el esquema Facturae 3.2.2.</td>
+                <td class="p-3.5 text-emerald-700 font-bold">Directamente en el navegador con nuestro firmador PAdES-B-B gratuito.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- B2B ERP Callout for Automatic Facturae XML Generation -->
+      <div class="p-6 bg-amber-50 border-2 border-amber-300 rounded-2xl shadow-xs space-y-3">
+        <div class="flex items-start gap-3">
+          <span class="text-2xl">⚡</span>
+          <div>
+            <span class="text-[11px] font-extrabold uppercase tracking-wider px-2 py-0.5 bg-amber-200 text-amber-950 rounded">
+              Generación Automática de Facturae 3.2.2 (FACe) + VeriFactu
+            </span>
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 mt-1">
+              Olvídate del obsoleto programa "Facturae" de escritorio en Java
+            </h3>
+            <p class="text-xs sm:text-sm text-slate-700 mt-1 leading-relaxed">
+              Si facturas a ayuntamientos o administraciones públicas y sufres con la aplicación estatal de escritorio, puedes generar tus facturas electrónicas con códigos DIR3 en 1 clic y cumplir con la <a href="/blog/normativa-verifactu-multas-facturas-pdf/" class="text-blue-700 font-bold underline">normativa VeriFactu</a> usando software en la nube homologado:
+            </p>
+            <div class="mt-4 flex flex-wrap gap-3">
+              <a
+                href="/r/holded/"
+                target="_blank"
+                rel="nofollow noopener"
+                class="px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg transition-colors"
+              >
+                Generar Facturae y PDF en Holded Gratis &rarr;
+              </a>
+              <a
+                href="/r/qonto/"
+                target="_blank"
+                rel="nofollow noopener"
+                class="px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg transition-colors"
+              >
+                Cuenta Empresa Qonto con Facturación &rarr;
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio for Annexes, Delivery Notes, and B2B PDF Invoices -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar Anexos de FACe, Certificaciones de Obra, Presupuestos y Facturas en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Sube aquí tu factura en PDF, declaración responsable de licitación o albarán de entrega y estampa tu firma criptográfica PAdES con <a href="/poner-sello-firma-digital-pdf/" class="text-blue-600 font-bold underline">sello de empresa personalizado</a> <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Factura PDF, Albarán o Anexo de Licitación Pública (PAdES-B-B)"
+          subtitle="Compatible con certificados FNMT, Representante de Persona Jurídica y Camerfirma · 100% en RAM."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre FACe, Facturae y Firma en PDF
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

@@ -1,0 +1,117 @@
+---
+// blog-drafts/como-renovar-certificado-digital-fnmt-por-internet-sin-cita-previa.astro
+// (Move to src/pages/blog/ on Day 26)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Con cuántos días de antelación puedo renovar mi certificado digital de la FNMT por internet?",
+    a: "La Fábrica Nacional de Moneda y Timbre (FNMT-RCM) permite renovar el certificado digital de Persona Física de forma 100% online durante los 60 días naturales anteriores a su fecha de caducidad, siempre que el certificado actual no haya sido revocado ni se haya renovado ya previamente por internet."
+  },
+  {
+    q: "¿Por qué la FNMT me dice que ya no puedo renovar mi certificado online y debo acreditar mi identidad?",
+    a: "Por normativa de seguridad europea eIDAS, la FNMT solo permite una renovación telemática consecutiva con el propio certificado. Tras agotar esa renovación (a los 8 años desde la acreditación presencial original) o si tu certificado ya ha caducado hace más de un minuto, deberás obtener uno nuevo mediante DNIe, Vídeo-Identificación o acudiendo sin cita a una oficina de Correos."
+  },
+  {
+    q: "¿Una vez renovado y descargado mi nuevo certificado FNMT, cómo obtengo el archivo .p12?",
+    a: "Al descargar el certificado renovado desde la web de CERES-FNMT, el configurador permite guardar automáticamente una copia de seguridad en formato .p12 o .pfx protegida por contraseña. También puedes exportarlo en cualquier momento desde tu navegador siguiendo nuestra guía de exportación."
+  }
+];
+---
+
+<Layout
+  title="Cómo Renovar el Certificado Digital FNMT por Internet Sin Cita Previa (2026)"
+  description="Guía paso a paso para renovar tu certificado digital de la FNMT online en los 60 días previos a su caducidad sin ir a Hacienda, exportar el nuevo archivo .p12 y firmar PDFs."
+  canonicalPath="/blog/como-renovar-certificado-digital-fnmt-por-internet-sin-cita-previa/"
+>
+  <header class="py-10 bg-gradient-to-b from-emerald-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Renovar Certificado Digital FNMT Online</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold mb-3">
+        <span>🔄</span> Renovación Telemática CERES-FNMT · Ventana de 60 Días
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Renovar el Certificado Digital de la FNMT por Internet Sin Cita Previa (Antes de que Caduque)
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Si tu certificado digital está a punto de expirar, estás a tiempo de renovarlo desde tu ordenador en menos de 5 minutos sin desplazarte a ninguna oficina de Hacienda ni de la Seguridad Social. Primero, comprueba cuántos días exactos te quedan en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">verificador de caducidad de certificado digital</a>.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Step-by-Step FNMT Renewal -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Los 3 pasos para renovar tu Certificado de Persona Física en la Sede de la FNMT
+        </h2>
+        <p>
+          Siempre que te encuentres dentro de los <strong>60 días previos a la fecha de expiración</strong> de tu certificado actual, sigue este proceso oficial en la sede de CERES:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            <strong>Solicitar la Renovación autenticándote con tu certificado actual:</strong> Entra en <em>Sede FNMT &rarr; Certificado de Persona Física &rarr; Renovar</em>. El navegador te pedirá seleccionar tu certificado vigente (aún activo) y generarás un código de solicitud de renovación que llegará a tu correo electrónico.
+          </li>
+          <li>
+            <strong>Descargar el nuevo certificado (1 hora después):</strong> Con el código recibido por email y usando exactamente el mismo ordenador y navegador, entra en el paso <em>Descargar Certificado</em>.
+          </li>
+          <li>
+            <strong>Guardar copia de seguridad en formato <code>.p12</code>:</strong> Asegúrate de conservar el archivo <code>.p12</code> o <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital con clave privada</a> para poder usarlo tanto en el ordenador como en tu <a href="/firmar-pdf-certificado-android/" class="text-blue-600 font-bold underline">móvil Android</a> o <a href="/firmar-pdf-certificado-mac-iphone/" class="text-blue-600 font-bold underline">iPhone / Mac</a>.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Embedded Signing Studio to Test the Newly Renewed Certificate -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Prueba tu Nuevo Certificado Renovado: Firma un Documento PDF Ahora
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          ¿Acabas de renovar o exportar tu certificado <code>.p12</code> y quieres verificar que firma documentos PDF correctamente con las nuevas fechas de vigencia? Compruébalo en 3 segundos:
+        </p>
+
+        <SigningStudio
+          title="Firmar Documento PDF con tu Certificado Renovado (.p12 / .pfx)"
+          subtitle="Comprueba tu nuevo sello oficial PAdES-B-B sin instalar AutoFirma · 100% privado en la memoria de tu navegador."
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre la Renovación del Certificado FNMT
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

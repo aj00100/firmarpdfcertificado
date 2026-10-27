@@ -287,4 +287,88 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'emerald',
   },
   */
+
+  // UNCOMMENT DAY 21: FACe, Facturae (.xsig) & Licitaciones Públicas (>1,000/mo Easy KD)
+  /*
+  {
+    slug: 'como-firmar-facturas-electronicas-face-facturae-xsig-pdf',
+    title: 'FACe y Facturae (.xsig) vs. Factura PDF Firmada: Guía para Proveedores Públicos',
+    description:
+      'Diferencias entre el formato Facturae XML (.xsig) para el portal FACe y las facturas, albaranes o anexos en PDF firmados con certificado digital (PAdES).',
+    category: 'Facturación Pública y FACe',
+    readTime: '7 min de lectura',
+    updatedDate: '16 de noviembre de 2026',
+    badgeColor: 'amber',
+  },
+  */
+
+  // UNCOMMENT DAY 22: Kit Digital & Kit Consulting Red.es Justificación (>1,000/mo Easy KD)
+  /*
+  {
+    slug: 'como-firmar-acuerdos-justificacion-kit-digital-kit-consulting-red-es',
+    title: 'Kit Digital y Kit Consulting (Red.es): Cómo Firmar Acuerdos y Justificaciones en PDF',
+    description:
+      'Cómo firmar y cofirmar actas de conformidad, autorizaciones y memorias de justificación del Kit Digital en Red.es sin errores de AutoFirma.',
+    category: 'Subvenciones y Kit Digital',
+    readTime: '6 min de lectura',
+    updatedDate: '17 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  */
+
+  // UNCOMMENT DAY 23: Cuentas Anuales & Acta de Junta Registro Mercantil (>1,000/mo Easy KD)
+  /*
+  {
+    slug: 'como-firmar-cuentas-anuales-certificacion-acta-junta-registro-mercantil',
+    title: 'Cómo Firmar la Certificación del Acta de Junta y Cuentas Anuales para el Registro Mercantil',
+    description:
+      'Requisitos del Colegio de Registradores (Programa D2) para firmar o cofirmar en PDF la certificación de acuerdos sociales y cuentas anuales con certificado digital.',
+    category: 'Registro Mercantil y Sociedades',
+    readTime: '7 min de lectura',
+    updatedDate: '18 de noviembre de 2026',
+    badgeColor: 'indigo',
+  },
+  */
+
+  // UNCOMMENT DAY 24: Apostilla de La Haya Electrónica (>10,000/mo) & Traducciones Juradas PDF (>1,000/mo Easy KD)
+  /*
+  {
+    slug: 'como-solicitar-apostilla-de-la-haya-electronica-y-firmar-traducciones-juradas-pdf',
+    title: 'Apostilla de La Haya Electrónica (e-APP) Online y Firma de Traducciones Juradas en PDF',
+    description:
+      'Cómo solicitar la Apostilla de La Haya Electrónica en el Ministerio de Justicia con certificado digital y cómo firmar o verificar Traducciones Juradas en PDF.',
+    category: 'Trámites Internacionales y MAEC',
+    readTime: '7 min de lectura',
+    updatedDate: '19 de noviembre de 2026',
+    badgeColor: 'emerald',
+  },
+  */
+
+  // UNCOMMENT DAY 25: Registro Electrónico General Red SARA (>10,000/mo Easy KD)
+  /*
+  {
+    slug: 'como-presentar-escritos-registro-electronico-general-red-sara-subvenciones-pdf',
+    title: 'Registro Electrónico General (Red SARA): Cómo Firmar y Presentar Instancias y Recursos PDF',
+    description:
+      'Guía práctica para presentar escritos, alegaciones y solicitudes de subvenciones en cualquier administración pública a través de reg.redsara.es con PDFs firmados.',
+    category: 'Registro Electrónico Red SARA',
+    readTime: '6 min de lectura',
+    updatedDate: '20 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  */
+
+  // UNCOMMENT DAY 26: Renovar Certificado Digital FNMT Online (>100,000/mo Easy KD)
+  /*
+  {
+    slug: 'como-renovar-certificado-digital-fnmt-por-internet-sin-cita-previa',
+    title: 'Cómo Renovar el Certificado Digital FNMT por Internet Sin Cita Previa (Guía 2026)',
+    description:
+      'Pasos para renovar online tu certificado digital de Persona Física de la FNMT durante los 60 días previos a su caducidad, exportar el archivo .p12 y probar tu firma.',
+    category: 'Renovación Certificado FNMT',
+    readTime: '6 min de lectura',
+    updatedDate: '21 de noviembre de 2026',
+    badgeColor: 'emerald',
+  },
+  */
 ];

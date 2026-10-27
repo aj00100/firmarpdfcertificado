@@ -1,0 +1,131 @@
+---
+// blog-drafts/como-solicitar-apostilla-de-la-haya-electronica-y-firmar-traducciones-juradas-pdf.astro
+// (Move to src/pages/blog/ on Day 24)
+import Layout from '../../layouts/Layout.astro';
+import ValidatorStudio from '../../components/ValidatorStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué documentos públicos se pueden apostillar por internet en el Ministerio de Justicia (e-Apostilla)?",
+    a: "En la Sede Electrónica del Ministerio de Justicia puedes obtener la Apostilla de La Haya Electrónica (e-APP) de forma telemática para los certificados del Registro Civil (nacimiento, matrimonio, defunción), certificados de antecedentes penales, delitos sexuales y documentos judiciales o administrativos electrónicos que incorporen firma digital o CSV verificable."
+  },
+  {
+    q: "¿Es válida una Traducción Jurada entregada en PDF con firma digital del traductor sin papel físico?",
+    a: "Sí. Conforme a la comunicación oficial de la Oficina de Interpretación de Lenguas del Ministerio de Asuntos Exteriores (MAEC) y la Ley 39/2015, los Traductores-Intérpretes Jurados están plenamente habilitados para firmar sus traducciones juradas en formato PDF mediante certificado digital cualificado (FNMT o DNIe), teniendo idéntica validez legal ante extranjería, ministerios y universidades que la versión impresa en papel."
+  },
+  {
+    q: "¿Cómo puedo comprobar que una Apostilla Electrónica o una Traducción Jurada en PDF es auténtica?",
+    a: "Sube el archivo PDF de la Apostilla de La Haya o de la Traducción Jurada a nuestro verificador criptográfico superior. El sistema inspeccionará el contenedor PKCS#7 / PAdES para confirmar el nombre y NIF del traductor jurado o el sello oficial del Ministerio de Justicia y garantizará que el documento no ha sido modificado."
+  }
+];
+---
+
+<Layout
+  title="Apostilla de La Haya Electrónica (e-APP) y Firma de Traducciones Juradas PDF"
+  description="Cómo solicitar online la Apostilla de La Haya Electrónica en el Ministerio de Justicia con certificado digital y cómo firmar o verificar Traducciones Juradas en PDF (MAEC)."
+  canonicalPath="/blog/como-solicitar-apostilla-de-la-haya-electronica-y-firmar-traducciones-juradas-pdf/"
+>
+  <header class="py-10 bg-gradient-to-b from-emerald-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Apostilla de La Haya Electrónica y Traducciones Juradas</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold mb-3">
+        <span>🌐</span> Validez Internacional · Convenio de La Haya de 1961 y MAEC
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Solicitar la Apostilla de La Haya Electrónica Online y Firmar o Verificar Traducciones Juradas en PDF
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Tanto si necesitas legalizar un certificado español para surtir efectos en el extranjero mediante la <strong>e-Apostilla del Ministerio de Justicia</strong>, como si necesitas presentar una <strong>Traducción Jurada en PDF firmada digitalmente</strong>, te explicamos el procedimiento paso a paso.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Solicitar Apostilla de La Haya Electrónica -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          1. Cómo pedir la Apostilla de La Haya Electrónica (e-Apostilla) en la Sede del Ministerio de Justicia
+        </h2>
+        <p>
+          La <strong>Apostilla Electrónica (e-APP)</strong> sustituye al antiguo sello de tinta en papel y permite apostillar desde casa documentos administrativos y judiciales españoles (como los <a href="/blog/solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades/" class="text-blue-600 font-bold underline">certificados de nacimiento, matrimonio o defunción</a> y el <a href="/blog/como-descargar-certificado-delitos-sexuales-y-antecedentes-penales/" class="text-blue-600 font-bold underline">certificado de antecedentes penales</a>):
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            Entra en la <strong>Sede Electrónica del Ministerio de Justicia</strong> y selecciona el trámite <em>"Solicitud de Apostilla Electrónica"</em> identificándote con tu certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNIe</a>.
+          </li>
+          <li>
+            Adjunta el documento público electrónico original en formato PDF (sin haberlo impreso ni escaneado, para que conserve su firma electrónica de origen).
+          </li>
+          <li>
+            Una vez tramitada, podrás descargar el <strong>PDF de la Apostilla Electrónica</strong> firmado criptográficamente por el Ministerio de Justicia, válido ante cualquier Estado firmante del Convenio de La Haya.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Section 2: Traducciones Juradas en PDF -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          2. Cómo firmar Traducciones Juradas en PDF (Traductores-Intérpretes Jurados MAEC)
+        </h2>
+        <p>
+          Los <strong>Traductores-Intérpretes Jurados</strong> nombrados por el Ministerio de Asuntos Exteriores, Unión Europea y Cooperación (MAEC) pueden entregar sus traducciones oficiales en formato electrónico PDF sin necesidad de envío por mensajería física, siempre que cumplan dos requisitos:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-xs sm:text-sm">
+          <li>Incluir en el mismo archivo PDF la certificación oficial con su sello, número de colegiado/TIJ y copia del documento original traducido.</li>
+          <li>Estampar su <strong>firma electrónica cualificada PAdES-B-B</strong> mediante nuestra herramienta para <a href="/poner-sello-firma-digital-pdf/" class="text-blue-600 font-bold underline">poner sello de firma digital en PDF</a> indicando su condición de <em>Traductor-Intérprete Jurado</em>.</li>
+        </ul>
+      </div>
+
+      <!-- Embedded Validator Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Verificar la Autenticidad de una Apostilla Electrónica o Traducción Jurada en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          ¿Has recibido una Traducción Jurada en PDF o una e-Apostilla y quieres comprobar que lleva incrustada la firma digital oficial antes de subirla a la <a href="/blog/como-firmar-subir-documentos-plataforma-mercurio-y-becas-mec/" class="text-blue-600 font-bold underline">Plataforma Mercurio de Extranjería</a> o al Registro Civil? Audítala aquí (o ve a nuestro <a href="/" class="text-blue-600 font-bold underline">Firmador de PDF</a> si eres traductor y necesitas firmar un documento):
+        </p>
+
+        <ValidatorStudio
+          title="Verificador de Apostillas Electrónicas y Traducciones Juradas PDF"
+          subtitle="Comprueba el certificado X.509 del Traductor Jurado o del Ministerio de Justicia 100% en tu navegador."
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre la Apostilla Electrónica y Traducciones Juradas
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

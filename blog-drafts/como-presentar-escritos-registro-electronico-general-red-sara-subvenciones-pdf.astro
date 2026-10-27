@@ -1,0 +1,120 @@
+---
+// blog-drafts/como-presentar-escritos-registro-electronico-general-red-sara-subvenciones-pdf.astro
+// (Move to src/pages/blog/ on Day 25)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué es el Registro Electrónico General (REG / Red SARA) y qué puedo presentar en él?",
+    a: "El Registro Electrónico General de la Administración General del Estado (accesible a través de reg.redsara.es) es la ventanilla única telemática regulada en el artículo 16.4 de la Ley 39/2015. Permite enviar cualquier solicitud, escrito, alegación, recurso de alzada o documentación de subvenciones dirigida a cualquier Ministerio, Comunidad Autónoma, Ayuntamiento o Universidad integrada en el sistema SIR."
+  },
+  {
+    q: "¿Cómo evitar que el Registro Electrónico General falle al firmar con AutoFirma?",
+    a: "Antes de iniciar el envío en reg.redsara.es, redacta tu instancia o recurso en PDF y fírmalo directamente en nuestro firmador web con tu certificado digital FNMT o DNIe. De este modo, el documento adjunto ya llevará incrustada tu firma cualificada PAdES-B-B con fecha y NIF aunque el applet del portal sufra incidencias."
+  },
+  {
+    q: "¿Cuál es el tamaño máximo de los archivos PDF que admite el Registro Electrónico General (SIR)?",
+    a: "Por limitación técnica de la plataforma de interconexión de registros (SIR / ORVE), cada archivo PDF adjunto no suele poder superar entre 10 MB y 15 MB, con un límite conjunto por asiento registral de alrededor de 30 MB."
+  }
+];
+---
+
+<Layout
+  title="Registro Electrónico General (Red SARA): Cómo Firmar y Presentar Escritos PDF"
+  description="Cómo presentar instancias, alegaciones, recursos administrativos y solicitudes de subvenciones en el Registro Electrónico General (REG / Red SARA) con PDFs firmados digitalmente."
+  canonicalPath="/blog/como-presentar-escritos-registro-electronico-general-red-sara-subvenciones-pdf/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Registro Electrónico General (Red SARA) y Subvenciones</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold mb-3">
+        <span>🏛️</span> Ventanilla Única Telemática · Art. 16.4 Ley 39/2015 (SIR / ORVE)
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Firmar y Presentar Instancias, Recursos y Subvenciones en el Registro Electrónico General (Red SARA)
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Cuando la sede electrónica de tu ayuntamiento o consejería autonómica está caída en el último día de plazo de una subvención o alegación, el <strong>Registro Electrónico General (REG / Red SARA)</strong> te permite registrar tu escrito con plena validez legal hacia cualquier organismo de España.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Embedded Signing Studio Right at the Top for Urgent Administrative Deadlines -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Paso 1: Firma tu Instancia General, Recurso o Memoria de Subvención en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Para que el órgano administrativo destinatario admita a trámite tu escrito o declaración responsable sin requerimientos de subsanación (Art. 68 Ley 39/2015), sella primero tu documento PDF con firma <strong>PAdES-B-B</strong> aquí mismo <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin depender de AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Instancia General, Alegación o Solicitud de Subvención PDF"
+          subtitle="Sello administrativo oficial homologado con NIF y huella SHA-256 · Válido para Red SARA y cualquier registro."
+        />
+      </div>
+
+      <!-- How to Use REG Red SARA Step-by-Step -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Paso 2: Cómo enviar el PDF firmado a través del Registro Electrónico General (reg.redsara.es)
+        </h2>
+        <p>
+          Gracias al <strong>Sistema de Interconexión de Registros (SIR)</strong>, el asiento registral que generes en Red SARA llega en cuestión de minutos a la bandeja ORVE del organismo de destino con sello de tiempo oficial:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            <strong>Accede a <code>reg.redsara.es</code>:</strong> Identifícate con tu certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNIe</a>.
+          </li>
+          <li>
+            <strong>Selecciona el Organismo Destinatario (Buscador DIR3):</strong> Filtra por nivel de administración (Estatal, Autonómica, Local o Universidades) y elige la unidad tramitadora exacta a la que diriges tu escrito.
+          </li>
+          <li>
+            <strong>Rellena el Expone / Solicita y adjunta tus PDFs ya firmados:</strong> Sube el documento PDF que acabas de firmar en nuestra herramienta. Si presentas un escrito conjunto en nombre de varios interesados o cónyuges, recuerda que podéis <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirmar el mismo PDF con dos firmas</a>.
+          </li>
+          <li>
+            <strong>Descarga el Recibo de Presentación con CSV:</strong> Guarda siempre el justificante PDF de registro, cuya integridad puedes comprobar en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas PDF</a>.
+          </li>
+        </ol>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Registro Electrónico General (Red SARA)
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

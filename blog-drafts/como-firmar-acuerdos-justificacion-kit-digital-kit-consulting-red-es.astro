@@ -1,0 +1,122 @@
+---
+// blog-drafts/como-firmar-acuerdos-justificacion-kit-digital-kit-consulting-red-es.astro
+// (Move to src/pages/blog/ on Day 22)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Por qué Red.es da error al firmar el Acuerdo de Prestación de Soluciones del Kit Digital?",
+    a: "La plataforma de tramitación de Red.es (Acelera Pyme) invoca el componente local de AutoFirma para que tanto el Beneficiario como el Agente Digitalizador firmen el acuerdo o la memoria de justificación. Si el navegador bloquea el puerto local o el certificado de representante no se detecta, el trámite falla. Firmar previamente las declaraciones responsables, actas de conformidad y anexos en PDF evita bloqueos en la sede."
+  },
+  {
+    q: "¿Cómo deben firmar el Beneficiario y el Agente Digitalizador un mismo documento PDF de conformidad?",
+    a: "Para que las dos firmas electrónicas sean válidas en el expediente de justificación ante Red.es, primero debe firmar una de las partes (por ejemplo, el Agente Digitalizador en la esquina inferior derecha) y a continuación el Beneficiario debe abrir ese mismo archivo ya firmado y añadir su segunda firma mediante nuestra herramienta de Cofirma PDF sin invalidar la primera."
+  },
+  {
+    q: "¿Qué certificado digital se exige a las sociedades mercantiles para el Kit Digital y Kit Consulting?",
+    a: "Si el beneficiario es una Sociedad Limitada (S.L.) o Sociedad Anónima (S.A.), Red.es exige que los documentos sean firmados con el Certificado Digital de Representante de Persona Jurídica (o por el apoderado inscrito con poder bastante), mientras que los autónomos pueden firmar con su certificado de Persona Física de la FNMT o DNIe."
+  }
+];
+---
+
+<Layout
+  title="Kit Digital y Kit Consulting (Red.es): Cómo Firmar Acuerdos y Justificaciones PDF"
+  description="Cómo firmar acuerdos, actas de entrega y memorias de justificación del Kit Digital y Kit Consulting en Red.es sin errores de AutoFirma entre Beneficiario y Agente Digitalizador."
+  canonicalPath="/blog/como-firmar-acuerdos-justificacion-kit-digital-kit-consulting-red-es/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Firmar Documentos Kit Digital y Red.es</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold mb-3">
+        <span>🚀</span> Subvenciones Acelera Pyme · Red.es (Primera y Segunda Justificación)
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Firmar Documentos, Actas y Justificaciones del Kit Digital y Kit Consulting (Red.es) Sin Errores de AutoFirma
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        En la fase de primera y segunda justificación del <strong>Bono Kit Digital</strong> o del programa <strong>Kit Consulting</strong>, un fallo técnico de firma o una primera firma invalidada puede provocar requerimientos de subsanación y retrasar meses el cobro de la subvención.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Key Documents in Red.es Justification -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Documentos PDF que requieren Firma Cualificada en los expedientes de Red.es
+        </h2>
+        <p>
+          Tanto los <strong>Agentes Digitalizadores Adheridos</strong> como las pymes y autónomos beneficiarios deben aportar en la Sede Electrónica de Red.es evidencias documentales en formato PDF firmadas electrónicamente bajo el estándar europeo <strong>PAdES</strong>:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-4">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">1. Contrato Previo / Acta de Conformidad de Implantación</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Documento bilateral donde el beneficiario declara haber recibido la solución digital (sitio web, ERP, factura electrónica o puesto de trabajo seguro). Requiere la <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirma de ambas partes en el mismo PDF</a>.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">2. Autorización de Representante Voluntario</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Cuando una gestoría o el propio Agente Digitalizador solicita el bono en nombre del autónomo o empresa, el modelo oficial de autorización en PDF debe subirse con las firmas digitales intactas (puedes auditarlas antes de subirlas en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firma digital PDF</a>).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio Configured for Dual Signature / Red.es -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar o Cofirmar Documentación del Kit Digital en PDF (1ª o 2ª Firma)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Si eres el primer firmante, deja la posición en <em>"Abajo Derecha"</em>. Si eres el segundo firmante (sobre un PDF que ya viene firmado por la otra parte), selecciona <em>"Abajo Izquierda (2ª Firma / Cofirma)"</em> para no invalidar el sello anterior y evitar el <a href="/ayuda/error-saf-45/" class="text-blue-600 font-bold underline">Error SAF_45 de AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmador PAdES-B-B para Expedientes Kit Digital / Red.es"
+          subtitle="Cumple con los requisitos de firma electrónica avanzada/cualificada de Red.es · Procesamiento 100% local."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Firmas en Kit Digital y Red.es
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

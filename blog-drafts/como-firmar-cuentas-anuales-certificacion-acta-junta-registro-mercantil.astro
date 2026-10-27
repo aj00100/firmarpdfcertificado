@@ -1,0 +1,118 @@
+---
+// blog-drafts/como-firmar-cuentas-anuales-certificacion-acta-junta-registro-mercantil.astro
+// (Move to src/pages/blog/ on Day 23)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Es obligatorio firmar con certificado digital la Certificación del Acta de la Junta en el Depósito de Cuentas?",
+    a: "Sí. En la presentación telemática de las Cuentas Anuales en el portal de Registradores de España (Programa D2), el archivo PDF que contiene la Certificación de los acuerdos de la Junta General aprobando las cuentas y la aplicación del resultado debe ir firmado electrónicamente con el certificado digital del Administrador Único, Administradores Solidarios o del Secretario del Consejo con el visto bueno del Presidente."
+  },
+  {
+    q: "¿Cómo firman dos administradores mancomunados o el Secretario y Presidente en la misma certificación PDF?",
+    a: "Cuando los estatutos sociales exigen la firma conjunta de dos administradores mancomunados (o del Secretario y el Presidente del Consejo de Administración), el primero debe firmar el PDF en la posición inferior derecha y el segundo debe abrir ese PDF ya firmado en nuestra herramienta de Cofirma PDF para estampar su segunda firma en la posición inferior izquierda."
+  },
+  {
+    q: "¿Sirve el PDF firmado para legitimar firmas o subsanar defectos ante el Registrador Mercantil?",
+    a: "Conforme a la Instrucción de la Dirección General de Seguridad Jurídica y Fe Pública (DGSJFP), la firma electrónica cualificada basada en certificado reconocido (FNMT, Camerfirma o DNIe) acredita fehacientemente la identidad del firmante en las certificaciones societarias telemáticas."
+  }
+];
+---
+
+<Layout
+  title="Firmar Certificación de Acta de Junta y Cuentas Anuales (Registro Mercantil)"
+  description="Cómo firmar digitalmente en PDF la certificación del acta de la Junta General, memoria e informe de gestión para el depósito de Cuentas Anuales (D2) en el Registro Mercantil."
+  canonicalPath="/blog/como-firmar-cuentas-anuales-certificacion-acta-junta-registro-mercantil/"
+>
+  <header class="py-10 bg-gradient-to-b from-indigo-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Cuentas Anuales y Acta de Junta (Registro Mercantil)</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-indigo-100 text-indigo-900 rounded-full text-xs font-bold mb-3">
+        <span>⚖️</span> Derecho Societario · Colegio de Registradores (Depósito Digital D2)
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Firmar la Certificación del Acta de la Junta y las Cuentas Anuales en PDF para el Registro Mercantil
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Cada mes de julio, miles de sociedades limitadas (S.L.) y asesorías mercantiles ven rechazado o calificado con defectos su depósito de <strong>Cuentas Anuales</strong> porque el PDF de la certificación del acta no lleva la firma criptográfica PAdES correcta o se ha invalidado al firmar dos administradores.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Step-by-Step Corporate Filing Requirements -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Requisitos del Registro Mercantil para los archivos PDF adjuntos al programa D2
+        </h2>
+        <p>
+          Al generar el envío telemático para el portal del <strong>Colegio de Registradores de la Propiedad y Mercantiles de España</strong>, los documentos adjuntos en formato PDF (Certificación del Acta de la Junta con la huella digital de las cuentas, Memoria, Estado de Información No Financiera o Informe de Auditoría) deben cumplir tres reglas técnicas:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 text-sm bg-slate-50 p-6 rounded-xl border border-slate-200">
+          <li>
+            <strong>Incluir la huella alfanumérica exacta del depósito D2:</strong> Antes de firmar el PDF de la certificación del acta, asegúrate de haber copiado en el texto del certificado el código hash generado por el programa D2.
+          </li>
+          <li>
+            <strong>Firma PAdES con Certificado Cualificado:</strong> El administrador o representantes con facultad certificante deben estampar su firma digital con su certificado de representante o personal en vigor (comprueba antes su fecha de expiración en nuestro <a href="/comprobar-validez-certificado-digital/" class="text-blue-600 font-bold underline">verificador de caducidad</a>).
+          </li>
+          <li>
+            <strong>Cofirma en Administración Mancomunada o Consejo:</strong> Si deben firmar dos o más personas, utiliza siempre la firma incremental en <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">Cofirmar PDF</a> y verifica el archivo final en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">auditor de firmas PDF</a> antes de enviarlo al Registro.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Embedded Corporate Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Herramienta Gratuita: Firmar Certificación de Acta de Junta o Memoria en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Indica tu cargo societario (ej. <em>Administrador Único</em> o <em>Secretario del Consejo</em>) en el personalizador de sello inferior y estampa la firma PAdES-B-B en segundos desde Windows o <a href="/firmar-pdf-certificado-mac-iphone/" class="text-blue-600 font-bold underline">Mac</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Certificación Societaria o Cuentas Anuales PDF"
+          subtitle="Sello rectangular homologado con cargo societario, NIF/CIF y huella SHA-256 · 100% confidencial en RAM."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Firmas para el Registro Mercantil
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
