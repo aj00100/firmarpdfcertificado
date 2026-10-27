@@ -1,4 +1,5 @@
-# Block .pages.dev staging domain from being indexed and redirect to root
+# Block .workers.dev and .pages.dev staging domains and 301-redirect to root
+https://firmarpdfcertificado.ajay2026kr.workers.dev/* https://firmarpdfcertificado.com/:splat 301
 https://firmarpdfcertificado.pages.dev/* https://firmarpdfcertificado.com/:splat 301
 
 # Block www and consolidate SEO authority to non-www root domain

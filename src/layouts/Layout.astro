@@ -43,6 +43,20 @@ const breadcrumbItems = [
     <link rel="canonical" href={canonicalUrl} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
+    <!-- Canonical Domain Guard: Immediately redirect staging/dev domains to canonical firmarpdfcertificado.com -->
+    <script is:inline>
+      (function () {
+        const host = window.location.hostname;
+        if (
+          host.endsWith('.workers.dev') ||
+          host.endsWith('.pages.dev') ||
+          host === 'www.firmarpdfcertificado.com'
+        ) {
+          window.location.replace('https://firmarpdfcertificado.com' + window.location.pathname + window.location.search + window.location.hash);
+        }
+      })();
+    </script>
+
     <!-- Hreflang Internationalization Tags (Spain & Global Spanish) -->
     <link rel="alternate" hreflang="es" href={canonicalUrl} />
     <link rel="alternate" hreflang="es-ES" href={canonicalUrl} />
