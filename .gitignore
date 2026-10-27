@@ -27,3 +27,7 @@ Thumbs.db
 .vite-new/
 .wrangler/
 generate_codebase_dump.mjs
+
+# Test verification directory & test certificates/binaries
+test-verification/
+

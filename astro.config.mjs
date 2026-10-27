@@ -15,5 +15,13 @@ export default defineConfig({
       format: 'es',
     },
   },
-  integrations: [sitemap()],
+  integrations: [
+    sitemap({
+      filter: (page) =>
+        !page.includes('/r/holded/') &&
+        !page.includes('/r/qonto/') &&
+        !page.endsWith('/404/') &&
+        !page.endsWith('/500/'),
+    }),
+  ],
 });

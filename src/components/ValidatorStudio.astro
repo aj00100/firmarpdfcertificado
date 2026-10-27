@@ -212,17 +212,20 @@
 
   function hexToBytes(hex: string): Uint8Array {
     const clean = hex.replace(/[^0-9A-Fa-f]/g, "");
-    // Recortar el relleno de ceros finales del contenedor /Contents
-    let trimmedEnd = clean.length;
-    while (trimmedEnd > 4 && clean.slice(trimmedEnd - 2, trimmedEnd) === "00") {
-      trimmedEnd -= 2;
+    const fullLen = Math.floor(clean.length / 2);
+    const raw = new Uint8Array(fullLen);
+    for (let i = 0; i < fullLen; i++) {
+      raw[i] = parseInt(clean.slice(i * 2, i * 2 + 2), 16);
     }
-    const finalHex = trimmedEnd % 2 === 0 ? clean.slice(0, trimmedEnd) : clean.slice(0, trimmedEnd + 1);
-    const out = new Uint8Array(finalHex.length / 2);
-    for (let i = 0; i < out.length; i++) {
-      out[i] = parseInt(finalHex.substr(i * 2, 2), 16);
+    // Use the outer ASN.1 SEQUENCE header to determine exact DER byte length without corrupting trailing 0x00
+    const root = parseAsn1(raw);
+    if (root && root.start === 0) {
+      const exactDerLen = root.headerLen + root.length;
+      if (exactDerLen <= raw.length) {
+        return raw.subarray(0, exactDerLen);
+      }
     }
-    return out;
+    return raw;
   }
 
   function toHex(bytes: Uint8Array): string {

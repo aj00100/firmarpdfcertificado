@@ -6,6 +6,9 @@ import {
   PDFHexString,
   PDFArray,
   PDFDict,
+  PDFRef,
+  PDFRawStream,
+  PDFStream,
   StandardFonts,
   rgb,
 } from 'pdf-lib';
@@ -39,16 +42,18 @@ interface ExtractedIdentity {
   notAfter: Date;
 }
 
+const BYTE_RANGE_SENTINEL = 1000000000;
+const SIGNATURE_HEX_CAPACITY = 16384; // 8192 bytes reserved for CMS DER
+
 self.onmessage = async (e: MessageEvent<SignRequest>) => {
   const { pdfBuffer, p12Buffer, password, stampConfig = {} } = e.data;
 
   try {
     self.postMessage({ status: 'parsing', message: 'Desencriptando certificado digital (.p12 / .pfx)...' });
 
-    // 1. EXTRACT IDENTITY (Dual Engine: PKIjs + node-forge fallback for FNMT 3DES/RC2)
+    // 1. EXTRACT IDENTITY
     const identity = await extractPkcs12Identity(p12Buffer, password);
 
-    // Verify certificate validity window
     const now = new Date();
     if (now < identity.notBefore || now > identity.notAfter) {
       throw new Error(
@@ -58,22 +63,8 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
 
     self.postMessage({ status: 'preparing', message: 'Generando sello administrativo y estructura PAdES-B-B...' });
 
-    // 2. LOAD PDF & PREPARE ACROFORM + WIDGET + APPEARANCE STREAM
-    const pdfDoc = await PDFDocument.load(pdfBuffer, { ignoreEncryption: true });
-    const pages = pdfDoc.getPages();
-    const targetPageIndex =
-      stampConfig.pageIndex !== undefined && stampConfig.pageIndex < pages.length
-        ? stampConfig.pageIndex
-        : pages.length - 1;
-    const targetPage = pages[targetPageIndex];
-
-    const stampWidth = stampConfig.width ?? 220;
-    const stampHeight = stampConfig.height ?? 75;
-    const stampX = stampConfig.x ?? Math.max(30, targetPage.getWidth() - stampWidth - 30);
-    const stampY = stampConfig.y ?? 30;
-
-    // Compute preliminary SHA-256 fingerprint of original PDF for visual stamp display
-    const prelimHashBuffer = await crypto.subtle.digest('SHA-256', pdfBuffer);
+    const originalUint8 = new Uint8Array(pdfBuffer);
+    const prelimHashBuffer = await crypto.subtle.digest('SHA-256', originalUint8);
     const prelimHashHex = Array.from(new Uint8Array(prelimHashBuffer))
       .map((b) => b.toString(16).padStart(2, '0'))
       .join('')
@@ -85,82 +76,41 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
       stampConfig.customReason?.trim() ||
       'Validez jurídica conforme a Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020';
 
-    // Build the Official Spanish Administrative Rectangular Stamp (/AP -> /N)
-    const appearanceStreamRef = await createOfficialSpanishStamp(pdfDoc, {
-      width: stampWidth,
-      height: stampHeight,
-      commonName: identity.commonName,
-      nif: identity.nif,
-      issuer: identity.issuerName,
-      date: signDate,
-      hashPreview: prelimHashHex,
-      customRole: stampConfig.customRole?.trim(),
-      customReason: effectiveReason,
-    });
+    // Detect if the PDF already contains an active cryptographic signature
+    const existingText = new TextDecoder('latin1').decode(originalUint8);
+    const hasExistingSignatures = /\/ByteRange\s*\[\s*\d+\s+\d+\s+\d+\s+\d+\s*\]/.test(existingText);
 
-    // Configure /AcroForm with /SigFlags 3 (SignaturesExist | AppendOnly)
-    let acroForm = pdfDoc.catalog.lookup(PDFName.of('AcroForm'), PDFDict);
-    if (!acroForm) {
-      acroForm = pdfDoc.context.obj({
-        Fields: [],
-        SigFlags: 3,
-      });
-      pdfDoc.catalog.set(PDFName.of('AcroForm'), pdfDoc.context.register(acroForm));
+    let preparedPdfBytes: Uint8Array;
+
+    if (!hasExistingSignatures) {
+      // FIRST SIGNATURE: Standard single-save without object streams so xref is classic ISO 32000-1
+      preparedPdfBytes = await prepareInitialSignedPdf(
+        originalUint8,
+        identity,
+        signDate,
+        prelimHashHex,
+        effectiveReason,
+        stampConfig
+      );
     } else {
-      acroForm.set(PDFName.of('SigFlags'), PDFNumber.of(3));
-      if (!acroForm.get(PDFName.of('Fields'))) {
-        acroForm.set(PDFName.of('Fields'), pdfDoc.context.obj([]));
-      }
+      // CO-SIGNATURE (2nd, 3rd, Nth Signature): True ISO 32000-1 Incremental Update
+      // Preserves bytes 0..originalUint8.length-1 100% untouched so all prior signatures stay GREEN
+      preparedPdfBytes = await prepareIncrementalCoSignedPdf(
+        originalUint8,
+        existingText,
+        identity,
+        signDate,
+        prelimHashHex,
+        effectiveReason,
+        stampConfig
+      );
     }
-
-    // Use 10-digit sentinel numbers (1000000000) so pdf-lib reserves exact 10-char width per offset
-    const BYTE_RANGE_SENTINEL = 1000000000;
-    const SIGNATURE_HEX_CAPACITY = 16384; // 8192 bytes reserved for CMS DER
-
-    const sigDict = pdfDoc.context.obj({
-      Type: 'Sig',
-      Filter: 'Adobe.PPKLite',
-      SubFilter: 'ETSI.CAdES.detached',
-      ByteRange: [
-        PDFNumber.of(0),
-        PDFNumber.of(BYTE_RANGE_SENTINEL),
-        PDFNumber.of(BYTE_RANGE_SENTINEL),
-        PDFNumber.of(BYTE_RANGE_SENTINEL),
-      ],
-      Contents: PDFHexString.of('0'.repeat(SIGNATURE_HEX_CAPACITY)),
-      Reason: PDFString.of(effectiveReason),
-      M: PDFString.fromDate(signDate),
-      Name: PDFString.of(identity.commonName),
-    });
-    const sigDictRef = pdfDoc.context.register(sigDict);
-
-    // Create Signature Widget Annotation
-    const widgetDict = pdfDoc.context.obj({
-      Type: 'Annot',
-      Subtype: 'Widget',
-      FT: 'Sig',
-      Rect: [stampX, stampY, stampX + stampWidth, stampY + stampHeight],
-      V: sigDictRef,
-      T: PDFString.of(`Signature_${Date.now()}`),
-      F: 132, // Print (4) + Locked (128)
-      P: targetPage.ref,
-      AP: pdfDoc.context.obj({ N: appearanceStreamRef }),
-    });
-    const widgetRef = pdfDoc.context.register(widgetDict);
-
-    // Attach Widget to Page /Annots and /AcroForm /Fields
-    targetPage.node.addAnnot(widgetRef);
-    const fieldsArray = acroForm.lookup(PDFName.of('Fields'), PDFArray);
-    fieldsArray.push(widgetRef);
-
-    // 3. SINGLE SAVE WITHOUT OBJECT STREAMS
-    const pdfBytes = await pdfDoc.save({ useObjectStreams: false });
 
     self.postMessage({ status: 'signing', message: 'Calculando firma criptográfica PAdES-B-B (SHA-256)...' });
 
-    // 4. DIRECT IN-MEMORY BINARY BYTE-RANGE PATCHING & PAdES-B-B CMS INJECTION
+    // 4. PATCH LAST BYTERANGE SENTINEL & INJECT DETACHED CMS SIGNATURE
     const signedPdfBytes = signPdfBufferInPlace(
-      pdfBytes,
+      preparedPdfBytes,
       identity,
       signDate,
       SIGNATURE_HEX_CAPACITY
@@ -186,6 +136,405 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
     });
   }
 };
+
+/**
+ * First signature path: prepares clean classic xref table (useObjectStreams: false)
+ */
+async function prepareInitialSignedPdf(
+  pdfBytes: Uint8Array,
+  identity: ExtractedIdentity,
+  signDate: Date,
+  prelimHashHex: string,
+  effectiveReason: string,
+  stampConfig: NonNullable<SignRequest['stampConfig']>
+): Promise<Uint8Array> {
+  const pdfDoc = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+  const pages = pdfDoc.getPages();
+  const targetPageIndex =
+    stampConfig.pageIndex !== undefined && stampConfig.pageIndex < pages.length
+      ? stampConfig.pageIndex
+      : pages.length - 1;
+  const targetPage = pages[targetPageIndex];
+
+  const stampWidth = stampConfig.width ?? 220;
+  const stampHeight = stampConfig.height ?? 75;
+  const stampX = stampConfig.x ?? Math.max(30, targetPage.getWidth() - stampWidth - 30);
+  const stampY = stampConfig.y ?? 30;
+
+  const appearanceStreamRef = await createOfficialSpanishStamp(pdfDoc, {
+    width: stampWidth,
+    height: stampHeight,
+    commonName: identity.commonName,
+    nif: identity.nif,
+    issuer: identity.issuerName,
+    date: signDate,
+    hashPreview: prelimHashHex,
+    customRole: stampConfig.customRole?.trim(),
+    customReason: effectiveReason,
+  });
+
+  const existingAcroForm = pdfDoc.catalog.get(PDFName.of('AcroForm'));
+  let acroForm: PDFDict;
+  let fieldsArray: PDFArray;
+  if (!existingAcroForm) {
+    fieldsArray = pdfDoc.context.obj([]);
+    acroForm = pdfDoc.context.obj({
+      Fields: fieldsArray,
+      SigFlags: 3,
+    });
+    pdfDoc.catalog.set(PDFName.of('AcroForm'), pdfDoc.context.register(acroForm));
+  } else {
+    acroForm = pdfDoc.context.lookup(existingAcroForm, PDFDict);
+    acroForm.set(PDFName.of('SigFlags'), PDFNumber.of(3));
+    const existingFields = acroForm.get(PDFName.of('Fields'));
+    if (!existingFields) {
+      fieldsArray = pdfDoc.context.obj([]);
+      acroForm.set(PDFName.of('Fields'), fieldsArray);
+    } else {
+      fieldsArray = pdfDoc.context.lookup(existingFields, PDFArray);
+    }
+  }
+
+  const sigDict = pdfDoc.context.obj({
+    Type: 'Sig',
+    Filter: 'Adobe.PPKLite',
+    SubFilter: 'ETSI.CAdES.detached',
+    ByteRange: [
+      PDFNumber.of(0),
+      PDFNumber.of(BYTE_RANGE_SENTINEL),
+      PDFNumber.of(BYTE_RANGE_SENTINEL),
+      PDFNumber.of(BYTE_RANGE_SENTINEL),
+    ],
+    Contents: PDFHexString.of('0'.repeat(SIGNATURE_HEX_CAPACITY)),
+    Reason: PDFString.of(effectiveReason),
+    M: PDFString.fromDate(signDate),
+    Name: PDFString.of(identity.commonName),
+  });
+  const sigDictRef = pdfDoc.context.register(sigDict);
+
+  const widgetDict = pdfDoc.context.obj({
+    Type: 'Annot',
+    Subtype: 'Widget',
+    FT: 'Sig',
+    Rect: [stampX, stampY, stampX + stampWidth, stampY + stampHeight],
+    V: sigDictRef,
+    T: PDFString.of(`Signature_${Date.now()}`),
+    F: 132,
+    P: targetPage.ref,
+    AP: pdfDoc.context.obj({ N: appearanceStreamRef }),
+  });
+  const widgetRef = pdfDoc.context.register(widgetDict);
+
+  targetPage.node.addAnnot(widgetRef);
+  fieldsArray.push(widgetRef);
+
+  return await pdfDoc.save({ useObjectStreams: false });
+}
+
+/**
+ * Co-signature path: True ISO 32000-1 Incremental Update
+ * Appends a new revision at EOF without altering a single byte of the existing signed PDF.
+ */
+async function prepareIncrementalCoSignedPdf(
+  originalBytes: Uint8Array,
+  originalText: string,
+  identity: ExtractedIdentity,
+  signDate: Date,
+  prelimHashHex: string,
+  effectiveReason: string,
+  stampConfig: NonNullable<SignRequest['stampConfig']>
+): Promise<Uint8Array> {
+  // 1. Find previous startxref offset from the end of the original PDF
+  const startXrefMatches = [...originalText.matchAll(/startxref\s+(\d+)/g)];
+  if (startXrefMatches.length === 0) {
+    throw new Error('No se encontró la tabla startxref en el PDF firmado original.');
+  }
+  const prevXrefOffset = parseInt(startXrefMatches[startXrefMatches.length - 1][1], 10);
+
+  // 2. Load the original PDF read-only to inspect object numbers and dictionaries
+  const pdfDoc = await PDFDocument.load(originalBytes, { ignoreEncryption: true });
+  const pages = pdfDoc.getPages();
+  const targetPageIndex =
+    stampConfig.pageIndex !== undefined && stampConfig.pageIndex < pages.length
+      ? stampConfig.pageIndex
+      : pages.length - 1;
+  const targetPage = pages[targetPageIndex];
+  const targetPageRef = targetPage.ref;
+
+  const stampWidth = stampConfig.width ?? 220;
+  const stampHeight = stampConfig.height ?? 75;
+  const stampX = stampConfig.x ?? Math.max(30, targetPage.getWidth() - stampWidth - 30);
+  const stampY = stampConfig.y ?? 30;
+
+  // Determine the highest existing object number in the original PDF
+  let maxObjNum = pdfDoc.context.largestObjectNumber;
+  const objHeaderRegex = /(\d+)\s+\d+\s+obj\b/g;
+  for (const m of originalText.matchAll(objHeaderRegex)) {
+    const num = parseInt(m[1], 10);
+    if (num > maxObjNum) maxObjNum = num;
+  }
+
+  let nextObjNum = maxObjNum + 1;
+  const allocRef = () => PDFRef.of(nextObjNum++, 0);
+
+  // 3. Build the visual stamp in an isolated scratch document and clone its objects with fresh IDs
+  const scratchDoc = await PDFDocument.create();
+  const scratchStampRef = await createOfficialSpanishStamp(scratchDoc, {
+    width: stampWidth,
+    height: stampHeight,
+    commonName: identity.commonName,
+    nif: identity.nif,
+    issuer: identity.issuerName,
+    date: signDate,
+    hashPreview: prelimHashHex,
+    customRole: stampConfig.customRole?.trim(),
+    customReason: effectiveReason,
+  });
+
+  // Materialize lazy page embedders into concrete indirect objects
+  await scratchDoc.save();
+
+  // Collect reachable objects from scratchStampRef inside scratchDoc
+  const scratchMap = new Map<number, PDFRef>();
+  const reachableScratchNums: number[] = [];
+
+  function collectScratchRefs(val: any) {
+    if (!val) return;
+    if (val instanceof PDFRef) {
+      if (!scratchMap.has(val.objectNumber)) {
+        scratchMap.set(val.objectNumber, allocRef());
+        reachableScratchNums.push(val.objectNumber);
+        const lookedUp = scratchDoc.context.lookup(val);
+        collectScratchRefs(lookedUp);
+      }
+      return;
+    }
+    if (val instanceof PDFDict) {
+      for (const [, entryVal] of val.entries()) collectScratchRefs(entryVal);
+    } else if (val instanceof PDFArray) {
+      for (let i = 0; i < val.size(); i++) collectScratchRefs(val.get(i));
+    } else if (val instanceof PDFRawStream || val instanceof PDFStream) {
+      collectScratchRefs(val.dict);
+    }
+  }
+
+  collectScratchRefs(scratchStampRef);
+
+  function remapScratchRefs(val: any): any {
+    if (val instanceof PDFRef) {
+      return scratchMap.get(val.objectNumber) || val;
+    }
+    if (val instanceof PDFDict) {
+      for (const [k, v] of val.entries()) {
+        val.set(k, remapScratchRefs(v));
+      }
+      return val;
+    }
+    if (val instanceof PDFArray) {
+      for (let i = 0; i < val.size(); i++) {
+        val.set(i, remapScratchRefs(val.get(i)));
+      }
+      return val;
+    }
+    if (val instanceof PDFRawStream || val instanceof PDFStream) {
+      remapScratchRefs(val.dict);
+      return val;
+    }
+    return val;
+  }
+
+  const incrementalObjects: Array<{ ref: PDFRef; obj: any }> = [];
+
+  for (const oldNum of reachableScratchNums) {
+    const newRef = scratchMap.get(oldNum)!;
+    const rawObj = scratchDoc.context.lookup(PDFRef.of(oldNum, 0));
+    remapScratchRefs(rawObj);
+    incrementalObjects.push({ ref: newRef, obj: rawObj });
+  }
+
+  const mappedAppearanceRef = scratchMap.get(scratchStampRef.objectNumber)!;
+
+  // 4. Create new Signature Dictionary & Widget Annotation
+  const sigDictRef = allocRef();
+  const widgetRef = allocRef();
+
+  const sigDict = pdfDoc.context.obj({
+    Type: 'Sig',
+    Filter: 'Adobe.PPKLite',
+    SubFilter: 'ETSI.CAdES.detached',
+    ByteRange: [
+      PDFNumber.of(0),
+      PDFNumber.of(BYTE_RANGE_SENTINEL),
+      PDFNumber.of(BYTE_RANGE_SENTINEL),
+      PDFNumber.of(BYTE_RANGE_SENTINEL),
+    ],
+    Contents: PDFHexString.of('0'.repeat(SIGNATURE_HEX_CAPACITY)),
+    Reason: PDFString.of(effectiveReason),
+    M: PDFString.fromDate(signDate),
+    Name: PDFString.of(identity.commonName),
+  });
+
+  const widgetDict = pdfDoc.context.obj({
+    Type: 'Annot',
+    Subtype: 'Widget',
+    FT: 'Sig',
+    Rect: [stampX, stampY, stampX + stampWidth, stampY + stampHeight],
+    V: sigDictRef,
+    T: PDFString.of(`Signature_${Date.now()}_${nextObjNum}`),
+    F: 132,
+    P: targetPageRef,
+    AP: pdfDoc.context.obj({ N: mappedAppearanceRef }),
+  });
+
+  incrementalObjects.push({ ref: sigDictRef, obj: sigDict });
+  incrementalObjects.push({ ref: widgetRef, obj: widgetDict });
+
+  // 5. Update Target Page (/Annots)
+  const annotsEntry = targetPage.node.get(PDFName.of('Annots'));
+  if (annotsEntry instanceof PDFRef) {
+    const annotsArray = pdfDoc.context.lookup(annotsEntry, PDFArray);
+    annotsArray.push(widgetRef);
+    incrementalObjects.push({ ref: annotsEntry, obj: annotsArray });
+  } else {
+    targetPage.node.addAnnot(widgetRef);
+    incrementalObjects.push({ ref: targetPageRef, obj: targetPage.node });
+  }
+
+  // 6. Update Catalog /AcroForm (/Fields)
+  let rootRef: PDFRef | null = null;
+  for (const [ref, obj] of pdfDoc.context.enumerateIndirectObjects()) {
+    if (obj === pdfDoc.catalog) {
+      rootRef = ref;
+      break;
+    }
+  }
+  if (!rootRef) {
+    const rootMatch = originalText.match(/\/Root\s+(\d+)\s+(\d+)\s+R/);
+    if (rootMatch) {
+      rootRef = PDFRef.of(parseInt(rootMatch[1], 10), parseInt(rootMatch[2], 10));
+    }
+  }
+  if (!rootRef) {
+    throw new Error('No se pudo localizar la referencia /Root en el PDF original.');
+  }
+
+  const acroFormEntry = pdfDoc.catalog.get(PDFName.of('AcroForm'));
+  if (acroFormEntry instanceof PDFRef) {
+    const acroFormDict = pdfDoc.context.lookup(acroFormEntry, PDFDict);
+    acroFormDict.set(PDFName.of('SigFlags'), PDFNumber.of(3));
+    const fieldsEntry = acroFormDict.get(PDFName.of('Fields'));
+    if (fieldsEntry instanceof PDFRef) {
+      const fieldsArr = pdfDoc.context.lookup(fieldsEntry, PDFArray);
+      fieldsArr.push(widgetRef);
+      incrementalObjects.push({ ref: fieldsEntry, obj: fieldsArr });
+      incrementalObjects.push({ ref: acroFormEntry, obj: acroFormDict });
+    } else {
+      const fieldsArr = pdfDoc.context.lookup(fieldsEntry, PDFArray);
+      fieldsArr.push(widgetRef);
+      incrementalObjects.push({ ref: acroFormEntry, obj: acroFormDict });
+    }
+  } else if (acroFormEntry instanceof PDFDict) {
+    acroFormEntry.set(PDFName.of('SigFlags'), PDFNumber.of(3));
+    const fieldsArr = acroFormEntry.lookup(PDFName.of('Fields'), PDFArray);
+    fieldsArr.push(widgetRef);
+    incrementalObjects.push({ ref: rootRef, obj: pdfDoc.catalog });
+  } else {
+    const newAcroRef = allocRef();
+    const newAcroDict = pdfDoc.context.obj({
+      Fields: [widgetRef],
+      SigFlags: 3,
+    });
+    pdfDoc.catalog.set(PDFName.of('AcroForm'), newAcroRef);
+    incrementalObjects.push({ ref: newAcroRef, obj: newAcroDict });
+    incrementalObjects.push({ ref: rootRef, obj: pdfDoc.catalog });
+  }
+
+  // Sort modified/new objects by object number for clean xref subsection emission
+  incrementalObjects.sort((a, b) => a.ref.objectNumber - b.ref.objectNumber);
+
+  // 7. Serialize Incremental Update Buffer
+  const encoder = new TextEncoder();
+  const chunks: Uint8Array[] = [originalBytes];
+  let currentOffset = originalBytes.length;
+
+  const pushBytes = (bytes: Uint8Array) => {
+    chunks.push(bytes);
+    currentOffset += bytes.length;
+  };
+  const pushStr = (str: string) => pushBytes(encoder.encode(str));
+
+  // Ensure newline before starting incremental section
+  if (
+    originalBytes[originalBytes.length - 1] !== 0x0a &&
+    originalBytes[originalBytes.length - 1] !== 0x0d
+  ) {
+    pushStr('\n');
+  }
+
+  const xrefOffsets = new Map<number, number>();
+
+  for (const item of incrementalObjects) {
+    xrefOffsets.set(item.ref.objectNumber, currentOffset);
+    pushStr(`${item.ref.objectNumber} ${item.ref.generationNumber} obj\n`);
+    const objSize = item.obj.sizeInBytes();
+    const objBuf = new Uint8Array(objSize);
+    item.obj.copyBytesInto(objBuf, 0);
+    pushBytes(objBuf);
+    pushStr('\nendobj\n');
+  }
+
+  // 8. Build Incremental Cross-Reference Table (xref subsections)
+  const newXrefOffset = currentOffset;
+  pushStr('xref\n');
+
+  let idx = 0;
+  while (idx < incrementalObjects.length) {
+    const startObjNum = incrementalObjects[idx].ref.objectNumber;
+    let endIdx = idx;
+    while (
+      endIdx + 1 < incrementalObjects.length &&
+      incrementalObjects[endIdx + 1].ref.objectNumber ===
+        incrementalObjects[endIdx].ref.objectNumber + 1
+    ) {
+      endIdx++;
+    }
+    const count = endIdx - idx + 1;
+    pushStr(`${startObjNum} ${count}\n`);
+    for (let k = idx; k <= endIdx; k++) {
+      const objNum = incrementalObjects[k].ref.objectNumber;
+      const genNum = incrementalObjects[k].ref.generationNumber;
+      const offset = xrefOffsets.get(objNum)!;
+      // Exact 20-byte ISO 32000-1 xref entry: "oooooooooo ggggg n \n"
+      const entry = `${String(offset).padStart(10, '0')} ${String(genNum).padStart(5, '0')} n \n`;
+      pushStr(entry);
+    }
+    idx = endIdx + 1;
+  }
+
+  // 9. Build Incremental Trailer with /Prev pointing to the previous xref table
+  const infoMatch = originalText.match(/\/Info\s+(\d+\s+\d+\s+R)/);
+  const idMatch = originalText.match(/\/ID\s*(\[\s*<[^>]+>\s*<[^>]+>\s*\])/);
+
+  let trailerStr = `trailer\n<<\n/Size ${nextObjNum}\n/Root ${rootRef.objectNumber} ${rootRef.generationNumber} R\n/Prev ${prevXrefOffset}\n`;
+  if (infoMatch) {
+    trailerStr += `/Info ${infoMatch[1]}\n`;
+  }
+  if (idMatch) {
+    trailerStr += `/ID ${idMatch[1]}\n`;
+  }
+  trailerStr += `>>\nstartxref\n${newXrefOffset}\n%%EOF\n`;
+  pushStr(trailerStr);
+
+  // Concatenate all chunks into a single Uint8Array
+  const finalBuffer = new Uint8Array(currentOffset);
+  let writePos = 0;
+  for (const chunk of chunks) {
+    finalBuffer.set(chunk, writePos);
+    writePos += chunk.length;
+  }
+
+  return finalBuffer;
+}
 
 async function extractPkcs12Identity(
   p12Buffer: ArrayBuffer,
@@ -346,7 +695,7 @@ async function createOfficialSpanishStamp(
   });
 
   const thirdLine = opts.customRole
-    ? `NIF: ${cleanText(opts.nif, 14)} | Cargo/Entidad: ${cleanText(opts.customRole, 22)}`
+    ? `NIF: ${cleanText(opts.nif, 14)} | Cargo/Entidad: ${cleanText(opts.customRole, 35)}`
     : `NIF/NIE: ${cleanText(opts.nif, 20)} | Emisor: ${cleanText(opts.issuer, 18)}`;
 
   tempPage.drawText(thirdLine, {
@@ -399,13 +748,14 @@ function signPdfBufferInPlace(
   const encoder = new TextEncoder();
   const pdfStr = decoder.decode(pdfBytes);
 
+  // Use lastIndexOf so we always target the newly appended signature dictionary
   const byteRangePattern = '/ByteRange [ 0 1000000000 1000000000 1000000000 ]';
   const altByteRangePattern = '/ByteRange [0 1000000000 1000000000 1000000000]';
-  let brIndex = pdfStr.indexOf(byteRangePattern);
+  let brIndex = pdfStr.lastIndexOf(byteRangePattern);
   let activePattern = byteRangePattern;
 
   if (brIndex === -1) {
-    brIndex = pdfStr.indexOf(altByteRangePattern);
+    brIndex = pdfStr.lastIndexOf(altByteRangePattern);
     activePattern = altByteRangePattern;
   }
   if (brIndex === -1) {
@@ -432,16 +782,13 @@ function signPdfBufferInPlace(
   const brBytes = encoder.encode(paddedByteRangeStr);
   pdfBytes.set(brBytes, brIndex);
 
-  const md = forge.md.sha256.create();
-  const range1Str = decoder.decode(pdfBytes.subarray(0, offset1));
-  const range2Str = decoder.decode(pdfBytes.subarray(offset2));
-  md.update(range1Str, 'raw');
-  md.update(range2Str, 'raw');
-  const messageDigestBytes = md.digest().getBytes();
+  const part1Bytes = forge.util.createBuffer(pdfBytes.subarray(0, offset1)).getBytes();
+  const part2Bytes = forge.util.createBuffer(pdfBytes.subarray(offset2)).getBytes();
 
   const cmsDerHex = buildPAdESDetachedCmsHex(
     identity,
-    messageDigestBytes,
+    part1Bytes,
+    part2Bytes,
     signDate
   );
 
@@ -460,11 +807,14 @@ function signPdfBufferInPlace(
 
 function buildPAdESDetachedCmsHex(
   identity: ExtractedIdentity,
-  messageDigestBytes: string,
+  part1Bytes: string,
+  part2Bytes: string,
   signDate: Date
 ): string {
   const p7 = forge.pkcs7.createSignedData();
-  p7.content = forge.util.createBuffer('');
+  p7.content = forge.util.createBuffer();
+  p7.content.putBytes(part1Bytes);
+  p7.content.putBytes(part2Bytes);
 
   for (const cert of identity.certChainForge) {
     p7.addCertificate(cert);
@@ -520,7 +870,6 @@ function buildPAdESDetachedCmsHex(
       },
       {
         type: forge.pki.oids.messageDigest,
-        value: messageDigestBytes,
       },
       {
         type: forge.pki.oids.signingTime,
