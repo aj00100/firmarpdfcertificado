@@ -5,36 +5,40 @@ import SigningStudio from '../components/SigningStudio.astro';
 
 const faqs = [
   {
-    q: "¿Cómo puedo firmar un PDF con mi DNI electrónico (DNIe) sin errores de AutoFirma?",
-    a: "La forma más rápida y libre de fallos consiste en utilizar tu DNIe (por lector USB o NFC con la app oficial de la FNMT) para descargar en 2 minutos tu certificado en archivo .p12, o exportar el certificado intermedio desde tu navegador. Una vez tengas tu archivo .p12, puedes firmar cualquier PDF en esta página sin depender de Java ni de AutoFirma."
+    q: "¿Cómo puedo firmar un PDF con mi DNI electrónico (DNIe) sin errores de AutoFirma ni JMulticard?",
+    a: "La forma más rápida y libre de bloqueos consiste en utilizar tu DNIe (mediante la antena NFC de tu teléfono móvil con la app oficial de la FNMT, o con un lector USB en la web de CERES) para descargar en 2 minutos tu certificado personal en formato .p12. Una vez tengas ese archivo .p12 en tu móvil u ordenador, puedes firmar infinitos documentos PDF en nuestro firmador superior sin volver a necesitar el lector físico ni introducir el PIN del DNI en cada trámite."
   },
   {
-    q: "¿Qué necesito para usar el DNI electrónico en el ordenador?",
-    a: "Necesitas tres elementos: tener los certificados internos del chip de tu DNIe activos (no caducados), recordar el PIN que te entregaron en el sobre ciego de la comisaría de Policía Nacional y disponer de un lector de tarjetas inteligentes USB compatible con ISO 7816 (o un móvil con antena NFC)."
+    q: "¿Qué necesito para activar y utilizar el DNI electrónico por primera vez?",
+    a: "Necesitas tres elementos: 1) Que los certificados electrónicos internos del chip de tu DNI 3.0 o DNI 4.0 estén en vigor; 2) Conocer la contraseña (PIN) que te entregaron en el sobre ciego al expedir el DNI (si no la recuerdas o está bloqueada por 3 intentos fallidos, puedes cambiarla en 1 minuto con tu huella dactilar en el Puesto de Actualización PAD de cualquier comisaría sin cita previa); y 3) Contar con un móvil con NFC o un lector de tarjetas inteligentes USB compatible con ISO 7816."
   },
   {
-    q: "¿Cuánto duran los certificados del chip del DNI electrónico?",
-    a: "Aunque la tarjeta física del DNI tenga una validez de 5 o 10 años, los certificados electrónicos internos del chip caducan a los 24 meses (2 años) desde su emisión o última renovación. Puedes renovarlos gratis en los Puestos de Actualización de Documentación (PAD) de cualquier comisaría sin cita previa."
+    q: "¿Cuánto tiempo duran los certificados electrónicos internos del chip del DNIe?",
+    a: "Aunque la tarjeta física de policarbonato del DNI tenga una vigencia de 5 o 10 años, por seguridad criptográfica los certificados electrónicos de autenticación y firma alojados dentro del chip caducan exactamente a los 24 meses (2 años) desde su emisión o última renovación. En cambio, el certificado .p12 de la FNMT que puedes obtener gratis usando tu DNIe tiene una validez superior de 4 años."
+  },
+  {
+    q: "¿Qué es el código CAN del DNI electrónico y dónde se encuentra?",
+    a: "El código CAN (Card Access Number) es un número de 6 cifras impreso en la esquina inferior derecha del anverso (parte delantera) de todos los DNI 3.0 y DNI 4.0. Es obligatorio introducirlo cuando conectas el DNI por antena NFC al teléfono móvil para establecer un canal cifrado seguro entre el chip y el dispositivo antes de que te solicite el PIN personal."
   }
 ];
 ---
 
 <Layout
-  title="Firmar PDF con DNI Electrónico (DNIe) Online — Sin Fallos de Java"
-  description="Firma documentos PDF con tu DNI electrónico (DNIe 3.0 / 4.0) o certificado FNMT obtenido con DNIe. Guía de activación, lectores USB y firma PAdES en tu navegador."
+  title="Firmar PDF con DNI Electrónico (DNIe) Online — Guía NFC, Lector y PAdES"
+  description="Firma documentos PDF con tu DNI electrónico (DNIe 3.0 / 4.0) o certificado FNMT obtenido con DNIe. Guía paso a paso de activación, código CAN, lectores USB y firma PAdES sin errores."
   canonicalPath="/firmar-pdf-con-dnie/"
 >
   <!-- Hero Section -->
   <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
-        <span>🪪</span> Compatible con DNIe 3.0 / 4.0 y Certificados FNMT
+        <span>🪪</span> Compatible con DNIe 3.0 / 4.0 (NFC) y Certificados FNMT
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
         Firmar PDF con DNI Electrónico (DNIe) Online
       </h1>
       <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
-        Estampa tu firma electrónica cualificada <strong>PAdES-B-B</strong> en contratos, instancias y modelos oficiales evitando los bloqueos del componente <em>JMulticard</em> de AutoFirma.
+        Estampa tu firma electrónica cualificada <strong>PAdES-B-B</strong> en contratos, instancias y modelos oficiales evitando los cuelgues del driver PKCS#11 y el error <em>JMulticard</em> de AutoFirma.
       </p>
     </div>
   </header>
@@ -43,27 +47,27 @@ const faqs = [
   <section class="py-10 bg-slate-50 border-b border-slate-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <SigningStudio
-        title="Firmador Web PAdES para DNIe y Certificados .p12"
-        subtitle="Sube tu PDF y tu certificado exportado (.p12 / .pfx) para firmar en local con sello administrativo eIDAS."
+        title="Firmador Web PAdES-B-B para Certificados obtenidos con DNIe (.p12 / .pfx)"
+        subtitle="Carga tu documento PDF y tu certificado exportado para firmar al instante en la memoria RAM de tu navegador."
       />
     </div>
   </section>
 
   <!-- DNIe Guide & Hardware Affiliate Section -->
   <article class="py-12 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
 
       <!-- Hardware Affiliate Callout: Lector DNIe (>1,000/mo Easy KD) -->
       <div class="p-6 bg-slate-900 text-white rounded-2xl shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
         <div class="space-y-2">
           <span class="inline-block px-2.5 py-0.5 bg-blue-600 text-white text-[11px] font-bold rounded uppercase tracking-wider">
-            Recomendación Hardware Homologado
+            Recomendación Hardware Homologado ISO 7816
           </span>
           <h2 class="text-lg sm:text-xl font-bold">
-            ¿Necesitas un Lector de DNI Electrónico USB para PC o Mac?
+            ¿Buscas un Lector de DNI Electrónico USB para Windows 11 o Mac?
           </h2>
           <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Para leer el chip criptográfico del DNIe 3.0 y 4.0 sin desconexiones en Windows 11 y macOS, utiliza un lector SmartCard compatible con el estándar oficial <strong>ISO/IEC 7816 y PC/SC</strong> (Plug & Play sin drivers antiguos).
+            Para leer el chip criptográfico del DNIe 3.0 y 4.0 desde el ordenador sin desconexiones ni fallos de lectura, utiliza un lector SmartCard compatible con el estándar <strong>PC/SC y CCID</strong> (Plug & Play automático sin instalar drivers obsoletos).
           </p>
         </div>
         <a
@@ -72,56 +76,71 @@ const faqs = [
           rel="nofollow noopener sponsored"
           class="shrink-0 px-5 py-3 bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs sm:text-sm rounded-xl shadow transition-colors text-center"
         >
-          🛒 Ver Lectores DNIe Homologados en Amazon →
+          🛒 Ver Lectores DNIe Homologados en Amazon &rarr;
         </a>
       </div>
 
-      <!-- How to Sign with DNIe without JMulticard crashes -->
+      <!-- Why Direct Smartcard Signing Fails in Browsers & The Ultimate Solution -->
       <div class="space-y-4">
         <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
-          El truco definitivo: Cómo usar tu DNIe para obtener el archivo .p12 y firmar en 1 clic
+          Por qué falla la firma directa con DNIe en AutoFirma (Error SAF_15) y cómo solucionarlo para siempre
         </h2>
-        <p class="text-slate-600 text-sm leading-relaxed">
-          Los navegadores web modernos (Chrome, Safari, Edge) tienen bloqueado por motivos de seguridad el acceso directo desde páginas web a lectores USB físicos sin pasar por extensiones pesadas que suelen lanzar el temido <strong>Error SAF_15 (Fallo JMulticard)</strong>.
+        <p>
+          El <strong>DNI electrónico (DNIe)</strong> expedido por la Dirección General de la Policía aloja en su chip interno dos certificados criptográficos: el <em>Certificado de Autenticación</em> y el <em>Certificado de Firma</em>. Por diseño de seguridad física, la clave privada grabada dentro del silicio del chip no puede copiarse directamente fuera de la tarjeta inteligente.
         </p>
-        <p class="text-slate-600 text-sm leading-relaxed">
-          Por suerte, si tienes tu DNIe activo y un móvil con NFC (o lector USB), puedes descargar gratis tu archivo <code>.p12</code> oficial de la FNMT en 2 minutos desde el sofá de tu casa:
+        <p>
+          Sin embargo, cuando intentas firmar un documento PDF conectando el lector USB a AutoFirma, el programa necesita cargar un módulo intermedio en Java llamado <strong>JMulticard / PKCS#11</strong>. En Windows 11 y macOS, cualquier mínima interrupción en el puerto USB o el bloqueo de seguridad del navegador provoca el conocido <strong>Error SAF_15</strong> o bloquea el PIN del chip al tercer intento.
+        </p>
+        <p>
+          <strong>La solución profesional que utilizan los gestores y abogados:</strong> utilizar tu DNIe una única vez (por NFC desde el móvil o con lector USB) para descargar gratis el certificado oficial en archivo <code>.p12</code> de la FNMT. De este modo, obtienes un fichero con <strong>4 años de validez</strong> que puedes usar en 2 segundos en nuestro firmador web sin cables, sin lectores y sin riesgo de bloquear el chip de tu DNI:
         </p>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
           <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
             <span class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs mb-3">1</span>
-            <h3 class="font-bold text-slate-900 text-sm">Lectura NFC o USB</h3>
+            <h3 class="font-bold text-slate-900 text-sm">Lectura NFC con tu Móvil</h3>
             <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-              Abre la app oficial <em>Certificado Digital FNMT</em> en tu móvil (o la sede CERES en PC), elige <strong>"Obtener con DNIe"</strong>, introduce el código CAN (6 dígitos de la esquina de tu DNI) y acerca el DNI al dorso del teléfono.
+              Descarga la app oficial gratuita <em>Certificado Digital FNMT</em> en tu móvil Android o iPhone, selecciona <strong>"Solicitar con DNIe"</strong>, teclea los 6 dígitos del código CAN de tu DNI, acerca el carnet al dorso del móvil e introduce tu PIN.
             </p>
           </div>
 
           <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
             <span class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs mb-3">2</span>
-            <h3 class="font-bold text-slate-900 text-sm">Descarga tu copia .p12</h3>
+            <h3 class="font-bold text-slate-900 text-sm">Guarda tu Archivo .p12</h3>
             <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-              Al instante y sin ir a ninguna oficina, se descargará tu certificado digital en formato <code>.p12</code> válido durante 4 años.
+              De forma inmediata y sin pedir cita presencial en Hacienda ni en Correos, recibirás tu certificado digital en formato <code>.p12</code> listo para exportar y guardar en tu ordenador o teléfono.
             </p>
           </div>
 
           <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
             <span class="w-7 h-7 rounded-full bg-blue-600 text-white font-bold flex items-center justify-center text-xs mb-3">3</span>
-            <h3 class="font-bold text-slate-900 text-sm">Firma sin lectores ni PIN</h3>
+            <h3 class="font-bold text-slate-900 text-sm">Firma en 1 Clic en el Navegador</h3>
             <p class="text-xs text-slate-600 mt-1 leading-relaxed">
-              Carga ese archivo <code>.p12</code> en nuestro firmador superior para firmar cualquier PDF desde el móvil o PC en 2 segundos sin volver a conectar el lector.
+              Arrastra tu PDF y tu archivo <code>.p12</code> al cuadro superior de esta página para generar tu firma <strong>PAdES-B-B</strong> al instante desde cualquier dispositivo.
             </p>
           </div>
         </div>
       </div>
 
+      <!-- How to Activate / Renew Expired DNIe Certificates at Police Kiosks -->
+      <div class="p-6 bg-blue-50 border border-blue-200 rounded-2xl space-y-2">
+        <h2 class="text-lg font-bold text-blue-950">
+          ¿Cómo activar el DNI electrónico o recuperar el PIN olvidado?
+        </h2>
+        <p class="text-xs sm:text-sm text-blue-900 leading-relaxed">
+          Si hace más de 2 años que sacaste o renovaste tu DNI, o si has olvidado la contraseña que venía en el sobre negro de la comisaría, puedes acudir <strong>sin cita previa</strong> a cualquier Comisaría de Policía Nacional donde se expida el DNI. En la entrada encontrarás las máquinas automáticas llamadas <strong>PAD (Puestos de Actualización de Documentación)</strong>: basta con insertar tu DNI, colocar tu dedo índice en el lector biométrico de huella dactilar y podrás definir un nuevo PIN y renovar gratis los certificados del chip en menos de 2 minutos.
+        </p>
+      </div>
+
       <!-- FAQs -->
       <div class="pt-6 border-t border-slate-200 space-y-4">
-        <h2 class="text-xl font-bold text-slate-900">Preguntas Frecuentes sobre el DNI Electrónico (DNIe)</h2>
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el DNI Electrónico (DNIe 3.0 y 4.0)
+        </h2>
         {faqs.map((f) => (
           <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-            <h3 class="text-sm font-bold text-slate-900">{f.q}</h3>
-            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed">{f.a}</p>
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
           </div>
         ))}
       </div>

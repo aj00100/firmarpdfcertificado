@@ -2,41 +2,61 @@
 // src/pages/firmar-factura-contrato-pdf-certificado.astro
 import Layout from '../layouts/Layout.astro';
 import SigningStudio from '../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Es obligatorio firmar digitalmente las facturas en PDF enviadas a clientes o empresas?",
+    a: "El Reglamento de Facturación (Real Decreto 1619/2012, artículo 10) exige garantizar la autenticidad del origen y la integridad del contenido de toda factura electrónica desde su expedición y durante todo el periodo de conservación fiscal (4 años). Firmar la factura PDF con un certificado digital reconocido (PAdES-B-B) cumple automáticamente este requisito legal sin necesidad de acuerdos previos complejos."
+  },
+  {
+    q: "¿Qué diferencia hay entre firmar una factura en PDF y el formato Facturae (.xml / .xsig) para FACe?",
+    a: "Cuando facturas a particulares (B2C) o a otras empresas privadas (B2B), el formato estándar sigue siendo el documento PDF firmado criptográficamente con estándar PAdES. En cambio, cuando emites una factura dirigida a una Administración Pública (ayuntamientos, ministerios, hospitales o universidades a través del portal FACe), es obligatorio presentar el fichero estructurado XML bajo el esquema Facturae 3.2.2 firmado con XAdES."
+  },
+  {
+    q: "¿Cómo afecta la normativa VeriFactu (Real Decreto 1007/2023) a los autónomos que hacen facturas en PDF?",
+    a: "La Ley Antifraude (Ley 11/2021) y el Reglamento VeriFactu prohíben utilizar software de facturación que permita alterar o eliminar facturas emitidas sin dejar rastro, sancionando el uso de programas no certificados con hasta 50.000 euros por ejercicio. Si utilizas un programa de gestión homologado como Holded o Qonto, tus facturas incluirán automáticamente el código QR tributario y el encadenamiento hash exigido por la AEAT."
+  },
+  {
+    q: "¿Qué validez legal tiene un contrato mercantil o de alquiler en PDF firmado con certificado digital?",
+    a: "Plena validez ejecutiva y probatoria. Conforme al artículo 1278 del Código Civil, al artículo 25.2 del Reglamento europeo eIDAS y al artículo 326 de la Ley de Enjuiciamiento Civil, un contrato en PDF firmado con certificado digital cualificado equivale legalmente a un contrato firmado de puño y letra en papel, vinculando de forma irrevocable a las partes firmantes."
+  }
+];
 ---
 
 <Layout
   title="Firmar Facturas y Contratos PDF con Sello Administrativo Homologado"
-  description="Firma facturas emitidas, contratos comerciales y acuerdos con certificado digital FNMT. Sello visible homologado conforme al eIDAS y normativa VeriFactu."
+  description="Firma facturas emitidas, facturas rectificativas, contratos comerciales y de alquiler en PDF con certificado digital FNMT o de Representante conforme a eIDAS y VeriFactu."
   canonicalPath="/firmar-factura-contrato-pdf-certificado/"
 >
   <!-- Hero Section -->
   <header class="py-12 bg-gradient-to-b from-blue-50/70 to-transparent border-b border-slate-200">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
       <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold mb-4">
-        <span>💼</span> Autónomos, Gestorías y Empresas (B2B)
+        <span>💼</span> Cumplimiento Fiscal y Mercantil · Autónomos, Gestorías y Pymes (B2B)
       </div>
       <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
         Firmar Facturas y Contratos PDF con Certificado Digital
       </h1>
       <p class="text-base sm:text-lg text-slate-600 mt-3 max-w-2xl mx-auto">
-        Estampa un sello administrativo oficial con tu <strong>Nombre, NIF y huella SHA-256</strong> en facturas y contratos mercantiles con plena validez probatoria ante la AEAT y los Tribunales.
+        Estampa un sello administrativo oficial con tu <strong>Nombre o Razón Social, NIF/CIF y huella SHA-256</strong> en facturas ordinarias, facturas rectificativas y contratos con plena validez probatoria ante la AEAT y los Tribunales.
       </p>
     </div>
   </header>
 
-  <!-- Interactive Studio -->
+  <!-- Interactive Studio with Custom Role/Reason enabled for B2B users -->
   <section class="py-10 bg-slate-50 border-b border-slate-200">
     <div class="max-w-5xl mx-auto px-4 sm:px-6">
       <SigningStudio
-        title="Firma Digital PAdES para Facturas y Contratos"
-        subtitle="Sello rectangular oficial conforme al estándar ETSI EN 319 142 y Reglamento eIDAS."
+        title="Firma Digital PAdES-B-B para Facturas, Presupuestos y Contratos"
+        subtitle="Personaliza tu cargo societario o concepto fiscal en el sello rectangular oficial · 100% privado en tu navegador."
+        showStampCustomizer={true}
       />
     </div>
   </section>
 
   <!-- Legal & B2B Compliance Article -->
   <article class="py-12 bg-white">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
 
       <!-- VeriFactu Callout Box (High-Ticket Affiliate Placement) -->
       <div class="p-6 bg-amber-50 border-2 border-amber-300 rounded-2xl shadow-sm">
@@ -44,25 +64,30 @@ import SigningStudio from '../components/SigningStudio.astro';
           <div class="text-3xl">⚠️</div>
           <div>
             <span class="inline-block px-2.5 py-0.5 bg-amber-200 text-amber-900 text-xs font-bold rounded mb-1">
-              Atención Autónomos y Pymes · Normativa VeriFactu (Ley Antifraude)
+              Atención Autónomos y Sociedades · Normativa VeriFactu (RD 1007/2023)
             </span>
-            <h3 class="text-lg font-bold text-slate-900">
-              ¿Firmas tus facturas manualmente en PDF o Word?
-            </h3>
+            <h2 class="text-lg font-bold text-slate-900">
+              ¿Sigues emitiendo tus facturas manualmente en Word, Excel o PDF?
+            </h2>
             <p class="text-sm text-slate-700 mt-2 leading-relaxed">
-              El <strong>Reglamento VeriFactu (Real Decreto 1007/2023)</strong> y la Ley 11/2021 de Medidas de Prevención contra el Fraude Fiscal prohíben la emisión de facturas mediante sistemas que permitan la alteración de registros (como plantillas de Word o Excel modificables). Las sanciones de la Agencia Tributaria pueden alcanzar <strong>hasta 50.000 €</strong> por ejercicio para empresas y autónomos que utilicen programas no certificados.
+              El <strong>Reglamento VeriFactu</strong> y el artículo 201 bis de la Ley General Tributaria (Ley 11/2021 Antifraude) sancionan con multas de <strong>hasta 50.000 € por ejercicio fiscal</strong> la tenencia o uso de programas de facturación que no garanticen la inalterabilidad, el encadenamiento criptográfico y el código QR verificable ante la Agencia Tributaria.
             </p>
             <div class="mt-4 pt-4 border-t border-amber-200 flex flex-wrap items-center justify-between gap-3">
-              <p class="text-xs text-amber-900 font-semibold">
-                Recomendación: Adopta un software de facturación electrónica homologado antes de que finalice el plazo legal.
-              </p>
               <a
-                href="https://www.holded.com/es?tap_a=11488-8cf9b3" 
+                href="/r/holded/" 
                 target="_blank" 
-                rel="noopener noreferrer"
-                class="inline-flex items-center gap-1.5 px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg shadow transition-colors"
+                rel="nofollow noopener"
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold rounded-lg shadow transition-colors"
               >
-                Probar Software Homologado VeriFactu &rarr;
+                Probar Software Homologado VeriFactu Gratis (Holded) &rarr;
+              </a>
+              <a
+                href="/r/qonto/" 
+                target="_blank" 
+                rel="nofollow noopener"
+                class="inline-flex items-center gap-1.5 px-4 py-2.5 bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold rounded-lg shadow transition-colors"
+              >
+                Cuenta Empresa + Facturación Homologada (Qonto) &rarr;
               </a>
             </div>
           </div>
@@ -70,52 +95,71 @@ import SigningStudio from '../components/SigningStudio.astro';
       </div>
 
       <!-- Legal Validity Criteria -->
-      <div>
-        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Requisitos de validez jurídica para facturas y contratos PDF</h2>
-        <p class="text-slate-600 text-sm mt-3 leading-relaxed">
-          Para que una factura electrónica o un contrato mercantil firmado digitalmente tenga plena eficacia probatoria en España según la <strong>Ley 6/2020</strong> y el <strong>Reglamento (UE) 910/2014 (eIDAS)</strong>, debe cumplir tres pilares técnicos:
+      <div class="space-y-4">
+        <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
+          Requisitos de validez jurídica para firmar facturas electrónicas y contratos en España
+        </h2>
+        <p>
+          Tanto si eres un profesional autónomo que envía facturas en PDF a sus clientes, como si eres el administrador de una Sociedad Limitada (S.L.) que necesita formalizar un contrato mercantil, un acuerdo de confidencialidad (NDA), un contrato laboral o un contrato de arrendamiento de local o vivienda, la <strong>Ley 6/2020</strong> y el <strong>Reglamento (UE) 910/2014 (eIDAS)</strong> exigen tres garantías criptográficas que un simple escaneo o dibujo jamás puede aportar:
         </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-4">
           <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
             <h3 class="font-bold text-slate-900 text-sm mb-1.5">1. Autenticidad del Origen</h3>
             <p class="text-xs text-slate-600 leading-relaxed">
-              El certificado digital emitido por la FNMT o Camerfirma vincula indubitadamente la identidad del firmante (Nombre, Apellidos y NIF o CIF de la sociedad) con el documento.
+              El certificado digital emitido por la FNMT-RCM, Camerfirma o DNIe vincula de manera fehaciente la identidad del emisor (Nombre y NIF, o Razón Social y CIF en certificados de representante) con el archivo PDF.
             </p>
           </div>
 
           <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-            <h3 class="font-bold text-slate-900 text-sm mb-1.5">2. Integridad del Contenido</h3>
+            <h3 class="font-bold text-slate-900 text-sm mb-1.5">2. Integridad del Importe e IBAN</h3>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Cualquier cambio posterior en importes, conceptos, cuentas bancarias o cláusulas rompe la huella matemática SHA-256 e invalida automáticamente la firma.
+              Protege a tu empresa frente a fraudes de interceptación de facturas (<em>CEO Fraud / Man-in-the-Middle</em>): si alguien intenta cambiar el número de cuenta bancaria (IBAN) o el importe de la factura PDF, la firma salta como inválida al instante.
             </p>
           </div>
 
           <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
-            <h3 class="font-bold text-slate-900 text-sm mb-1.5">3. No Repudio</h3>
+            <h3 class="font-bold text-slate-900 text-sm mb-1.5">3. No Repudio en Contratos</h3>
             <p class="text-xs text-slate-600 leading-relaxed">
-              Al estar firmada con una clave privada protegida por contraseña que sólo el titular posee, el emisor no puede negar la autoría del contrato o factura ante un juez.
+              En contratos firmados por dos partes (utilizando nuestra herramienta de <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">Cofirma PDF</a>), ninguno de los firmantes puede negar ante un juez haber prestado su consentimiento en la fecha indicada.
             </p>
           </div>
         </div>
       </div>
 
-      <!-- Official Stamp Anatomy -->
-      <div class="p-6 bg-slate-50 rounded-xl border border-slate-200 space-y-4">
-        <h3 class="text-lg font-bold text-slate-900">Anatomía del Sello Administrativo Oficial</h3>
-        <p class="text-slate-600 text-sm leading-relaxed">
-          Nuestra herramienta estampa un sello rectangular homologado en el PDF que incluye:
+      <!-- Official Stamp Anatomy & Rectificativas -->
+      <div class="p-6 bg-slate-50 rounded-xl border border-slate-200 space-y-3">
+        <h2 class="text-lg font-bold text-slate-900">
+          Casos especiales: Facturas Rectificativas (Art. 15 RD 1619/2012) y Recuperación de IVA
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed">
+          Cuando un cliente incurre en impago y deseas recuperar el IVA ingresado en Hacienda conforme al <strong>artículo 80.3 o 80.4 de la Ley del IVA</strong>, la Agencia Tributaria exige acreditar la expedición y remisión de la correspondiente <a href="/blog/como-hacer-factura-rectificativa-requisitos-hacienda/" class="text-blue-600 font-bold underline">factura rectificativa</a>. Estampar tu firma electrónica PAdES-B-B con sello visible en el PDF de la factura rectificativa antes de remitirla por medios fehacientes blinda tu expediente ante cualquier comprobación de gestión tributaria.
         </p>
-        <ul class="list-disc list-inside text-xs sm:text-sm text-slate-700 space-y-2">
-          <li><strong>Encabezado:</strong> Leyenda oficial <em>"DOCUMENTO FIRMADO DIGITALMENTE"</em>.</li>
-          <li><strong>Datos del firmante:</strong> Nombre completo y NIF/NIE extraídos de forma directa del certificado X.509.</li>
-          <li><strong>Entidad emisora:</strong> Identificación de la Autoridad de Certificación (FNMT-RCM, DNIe, etc.).</li>
-          <li><strong>Marca temporal:</strong> Fecha y hora exacta de la firma.</li>
-          <li><strong>Huella criptográfica:</strong> Primeros caracteres del resumen SHA-256 del archivo para cotejo visual.</li>
-          <li><strong>Cita legal:</strong> Referencia expresa al Reglamento eIDAS y Ley 6/2020.</li>
-        </ul>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Firma Digital de Facturas y Contratos PDF
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
       </div>
 
     </div>
   </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
 </Layout>
