@@ -1,0 +1,191 @@
+---
+// blog-drafts/se-puede-firmar-pdf-con-clave-pin.astro
+// (Move to src/pages/blog/ on Day 3)
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Puedo firmar un contrato o documento PDF guardado en mi ordenador con Cl@ve PIN?",
+    a: "No. El sistema Cl@ve PIN (actualmente integrado en la app Cl@ve) es un sistema de identificación por código temporal (OTP) exclusivo para autenticarse dentro de portales web de la Administración Pública. No genera un archivo criptográfico .p12 ni permite firmar documentos PDF privados, contratos de alquiler o facturas fuera de una sede electrónica."
+  },
+  {
+    q: "¿Qué necesito entonces para firmar un archivo PDF desde mi ordenador o móvil?",
+    a: "Para firmar cualquier archivo PDF con plena validez jurídica (estándar PAdES-B-B), necesitas un Certificado Digital en software (.p12 o .pfx) expedido por la FNMT, ACCV, Camerfirma o extraído mediante tu DNI electrónico. Una vez tengas el archivo .p12, puedes firmarlo en 3 segundos en nuestro firmador superior."
+  },
+  {
+    q: "¿Puedo obtener el certificado digital de la FNMT si ya tengo Cl@ve?",
+    a: "El nivel básico de Cl@ve PIN no permite descargar directamente el certificado FNMT sin acreditar tu identidad. Sin embargo, si tienes tu DNI electrónico activo y un móvil con NFC, puedes obtener el certificado digital de la FNMT gratis en 2 minutos desde casa sin pedir cita previa."
+  },
+  {
+    q: "¿Qué diferencia hay entre Cl@ve PIN, Cl@ve Permanente y Cl@ve Firma?",
+    a: "Cl@ve PIN (o Cl@ve Móvil) genera un código temporal de corta duración para accesos puntuales; Cl@ve Permanente utiliza una contraseña fija reforzada con SMS para trámites frecuentes; y Cl@ve Firma utiliza certificados centralizados en la nube de la Administración, pero solo funciona dentro de los formularios internos del propio organismo público, nunca sobre archivos PDF de tu escritorio."
+  }
+];
+---
+
+<Layout
+  title="¿Se Puede Firmar un PDF con Cl@ve PIN? Diferencias con el Certificado Digital"
+  description="Descubre por qué Cl@ve PIN no permite firmar archivos PDF en tu ordenador o móvil, qué diferencias tiene con el certificado digital FNMT y cómo firmar cualquier PDF gratis online."
+  canonicalPath="/blog/se-puede-firmar-pdf-con-clave-pin/"
+>
+  <header class="py-10 bg-gradient-to-b from-emerald-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">¿Se Puede Firmar un PDF con Cl@ve PIN?</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold mb-3">
+        <span>🔑</span> Guía de Identidad Digital · Cl@ve vs. Certificado FNMT
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        ¿Se Puede Firmar un Documento PDF con Cl@ve PIN o Cl@ve Permanente?
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Miles de ciudadanos intentan cada día firmar un contrato en PDF, un recurso administrativo o una autorización utilizando su código de <strong>Cl@ve PIN</strong>. Te explicamos por qué técnicamente no es posible y cómo solucionarlo en minutos.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Direct Answer Callout -->
+      <div class="p-6 bg-amber-50 border-l-4 border-amber-500 rounded-r-2xl space-y-2">
+        <h2 class="text-base sm:text-lg font-extrabold text-amber-950">
+          Respuesta rápida: No, Cl@ve PIN no puede firmar archivos PDF sueltos
+        </h2>
+        <p class="text-xs sm:text-sm text-amber-900 leading-relaxed">
+          El sistema <strong>Cl@ve PIN (Cl@ve Móvil)</strong> es únicamente una llave de acceso para entrar en páginas web del Gobierno (como la AEAT para ver el borrador de la Renta o la Seguridad Social para descargar la Vida Laboral). <strong>Carece de un certificado criptográfico exportable</strong> que puedas aplicar sobre un archivo PDF guardado en tu ordenador o teléfono móvil.
+        </p>
+      </div>
+
+      <!-- Comparison Table: Cl@ve PIN vs Certificado Digital -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Tabla Comparativa: Cl@ve PIN vs. Certificado Digital FNMT (.p12 / .pfx)
+        </h2>
+        <p>
+          Para entender qué herramienta necesitas en cada trámite administrativo o privado en España, revisa las diferencias técnicas y legales entre ambos sistemas:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3.5 font-bold">Trámite o Función</th>
+                <th class="p-3.5 font-bold text-emerald-400">Certificado Digital (.p12 / FNMT)</th>
+                <th class="p-3.5 font-bold text-amber-300">Sistema Cl@ve PIN / Móvil</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Firmar un archivo PDF en tu ordenador o móvil</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Sí (Estándar oficial PAdES-B-B)</td>
+                <td class="p-3.5 text-rose-600 font-bold">❌ No (Imposible firmar archivos locales)</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Firmar contratos de alquiler, facturas o actas privadas</td>
+                <td class="p-3.5 text-emerald-700 font-bold">✅ Sí, con plena validez ante tribunales</td>
+                <td class="p-3.5 text-rose-600 font-bold">❌ No sirve para documentos entre particulares</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Descargar Vida Laboral o consultar puntos DGT</td>
+                <td class="p-3.5 text-emerald-700 font-medium">✅ Sí (Acceso inmediato sin esperas de SMS)</td>
+                <td class="p-3.5 text-emerald-700 font-medium">✅ Sí (Mediante app Cl@ve o código SMS)</td>
+              </tr>
+              <tr>
+                <td class="p-3.5 font-semibold text-slate-900">Nivel de seguridad en Sedes Electrónicas</td>
+                <td class="p-3.5 text-emerald-700 font-bold">Máximo (Admitido en el 100% de trámites)</td>
+                <td class="p-3.5 text-slate-600">Básico / Sustancial (Bloqueado en trámites de nivel alto)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio for users who DO have their .p12 -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          ¿Ya tienes tu Certificado Digital (.p12 o .pfx)? Firma tu PDF aquí en 3 segundos
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Si además de Cl@ve dispones de tu certificado digital exportado (o lo acabas de descargar de la FNMT), selecciona tu documento PDF y fírmalo ahora mismo sin instalar AutoFirma:
+        </p>
+
+        <SigningStudio
+          title="Firmar Documento PDF con Certificado Digital (Alternativa a Cl@ve)"
+          subtitle="Genera una firma criptográfica PAdES válida para cualquier registro electrónico de España."
+        />
+      </div>
+
+      <!-- Step-by-Step Guide if User Only Has Cl@ve -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          ¿Qué hacer si solo tienes Cl@ve PIN y necesitas firmar un PDF hoy mismo?
+        </h2>
+        <p>
+          Si estás en mitad de un plazo administrativo urgente y te piden subir un documento PDF firmado electrónicamente, tienes <strong>dos vías rápidas</strong> para conseguir tu archivo de certificado <code>.p12</code>:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-4">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <span class="inline-block px-2.5 py-0.5 bg-blue-100 text-blue-800 text-xs font-bold rounded">
+              Opción 1 · En 2 minutos desde el móvil (Con DNIe)
+            </span>
+            <h3 class="text-base font-bold text-slate-900">Lectura por NFC con la App de la FNMT</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Si tienes tu DNI físico a mano y recuerdas su contraseña (o acudes 2 minutos al puesto automático de cualquier comisaría), descarga la app oficial de la FNMT, escanea tu DNI por NFC y obtendrás al instante tu archivo <code>.p12</code> sin cita previa.
+            </p>
+            <a href="/firmar-pdf-con-dnie/" class="inline-block text-xs font-bold text-blue-600 hover:underline pt-1">
+              Ver guía para firmar con DNI electrónico &rarr;
+            </a>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <span class="inline-block px-2.5 py-0.5 bg-emerald-100 text-emerald-800 text-xs font-bold rounded">
+              Opción 2 · Ya lo tienes instalado en tu PC
+            </span>
+            <h3 class="text-base font-bold text-slate-900">Exportar tu certificado de Chrome o Windows</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Muchos usuarios tienen el certificado de la FNMT instalado en el navegador de su ordenador pero no saben cómo sacarlo a un archivo <code>.p12</code> para usarlo en herramientas web o en el teléfono.
+            </p>
+            <a href="/ayuda/exportar-certificado-fnmt/" class="inline-block text-xs font-bold text-emerald-700 hover:underline pt-1">
+              Cómo exportar tu certificado en 1 minuto &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQs -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre Cl@ve PIN y la Firma de Documentos PDF
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

@@ -36,8 +36,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 3: Cl@ve PIN Myth Funnel (>10,000/mo Easy KD)
-  /*
+  // DAY 2 LIVE POST: Cl@ve PIN Myth Funnel (>10,000/mo Easy KD)
   {
     slug: 'se-puede-firmar-pdf-con-clave-pin',
     title: '¿Se Puede Firmar un PDF con Cl@ve PIN o Cl@ve Permanente? Diferencias y Solución',
@@ -45,10 +44,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Descubre por qué el sistema Cl@ve PIN solo sirve para trámites internos de la AEAT y cómo firmar cualquier documento PDF externo gratis con tu certificado digital FNMT o DNIe.',
     category: 'Identidad Digital y Cl@ve',
     readTime: '6 min de lectura',
-    updatedDate: '29 de octubre de 2026',
+    updatedDate: '28 de octubre de 2026',
     badgeColor: 'emerald',
   },
-  */
 
   // UNCOMMENT DAY 4: Certificado Estar al Corriente (>1,000/mo x8 terms, 100% Easy KD)
   /*
