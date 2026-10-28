@@ -1,7 +1,13 @@
-https://firmarpdfcertificado.ajay2026kr.workers.dev/*
+https://firmarpdfcertificado.pages.dev/*
   X-Robots-Tag: noindex, nofollow
 
-https://firmarpdfcertificado.pages.dev/*
+https://firmarpdfcertificado.pages.dev/
+  X-Robots-Tag: noindex, nofollow
+
+https://*.firmarpdfcertificado.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+https://firmarpdfcertificado.ajay2026kr.workers.dev/*
   X-Robots-Tag: noindex, nofollow
 
 https://www.firmarpdfcertificado.com/*

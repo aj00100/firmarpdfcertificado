@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "astro build && npx wrangler deploy",
+    "deploy": "astro build && npx wrangler pages deploy dist --project-name=firmarpdfcertificado",
     "test:generate": "python3 scripts/generate-test-files.py"
   },
   "dependencies": {

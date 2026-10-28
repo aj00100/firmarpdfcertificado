@@ -1,3 +1,9 @@
+# Block .pages.dev staging domain from being indexed
+https://firmarpdfcertificado.pages.dev/* https://firmarpdfcertificado.com/:splat 301
+
+# Block www to non-www
+https://www.firmarpdfcertificado.com/* https://firmarpdfcertificado.com/:splat 301
+
 # Sitemap discovery redirect for Googlebot & Bingbot
 /sitemap.xml /sitemap-index.xml 301
 
