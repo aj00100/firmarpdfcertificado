@@ -6,3 +6,9 @@
 /about /sobre-nosotros/ 301
 /contact/ /contacto/ 301
 /contact /contacto/ 301
+
+# Partner & Affiliate redirects (Temporary 302)
+/r/holded https://www.holded.com/es 302
+/r/holded/ https://www.holded.com/es 302
+/r/qonto https://qonto.com/es 302
+/r/qonto/ https://qonto.com/es 302

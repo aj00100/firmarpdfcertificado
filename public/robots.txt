@@ -1,5 +1,6 @@
 User-agent: *
 Disallow: /cdn-cgi/
+Disallow: /r/
 Allow: /
 
 Sitemap: https://firmarpdfcertificado.com/sitemap-index.xml
