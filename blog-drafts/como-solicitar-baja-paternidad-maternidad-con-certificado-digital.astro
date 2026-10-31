@@ -1,0 +1,149 @@
+---
+// blog-drafts/como-solicitar-baja-paternidad-maternidad-con-certificado-digital.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuántas semanas corresponden por la prestación por nacimiento y cuidado de menor en 2026?",
+    a: "En España la prestación es de 16 semanas para cada progenitor, intransferibles y remuneradas al 100% de la base reguladora. Las 6 primeras semanas inmediatamente posteriores al parto o resolución judicial de adopción son obligatorias e ininterrumpidas a jornada completa. Las 10 semanas restantes pueden disfrutarse de manera continuada o en periodos sucesivos semanales hasta que el menor cumpla 12 meses."
+  },
+  {
+    q: "¿Qué particularidades y bonificaciones se aplican a los trabajadores autónomos (RETA)?",
+    a: "Los trabajadores autónomos tienen derecho a la prestación económica del 100% de su base reguladora de cotización y, adicionalmente, disfrutan de una bonificación del 100% de su cuota de autónomos durante todo el periodo de descanso por maternidad o paternidad (art. 38 Ley de Reformas Urgentes del Trabajo Autónomo), siempre que continúen de alta en el RETA."
+  },
+  {
+    q: "¿Cómo firmar el acuerdo de disfrute en periodos sucesivos o a jornada parcial entre empleado y empresa?",
+    a: "Si el trabajador y la empresa pactan disfrutar de las 10 semanas optativas en tramos fraccionados o a tiempo parcial (mínimo 50%), la Seguridad Social exige presentar un acuerdo por escrito en PDF firmado por ambas partes. Utiliza nuestra herramienta de co-firma para estampar la firma del trabajador y la del representante de la empresa sobre el mismo PDF oficial."
+  },
+  {
+    q: "¿Qué documentación es indispensable aportar en el portal Tu Seguridad Social?",
+    a: "Es obligatorio adjuntar el DNI/NIE del progenitor solicitante, el certificado literal de nacimiento del Registro Civil o Libro de Familia, el certificado de empresa con las bases de cotización y fechas del descanso laboral, y el acuerdo de fraccionamiento firmado si no se disfrutan las 16 semanas de forma continua."
+  }
+];
+---
+
+<Layout
+  title="Cómo Solicitar la Baja de Paternidad y Maternidad 2026 Online con Certificado Digital"
+  description="Guía completa para tramitar la prestación por nacimiento y cuidado de menor 2026 en Tu Seguridad Social con certificado digital. Reglas para autónomos y firma de acuerdos en PDF."
+  canonicalPath="/blog/como-solicitar-baja-paternidad-maternidad-con-certificado-digital/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Baja Paternidad y Maternidad 2026</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>👶</span> Seguridad Social (INSS) · Nacimiento y Cuidado de Menor
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Solicitar la Baja por Nacimiento y Cuidado de Menor (Paternidad y Maternidad 2026) con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        La prestación económica por <strong>nacimiento y cuidado de menor</strong> (anteriormente denominadas prestaciones de paternidad y maternidad) reconoce 16 semanas remuneradas al 100% para cada progenitor. Descubre cómo solicitarla por internet en Tu Seguridad Social con tu certificado digital y cómo formalizar los acuerdos laborales en PDF.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Step-by-Step Guide -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Pasos para solicitar la prestación por internet en "Tu Seguridad Social"
+        </h2>
+        <p>
+          Tramitar la baja por nacimiento de forma telemática te evita tener que acudir presencialmente a las oficinas del INSS en los días posteriores a la llegada del bebé:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm">
+          <li>
+            <strong>Registro del nacimiento:</strong> Inscribe al recién nacido en el Registro Civil (generalmente tramitado directamente desde el hospital) para obtener el certificado literal de nacimiento.
+          </li>
+          <li>
+            <strong>Certificado de empresa:</strong> Comprueba con el departamento de recursos humanos de tu empresa que hayan remitido telemáticamente el certificado de bases de cotización al Instituto Nacional de la Seguridad Social a través del Sistema RED.
+          </li>
+          <li>
+            <strong>Acceso a Tu Seguridad Social:</strong> Entra en el portal <em>sede.seg-social.gob.es</em> o <em>Tu Seguridad Social</em> y pulsa en <strong>"Pedir tu prestación por nacimiento"</strong>, identificándote con tu certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a>. Si precisas respaldar tu certificado en otro ordenador, revisa nuestra guía para <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital FNMT (.p12)</a>.
+          </li>
+          <li>
+            <strong>Cumplimentación y subida de archivos:</strong> Indica las fechas de inicio del descanso obligatorio (las 6 primeras semanas) y la planificación de las 10 semanas voluntarias. Adjunta los documentos requeridos en PDF firmados electrónicamente.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Specifics for Autonomos -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Baja de paternidad y maternidad para autónomos (RETA)
+        </h2>
+        <p>
+          Si cotizas en el Régimen Especial de Trabajadores Autónomos (RETA), la Seguridad Social contempla medidas específicas de apoyo:
+        </p>
+        <div class="bg-blue-50 p-6 rounded-xl border border-blue-200 space-y-2">
+          <h3 class="font-bold text-blue-950 text-sm">Bonificación del 100% de la cuota de autónomos:</h3>
+          <p class="text-xs sm:text-sm text-blue-900 leading-relaxed">
+            Durante las 16 semanas que dura la prestación por nacimiento, los autónomos disfrutan de una <strong>exención total del pago de su cuota de autónomos</strong> a la Seguridad Social, calculada sobre la base media de los 12 meses anteriores. No es necesario dar de baja la actividad en Hacienda ni cerrar el negocio si se contrata a un trabajador interino o se mantiene la estructura operativa.
+          </p>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio for Agreement between Worker & Company -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar el Acuerdo de Disfrute Fraccionado o a Tiempo Parcial en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Si vas a pactar con tu empresa disfrutar las semanas optativas en periodos separados o a media jornada, la Seguridad Social exige adjuntar un modelo de acuerdo en PDF firmado por ambas partes. Fírmalo en 3 segundos <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Acuerdo de Distribución de Descanso por Nacimiento PDF"
+          subtitle="Firma PAdES-B-B con plena validez legal ante el INSS · 100% privado en memoria RAM."
+        />
+      </div>
+
+      <!-- Co-signing between Employee & Employer -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Cofirma electrónica entre el trabajador y la empresa
+        </h2>
+        <p>
+          El acuerdo de fraccionamiento de la baja debe contar preceptivamente con la firma de ambas partes: la del trabajador solicitante y la del apoderado o responsable de recursos humanos de la empresa. Utiliza nuestra herramienta de <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirma PDF de dos firmas digitales</a> para que la segunda firma se incorpore sin invalidar la firma previa. Asimismo, para auditar que el documento final esté sellado con certificados válidos antes de presentarlo al INSS, revísalo en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas digitales PDF</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre la Baja por Paternidad y Maternidad 2026
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

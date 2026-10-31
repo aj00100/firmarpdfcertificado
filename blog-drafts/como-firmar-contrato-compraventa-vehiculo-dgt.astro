@@ -1,0 +1,193 @@
+---
+// blog-drafts/como-firmar-contrato-compraventa-vehiculo-dgt.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo firmar un contrato de compraventa de vehículo en PDF entre comprador y vendedor a distancia?",
+    a: "Para tramitar el cambio de nombre de coche online sin desplazamientos, el vendedor abre el contrato en PDF y estampa su primera firma digital con certificado en nuestra herramienta. A continuación, remite el documento al comprador, quien utiliza nuestra función de Cofirma PDF para añadir la segunda firma en la esquina opuesta. Ambas firmas quedan validadas bajo el estándar PAdES-B-B sin invalidarse mutuamente."
+  },
+  {
+    q: "¿Cuánto cuesta el cambio de nombre de coche online en la DGT frente a una gestoría privada?",
+    a: "Hacer el trámite por tu cuenta en la Sede Electrónica de la DGT cuesta únicamente la Tasa 1.5 oficial de Tráfico (55,70 € para turismos y motos, o 27,85 € para ciclomotores) más el Impuesto de Transmisiones Patrimoniales (ITP Modelo 620 o 621 autonómico, entre el 4% y el 8% según la comunidad). Una gestoría física cobra entre 120 € y 180 € adicionales de honorarios de gestión, por lo que tramitarlo online ahorra más de 150 €."
+  },
+  {
+    q: "¿Qué documentación exige la DGT para completar la transferencia online de un vehículo?",
+    a: "Es obligatorio adjuntar: (1) El contrato de compraventa firmado digitalmente por ambas partes en PDF; (2) Copia del DNI/NIE de comprador y vendedor; (3) Justificante de pago o exención del ITP autonómico con su código CET; (4) Permiso de circulación del vehículo; y (5) Abono telemático de la Tasa 1.5 de la DGT."
+  },
+  {
+    q: "¿Qué precauciones debe tomar el vendedor tras firmar el contrato de compraventa?",
+    a: "El vendedor debe solicitar de inmediato el trámite de Notificación de Venta en la DGT (Tasa 4.1 de 8,67 €) aportando el contrato firmado. Esto exime al vendedor de cualquier responsabilidad administrativa, multas de radar o impuestos de circulación (IVTM) que puedan producirse antes de que el comprador culmine el cambio de titularidad definitivo."
+  }
+];
+---
+
+<Layout
+  title="Cómo Firmar un Contrato de Compraventa de Vehículo Online para la DGT (PDF)"
+  description="Guía paso a paso para firmar el contrato de compraventa de coche o moto con certificado digital, liquidar el ITP, abonar la Tasa 1.5 y tramitar el cambio de nombre en la DGT online."
+  canonicalPath="/blog/como-firmar-contrato-compraventa-vehiculo-dgt/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Firmar Contrato Compraventa Vehículo DGT</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>🚗</span> DGT Tráfico · Cambio de Titularidad y Transferencia de Vehículos
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Firmar un Contrato de Compraventa de Coche o Moto con Certificado Digital (Cambio de Nombre DGT)
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Comprar o vender un vehículo de segunda mano en España ya no requiere acudir presencialmente a la Jefatura Provincial de Tráfico ni pagar costosas comisiones a intermediarios. Aprende cómo <strong>firmar el contrato de compraventa de vehículo en PDF</strong> con certificado digital y cómo <strong>tramitar el cambio de nombre de coche online en la DGT</strong> de forma barata y segura.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Savings Comparison Table -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Cambio de nombre de coche online barato: Gestoría tradicional vs. Trámite digital directo
+        </h2>
+        <p>
+          Tramitar el <strong>cambio de nombre de coche online DGT</strong> por tu cuenta con certificado digital te permite completar la transferencia en menos de 24 horas y ahorrarte los elevados honorarios de gestión privada:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3 font-bold">Concepto de Gasto</th>
+                <th class="p-3 font-bold text-emerald-400">Trámite Online Autónomo (DGT Sede)</th>
+                <th class="p-3 font-bold text-slate-300">Gestoría Presencial Tradicional</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-medium">Tasa Oficial DGT 1.5 (Turismos / Motos)</td>
+                <td class="p-3 text-emerald-600 font-bold">55,70 € (Precio oficial)</td>
+                <td class="p-3">55,70 €</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Impuesto Transmisiones (ITP Modelo 620/621)</td>
+                <td class="p-3">Según tablas de Hacienda autonómica</td>
+                <td class="p-3">Mismo importe tributario</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Honorarios de gestión y tramitación</td>
+                <td class="p-3 text-emerald-600 font-bold">0,00 € (100% Gratis)</td>
+                <td class="p-3 text-rose-600 font-semibold">120,00 € – 180,00 € + IVA</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Tiempo de tramitación y firmas</td>
+                <td class="p-3 text-emerald-600 font-bold">15 minutos (Inmediato)</td>
+                <td class="p-3 text-amber-700">3 a 10 días laborables</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 2: Bilateral Co-Signing Workflow -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Cómo firmar el contrato de compraventa en PDF con dos certificados digitales (Cofirma)
+        </h2>
+        <p>
+          Para que el <strong>contrato de compraventa de vehículo en PDF</strong> tenga plena validez ejecutiva conforme al artículo 1278 del Código Civil y el Reglamento eIDAS, ambas partes (comprador y vendedor) deben estampar su firma digital reconocida (FNMT, DNIe o Camerfirma):
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm">
+          <li>
+            <strong>Paso 1 (Firma del Vendedor):</strong> El vendedor rellena el contrato modelo de compraventa con los datos del vehículo (bastidor, matrícula, kilometraje y precio acordado). Arrastra el PDF a nuestro firmador inferior y estampa su firma con certificado seleccionando la posición <em>"Abajo Derecha"</em>.
+          </li>
+          <li>
+            <strong>Paso 2 (Cofirma del Comprador):</strong> El vendedor envía el archivo PDF firmado al comprador. El comprador entra en nuestra herramienta especializada para <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">Cofirmar PDF con dos firmas digitales</a> y añade su propia firma en <em>"Abajo Izquierda"</em>. Nuestro motor realiza una actualización binaria incremental (ISO 32000-1), lo que garantiza que la firma del vendedor no se rompa ni quede marcada como inválida.
+          </li>
+          <li>
+            <strong>Paso 3 (Validación de Integridad):</strong> Antes de subir el contrato a Tráfico, ambas partes pueden verificar en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas PDF</a> que ambos sellos criptográficos están conformes.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar Contrato de Compraventa de Vehículo en PDF (Estándar PAdES Oficial)
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Firma tu contrato de compraventa con tu certificado digital FNMT o DNIe en 3 segundos <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a> ni Java:
+        </p>
+
+        <SigningStudio
+          title="Firmar Contrato de Compraventa de Coche o Moto PDF"
+          subtitle="Sello visual con NIF, fecha y huella SHA-256 · 100% privado en tu memoria RAM local."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- Section 3: Legal Tax Steps (ITP Modelo 620/621 & DGT Submission) -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Cómo tramitar el cambio de nombre coche online en la Sede de la DGT paso a paso
+        </h2>
+        <p>
+          Una vez dispongas del contrato en PDF cofirmado por ambas partes, completa la transferencia digital siguiendo esta secuencia reglamentaria:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">1. Liquidar el ITP (Modelo 620 o 621 telemático)</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              El comprador debe autoliquidar el Impuesto sobre Transmisiones Patrimoniales Onerosas en la sede tributaria de su comunidad autónoma. En autonomías con convenio telemático directo (como Andalucía, Madrid, Cataluña o Valencia), obtendrás al instante el Código Electrónico de Transferencia (CET).
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">2. Registro Electrónico de la DGT (Tasa 1.5)</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Entra en la <em>Sede Electrónica de la DGT &rarr; Vehículos &rarr; Cambio de titularidad</em>. Abona la <strong>Tasa 1.5 (55,70 €)</strong> con tarjeta bancaria o cargo en cuenta, introduce el CET de Hacienda y adjunta el contrato de compraventa cofirmado en PDF. Tráfico emitirá de inmediato el nuevo Permiso de Circulación en PDF a nombre del comprador.
+            </p>
+          </div>
+        </div>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Si necesitas extraer tu certificado para firmar desde tu teléfono móvil Android o iPhone, consulta nuestra guía para <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital FNMT en archivo .p12 con clave privada</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Cambio de Nombre de Vehículo y Contratos en PDF
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

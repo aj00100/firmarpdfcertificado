@@ -1,0 +1,162 @@
+---
+// blog-drafts/como-descargar-certificado-retenciones-irpf.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué es el Certificado de Retenciones e Ingresos a Cuenta del IRPF y para qué sirve?",
+    a: "Es el documento tributario oficial que resume la totalidad de las retribuciones dinerarias y en especie abonadas a un trabajador, pensionista o profesional autónomo durante el año fiscal, así como el importe total de las retenciones de IRPF y las cotizaciones a la Seguridad Social practicadas. Es fundamental para contrastar los datos de la Declaración de la Renta y solicitar hipotecas o subvenciones."
+  },
+  {
+    q: "¿Cuándo está obligada la empresa o pagador a entregar el certificado de retenciones firmado?",
+    a: "Conforme al artículo 108 del Reglamento del IRPF (Real Decreto 439/2007), el pagador (empresa, profesional autónomo empleador o entidad pública) está legalmente obligado a poner a disposición de los perceptores este certificado firmado con anterioridad a la apertura del plazo de declaración del Impuesto sobre la Renta de las Personas Físicas (normalmente antes de finales de marzo o primeros de abril)."
+  },
+  {
+    q: "¿Cómo puede un trabajador, desempleado o pensionista descargarlo de la AEAT, SEPE o Seguridad Social?",
+    a: "Si tu empresa ha cerrado o no te lo entrega a tiempo, puedes acceder directamente a la Sede Electrónica de la Agencia Tributaria con tu certificado digital FNMT o DNIe y consultar tus datos fiscales completos, o acceder a la sede del SEPE (para certificados de prestaciones por desempleo) o de la Seguridad Social (para pensiones y prestaciones de incapacidad)."
+  },
+  {
+    q: "¿Cómo deben las empresas y gestorías firmar en PDF los certificados de retenciones?",
+    a: "Las empresas deben remitir el documento en formato PDF firmado criptográficamente por el Administrador Único o apoderado legal utilizando un certificado de Representante de Persona Jurídica (FNMT o Camerfirma). Con nuestra herramienta puedes estampar el sello administrativo oficial de tu sociedad con huella SHA-256 en segundos."
+  }
+];
+---
+
+<Layout
+  title="Certificado de Retenciones IRPF: Cómo Descargarlo o Firmarlo para tus Empleados"
+  description="Guía completa sobre el Certificado de Retenciones e Ingresos a Cuenta del IRPF (Art. 108 RIRPF). Cómo descargarlo con certificado digital y cómo firmarlo en PDF para empresas."
+  canonicalPath="/blog/como-descargar-certificado-retenciones-irpf/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Certificado de Retenciones IRPF</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>💼</span> Régimen Fiscal IRPF · Artículo 108 RIRPF y Modelo 190
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Certificado de Retenciones e Ingresos a Cuenta del IRPF: Cómo Descargarlo y Firmarlo en PDF
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        El <strong>certificado de retenciones e ingresos a cuenta del IRPF</strong> es un documento obligatorio tanto para los trabajadores y perceptores que preparan su declaración fiscal, como para las empresas, gestorías y autónomos que deben expedirlo y firmarlo legalmente. Te explicamos cómo obtenerlo o firmarlo en PDF con plena validez jurídica.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Dual Intent Navigation -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="p-5 bg-blue-50 border border-blue-200 rounded-xl space-y-2">
+          <h2 class="font-bold text-blue-950 text-base">👨‍💼 Para Trabajadores y Pensionistas</h2>
+          <p class="text-xs text-blue-900 leading-relaxed">
+            Aprende a descargar el certificado oficial de la Agencia Tributaria, Seguridad Social o SEPE si tu empresa no te lo ha remitido antes de la Campaña de la Renta.
+          </p>
+        </div>
+        <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+          <h2 class="font-bold text-slate-950 text-base">🏢 Para Empresas, Gestorías y Autónomos</h2>
+          <p class="text-xs text-slate-700 leading-relaxed">
+            Aprende a firmar digitalmente y estampar el sello administrativo de tu empresa sobre los certificados en PDF generados por tu programa de nóminas (Modelo 190).
+          </p>
+        </div>
+      </div>
+
+      <!-- Section 1: For Employees -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          1. Cómo descargar tu Certificado de Retenciones con Certificado Digital
+        </h2>
+        <p>
+          Si necesitas presentar tu Declaración de la Renta, solicitar una hipoteca o justificar tus ingresos netos y no dispones de la copia física entregada por tu pagador, puedes descargar el desglose oficial telemáticamente:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-xs sm:text-sm">
+          <li>
+            <strong>Sede de la Agencia Tributaria (AEAT):</strong> Entra con tu certificado digital FNMT o DNIe en <em>"Datos fiscales del IRPF"</em>. Allí se detallan todas las retenciones declaradas por tus pagadores en los Modelos 190 y 180.
+          </li>
+          <li>
+            <strong>Sede del SEPE (Paro o subsidios):</strong> Si has percibido prestaciones por desempleo o ERTE, accede a la Sede del SEPE en el apartado de <em>"Certificados de prestaciones"</em> para descargar el PDF de retenciones de IRPF al instante.
+          </li>
+          <li>
+            <strong>Seguridad Social (Pensiones o bajas):</strong> Si has cobrado pensiones de jubilación, incapacidad o prestación por nacimiento y cuidado de menor, entra en <em>Tu Seguridad Social / Import@ss</em> para descargar el informe anual de importes brutos y retenciones.
+          </li>
+        </ul>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Si necesitas mover tu certificado a otro navegador para acceder a estas sedes, consulta nuestra guía paso a paso sobre <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">cómo exportar tu certificado FNMT en .p12 con clave privada</a>.
+        </p>
+      </div>
+
+      <!-- Section 2: For Companies & Employers -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          2. Obligación legal de las empresas: expedición y firma de certificados (Art. 108 RIRPF)
+        </h2>
+        <p>
+          El <strong>artículo 108 del Reglamento del IRPF</strong> establece la obligación formal de todo retenedor de poner a disposición del perceptor una certificación acreditativa de las retribuciones satisfechas y de las retenciones practicadas.
+        </p>
+        <p>
+          El documento debe coincidir con el resumen anual del <strong>Modelo 190</strong> (o <strong>Modelo 180</strong> en caso de arrendamientos) e incluir de manera preceptiva la <strong>identificación del pagador, CIF/NIF, firma y sello oficial</strong> de la entidad empleadora.
+        </p>
+      </div>
+
+      <!-- Embedded Signing Studio for Employers -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar y Sellar Certificados de Retenciones IRPF en PDF para tus Empleados
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Utiliza nuestro firmador PAdES-B-B en navegador para estampar la firma de tu certificado de Representante de Persona Jurídica o Administrador de la FNMT/Camerfirma <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin necesidad de instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Certificados de Retenciones IRPF o Nóminas PDF"
+          subtitle="Añade el sello oficial con cargo societario y firma con plena validez probatoria · 100% privado en memoria RAM."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- Validation & Verification -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Auditoría de integridad y validación de certificados recibidos
+        </h2>
+        <p>
+          Si has recibido un certificado de retenciones de un pagador o cliente y deseas cerciorarte de que la firma electrónica cumple con los estándares europeos eIDAS y no ha sido alterada, cárgalo en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas digitales PDF</a>. Asimismo, si vas a formalizar acuerdos mercantiles complementarios, puedes utilizar nuestra herramienta para <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirmar documentos con dos firmas electrónicas</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Certificado de Retenciones IRPF
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

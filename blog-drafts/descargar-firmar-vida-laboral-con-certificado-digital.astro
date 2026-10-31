@@ -1,0 +1,154 @@
+---
+// blog-drafts/descargar-firmar-vida-laboral-con-certificado-digital.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo descargar el informe de Vida Laboral al instante con certificado digital en Import@ss?",
+    a: "Accede al portal oficial Import@ss de la Tesorería General de la Seguridad Social (TGSS), pulsa en 'Informe de tu vida laboral' y selecciona 'Certificado digital'. A diferencia del acceso por SMS —que falla si tu móvil no coincide exactamente con el registrado en el censo—, el acceso con certificado digital FNMT o DNIe descarga el documento oficial en PDF con validez legal inmediata en menos de 30 segundos."
+  },
+  {
+    q: "¿Qué es el código CEA o CSV que aparece en la Vida Laboral y cómo comprobar si es auténtica?",
+    a: "Cada informe expedido por la Seguridad Social incorpora al pie de página un Código Electrónico de Autenticidad (CEA) o Código Seguro de Verificación (CSV). Cualquier empresa, banco o casero puede verificar la autenticidad e integridad del documento en el servicio de comprobación de informes de la Sede de la Seguridad Social introduciendo ese código alfanumérico."
+  },
+  {
+    q: "¿Por qué no debes pagar nunca por pedir la Vida Laboral en páginas web intermediarias?",
+    a: "La expedición de la Vida Laboral es un trámite público 100% gratuito garantizado por el Estado. Existen empresas intermediarias privadas que cobran entre 15€ y 30€ simplemente por solicitar el informe en tu nombre y pedirte tus datos personales. Con tu certificado digital puedes descargarlo directamente de la TGSS tantas veces como necesites sin pagar ni un solo euro."
+  },
+  {
+    q: "¿Por qué los bancos, inmobiliarias o juzgados exigen la Vida Laboral firmada y cómo firmarla?",
+    a: "Al solicitar una hipoteca, un préstamo o el alquiler de un piso con seguro de impago, los departamentos de riesgos exigen que el solicitante estampe su firma electrónica sobre el PDF de la Vida Laboral para certificar que el informe presentado se corresponde fielmente con su situación y prestar su consentimiento formal. Con nuestra herramienta puedes estampar un sello visible y firma PAdES-B-B en tu navegador en 3 segundos."
+  }
+];
+---
+
+<Layout
+  title="Cómo Descargar y Firmar la Vida Laboral con Certificado Digital (Gratis en PDF)"
+  description="Guía oficial para descargar tu informe de Vida Laboral gratis en PDF en Import@ss con certificado digital FNMT o DNIe en 30 segundos, verificar su CEA y firmarlo."
+  canonicalPath="/blog/descargar-firmar-vida-laboral-con-certificado-digital/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Descargar y Firmar Vida Laboral</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>📋</span> Tesorería General de la Seguridad Social · Import@ss
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Descargar y Firmar el Informe de Vida Laboral con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        El <strong>informe de vida laboral</strong> es el documento oficial expedido por la Tesorería General de la Seguridad Social (TGSS) que acredita todos los días que has cotizado, tus regímenes laborales (cuenta ajena o autónomos) y tu historial de contratos. Aprende a obtenerlo gratis en 30 segundos y cómo firmarlo en PDF si te lo solicita un banco o casero.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Step-by-step Guide -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Pasos para descargar tu informe de Vida Laboral completo en PDF (Import@ss)
+        </h2>
+        <p>
+          Para obtener tu informe oficial actualizado sin esperas y sin depender de envíos por correo postal ni de códigos SMS temporales, sigue estos sencillos pasos:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm">
+          <li>
+            <strong>Acceso al portal oficial:</strong> Entra en la sede oficial de la TGSS: <em>portal.seg-social.gob.es (Import@ss)</em> y haz clic en la sección <strong>"Informe de tu vida laboral"</strong>.
+          </li>
+          <li>
+            <strong>Identificación con Certificado Digital o DNIe:</strong> Selecciona el método de autenticación <em>"Certificado digital"</em>. Tu navegador mostrará la ventana para escoger tu certificado de la FNMT, DNI electrónico o certificado autonómico (idCAT, ACCV). Si tienes tu certificado en Windows o Mac y necesitas moverlo, consulta nuestra guía para <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado FNMT en archivo .p12</a>.
+          </li>
+          <li>
+            <strong>Visualización y descarga:</strong> Verás en pantalla el resumen de tus días cotizados, empresas y fechas de alta y baja. Haz clic en el botón <strong>"Descargar vida laboral en PDF"</strong> para guardar el archivo oficial en tu dispositivo.
+          </li>
+          <li>
+            <strong>Verificación del código CEA:</strong> Al pie del documento descargado encontrarás el Código Electrónico de Autenticidad (CEA), que certifica que el PDF proviene legítimamente de los servidores de la Seguridad Social.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Fraud Warning Box -->
+      <div class="p-6 bg-amber-50 border-2 border-amber-300 rounded-2xl shadow-sm space-y-2">
+        <div class="flex items-center gap-2 font-bold text-amber-950 text-base">
+          <span>⚠️</span> Cuidado con las páginas webs fraudulentas que cobran 20€ o 30€ por la Vida Laboral
+        </div>
+        <p class="text-xs sm:text-sm text-amber-900 leading-relaxed">
+          En los resultados de búsqueda de Google proliferan anuncios y páginas de intermediación que utilizan logotipos similares a los de la administración pública y cobran tarifas abusivas de suscripción mensual por solicitar un informe que es <strong>100% público y gratuito</strong>. Nunca introduzcas los datos de tu tarjeta bancaria para solicitar un documento oficial de la Seguridad Social.
+        </p>
+      </div>
+
+      <!-- Signing Studio Callout -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          ¿Te exigen firmar la Vida Laboral en PDF para una hipoteca, alquiler u oposición?
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Muchas entidades financieras, inmobiliarias y tribunales de oposiciones exigen que el solicitante estampe su firma electrónica sobre el PDF de la vida laboral para validar el consentimiento de tratamiento de datos o certificar la autenticidad del expediente. Utiliza nuestro firmador gratuito <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a> ni programas pesados:
+        </p>
+
+        <SigningStudio
+          title="Firmar Informe de Vida Laboral en PDF (PAdES-B-B)"
+          subtitle="Añade tu firma criptográfica con certificado digital FNMT o DNIe en memoria RAM · 100% privado."
+        />
+      </div>
+
+      <!-- Verification and Co-signing -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Cómo validar o cofirmar expedientes laborales conjuntos
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">🔍 Validar Vida Laboral entregada por terceros</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Si gestionas una empresa, un departamento de selección o un alquiler, puedes cargar cualquier PDF en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firma digital PDF</a> para comprobar si la firma electrónica del candidato es válida y confirmar que el texto no ha sido manipulado.
+            </p>
+          </div>
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">👥 Cofirmar solicitudes de hipotecas en pareja</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Cuando un banco exige que ambos titulares firmen conjuntamente la documentación económica familiar, utiliza nuestra herramienta de <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirma PDF con dos firmas digitales</a> para estampar la segunda firma sin corromper la primera.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre la Vida Laboral con Certificado Digital
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

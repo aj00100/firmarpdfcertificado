@@ -1,0 +1,194 @@
+---
+// blog-drafts/como-solicitar-informe-vehiculo-dgt-con-certificado-digital.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Qué diferencia existe entre el Informe de Vehículo DGT gratis y el Informe Completo?",
+    a: "El Informe Reducido de la DGT es 100% gratuito (0,00 €) e indica mediante un semáforo verde o rojo si el coche tiene incidencias administrativas que impiden transferirlo. El Informe Completo (Tasa 4.1 de 8,67 €) desglosa el historial de titulares, embargos judiciales, reservas de dominio financieras, historial de lecturas de cuentakilómetros en la ITV, vigencia del seguro obligatorio y datos técnicos completos."
+  },
+  {
+    q: "¿Por qué no debes pagar 20€ o 25€ en webs privadas de informes de matrículas?",
+    a: "Portales comerciales como Inforautos, Carfax o webs intermediarias cobran entre 15 € y 25 € por revenderte exactamente los mismos datos que la Dirección General de Tráfico proporciona por 8,67 € (o gratis en su versión reducida). Con tu certificado digital FNMT o DNIe puedes descargarlo directamente de la Sede Oficial de la DGT al instante y con código CSV legal."
+  },
+  {
+    q: "¿Qué es una reserva de dominio y por qué bloquea el cambio de titularidad de un coche?",
+    a: "La reserva de dominio es una carga jurídica inscrita en el Registro de Bienes Muebles por la entidad financiera que financió la compra original del coche. Hasta que la deuda no se cancele totalmente y la financiera emita la carta de pago y levantamiento registral, la DGT denegará automáticamente cualquier cambio de nombre."
+  },
+  {
+    q: "¿Cómo firmar el informe de vehículo como anexo vinculante en el contrato de compraventa?",
+    a: "Para protegerse ante reclamaciones por vicios ocultos o manipulación de kilometraje, comprador y vendedor suelen incorporar el informe de la DGT en PDF como anexo obligatorio del contrato de compraventa. Puedes estampar tu firma electrónica sobre el informe con nuestro firmador PAdES en 3 segundos."
+  }
+];
+---
+
+<Layout
+  title="Cómo Solicitar el Informe de Vehículo DGT con Certificado Digital (Gratis o Completo)"
+  description="Guía oficial para solicitar el informe de vehículo por matrícula en la DGT con certificado digital. Diferencias entre el informe gratis y el completo (Tasa 4.1) y comprobación de embargos."
+  canonicalPath="/blog/como-solicitar-informe-vehiculo-dgt-con-certificado-digital/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Informe de Vehículo DGT por Matrícula</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>🔍</span> Dirección General de Tráfico (DGT) · Registro General de Vehículos
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Solicitar y Descargar el Informe de Vehículo de la DGT por Matrícula con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Antes de entregar una señal económica o firmar la compra de un coche o moto de segunda mano en España, consultar el <strong>informe de vehículo DGT por matrícula</strong> es el paso indispensable para evitar fraudes de kilometraje trucado, embargos fiscales o reservas de dominio que impidan la transferencia. Descubre cómo solicitar el informe gratis o completo en la Sede de Tráfico.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Comparison Table Free vs Full -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Informe de vehículo DGT gratis vs. Informe Completo (Tasa 4.1)
+        </h2>
+        <p>
+          La Dirección General de Tráfico pone a disposición de cualquier ciudadano dos modalidades oficiales de consulta en función del nivel de detalle necesario:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3 font-bold">Datos Incluidos en el Documento</th>
+                <th class="p-3 font-bold text-emerald-400">Informe Reducido (Gratis · 0,00 €)</th>
+                <th class="p-3 font-bold text-blue-400">Informe Completo (Tasa 4.1 · 8,67 €)</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-medium">Semáforo de incidencias administrativas</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Verde (Apto) / Rojo (Incidencias)</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Verde / Rojo</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Fecha de primera matriculación y marca</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Sí</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Sí (Ficha técnica completa)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Historial de kilometraje en ITV</td>
+                <td class="p-3 text-rose-600">❌ No incluido</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Sí (Lecturas históricas en ITV)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Cargas, embargos y reserva de dominio</td>
+                <td class="p-3 text-rose-600">❌ Solo alerta sin desglose</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Sí (Detalle de juzgado o financiera)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Historial de titulares (particulares / empresas)</td>
+                <td class="p-3 text-rose-600">❌ No incluido</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Sí (Número de transferencias)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Vigencia de ITV y Seguro Obligatorio</td>
+                <td class="p-3 text-rose-600">❌ No incluido</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Sí (Compañía y póliza activa)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Warning Against Middlemen Scams -->
+      <div class="p-6 bg-amber-50 border-2 border-amber-300 rounded-2xl shadow-sm space-y-2">
+        <div class="flex items-center gap-2 font-bold text-amber-950 text-base">
+          <span>⚠️</span> Cuidado con webs privadas que cobran entre 15 € y 25 € por el informe de tráfico
+        </div>
+        <p class="text-xs sm:text-sm text-amber-900 leading-relaxed">
+          Existen portales comerciales privados que se anuncian en buscadores con títulos como <em>"Informe de DGT inmediato"</em> o <em>"Revisar matrícula DGT"</em> y cobran suscripciones ocultas de más de 20 €. Recuerda que la fuente originaria es siempre la DGT: el informe reducido es <strong>completamente gratuito</strong> y el completo cuesta exactamente la <strong>Tasa 4.1 fijada por ley (8,67 €)</strong>. No pagues de más a intermediarios comerciales.
+        </p>
+      </div>
+
+      <!-- Step-by-Step on Sede DGT -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Pasos para solicitar informe de vehículo tráfico en la Sede Electrónica de la DGT
+        </h2>
+        <ol class="list-decimal list-inside space-y-3 bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm">
+          <li>
+            <strong>Acceso a la Sede DGT:</strong> Entra en <em>sede.dgt.gob.es</em> y navega a la sección <em>Vehículos &rarr; Informe de un vehículo</em>.
+          </li>
+          <li>
+            <strong>Autenticación con Certificado Digital o DNIe:</strong> Selecciona el acceso telemático con tu certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a>. Si tienes tu certificado en el ordenador pero deseas consultarlo desde tu teléfono, revisa cómo <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital en archivo .p12</a>.
+          </li>
+          <li>
+            <strong>Introducción de Matrícula o Bastidor (VIN):</strong> Escribe la matrícula del coche o moto que deseas auditar.
+          </li>
+          <li>
+            <strong>Descarga del documento PDF:</strong> Para el informe reducido obtendrás el informe en pantalla de forma instantánea. Para el informe completo, abona la <strong>Tasa 4.1 (8,67 €)</strong> en la pasarela segura y descarga el PDF oficial timbrado con Código Seguro de Verificación (CSV).
+          </li>
+        </ol>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar el Informe de Vehículo como Anexo al Contrato de Compraventa
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Para que conste fehacientemente que el comprador conocía el estado técnico y las cargas del coche en el momento de la venta, ambas partes pueden firmar digitalmente el PDF del informe como anexo a la compraventa <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Informe de Vehículo DGT o Documento Anexo PDF"
+          subtitle="Firma PAdES-B-B con sello visual administrativo · 100% privado en tu memoria RAM local."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- Validation & Verification -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Comprobación de autenticidad y firma conjunta de compraventas
+        </h2>
+        <p>
+          Si un vendedor particular o concesionario te entrega un informe de Tráfico en formato PDF y quieres asegurarte de que no ha sido editado con programas de diseño gráfico para ocultar embargos o kilometraje real, cárgalo en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas digitales PDF</a> para comprobar la integridad del sello de la DGT. Una vez comprobado, formaliza la transferencia utilizando nuestra herramienta de <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirma de contratos de compraventa con dos firmas digitales</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Informe de Vehículo de la DGT
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

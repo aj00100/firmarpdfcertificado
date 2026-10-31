@@ -90,17 +90,37 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 7: Plataforma Mercurio Extranjería (>1,000/mo x2) & Becas MEC (>10,000/mo — Easy KD)
+  // UNCOMMENT DAY 7: Plataforma Mercurio Extranjería (>1,000/mo x2), Oposiciones (>100/mo) & Becas MEC (>10,000/mo — Easy KD)
   /*
   {
-    slug: 'como-firmar-subir-documentos-plataforma-mercurio-y-becas-mec',
-    title: 'Cómo Firmar y Subir Documentos PDF en Plataforma Mercurio (Extranjería) y Becas MEC',
+    slug: 'como-firmar-subir-documentos-plataforma-mercurio-extranjeria',
+    title: 'Cómo Firmar Solicitudes EX y Subir Documentos en PDF a la Plataforma Mercurio de Extranjería',
     description:
-      'Guía práctica para renovar el NIE o presentar expedientes en la Plataforma Mercurio de Extranjería y firmar solicitudes de Becas MEC e inscripción en Oposiciones sin fallos de Java.',
-    category: 'Extranjería, Educación y Oposiciones',
+      'Guía paso a paso para acceder a la Plataforma Mercurio, renovar el NIE o solicitar arraigo, solucionar bloqueos de AutoFirma y pre-firmar formularios EX y tasas en PDF.',
+    category: 'Extranjería y Residencia',
     readTime: '7 min de lectura',
     updatedDate: '2 de noviembre de 2026',
     badgeColor: 'emerald',
+  },
+  {
+    slug: 'como-firmar-inscripcion-oposiciones-con-certificado-digital',
+    title: 'Cómo Firmar la Inscripción a Oposiciones del Estado, Comunidades y Correos con Certificado Digital',
+    description:
+      'Aprende a realizar la inscripción a oposiciones del Estado (IPS Modelo 790), Correos, Justicia y Comunidades Autónomas con certificado digital y cómo firmar tus méritos en PDF.',
+    category: 'Empleo Público y Oposiciones',
+    readTime: '7 min de lectura',
+    updatedDate: '2 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  {
+    slug: 'como-firmar-solicitud-becas-mec-con-certificado-digital',
+    title: 'Cómo Solicitar y Firmar la Beca MEC 2026/2027 en la Sede del Ministerio de Educación con Certificado Digital',
+    description:
+      'Guía completa sobre las Becas MEC 2026/2027 del Ministerio de Educación: plazos, requisitos de renta, resolución y cómo cofirmar autorizaciones familiares y contratos de alquiler en PDF.',
+    category: 'Educación y Becas MEC',
+    readTime: '7 min de lectura',
+    updatedDate: '2 de noviembre de 2026',
+    badgeColor: 'indigo',
   },
   */
 
@@ -149,14 +169,34 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   // UNCOMMENT DAY 11: Vida Laboral (>100K/mo), Renta 2026 (>10,000/mo) & Certificado Retenciones (>1,000/mo — All Easy KD)
   /*
   {
-    slug: 'descargar-firmar-vida-laboral-borrador-renta-certificado-retenciones',
-    title: 'Descargar Vida Laboral, Borrador de la Renta 2026 y Certificado de Retenciones IRPF con Certificado Digital',
+    slug: 'descargar-firmar-vida-laboral-con-certificado-digital',
+    title: 'Cómo Descargar y Firmar el Informe de Vida Laboral con Certificado Digital',
     description:
-      'Cómo obtener tu informe de Vida Laboral al segundo en Import@ss, consultar el borrador de la Declaración de la Renta 2026 y firmar tu certificado de retenciones en PDF.',
-    category: 'Seguridad Social y Hacienda',
+      'Guía oficial para descargar tu informe de Vida Laboral gratis en PDF en Import@ss con certificado digital FNMT o DNIe en 30 segundos, verificar su CEA y firmarlo.',
+    category: 'Seguridad Social e Import@ss',
+    readTime: '7 min de lectura',
+    updatedDate: '6 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  {
+    slug: 'como-firmar-borrador-declaracion-renta-pdf',
+    title: 'Cómo Confirmar y Firmar el Borrador de la Declaración de la Renta 2026 en PDF',
+    description:
+      'Aprende a consultar, revisar y firmar el borrador de la Renta 2026 en Renta WEB con certificado digital FNMT o DNIe, descargar el Modelo 100 en PDF y cofirmar autorizaciones.',
+    category: 'Agencia Tributaria y Renta',
     readTime: '7 min de lectura',
     updatedDate: '6 de noviembre de 2026',
     badgeColor: 'amber',
+  },
+  {
+    slug: 'como-descargar-certificado-retenciones-irpf',
+    title: 'Certificado de Retenciones IRPF: Cómo Descargarlo o Firmarlo para tus Empleados',
+    description:
+      'Guía completa sobre el Certificado de Retenciones e Ingresos a Cuenta del IRPF (Art. 108 RIRPF). Cómo descargarlo con certificado digital y cómo firmarlo en PDF para empresas.',
+    category: 'Fiscalidad e IRPF',
+    readTime: '7 min de lectura',
+    updatedDate: '6 de noviembre de 2026',
+    badgeColor: 'indigo',
   },
   */
 
@@ -177,14 +217,24 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   // UNCOMMENT DAY 13: Baja Paternidad/Maternidad (>1,000/mo) & Ingreso Mínimo Vital (>100K/mo — Easy KD)
   /*
   {
-    slug: 'como-solicitar-baja-paternidad-e-ingreso-minimo-vital',
-    title: 'Cómo Solicitar la Baja por Paternidad/Maternidad e Ingreso Mínimo Vital con Certificado Digital',
+    slug: 'como-solicitar-ingreso-minimo-vital-con-certificado-digital',
+    title: 'Cómo Solicitar el Ingreso Mínimo Vital 2026 Online con Certificado Digital (Sin Cita)',
     description:
-      'Pasos en la Sede de la Seguridad Social (Import@ss) para tramitar los 16 semanas de prestación por nacimiento de hijo y solicitar el Ingreso Mínimo Vital (IMV) adjuntando PDFs firmados.',
+      'Guía paso a paso para solicitar el Ingreso Mínimo Vital (IMV) 2026 en la Sede de la Seguridad Social con certificado digital. Requisitos, tabla y firma de formularios en PDF.',
     category: 'Seguridad Social y Prestaciones',
     readTime: '7 min de lectura',
     updatedDate: '8 de noviembre de 2026',
     badgeColor: 'emerald',
+  },
+  {
+    slug: 'como-solicitar-baja-paternidad-maternidad-con-certificado-digital',
+    title: 'Cómo Solicitar la Baja de Paternidad y Maternidad 2026 Online con Certificado Digital',
+    description:
+      'Guía completa para tramitar la prestación por nacimiento y cuidado de menor 2026 en Tu Seguridad Social con certificado digital. Reglas para autónomos y firma de acuerdos en PDF.',
+    category: 'Familia y Prestaciones',
+    readTime: '7 min de lectura',
+    updatedDate: '8 de noviembre de 2026',
+    badgeColor: 'blue',
   },
   */
 
@@ -205,14 +255,34 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   // UNCOMMENT DAY 15: DGT Duplicado Carnet (>1,000/mo Easy KD), Informe Vehículo & Compraventa Coche (>1,000/mo)
   /*
   {
-    slug: 'duplicado-carnet-conducir-informe-vehiculo-contrato-compraventa-dgt',
-    title: 'DGT Online: Duplicado Carnet de Conducir, Informe de Vehículo y Contrato de Compraventa en PDF',
+    slug: 'como-firmar-contrato-compraventa-vehiculo-dgt',
+    title: 'Cómo Firmar un Contrato de Compraventa de Coche o Moto con Certificado Digital (Cambio de Nombre DGT)',
     description:
-      'Cómo pedir un duplicado del permiso de conducir por pérdida o robo (Tasa 4.4), descargar el informe de vehículo gratis y firmar el contrato de compraventa de coche en PDF.',
+      'Guía paso a paso para firmar el contrato de compraventa de coche o moto con certificado digital, liquidar el ITP, abonar la Tasa 1.5 y tramitar el cambio de nombre en la DGT online.',
     category: 'Tráfico y Vehículos (DGT)',
     readTime: '7 min de lectura',
     updatedDate: '10 de noviembre de 2026',
     badgeColor: 'blue',
+  },
+  {
+    slug: 'como-solicitar-informe-vehiculo-dgt-con-certificado-digital',
+    title: 'Cómo Solicitar y Descargar el Informe de Vehículo de la DGT por Matrícula con Certificado Digital',
+    description:
+      'Guía oficial para solicitar el informe de vehículo por matrícula en la DGT con certificado digital. Diferencias entre el informe gratis y el completo (Tasa 4.1) y comprobación de embargos.',
+    category: 'Informes y Tráfico',
+    readTime: '7 min de lectura',
+    updatedDate: '10 de noviembre de 2026',
+    badgeColor: 'indigo',
+  },
+  {
+    slug: 'como-pedir-duplicado-carnet-conducir-dgt-online',
+    title: 'Cómo Pedir un Duplicado del Carnet de Conducir Online en la DGT (Por Pérdida, Robo o Deterioro)',
+    description:
+      'Aprende a pedir el duplicado del carnet de conducir online en la DGT por pérdida, robo o deterioro con certificado digital. Pago de la Tasa 4.4 y permiso provisional PDF inmediato.',
+    category: 'Permisos de Conducir DGT',
+    readTime: '7 min de lectura',
+    updatedDate: '10 de noviembre de 2026',
+    badgeColor: 'amber',
   },
   */
 

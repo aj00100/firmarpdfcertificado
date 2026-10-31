@@ -1,0 +1,183 @@
+---
+// blog-drafts/como-pedir-duplicado-carnet-conducir-dgt-online.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuánto cuesta la Tasa 4.4 para el duplicado del carnet de conducir en 2026?",
+    a: "El importe oficial fijado por la DGT para la Tasa 4.4 es de 20,81 € para solicitudes motivadas por pérdida, robo o deterioro físico del plástico. En caso de solicitar un duplicado por variación de datos personales (como cambio de nombre, apellidos o sexo legal), el trámite es completamente gratuito previa acreditación documental."
+  },
+  {
+    q: "¿Cómo puedo conducir inmediatamente tras pedir el duplicado online sin esperar el carnet físico?",
+    a: "Al completar la solicitud telemática en la Sede de la DGT con certificado digital, se genera de forma inmediata un documento oficial en PDF denominado 'Autorización Provisional para Conducir'. Este justificante tiene una validez legal de 3 meses para circular por todo el territorio nacional mientras la Fábrica Nacional de Moneda y Timbre (FNMT) imprime el carnet definitivo y Correos lo entrega en tu domicilio."
+  },
+  {
+    q: "¿Es obligatorio interponer denuncia en comisaría si solicito el duplicado por robo?",
+    a: "Sí, es altamente recomendable interponer denuncia previa ante la Policía Nacional o Guardia Civil en caso de sustracción o robo. Además de eximirte de responsabilidades ante un posible uso fraudulento de tu documento o suplantación de identidad, la DGT puede solicitar el número de diligencias policiales en caso de incidencias."
+  },
+  {
+    q: "¿Por qué firmar digitalmente declaraciones responsables o autorizaciones de representación en PDF?",
+    a: "Si un gestor administrativo tramita el duplicado en tu nombre, o si la DGT requiere adjuntar una declaración escrita de no estar privado del derecho a conducir por resolución judicial, debes firmar el documento en PDF con tu certificado digital. Con nuestra herramienta puedes estampar una firma PAdES-B-B en tu navegador en 3 segundos sin fallos de AutoFirma."
+  }
+];
+---
+
+<Layout
+  title="Cómo Solicitar el Duplicado del Carnet de Conducir DGT Online con Certificado Digital"
+  description="Aprende a pedir el duplicado del carnet de conducir online en la DGT por pérdida, robo o deterioro con certificado digital. Pago de la Tasa 4.4 y permiso provisional PDF inmediato."
+  canonicalPath="/blog/como-pedir-duplicado-carnet-conducir-dgt-online/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Duplicado Carnet de Conducir DGT</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>🪪</span> Dirección General de Tráfico · Trámites de Conductores
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Pedir un Duplicado del Carnet de Conducir Online en la DGT (Por Pérdida, Robo o Deterioro)
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Si has extraviado tu cartera, has sido víctima de un robo o tu permiso de conducción físico se ha deteriorado, no necesitas pedir cita previa en las colapsadas Jefaturas Provinciales de Tráfico. Descubre cómo <strong>solicitar el duplicado del carnet de conducir online en la DGT</strong> con certificado digital y descargar tu autorización provisional para conducir al instante.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Grounds for Duplicate Table -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Motivos para solicitar duplicado del carnet de conducir y tasas oficiales aplicables
+        </h2>
+        <p>
+          El trámite de <strong>duplicado del carnet de conducir</strong> presupone que tu permiso se encuentra en vigor y no está caducado (si está caducado, debes tramitar una renovación con test psicotécnico). Dependiendo del motivo, se aplican los siguientes requisitos:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3 font-bold">Causa del Duplicado</th>
+                <th class="p-3 font-bold text-blue-400">Tasa Oficial DGT</th>
+                <th class="p-3 font-bold">Documentación Requerida</th>
+                <th class="p-3 font-bold text-emerald-400">Permiso Provisional</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-medium">Extravío o Pérdida</td>
+                <td class="p-3 font-bold">Tasa 4.4 (20,81 €)</td>
+                <td class="p-3">Declaración jurada de pérdida</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Inmediato en PDF (3 meses)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Robo o Sustracción</td>
+                <td class="p-3 font-bold">Tasa 4.4 (20,81 €)</td>
+                <td class="p-3">Denuncia policial previa</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Inmediato en PDF (3 meses)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Deterioro del Plástico</td>
+                <td class="p-3 font-bold">Tasa 4.4 (20,81 €)</td>
+                <td class="p-3">Entrega del carnet roto en entrega postal</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Inmediato en PDF (3 meses)</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Cambio de datos de filiación</td>
+                <td class="p-3 text-emerald-600 font-bold">0,00 € (Exento)</td>
+                <td class="p-3">DNI con datos actualizados</td>
+                <td class="p-3 text-emerald-600 font-bold">✅ Inmediato en PDF (3 meses)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Step-by-Step on Sede DGT -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Pasos para tramitar el duplicado carnet de conducir inmediato en la Sede Electrónica DGT
+        </h2>
+        <p>
+          Completar la solicitud telemática con certificado digital requiere apenas 5 minutos siguiendo este procedimiento:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm">
+          <li>
+            <strong>Compra de la Tasa 4.4:</strong> Accede a la pasarela de pago de tasas de la DGT (<em>sede.dgt.gob.es &rarr; Pago de tasas</em>) y abona la <strong>Tasa 4.4 (20,81 €)</strong> mediante tarjeta de crédito o cuenta corriente bancaria. Guarda el justificante PDF con el código de tasa de 12 dígitos.
+          </li>
+          <li>
+            <strong>Acceso a la aplicación de duplicados:</strong> Entra en el servicio <em>"Duplicado de permisos de conducir"</em> e identifícate con tu certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a>. Si tienes tu certificado instalado en el navegador pero deseas tener una copia de seguridad en tu móvil, consulta cómo <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital FNMT en .p12 con clave privada</a>.
+          </li>
+          <li>
+            <strong>Confirmación de datos de envío:</strong> Selecciona el motivo del duplicado (pérdida, sustracción o deterioro) e introduce el número de la Tasa 4.4 adquirida. Verifica con especial cuidado la dirección postal de entrega donde Correos te enviará la tarjeta física en un plazo habitual de 15 a 30 días.
+          </li>
+          <li>
+            <strong>Descarga de la Autorización Provisional en PDF:</strong> Pulsa en confirmar y descarga de inmediato el justificante oficial con Código Seguro de Verificación (CSV). Puedes imprimirlo o llevarlo en formato digital en tu teléfono móvil para circular legalmente durante 3 meses por toda España.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar Declaraciones Responsables, Recursos o Autorizaciones DGT en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Si Tráfico te exige presentar un escrito de alegaciones, una declaración escrita de no privación judicial de conducir o vas a autorizar a un tercero, firma tu PDF con estándar criptográfico PAdES <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Documento Oficial o Declaración DGT en PDF"
+          subtitle="Sello visual con NIF, fecha y huella SHA-256 · 100% privado en tu memoria RAM local."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- Verification and Co-signing -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Verificación de documentos de Tráfico y trámites con representación
+        </h2>
+        <p>
+          Si un gestor o familiar tramita el duplicado en tu representación, podéis firmar conjuntamente la hoja de apoderamiento o mandato utilizando nuestra herramienta para <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirmar PDF con dos firmas digitales</a>. Asimismo, puedes comprobar que el permiso provisional o cualquier resolución emitida por la DGT en PDF es auténtica y no ha sido alterada cargándola en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas digitales PDF</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Duplicado del Permiso de Conducir DGT
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

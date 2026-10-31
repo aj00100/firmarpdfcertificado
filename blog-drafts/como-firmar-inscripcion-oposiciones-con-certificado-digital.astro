@@ -1,0 +1,188 @@
+---
+// blog-drafts/como-firmar-inscripcion-oposiciones-con-certificado-digital.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo inscribirse en las oposiciones del Estado a través de la plataforma IPS (Modelo 790)?",
+    a: "La inscripción en procesos selectivos de la Administración General del Estado (AGE) se realiza en el Punto de Acceso General (ips.redsara.es) mediante el Modelo 790 Código 001. Al identificarte con tu certificado digital FNMT o DNIe, el sistema rellena automáticamente tus datos personales, te permite seleccionar el cuerpo o escala y realizar el pago telemático de la tasa con bonificación por vía digital."
+  },
+  {
+    q: "¿Por qué AutoFirma falla el último día de plazo de presentación de solicitudes de oposiciones?",
+    a: "En las fechas límite de cierre de convocatorias masivas (como Administrativo del Estado, Auxilio Judicial o Correos), los servidores de pasarela de firma electrónica de la administración sufren picos extremos de concurrencia. Si AutoFirma se queda cargando en bucle o bloquea tu navegador, puedes firmar previamente tus documentos adjuntos (méritos, títulos y declaraciones) en nuestra herramienta web y adjuntarlos ya sellados con estándar PAdES-B-B."
+  },
+  {
+    q: "¿Cómo justificar la exención o bonificación del pago de tasas de examen en oposiciones?",
+    a: "Las personas en situación de desempleo (demandantes de empleo durante al menos un mes previo), personas con discapacidad reconocida igual o superior al 33%, miembros de familias numerosas de categoría especial y víctimas de terrorismo tienen derecho a exención total (o 50% en familia numerosa general). Es obligatorio adjuntar el certificado acreditativo en PDF firmado electrónicamente."
+  },
+  {
+    q: "¿Qué particularidades tiene la inscripción en oposiciones autonómicas (Andalucía, Galicia, Madrid)?",
+    a: "Las comunidades autónomas disponen de sus propios registros electrónicos (como la Ventanilla Electrónica de la Junta de Andalucía para docentes de Secundaria, Fides Xunta en Galicia o el portal de la Comunidad de Madrid). En todos ellos, el certificado digital de persona física FNMT es el estándar admitido para firmar instancias telemáticas."
+  }
+];
+---
+
+<Layout
+  title="Cómo Firmar la Inscripción a Oposiciones (IPS Modelo 790) con Certificado Digital"
+  description="Aprende a realizar la inscripción a oposiciones del Estado (IPS), Correos, Justicia y Comunidades Autónomas con certificado digital y cómo firmar tus anexos de méritos en PDF."
+  canonicalPath="/blog/como-firmar-inscripcion-oposiciones-con-certificado-digital/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Inscripción a Oposiciones Modelo 790</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>📝</span> Empleo Público · Punto de Acceso General (IPS) y Sedes Autonómicas
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Firmar la Inscripción a Oposiciones del Estado, Comunidades y Correos con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Cada año más de un millón de aspirantes participan en los procesos selectivos de empleo público en España. Conoce cómo tramitar la <strong>inscripción en oposiciones</strong> por vía telemática en la plataforma IPS (Modelo 790), cómo pagar las tasas con descuento digital y cómo <strong>firmar tus anexos de méritos y declaraciones juradas en PDF</strong> sin sufrir errores de AutoFirma en el día de cierre del plazo.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Official Platforms Table -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Plataformas oficiales para la inscripción en oposiciones por administración convocante
+        </h2>
+        <p>
+          Dependiendo del cuerpo funcionarial o entidad convocante, la solicitud se canaliza a través de portales telemáticos específicos:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3 font-bold">Convocatoria y Cuerpo</th>
+                <th class="p-3 font-bold text-blue-400">Plataforma Telemática Oficial</th>
+                <th class="p-3 font-bold">Modelo de Tasa</th>
+                <th class="p-3 font-bold text-emerald-400">Método de Firma</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-medium">Inscripción Oposiciones Administrativo del Estado (AGE)</td>
+                <td class="p-3">Punto de Acceso General (IPS - Red SARA)</td>
+                <td class="p-3 font-bold">Modelo 790 Código 001</td>
+                <td class="p-3 text-emerald-600 font-bold">Certificado FNMT / DNIe</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Inscripción Oposiciones Justicia (Tramitación / Auxilio)</td>
+                <td class="p-3">Sede Ministerio de Justicia (IPS)</td>
+                <td class="p-3 font-bold">Modelo 790 Código 002</td>
+                <td class="p-3 text-emerald-600 font-bold">Certificado FNMT / Cl@ve</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Inscripción Oposiciones Correos 2026</td>
+                <td class="p-3">Plataforma de Personas y Talento Correos</td>
+                <td class="p-3 font-bold">Pasarela de pago bancario Correos</td>
+                <td class="p-3 text-emerald-600 font-bold">Registro digital de usuario</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Inscripción Oposiciones Secundaria Andalucía 2026</td>
+                <td class="p-3">Ventanilla Electrónica de la Junta de Andalucía (VEA)</td>
+                <td class="p-3 font-bold">Modelo 046 Autonómico</td>
+                <td class="p-3 text-emerald-600 font-bold">Certificado FNMT / AutoFirma</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Inscripción Oposiciones Xunta de Galicia</td>
+                <td class="p-3">Portal de Función Pública (Fides Xunta)</td>
+                <td class="p-3 font-bold">Taxa Administrativa Xunta</td>
+                <td class="p-3 text-emerald-600 font-bold">Chave 365 / Certificado FNMT</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 2: Step-by-Step Submission -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Pasos para presentar la instancia oficial en el Punto de Acceso General (IPS)
+        </h2>
+        <ol class="list-decimal list-inside space-y-3 bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm">
+          <li>
+            <strong>Acceso a IPS:</strong> Entra en <em>ips.redsara.es</em> e identifícate con tu certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a>.
+          </li>
+          <li>
+            <strong>Selección de la convocatoria:</strong> Localiza el proceso selectivo en el buscador (por ejemplo, Gestión de la Administración Civil del Estado o Gestión Procesal) y pulsa en <em>"Inscribirse"</em>.
+          </li>
+          <li>
+            <strong>Cumplimentación telemática:</strong> El formulario cargará de forma automática tu nombre, NIF y dirección. Indica el título académico que da acceso a la oposición y las opciones de sede de examen.
+          </li>
+          <li>
+            <strong>Pago y Bonificación Digital:</strong> Al abonar la tasa de examen directamente online a través de la pasarela bancaria de IPS, la Agencia Tributaria aplica una bonificación del 10% sobre la tasa general.
+          </li>
+          <li>
+            <strong>Firma y Registro:</strong> Sella la solicitud telemática y descarga el PDF oficial con el Código Seguro de Verificación (CSV) que acredita la hora y minuto exactos de presentación en el Registro Electrónico General.
+          </li>
+        </ol>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar Autobaremos de Méritos, Declaraciones Juradas o Títulos en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Si el tribunal calificador exige adjuntar hojas de baremo de méritos, certificados de servicios prestados o declaraciones juradas de no inhabilitación firmadas en PDF, fírmalas con estándar oficial PAdES <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Anexo de Méritos, Instancia o Declaración de Oposiciones PDF"
+          subtitle="Sello administrativo oficial con NIF, fecha y huella SHA-256 · 100% privado en memoria RAM."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- Validation & Verification -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Comprobación de firmas en méritos y recursos ante listas de excluidos
+        </h2>
+        <p>
+          Si publican las listas provisionales de admitidos y excluidos y necesitas interponer un escrito de alegaciones o subsanación en PDF dentro del plazo perentorio de 10 días hábiles, firma tu recurso telemático con tu certificado digital para asegurar su admisión inmediata. Asimismo, puedes revisar que los certificados de cursos homologados o títulos escaneados mantienen su validez formal en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas PDF</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre la Inscripción en Oposiciones y Firma Digital
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

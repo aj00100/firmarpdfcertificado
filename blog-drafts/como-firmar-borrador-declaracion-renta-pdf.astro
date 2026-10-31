@@ -1,0 +1,158 @@
+---
+// blog-drafts/como-firmar-borrador-declaracion-renta-pdf.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cómo acceder al borrador de la Declaración de la Renta 2026 en Renta WEB con certificado digital?",
+    a: "Entra en la Sede Electrónica de la Agencia Tributaria (sede.agenciatributaria.gob.es) en el apartado 'Campaña de Renta 2026' y pulsa en 'Servicio tramitación de borrador / declaración (Renta WEB)'. Al identificarte con tu certificado digital FNMT o DNIe accedes al instante a todos tus datos fiscales sin necesidad de buscar la casilla 505 de la Renta del año anterior ni esperar códigos de referencia por SMS."
+  },
+  {
+    q: "¿Qué particularidades existen al tramitar la Renta en las haciendas forales de Bizkaia, Álava, Gipuzkoa o Navarra?",
+    a: "Los contribuyentes del País Vasco y Navarra tributan bajo sus propios regímenes forales (Hacienda Foral de Bizkaia con la plataforma BakQ / Renta Fácil, Álava, Gipuzkoa o Hacienda Foral de Navarra). En todos estos portales forales, el certificado digital FNMT y el DNIe son admitidos como métodos oficiales de firma electrónica para revisar las propuestas de autoliquidación y presentar alegaciones telemáticas."
+  },
+  {
+    q: "¿Cómo firmar una autorización o documento de representación para que una gestoría presente tu Renta?",
+    a: "Si un asesor fiscal o gestor administrativo tramita tu declaración, la normativa tributaria exige contar con un documento de autorización o apoderamiento expreso en PDF firmado por el contribuyente (y por el cónyuge si la declaración es conjunta). Utiliza nuestra herramienta para firmar o cofirmar el documento de representación en PDF con plena validez legal antes de enviarlo a tu gestor."
+  },
+  {
+    q: "¿Qué es el Código Seguro de Verificación (CSV) del Modelo 100 de la Renta y cómo validarlo?",
+    a: "Al presentar la Renta telemáticamente, la AEAT genera un justificante en PDF del Modelo 100 que incluye un CSV impreso en el lateral. Puedes validar la integridad de ese PDF o verificar si un documento de Renta que te ha entregado un inquilino o cliente es auténtico utilizando nuestro validador de firmas digitales PDF."
+  }
+];
+---
+
+<Layout
+  title="Cómo Confirmar y Firmar el Borrador de la Declaración de la Renta 2026 en PDF"
+  description="Aprende a consultar, revisar y firmar el borrador de la Renta 2026 en Renta WEB con certificado digital FNMT o DNIe, descargar el Modelo 100 en PDF y cofirmar autorizaciones."
+  canonicalPath="/blog/como-firmar-borrador-declaracion-renta-pdf/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Borrador Declaración de la Renta 2026</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>🏛️</span> Agencia Tributaria (AEAT) · Renta WEB 2026
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Descargar, Revisar y Firmar el Borrador de la Declaración de la Renta 2026 con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        La Campaña de la <strong>Declaración de la Renta 2026</strong> (correspondiente al ejercicio fiscal 2025) permite a millones de contribuyentes revisar su borrador en Renta WEB, incorporar deducciones autonómicas y confirmar la presentación telemática. Descubre cómo hacerlo con tu certificado digital y cómo firmar autorizaciones fiscales en PDF sin sufrir errores de AutoFirma.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Step-by-step Guide -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Pasos para acceder a Renta WEB y confirmar el borrador con Certificado Digital
+        </h2>
+        <p>
+          Utilizar tu certificado digital de la FNMT o tu DNI electrónico es la vía más rápida y segura para tramitar tu IRPF sin tener que recurrir a la casilla 505 ni solicitar números de referencia:
+        </p>
+
+        <ol class="list-decimal list-inside space-y-3 bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm">
+          <li>
+            <strong>Acceso a la Sede Electrónica:</strong> Entra en el portal de la Agencia Tributaria (<em>sede.agenciatributaria.gob.es</em>) y haz clic en el banner destacado de la <strong>Campaña de Renta 2026</strong>.
+          </li>
+          <li>
+            <strong>Identificación telemática:</strong> Pulsa en <em>"Servicio tramitación de borrador / declaración (Renta WEB)"</em> y elige la opción de <strong>Certificado electrónico o DNIe</strong>. Si necesitas exportar tu certificado para usarlo en otro navegador, consulta nuestra guía para <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital FNMT (.p12)</a>.
+          </li>
+          <li>
+            <strong>Revisión de datos fiscales:</strong> Comprueba la información personal y familiar (hijos, ascendientes a cargo, discapacidad), los rendimientos de trabajo, actividades económicas y, sobre todo, las <strong>deducciones autonómicas por alquiler de vivienda, maternidad o guardería</strong>, las cuales a menudo no vienen precalculadas por defecto.
+          </li>
+          <li>
+            <strong>Presentación y descarga del Modelo 100:</strong> Si el resultado es conforme (a devolver o a ingresar), pulsa en <em>"Presentar Declaración"</em>, firma digitalmente la autoliquidación y descarga el documento oficial en formato PDF con su correspondiente Código Seguro de Verificación (CSV).
+          </li>
+        </ol>
+      </div>
+
+      <!-- Foral Regimes (Bizkaia & Navarra) -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Particularidades en las Haciendas Forales: Bizkaia, Gipuzkoa, Álava y Navarra
+        </h2>
+        <p>
+          Si tienes tu residencia habitual en el País Vasco o la Comunidad Foral de Navarra, la gestión tributaria corresponde a las administraciones forales:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">Hacienda Foral de Bizkaia (Renta Fácil):</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Bizkaia remite propuestas digitales a través de su sede foral. Puedes acceder y modificar borradores con certificados FNMT reconocidos o con el sistema autonómico BakQ / Izenpe.
+            </p>
+          </div>
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">Hacienda Foral de Navarra:</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              El portal de Navarra ofrece el servicio de consulta de datos fiscales y presentación de la declaración de IRPF con certificado electrónico oficial, emitiendo el justificante sellado con CSV foral.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar Autorizaciones de Gestoría, Declaraciones Conjuntas o Recursos de Renta en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Si necesitas autorizar a tu asesor fiscal para presentar tu declaración, o si vas a remitir un escrito de alegaciones, rectificación de autoliquidación o recurso tributario en PDF a la AEAT, fírmalo con estándar oficial PAdES-B-B <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Documento Tributario o Autorización de Renta PDF"
+          subtitle="Añade tu firma electrónica PAdES con certificado digital FNMT o DNIe · 100% privado en memoria RAM."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- Joint Declarations & Co-signing -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Declaración conjunta y firma de ambos cónyuges
+        </h2>
+        <p>
+          En declaraciones conjuntas en las que se formalizan contratos privados de reparto de gastos, acuerdos de compensación o autorizaciones ante terceros (como arrendadores o entidades bancarias que exigen la firma de ambos titulares del Modelo 100), utiliza nuestra herramienta especializada para <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirmar PDF con dos firmas digitales</a>. Asimismo, puedes revisar cualquier documento tributario entregado por terceros en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas PDF</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre la Declaración de la Renta 2026 y Certificados Digitales
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

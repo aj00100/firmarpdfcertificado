@@ -1,0 +1,153 @@
+---
+// blog-drafts/como-firmar-subir-documentos-plataforma-mercurio-extranjeria.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Por qué la Plataforma Mercurio de Extranjería se queda bloqueada en el último paso al firmar?",
+    a: "La Plataforma Mercurio (Sede Electrónica de Administraciones Públicas) intenta invocar el cliente de firma local AutoFirma mediante una conexión websocket interna en el puerto 127.0.0.1. Si tu navegador (Chrome, Edge o Safari en Mac) bloquea la conexión local o si el archivo PDF supera los 6 MB de peso máximo, la plataforma lanza un error de conexión indefinido y aborta el registro. Firmar previamente los formularios EX y anexos en PDF en nuestro firmador te permite subirlos ya sellados y listos para validar."
+  },
+  {
+    q: "¿Cómo acceder a la Plataforma Mercurio para renovar el NIE o solicitar arraigo sin cita previa?",
+    a: "Entra en la Sede Electrónica del Ministerio de Política Territorial (sede.administracionespublicas.gob.es) en el apartado 'Procedimientos de Extranjería &rarr; Mercurio Solicitudes Iniciales y Renovaciones'. Puedes acceder como titular individual con tu certificado digital de persona física asociado a tu NIE/DNI, o como representante profesional (abogado o graduado social colegiado)."
+  },
+  {
+    q: "¿Qué modelos oficiales de Extranjería (Modelos EX) se pueden firmar en PDF?",
+    a: "Puedes firmar digitalmente cualquier formulario oficial del Ministerio: EX-00 (autorización de estancia), EX-10 (arraigo social, laboral, familiar o formación), EX-11 (residencia de larga duración), EX-15 (solicitud de NIE o certificados), y EX-17 (tarjeta de identidad de extranjero TIE), así como las tasas oficiales asociadas (Tasa 790 Código 052 y Código 012)."
+  },
+  {
+    q: "¿Cómo firmar el documento de designación de representante entre el extranjero y su abogado?",
+    a: "Si un gestor o letrado presenta la solicitud en Mercurio en nombre de un ciudadano extranjero, la Oficina de Extranjería exige adjuntar el documento de representación firmado por ambas partes. Utiliza nuestra herramienta de co-firma para estampar la firma del solicitante y la del representante en el mismo PDF con plena validez jurídica."
+  }
+];
+---
+
+<Layout
+  title="Cómo Firmar y Subir Documentos a la Plataforma Mercurio de Extranjería sin Errores"
+  description="Guía completa para acceder a la Plataforma Mercurio de Extranjería, renovar el NIE, solucionar errores de AutoFirma y firmar formularios EX y tasas en PDF."
+  canonicalPath="/blog/como-firmar-subir-documentos-plataforma-mercurio-extranjeria/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Plataforma Mercurio Extranjería</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>🌍</span> Ministerio de Política Territorial · Extranjería e Inmigración
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Firmar Solicitudes EX y Subir Documentos en PDF a la Plataforma Mercurio de Extranjería
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        La <strong>Plataforma Mercurio de Extranjería</strong> permite a los ciudadanos extranjeros renovar su NIE, solicitar arraigo o tramitar tarjetas de residencia sin tener que esperar meses para conseguir cita previa en comisaría. Aprende cómo acceder a la sede electrónica de la plataforma mercurio y cómo solucionar los bloqueos de firma digital en tus documentos PDF.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Access and Overview -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Cómo acceder a la Plataforma Mercurio para la renovación del NIE y solicitudes iniciales
+        </h2>
+        <p>
+          La sede electrónica de la <strong>Plataforma Mercurio</strong> es la vía telemática preferente del Ministerio para gestionar autorizaciones de residencia y trabajo:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-xs sm:text-sm">
+          <li><strong>Plataforma Mercurio Renovaciones:</strong> Permite solicitar la prórroga de autorizaciones de residencia temporal, renovaciones de NIE de larga duración o tarjetas de familiar de ciudadano de la UE dentro de los 60 días naturales previos a la caducidad (y hasta 90 días posteriores).</li>
+          <li><strong>Plataforma Mercurio Iniciales:</strong> Habilitada para solicitudes de arraigo social, laboral, familiar o para la formación, así como autorizaciones de estancia por estudios e investigación.</li>
+          <li><strong>Presentación Individual vs. Representante:</strong> Puedes identificarte con tu propio certificado digital FNMT o DNIe/NIE, o autorizar a un letrado colegiado que presente el expediente a través del Registro Electrónico con documento de designación firmado.</li>
+        </ul>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Si dispones de certificado digital pero necesitas exportarlo para trabajar desde otro equipo o móvil, consulta nuestra guía para <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital FNMT en .p12 con clave privada</a>.
+        </p>
+      </div>
+
+      <!-- Section 2: Troubleshooting "Plataforma Mercurio No Funciona" -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          ¿Qué hacer cuando la Plataforma Mercurio no funciona o falla al firmar?
+        </h2>
+        <p>
+          Miles de solicitantes se encuentran con el temido aviso <em>"Error de conexión con el cliente de firma"</em> o fallos de carga en el último paso del expediente. Las causas técnicas y sus soluciones son:
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 my-3">
+          <div class="p-5 bg-rose-50 border border-rose-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-rose-950 text-sm">Bloqueo de AutoFirma o socket local (SAF_45)</h3>
+            <p class="text-xs text-rose-900 leading-relaxed">
+              En ordenadores Mac y Windows 11, los navegadores y antivirus bloquean la llamada de Mercurio al puerto local 127.0.0.1. Revisa nuestra guía de <a href="/ayuda/error-saf-45/" class="text-rose-950 font-bold underline">solución al Error SAF_45 de AutoFirma</a> para desbloquear los permisos o firma tus documentos previamente en PDF en nuestra herramienta web.
+            </p>
+          </div>
+
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl space-y-2">
+            <h3 class="font-bold text-slate-900 text-sm">Límite de tamaño: Máximo 6 MB por archivo PDF</h3>
+            <p class="text-xs text-slate-600 leading-relaxed">
+              Mercurio rechaza automáticamente cualquier documento adjunto que supere los 6 MB de peso. Si escaneas pasaportes completos, contratos de trabajo o antecedentes penales apostillados en alta resolución, asegúrate de comprimirlos antes de firmar para que el registro electrónico los procese con éxito.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar Formularios EX, Tasas 790 y Anexos de Extranjería en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Firma digitalmente tus impresos de solicitud EX-00, EX-10, EX-11, contratos de trabajo o declaraciones juradas con estándar oficial PAdES <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Modelo EX de Extranjería o Tasa 790 en PDF"
+          subtitle="Sello visual con NIE, fecha y huella SHA-256 · 100% privado en memoria RAM local."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- Co-signing Representation Documents -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Firma bilateral de documentos de representación y contratos de trabajo
+        </h2>
+        <p>
+          En los expedientes de arraigo o reagrupación familiar, la Oficina de Extranjería exige aportar contratos de trabajo firmados por el empleador y el trabajador, o autorizaciones firmadas conjuntamente por los cónyuges. Utiliza nuestra herramienta de <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirma PDF con dos firmas digitales</a> para estampar ambas rúbricas criptográficas sin corromper la validez del documento. Asimismo, antes de adjuntar resoluciones o resoluciones de antecedentes, puedes auditar su autenticidad en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas PDF</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre la Plataforma Mercurio de Extranjería
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

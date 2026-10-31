@@ -1,0 +1,188 @@
+---
+// blog-drafts/como-firmar-solicitud-becas-mec-con-certificado-digital.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuáles son las fechas clave y el plazo de presentación de las Becas MEC 2026/2027?",
+    a: "El plazo de presentación de las Becas de Carácter General del Ministerio de Educación y Formación Profesional (MEFP) para el curso 2026/2027 se abre tradicionalmente a finales de marzo y concluye a mediados de mayo. Es fundamental presentar la solicitud dentro de ese plazo aunque aún no sepas qué estudios universitarios, máster o ciclo formativo de FP vas a cursar el próximo año."
+  },
+  {
+    q: "¿Cómo firmar las autorizaciones de los miembros computables de la unidad familiar en PDF?",
+    a: "Para que el Ministerio y la Agencia Tributaria puedan cruzar los datos de renta y patrimonio de la familia, todos los miembros mayores de 16 años computables del hogar deben prestar su consentimiento expreso. Cuando la sede educativa reclama aportar la hoja de firmas o autorización en PDF, podéis firmar conjuntamente el documento con certificado digital utilizando nuestra herramienta de co-firma."
+  },
+  {
+    q: "¿Qué hacer si la resolución de la Beca MEC viene denegada o con cuantía inferior a la esperada?",
+    a: "Tras la publicación de la resolución provisional o definitiva de la Beca MEC, el estudiante dispone de un plazo reglamentario de 10 días hábiles para presentar alegaciones telemáticas (o un mes para el recurso de reposición). Es imprescindible adjuntar un escrito de recurso en PDF firmado con certificado digital explicando los errores de cálculo patrimonial, situaciones sobrevenidas de desempleo o justificantes de residencia."
+  },
+  {
+    q: "¿Cómo firmar el contrato de alquiler de piso de estudiantes para justificar la cuantía fija de residencia?",
+    a: "Para percibir la cuantía fija ligada a la residencia del estudiante durante el curso (2.500 €), el Ministerio exige acreditar la necesidad de residir fuera del domicilio familiar mediante el contrato de arrendamiento en vigor. El estudiante y el arrendador (casero) pueden firmar digitalmente el contrato en PDF para que tenga plena validez probatoria ante la unidad de becas."
+  }
+];
+---
+
+<Layout
+  title="Becas MEC 2026/2027: Cómo Firmar la Solicitud y Alegaciones en PDF con Certificado Digital"
+  description="Guía completa sobre las Becas MEC 2026/2027 del Ministerio de Educación: plazos, requisitos de renta, resolución y cómo firmar alegaciones y contratos de alquiler en PDF."
+  canonicalPath="/blog/como-firmar-solicitud-becas-mec-con-certificado-digital/"
+>
+  <header class="py-10 bg-gradient-to-b from-blue-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Becas MEC 2026/2027</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 text-blue-900 rounded-full text-xs font-bold mb-3">
+        <span>🎓</span> Ministerio de Educación y Formación Profesional · Becas Generales
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Solicitar y Firmar la Beca MEC 2026/2027 en la Sede del Ministerio de Educación con Certificado Digital
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        Las <strong>Becas MEC 2026/2027</strong> constituyen la principal ayuda estatal para estudiantes de Grado Universitario, Máster Oficial, Bachillerato y Formación Profesional en España. Aprende cómo tramitar la solicitud telemática en la sede educativa, cuáles son los umbrales económicos de renta y cómo <strong>firmar autorizaciones familiares, contratos de alquiler y recursos de alegaciones en PDF</strong> con certificado digital.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Income Thresholds & Grant Amounts Table -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Requisitos y cuantías de las Becas MEC 2026/2027: Universidad y Estudios No Universitarios
+        </h2>
+        <p>
+          Las cuantías de las becas generales del Ministerio se componen de importes fijos y de una cuantía variable calculada en función de la nota media académica y la renta per cápita familiar:
+        </p>
+
+        <div class="overflow-x-auto border border-slate-200 rounded-xl my-4">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-900 text-white">
+              <tr>
+                <th class="p-3 font-bold">Componente de la Ayuda</th>
+                <th class="p-3 font-bold text-blue-400">Importe Económico</th>
+                <th class="p-3 font-bold">Requisitos Específicos</th>
+                <th class="p-3 font-bold text-emerald-400">Umbral de Renta</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 text-slate-700">
+              <tr>
+                <td class="p-3 font-medium">Beca de Matrícula (Universidad)</td>
+                <td class="p-3 font-bold">100% de los créditos matriculados</td>
+                <td class="p-3">Créditos de primera matrícula</td>
+                <td class="p-3 text-emerald-600 font-bold">Umbral 3</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Cuantía fija ligada a la Renta</td>
+                <td class="p-3 font-bold">1.700,00 €</td>
+                <td class="p-3">Hogares con ingresos más bajos</td>
+                <td class="p-3 text-emerald-600 font-bold">Umbral 1</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Cuantía fija ligada a la Residencia</td>
+                <td class="p-3 font-bold">2.500,00 €</td>
+                <td class="p-3">Acreditar contrato de alquiler de piso</td>
+                <td class="p-3 text-emerald-600 font-bold">Umbrales 1 y 2</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Cuantía fija ligada a la Excelencia</td>
+                <td class="p-3 font-bold">50,00 € a 125,00 €</td>
+                <td class="p-3">Nota media a partir de 8,00 puntos</td>
+                <td class="p-3 text-emerald-600 font-bold">Umbral 3</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-medium">Cuantía Variable Ponderada</td>
+                <td class="p-3 font-bold">Mínimo 60,00 € (Media 600€–1.200€)</td>
+                <td class="p-3">Fórmula algorítmica de nota y renta</td>
+                <td class="p-3 text-emerald-600 font-bold">Umbrales 1 y 2</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Section 2: Step-by-Step on Sede Educacion -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Pasos para solicitar la Beca MEC en la Sede Electrónica del Ministerio de Educación
+        </h2>
+        <ol class="list-decimal list-inside space-y-3 bg-slate-50 p-6 rounded-xl border border-slate-200 text-sm">
+          <li>
+            <strong>Acceso a la Sede Electrónica:</strong> Entra en <em>sede.educacion.gob.es &rarr; Trámites y Servicios &rarr; Becas Generales de Educación</em>.
+          </li>
+          <li>
+            <strong>Identificación con Certificado Digital o DNIe:</strong> Accede con el certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a> del estudiante (o de los padres si el alumno es menor de 14 años). Si necesitas tener el certificado listo en tu ordenador o portátil, consulta cómo <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">exportar tu certificado digital FNMT (.p12)</a>.
+          </li>
+          <li>
+            <strong>Datos de la Unidad Familiar y Domicilio:</strong> Declara a todos los miembros que conviven en el hogar familiar a 31 de diciembre del año anterior, indicando su DNI/NIE y grado de parentesco.
+          </li>
+          <li>
+            <strong>Acreditación de Residencia para Universitarios:</strong> Si estudias fuera de tu ciudad natal, adjunta los datos del contrato de arrendamiento o residencia universitaria para optar a los 2.500 € de la cuantía de residencia.
+          </li>
+          <li>
+            <strong>Firma y Registro telemático:</strong> Sella la solicitud y descarga el resguardo oficial en PDF timbrado con Código Seguro de Verificación (CSV).
+          </li>
+        </ol>
+      </div>
+
+      <!-- Embedded Signing Studio -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar Alegaciones, Recursos o Autorizaciones Familiares de Becas MEC en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          Si la unidad de becas te notifica un requerimiento de subsanación o una resolución denegatoria y necesitas interponer un recurso de reposición en PDF firmado electrónicamente, hazlo en 3 segundos <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Recurso o Escrito de Alegaciones de Beca MEC PDF"
+          subtitle="Sello visual administrativo con NIF, fecha y huella SHA-256 · 100% privado en memoria RAM."
+          showStampCustomizer={true}
+        />
+      </div>
+
+      <!-- Co-signing for Family Members & Rental Contracts -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Cofirma de autorizaciones familiares y contratos de alquiler de estudiantes
+        </h2>
+        <p>
+          En los expedientes donde la unidad de becas exige la firma del sustentador principal y de los demás miembros computables del hogar sobre la hoja de autorización de consulta tributaria, o cuando el contrato de alquiler de piso compartido debe ser rubricado por varios compañeros de piso y el casero, utiliza nuestra herramienta de <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirma PDF con dos firmas digitales</a>. Asimismo, puedes revisar que los certificados universitarios o justificantes de matrícula en PDF son auténticos e íntegros en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firmas digitales PDF</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre las Becas MEC 2026/2027 y Firma Digital
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>

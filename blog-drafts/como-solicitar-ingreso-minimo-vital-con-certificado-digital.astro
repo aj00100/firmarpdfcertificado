@@ -1,0 +1,145 @@
+---
+// blog-drafts/como-solicitar-ingreso-minimo-vital-con-certificado-digital.astro
+import Layout from '../../layouts/Layout.astro';
+import SigningStudio from '../../components/SigningStudio.astro';
+
+const faqs = [
+  {
+    q: "¿Cuáles son los requisitos de ingresos y patrimonio para solicitar el Ingreso Mínimo Vital en 2026?",
+    a: "Para tener derecho al IMV en 2026, los ingresos computables del ejercicio anterior deben situarse por debajo de la renta garantizada para tu tipo de hogar (que oscila entre más de 600€ al mes para un beneficiario individual y más de 1.400€ mensuales para unidades de convivencia con varios menores o personas con discapacidad). Asimismo, el patrimonio neto no puede superar los umbrales fijados por la Ley 19/2021, excluida la vivienda habitual."
+  },
+  {
+    q: "¿Qué ventaja tiene tramitar el IMV con certificado digital frente al formulario web sin certificado?",
+    a: "La solicitud con certificado digital o DNIe se registra de forma inmediata en el Registro Electrónico de la Seguridad Social con acuse de recibo oficial y número de expediente asignado en el acto. En cambio, las solicitudes enviadas a través del formulario sin identificación electrónica sufren retrasos de meses por revisiones manuales de identidad o rechazos por falta de acreditación."
+  },
+  {
+    q: "¿Cómo deben firmar la solicitud y la declaración responsable todos los adultos del hogar?",
+    a: "La normativa del IMV exige que todos los miembros mayores de edad que integren la unidad de convivencia firmen la declaración jurada de ingresos y el consentimiento expreso de cesión de datos tributarios. Con nuestra herramienta de co-firma podéis estampar las firmas digitales de todos los miembros del hogar sobre el mismo documento PDF antes de adjuntarlo."
+  },
+  {
+    q: "¿Qué documentación en PDF es obligatorio adjuntar al expediente telemático del IMV?",
+    a: "Debes adjuntar el DNI/NIE de todos los integrantes, el libro de familia o certificados de nacimiento del Registro Civil, el certificado de empadronamiento histórico y colectivo que demuestre al menos 6 meses de residencia continuada en el mismo domicilio, y el modelo oficial de solicitud cumplimentado y firmado."
+  }
+];
+---
+
+<Layout
+  title="Cómo Solicitar el Ingreso Mínimo Vital 2026 Online con Certificado Digital (Sin Cita)"
+  description="Guía paso a paso para solicitar el Ingreso Mínimo Vital (IMV) 2026 en la Sede de la Seguridad Social con certificado digital. Requisitos, tabla y firma de formularios en PDF."
+  canonicalPath="/blog/como-solicitar-ingreso-minimo-vital-con-certificado-digital/"
+>
+  <header class="py-10 bg-gradient-to-b from-emerald-50/70 to-white border-b border-slate-200">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <nav class="text-xs text-slate-500 mb-4 flex items-center gap-2">
+        <a href="/" class="hover:text-blue-600">Inicio</a>
+        <span>/</span>
+        <a href="/blog/" class="hover:text-blue-600">Blog</a>
+        <span>/</span>
+        <span class="text-slate-800 font-semibold">Ingreso Mínimo Vital (IMV) 2026</span>
+      </nav>
+
+      <div class="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 text-emerald-900 rounded-full text-xs font-bold mb-3">
+        <span>🛡️</span> Seguridad Social (INSS) · Prestaciones No Contributivas
+      </div>
+
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
+        Cómo Solicitar el Ingreso Mínimo Vital (IMV) 2026 con Certificado Digital Paso a Paso
+      </h1>
+
+      <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
+        El <strong>Ingreso Mínimo Vital (IMV)</strong> es la prestación estructural de la Seguridad Social destinada a prevenir el riesgo de pobreza y garantizar unos ingresos mínimos a hogares y personas en situación de vulnerabilidad económica. Descubre cómo solicitarlo online sin esperar meses de cita previa presencial y cómo firmar los formularios requeridos.
+      </p>
+    </div>
+  </header>
+
+  <article class="py-10 bg-white">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Section 1: Skip Appointment -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Evita las listas de espera del INSS: Ventajas de la solicitud con Certificado Digital
+        </h2>
+        <p>
+          Conseguir una cita previa presencial en los Centros de Atención e Información de la Seguridad Social (CAISS) puede demorarse semanas o meses en las principales provincias españolas. Presentar la solicitud a través de la <strong>Sede Electrónica del INSS con tu certificado digital FNMT o <a href="/firmar-pdf-con-dnie/" class="text-blue-600 font-bold underline">DNI electrónico</a></strong> ofrece ventajas determinantes:
+        </p>
+        <ul class="list-disc pl-6 space-y-2 text-xs sm:text-sm">
+          <li><strong>Registro telemático inmediato:</strong> Queda acreditada fehacientemente la fecha de presentación, lo cual fija la fecha de efectos económicos de la prestación si es aprobada.</li>
+          <li><strong>Consulta de estado del expediente:</strong> Puedes consultar en cualquier momento si tu solicitud está en trámite, aprobada o si el INSS ha emitido algún requerimiento de documentación subsanable.</li>
+          <li><strong>Cero desplazamientos:</strong> Se tramita desde casa a cualquier hora del día desde un ordenador o dispositivo móvil.</li>
+        </ul>
+        <p class="text-xs sm:text-sm text-slate-600">
+          Si tu certificado digital está instalado en tu ordenador y quieres tener una copia de respaldo para tramitar desde otros equipos, consulta nuestra guía sobre <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-600 font-bold underline">cómo exportar tu certificado digital FNMT en archivo .p12</a>.
+        </p>
+      </div>
+
+      <!-- Section 2: Requirements & Table 2026 -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Requisitos y Cuantías de la Tabla del Ingreso Mínimo Vital 2026
+        </h2>
+        <p>
+          Para acceder al IMV se evalúa la situación de la <strong>unidad de convivencia</strong> (personas que residen en el mismo domicilio unidas por matrimonio, pareja de hecho o parentesco hasta segundo grado):
+        </p>
+        <div class="bg-slate-50 p-6 rounded-xl border border-slate-200 space-y-3">
+          <h3 class="text-sm font-bold text-slate-900">Condiciones básicas de concesión:</h3>
+          <ul class="list-disc pl-5 text-xs sm:text-sm text-slate-600 space-y-1.5">
+            <li>Tener al menos 23 años (o 18 años si se tienen menores a cargo o se procede de tutela pública).</li>
+            <li>Residencia legal y continuada en España durante al menos el año inmediatamente anterior a la solicitud.</li>
+            <li>Haber solicitado previamente todas las pensiones y prestaciones contributivas a las que se pudiera tener derecho (excepto salarios sociales autonómicos).</li>
+            <li>Superar la prueba de vulnerabilidad económica (ingresos del año anterior por debajo del umbral garantizado).</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Embedded Signing Studio for Household Signatures -->
+      <div class="py-2">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
+          Firmar la Declaración Responsable y Formularios del IMV en PDF
+        </h2>
+        <p class="text-xs sm:text-sm text-slate-600 mb-4">
+          El Instituto Nacional de la Seguridad Social exige que los formularios oficiales de solicitud del IMV y las declaraciones responsables lleven la firma formal de los solicitantes. Fírmalos con total seguridad <a href="/firmar-pdf-sin-autofirma/" class="text-blue-600 font-bold underline">sin instalar AutoFirma</a>:
+        </p>
+
+        <SigningStudio
+          title="Firmar Solicitud del Ingreso Mínimo Vital (IMV) en PDF"
+          subtitle="Firma digital criptográfica avanzada PAdES-B-B · Proceso 100% privado en tu memoria RAM."
+        />
+      </div>
+
+      <!-- Co-signing for Multiple Household Adults -->
+      <div class="space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Cómo cofirmar la solicitud si hay varios adultos en la vivienda
+        </h2>
+        <p>
+          Uno de los motivos de requerimiento más frecuentes en el IMV es la ausencia de la firma de alguno de los adultos que residen en el hogar. Cuando el formulario en PDF deba ser firmado sucesivamente por el solicitante principal y por su cónyuge o familiares convivientes, utiliza nuestra herramienta para <a href="/cofirmar-pdf-dos-firmas/" class="text-blue-600 font-bold underline">cofirmar PDF con dos o más firmas digitales</a>. Esto garantiza que la primera firma electrónica no resulte invalidada. Si necesitas comprobar que todas las firmas han quedado estampadas correctamente antes de subir el archivo al INSS, revísalo en nuestro <a href="/validar-firma-digital-pdf/" class="text-blue-600 font-bold underline">validador de firma digital PDF</a>.
+        </p>
+      </div>
+
+      <!-- FAQs Section -->
+      <div class="pt-6 border-t border-slate-200 space-y-4">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Preguntas Frecuentes sobre el Ingreso Mínimo Vital 2026
+        </h2>
+        {faqs.map((f) => (
+          <div class="p-5 bg-slate-50 border border-slate-200 rounded-xl">
+            <h3 class="text-base font-bold text-slate-900">{f.q}</h3>
+            <p class="text-xs sm:text-sm text-slate-600 mt-2 leading-relaxed">{f.a}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": faqs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": { "@type": "Answer", "text": f.a }
+    }))
+  })} />
+</Layout>
