@@ -31,3 +31,7 @@ generate_codebase_dump.mjs
 # Test verification directory & test certificates/binaries
 test-verification/
 
+# Internal operational roadmaps & todos (NEVER push to remote repo)
+TODO*.md
+*.todo
+
