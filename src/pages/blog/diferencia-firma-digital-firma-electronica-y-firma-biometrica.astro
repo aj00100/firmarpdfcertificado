@@ -97,14 +97,14 @@ const faqs = [
           Por qué solo la Firma Digital con Certificado Cualificado garantiza la integridad del PDF
         </h2>
         <p>
-          Cuando utilizas nuestra herramienta para <a href="/" class="text-blue-600 font-bold underline">firmar un PDF con certificado digital online</a>, no solo se estampa un sello visual con tu nombre y NIF: el motor criptográfico genera un resumen matemático único (hash SHA-256) de todo el contenido del documento y lo cifra con tu clave privada.
+          Cuando utilizas nuestra <a href="/firmar-pdf-sin-autofirma/" class="text-blue-700 hover:text-blue-900 font-semibold underline">herramienta online para firmar PDF con certificado digital cualificado (PAdES)</a>, no solo se estampa un sello visual con tu nombre y NIF: el motor criptográfico genera un resumen matemático único (hash SHA-256) de todo el contenido del documento y lo cifra con tu clave privada.
         </p>
         <p>
           Esto garantiza dos propiedades legales que ninguna imagen ni firma biométrica básica puede ofrecer sin terceros de confianza:
         </p>
         <ul class="list-disc pl-6 space-y-2 text-xs sm:text-sm">
           <li><strong>No repudio de origen:</strong> Como el certificado ha sido emitido tras verificar presencialmente tu DNI ante una Autoridad de Certificación oficial (FNMT-RCM), ninguna parte puede negar la autoría de la firma.</li>
-          <li><strong>Detección inmediata de alteraciones:</strong> Si alguien modifica una sola coma o cifra del contrato PDF un minuto después de haberlo firmado, el hash SHA-256 deja de coincidir y cualquier lector muestra una alerta roja de documento modificado.</li>
+          <li><strong>Detección inmediata de alteraciones:</strong> Si alguien modifica una sola coma o cifra del contrato PDF un minuto después de haberlo firmado, el hash SHA-256 deja de coincidir y puedes usar nuestro verificador para <a href="/validar-firma-digital-pdf/" class="text-blue-700 hover:text-blue-900 font-semibold underline">validar si una firma digital en PDF cumple con la criptografía eIDAS</a>.</li>
         </ul>
       </div>
 
@@ -138,6 +138,29 @@ const faqs = [
 
     </div>
   </article>
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "Diferencia entre Firma Digital, Firma Electrónica y Firma Biométrica en España (Validez Legal eIDAS)",
+    "description": "Guía jurídica sobre qué diferencia una firma simple o biométrica de una firma digital cualificada PAdES con certificado FNMT según el Reglamento eIDAS.",
+    "datePublished": "2026-11-05",
+    "dateModified": "2026-11-05",
+    "author": {
+      "@type": "Organization",
+      "name": "FirmarPDFCertificado",
+      "url": "https://firmarpdfcertificado.com/"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "FirmarPDFCertificado",
+      "url": "https://firmarpdfcertificado.com/"
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://firmarpdfcertificado.com/blog/diferencia-firma-digital-firma-electronica-y-firma-biometrica/"
+    }
+  })} />
 
   <script type="application/ld+json" set:html={JSON.stringify({
     "@context": "https://schema.org",

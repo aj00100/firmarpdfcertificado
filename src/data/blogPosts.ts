@@ -76,8 +76,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 6: Regional AutoFirma Bypass (Junta de Andalucía >1,000/mo, GVA, Madrid — Easy KD)
-  /*
+  // WAVE 1 (5 Nov 2026): Regional AutoFirma Bypass (Junta de Andalucía >1,000/mo, GVA, Madrid — Easy KD)
   {
     slug: 'solucion-autofirma-junta-de-andalucia-gva-madrid',
     title: 'Solución a Errores de AutoFirma en Junta de Andalucía, GVA y Comunidad de Madrid (2026)',
@@ -85,10 +84,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       '¿AutoFirma no te deja firmar en la Ventanilla Electrónica de la Junta de Andalucía (VEA), Generalitat Valenciana o Madrid? Aprende cómo solucionarlo o presentar tu PDF ya firmado.',
     category: 'Sedes Autonómicas y AutoFirma',
     readTime: '6 min de lectura',
-    updatedDate: '1 de noviembre de 2026',
+    updatedDate: '5 de noviembre de 2026',
     badgeColor: 'blue',
   },
-  */
 
   // UNCOMMENT DAY 7: Plataforma Mercurio Extranjería (>1,000/mo x2), Oposiciones (>100/mo) & Becas MEC (>10,000/mo — Easy KD)
   /*
@@ -286,8 +284,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 16: Regional CAs: idCAT Mòbil (>1,000/mo Easy KD), Chave 365 (>1,000/mo Easy KD), ACCV & Izenpe
-  /*
+  // WAVE 1 (5 Nov 2026): Regional CAs: idCAT Mòbil (>1,000/mo Easy KD), Chave 365 (>1,000/mo Easy KD), ACCV & Izenpe
   {
     slug: 'certificados-digitales-regionales-idcat-mobil-chave-365-accv-izenpe',
     title: 'Certificados Digitales Autonómicos: idCAT Mòbil, Chave 365, ACCV e Izenpe vs. FNMT',
@@ -295,10 +292,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía comparativa entre los sistemas de identificación autonómicos (Cataluña, Galicia, Valencia y País Vasco) y cómo firmar documentos PDF con validez en toda España.',
     category: 'Certificados Autonómicos',
     readTime: '7 min de lectura',
-    updatedDate: '11 de noviembre de 2026',
+    updatedDate: '5 de noviembre de 2026',
     badgeColor: 'emerald',
   },
-  */
 
   // UNCOMMENT DAY 17: Camerfirma (>1,000/mo Easy KD), Representante Persona Jurídica & Apoderamiento AEAT
   /*
@@ -314,8 +310,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 18: Notificaciones Electrónicas DEHú (>100/mo x5) & Código Seguro de Verificación CSV (>100/mo x2 — Easy KD)
-  /*
+  // WAVE 1 (5 Nov 2026): Notificaciones Electrónicas DEHú & CSV
   {
     slug: 'como-verificar-codigo-seguro-verificacion-csv-notificaciones-dehu',
     title: 'Notificaciones Electrónicas DEHú y Código Seguro de Verificación (CSV): Cómo Comprobar un PDF Oficial',
@@ -323,13 +318,11 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Cómo abrir notificaciones electrónicas obligatorias en DEHú (AEAT, Seguridad Social y DGT) y verificar la autenticidad de cualquier documento PDF con Código Seguro de Verificación (CSV).',
     category: 'Verificación y Notificaciones DEHú',
     readTime: '6 min de lectura',
-    updatedDate: '13 de noviembre de 2026',
+    updatedDate: '5 de noviembre de 2026',
     badgeColor: 'blue',
   },
-  */
 
-  // UNCOMMENT DAY 19: Firma Digital vs. Firma Electrónica (>1,000/mo) vs. Firma Biométrica (>100/mo — Easy KD)
-  /*
+  // WAVE 1 (5 Nov 2026): Firma Digital vs. Firma Electrónica vs. Biométrica
   {
     slug: 'diferencia-firma-digital-firma-electronica-y-firma-biometrica',
     title: 'Diferencia entre Firma Digital, Firma Electrónica y Firma Biométrica en España (Validez Legal eIDAS)',
@@ -337,13 +330,11 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía jurídica sobre qué diferencia una firma simple o biométrica en tablet de una firma digital cualificada PAdES con certificado FNMT según el Reglamento eIDAS y la Ley 6/2020.',
     category: 'Marco Legal eIDAS',
     readTime: '7 min de lectura',
-    updatedDate: '14 de noviembre de 2026',
+    updatedDate: '5 de noviembre de 2026',
     badgeColor: 'indigo',
   },
-  */
 
-  // UNCOMMENT DAY 20: Acreditar Identidad FNMT Sin Cita (Correos >100/mo) & Revocar Certificado (>100/mo — Easy KD)
-  /*
+  // WAVE 1 (5 Nov 2026): Acreditar Identidad FNMT Sin Cita (Correos) & Revocar
   {
     slug: 'donde-acreditar-identidad-certificado-digital-sin-cita-y-como-revocar',
     title: 'Dónde Acreditar la Identidad para el Certificado Digital Sin Cita Previa (Correos) y Cómo Revocarlo',
@@ -351,10 +342,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Cómo acreditar tu identidad presencialmente sin cita previa en oficinas de Correos para obtener el certificado FNMT y cómo anular o revocar un certificado perdido o caducado.',
     category: 'Gestión de Certificados FNMT',
     readTime: '6 min de lectura',
-    updatedDate: '15 de noviembre de 2026',
+    updatedDate: '5 de noviembre de 2026',
     badgeColor: 'emerald',
   },
-  */
 
   // UNCOMMENT DAY 21: FACe, Facturae (.xsig) & Licitaciones Públicas (>1,000/mo Easy KD)
   /*
@@ -426,8 +416,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 26: Renovar Certificado Digital FNMT Online (>100,000/mo Easy KD)
-  /*
+  // WAVE 1 (5 Nov 2026): Renovar Certificado Digital FNMT Online (>100,000/mo Easy KD)
   {
     slug: 'como-renovar-certificado-digital-fnmt-por-internet-sin-cita-previa',
     title: 'Cómo Renovar el Certificado Digital FNMT por Internet Sin Cita Previa (Guía 2026)',
@@ -435,8 +424,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Pasos para renovar online tu certificado digital de Persona Física de la FNMT durante los 60 días previos a su caducidad, exportar el archivo .p12 y probar tu firma.',
     category: 'Renovación Certificado FNMT',
     readTime: '6 min de lectura',
-    updatedDate: '21 de noviembre de 2026',
+    updatedDate: '5 de noviembre de 2026',
     badgeColor: 'emerald',
   },
-  */
 ];
