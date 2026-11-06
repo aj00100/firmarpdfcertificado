@@ -40,7 +40,7 @@ const faqs = [
       </div>
 
       <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight">
-        Cómo Renovar el Certificado Digital de la FNMT por Internet Sin Cita Previa (Antes de que Caduque)
+        Cómo Renovar el Certificado Digital de la FNMT Online: Caducado o Próximo a Caducar Sin Cita Previa
       </h1>
 
       <p class="text-sm sm:text-base text-slate-600 mt-3 leading-relaxed">
@@ -51,6 +51,27 @@ const faqs = [
 
   <article class="py-10 bg-white">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 space-y-10 text-slate-700 text-sm sm:text-base leading-relaxed">
+
+      <!-- Dark Diagnostic CTA Card: Comprobar Validez & Caducidad -->
+      <div class="p-6 bg-slate-900 text-white rounded-2xl shadow-md flex flex-col sm:flex-row items-center justify-between gap-6 not-prose">
+        <div class="space-y-1.5">
+          <span class="inline-block px-2.5 py-0.5 bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-bold rounded uppercase tracking-wider">
+            Diagnóstico de Caducidad X.509
+          </span>
+          <h2 class="text-lg sm:text-xl font-bold">
+            ¿No sabes si tu certificado ya está caducado o si aún estás en el plazo de 60 días para renovarlo?
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+            Comprueba la fecha y hora exacta de expiración (campo <code>notAfter</code>) de tu archivo <code>.p12</code> o <code>.pfx</code> en tu navegador sin subirlo a ningún servidor:
+          </p>
+        </div>
+        <a
+          href="/comprobar-validez-certificado-digital/"
+          class="shrink-0 px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold text-xs sm:text-sm rounded-xl shadow transition-colors text-center"
+        >
+          🔎 Comprobar Fecha de Caducidad →
+        </a>
+      </div>
 
       <!-- Step-by-Step FNMT Renewal -->
       <div class="space-y-4">

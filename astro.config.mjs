@@ -20,6 +20,8 @@ export default defineConfig({
       filter: (page) =>
         !page.includes('/r/holded/') &&
         !page.includes('/r/qonto/') &&
+        !page.includes('/terms/') &&
+        !page.includes('/privacy/') &&
         !page.endsWith('/404/') &&
         !page.endsWith('/500/'),
     }),

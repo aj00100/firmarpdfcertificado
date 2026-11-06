@@ -65,7 +65,7 @@ const faqs = [
         <span>🍎</span> Ecosistema macOS, iOS y iPadOS sin dependencias
       </div>
       <h2 class="text-2xl font-bold text-slate-900 tracking-tight">
-        Guía de firma con certificado digital en el ecosistema Apple sin AutoFirma
+        Guía de firma con certificado digital en Mac, iPhone y iPad (Safari) sin AutoFirma
       </h2>
       <p class="text-slate-600 mt-3">
         Los usuarios de Apple (macOS y iOS) sufren históricamente las mayores incompatibilidades con las sedes electrónicas públicas de la Administración española y la aplicación oficial AutoFirma. Desde el error <em>"Broken pipe"</em> en Safari hasta el bloqueo de aplicaciones de desarrolladores no identificados por Gatekeeper en macOS Sonoma y Sequoia, tramitar un documento puede convertirse en una pesadilla.
@@ -103,6 +103,33 @@ const faqs = [
           <p class="text-xs text-slate-600 mt-1 leading-relaxed">
             Abre Safari en tu Mac, iPhone o iPad, arrastra o selecciona tu archivo PDF y tu certificado <code>.p12</code> en el firmador web superior, introduce la contraseña de protección y haz clic en <strong>Firmar PDF Ahora</strong>. Tu navegador calculará la firma PAdES-B-B en 2 segundos y descargará el documento firmado con sello visual administrativo.
           </p>
+        </div>
+      </div>
+
+      <!-- Dedicated iPad & iPhone Section: Fix Profile vs Files app -->
+      <div class="space-y-4 my-8">
+        <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+          Cómo firmar en iPhone y iPad (iPadOS Safari): Solución al error de "Perfil descargado"
+        </h2>
+        <p class="text-slate-600">
+          El problema más habitual que sufren los usuarios de <strong>iPhone y iPad con iPadOS</strong> al intentar firmar un PDF en sedes electrónicas públicas ocurre al descargar su certificado digital desde Safari:
+        </p>
+        <div class="p-5 bg-amber-50 border border-amber-200 rounded-xl space-y-3 not-prose">
+          <div class="flex items-center gap-2">
+            <span class="text-lg">⚠️</span>
+            <h3 class="font-bold text-amber-950 text-sm">El aviso "Perfil descargado - Revisar el perfil en Ajustes"</h3>
+          </div>
+          <p class="text-xs text-amber-900 leading-relaxed">
+            Por defecto, cuando Safari en iOS o iPadOS detecta un archivo <code>.p12</code> o <code>.pfx</code>, intenta instalarlo como perfil de configuración de red en <em>Ajustes &rarr; General &rarr; VPN y gestión de dispositivos</em>. Sin embargo, <strong>Apple aísla los perfiles de certificados dentro del Keychain interno de iOS</strong>, bloqueando su acceso a las páginas web y haciendo imposible firmar documentos en sedes autonómicas o ministeriales.
+          </p>
+          <div class="bg-white p-3.5 rounded-lg border border-amber-200 text-xs text-slate-700 space-y-1.5">
+            <p class="font-bold text-slate-900">💡 La Solución Rápida en 10 segundos:</p>
+            <ol class="list-decimal pl-5 space-y-1">
+              <li>En lugar de pulsar sobre el certificado para instalarlo como perfil, mantén pulsado el archivo <code>.p12</code> o <code>.pfx</code> y selecciona <strong>"Guardar en Archivos"</strong> (en iCloud Drive o <em>En mi iPhone/iPad</em>).</li>
+              <li>Si lo recibes por AirDrop desde tu Mac, pulsa <strong>Guardar en Archivos</strong> al recibir la transferencia.</li>
+              <li>Entra en <strong>FirmarPDFCertificado.com</strong> desde Safari, toca en <em>"2. Carga tu Certificado Digital"</em>, selecciona <strong>Explorar</strong> y escoge tu archivo desde la app <strong>Archivos</strong>.</li>
+            </ol>
+          </div>
         </div>
       </div>
 
