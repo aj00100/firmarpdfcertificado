@@ -70,6 +70,10 @@
 </div>
 
 <script>
+  import { trackEvent } from '../utils/telemetry';
+
+  trackEvent('tool_view', { studio: 'validator' });
+
   // Diccionario de OIDs estándar X.509 / PKCS#7 / PAdES
   const OID_MAP: Record<string, string> = {
     "2.5.4.3": "CN", // CommonName
@@ -445,6 +449,10 @@
   printBtn?.addEventListener("click", () => window.print());
 
   async function handleFile(file: File) {
+    trackEvent('validator_pdf_loaded', {
+      size_kb: Math.round(file.size / 1024),
+    });
+
     dropzone.classList.add("hidden");
     resultsPanel.classList.remove("hidden");
     filenameEl.textContent = file.name;
@@ -456,6 +464,11 @@
       filemetaEl.textContent = `${sizeKb} KB · SHA-256: ${fullDocHashHex.slice(0, 24)}...`;
 
       if (signatures.length === 0) {
+        trackEvent('validator_success', {
+          signature_count: 0,
+          all_intact: false,
+        });
+
         statusBanner.className = "mt-6 p-5 rounded-xl border bg-amber-50 border-amber-300 text-amber-900 flex items-start gap-4";
         statusIcon.innerHTML = `<svg class="w-7 h-7 text-amber-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>`;
         statusTitle.textContent = "Documento PDF Sin Firma Criptográfica";
@@ -465,6 +478,11 @@
       }
 
       const allIntact = signatures.every(s => s.hashMatches);
+
+      trackEvent('validator_success', {
+        signature_count: signatures.length,
+        all_intact: allIntact,
+      });
 
       if (allIntact) {
         statusBanner.className = "mt-6 p-5 rounded-xl border bg-emerald-50 border-emerald-300 text-emerald-950 flex items-start gap-4";
@@ -540,7 +558,10 @@
         `;
       }).join("");
 
-    } catch (err) {
+    } catch (err: any) {
+      trackEvent('validator_error', {
+        error: err?.message || 'parse_failure',
+      });
       statusBanner.className = "mt-6 p-5 rounded-xl border bg-red-50 border-red-300 text-red-900 flex items-start gap-4";
       statusTitle.textContent = "Error al leer el archivo PDF";
       statusDesc.textContent = "El archivo está dañado o protegido con contraseña de apertura.";

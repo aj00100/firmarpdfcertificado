@@ -61,23 +61,58 @@ const resolvedSubtitle =
         </span>
       </label>
 
-      <!-- 2. Certificate (.p12 / .pfx) Dropzone -->
-      <label
-        id="p12-dropzone"
-        for="p12-input"
-        class="group relative flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-300 hover:border-blue-600 rounded-xl bg-slate-50/70 hover:bg-blue-50/40 cursor-pointer transition-all text-center min-h-[170px]"
-      >
-        <input id="p12-input" type="file" accept=".p12,.pfx,application/x-pkcs12" class="sr-only" />
-        <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition-transform">
-          🪪
+      <!-- 2. Certificate (.p12 / .pfx) Dropzone & Inline Helper -->
+      <div class="flex flex-col">
+        <label
+          id="p12-dropzone"
+          for="p12-input"
+          class="group relative flex flex-col items-center justify-center p-6 border-2 border-dashed border-slate-300 hover:border-blue-600 rounded-xl bg-slate-50/70 hover:bg-blue-50/40 cursor-pointer transition-all text-center min-h-[170px]"
+        >
+          <input id="p12-input" type="file" accept=".p12,.pfx,application/x-pkcs12" class="sr-only" />
+          <div class="w-12 h-12 rounded-full bg-indigo-100 text-indigo-700 flex items-center justify-center text-2xl mb-3 group-hover:scale-105 transition-transform">
+            🪪
+          </div>
+          <span class="text-sm font-bold text-slate-800" id="p12-label-title">
+            2. Carga tu Certificado Digital (.p12 o .pfx).
+          </span>
+          <span class="text-xs text-slate-500 mt-1 block" id="p12-label-sub">
+            FNMT, ACCV, Camerfirma, DNIe o copia exportada.
+          </span>
+        </label>
+
+        <!-- Expandable 15-Second .p12 Export Helper -->
+        <div class="mt-3 text-left">
+          <button 
+            type="button" 
+            id="toggle-p12-help" 
+            class="text-xs font-semibold text-blue-700 hover:text-blue-900 flex items-center gap-1.5 focus:outline-none cursor-pointer py-1"
+          >
+            <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            <span>¿No encuentras tu archivo .p12 o .pfx? Extráelo en 15 segundos</span>
+            <svg id="p12-help-arrow" class="w-3.5 h-3.5 transition-transform text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+
+          <div id="p12-help-content" class="hidden mt-2 p-3.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-700">
+            <!-- OS Selection Tabs -->
+            <div class="flex gap-2 border-b border-slate-200 pb-2 mb-2 font-medium">
+              <button type="button" class="p12-tab-btn active text-blue-700 font-bold border-b-2 border-blue-700 pb-1 cursor-pointer" data-tab="win">Windows (Chrome / Edge)</button>
+              <button type="button" class="p12-tab-btn text-slate-500 hover:text-slate-800 pb-1 cursor-pointer" data-tab="mac">Mac (Acceso a Llaveros)</button>
+              <button type="button" class="p12-tab-btn text-slate-500 hover:text-slate-800 pb-1 cursor-pointer" data-tab="ff">Firefox</button>
+            </div>
+
+            <!-- Instructions Content -->
+            <div id="tab-win-content" class="p12-tab-content text-[11px] leading-relaxed">
+              <strong>Chrome / Edge en Windows:</strong> Abre <kbd class="px-1.5 py-0.5 bg-white border border-slate-300 rounded font-mono">Ajustes</kbd> &rarr; <em>Privacidad y seguridad</em> &rarr; <em>Seguridad</em> &rarr; <em>Gestionar certificados de dispositivo</em> &rarr; Haz doble clic en tu certificado &rarr; Clic en <strong>Exportar...</strong> &rarr; <span class="text-emerald-700 font-bold">Marca "Exportar la clave privada"</span> &rarr; Guarda tu archivo <code>.pfx</code> con una contraseña.
+            </div>
+            <div id="tab-mac-content" class="p12-tab-content hidden text-[11px] leading-relaxed">
+              <strong>macOS:</strong> Pulsa <kbd class="px-1.5 py-0.5 bg-white border border-slate-300 rounded font-mono">Cmd + Espacio</kbd> &rarr; Escribe <em>Acceso a Llaveros</em> &rarr; Pestaña <em>Mis certificados</em> &rarr; Clic derecho sobre tu certificado de la FNMT &rarr; <strong>Exportar...</strong> &rarr; Formato <strong>Intercambio de información personal (.p12)</strong>.
+            </div>
+            <div id="tab-ff-content" class="p12-tab-content hidden text-[11px] leading-relaxed">
+              <strong>Mozilla Firefox:</strong> Ve a <kbd class="px-1.5 py-0.5 bg-white border border-slate-300 rounded font-mono">Ajustes</kbd> &rarr; <em>Privacidad & Seguridad</em> &rarr; Desliza hasta <em>Certificados</em> &rarr; Clic en <em>Ver certificados</em> &rarr; Pestaña <em>Sus certificados</em> &rarr; Clic en <strong>Hacer copia...</strong> para guardar el <code>.p12</code>.
+            </div>
+          </div>
         </div>
-        <span class="text-sm font-bold text-slate-800" id="p12-label-title">
-          2. Carga tu Certificado Digital (.p12 o .pfx).
-        </span>
-        <span class="text-xs text-slate-500 mt-1 block" id="p12-label-sub">
-          FNMT, ACCV, Camerfirma, DNIe o copia exportada.
-        </span>
-      </label>
+      </div>
     </div>
 
     {showStampCustomizer && (
@@ -157,6 +192,15 @@ const resolvedSubtitle =
         >
           <span>✍️ Firmar PDF Ahora</span>
         </button>
+      </div>
+    </div>
+
+    <!-- Modo Avión (100% Privado) Absolute Trust Badge -->
+    <div class="p-3.5 bg-emerald-50 border border-emerald-200 rounded-xl flex items-start gap-3 text-left">
+      <span class="text-emerald-700 text-lg select-none">✈️</span>
+      <div class="text-xs text-emerald-950 leading-relaxed">
+        <strong class="font-bold text-emerald-900">Prueba del Modo Avión (100% Privado):</strong> 
+        ¿Desconfías de cargar tu certificado o tus documentos? <span class="underline decoration-emerald-500 font-semibold">Desconecta tu conexión Wi-Fi o datos ahora mismo</span>. Esta herramienta continuará funcionando y firmando tu PDF a la perfección porque todo el procesamiento criptográfico PAdES se ejecuta dentro de la memoria RAM de tu propio navegador, sin transferir jamás ningún archivo ni clave privada a ningún servidor.
       </div>
     </div>
 
@@ -249,6 +293,10 @@ const resolvedSubtitle =
 
 <script>
   import SignerWorker from '../workers/signer.worker.ts?worker';
+  import { trackEvent } from '../utils/telemetry';
+
+  // Initialize tool view
+  trackEvent('tool_view', { studio: 'signer' });
 
   const pdfInput = document.getElementById('pdf-input') as HTMLInputElement;
   const p12Input = document.getElementById('p12-input') as HTMLInputElement;
@@ -272,6 +320,41 @@ const resolvedSubtitle =
   const previewNif = document.getElementById('preview-nif') as HTMLElement;
   const previewRoleText = document.getElementById('preview-role-text') as HTMLElement;
   const previewReasonText = document.getElementById('preview-reason-text') as HTMLElement;
+
+  // .P12 Helper Elements
+  const toggleP12Help = document.getElementById('toggle-p12-help');
+  const p12HelpContent = document.getElementById('p12-help-content');
+  const p12HelpArrow = document.getElementById('p12-help-arrow');
+  const p12TabBtns = document.querySelectorAll('.p12-tab-btn');
+  const p12TabContents = document.querySelectorAll('.p12-tab-content');
+
+  toggleP12Help?.addEventListener('click', () => {
+    const isHidden = p12HelpContent?.classList.contains('hidden');
+    if (isHidden) {
+      p12HelpContent?.classList.remove('hidden');
+      p12HelpArrow?.classList.add('rotate-180');
+      trackEvent('p12_help_expanded');
+    } else {
+      p12HelpContent?.classList.add('hidden');
+      p12HelpArrow?.classList.remove('rotate-180');
+    }
+  });
+
+  p12TabBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const targetTab = btn.getAttribute('data-tab');
+      p12TabBtns.forEach((b) => {
+        b.classList.remove('active', 'text-blue-700', 'font-bold', 'border-b-2', 'border-blue-700');
+        b.classList.add('text-slate-500');
+      });
+      btn.classList.add('active', 'text-blue-700', 'font-bold', 'border-b-2', 'border-blue-700');
+      btn.classList.remove('text-slate-500');
+
+      p12TabContents.forEach((c) => c.classList.add('hidden'));
+      document.getElementById(`tab-${targetTab}-content`)?.classList.remove('hidden');
+      trackEvent('p12_help_tab_switched', { os_tab: targetTab || 'unknown' });
+    });
+  });
 
   let selectedPdfFile: File | null = null;
   let selectedP12File: File | null = null;
@@ -308,6 +391,10 @@ const resolvedSubtitle =
     pdfTitle.textContent = `✅ ${file.name}`;
     pdfSub.textContent = `${(file.size / 1024).toFixed(1)} KB · Listo para firmar`;
     pdfDropzone.classList.add('border-emerald-500', 'bg-emerald-50/30');
+
+    trackEvent('pdf_loaded', {
+      size_kb: Math.round(file.size / 1024),
+    });
   }
 
   function handleP12File(file: File) {
@@ -315,6 +402,11 @@ const resolvedSubtitle =
     p12Title.textContent = `✅ ${file.name}`;
     p12Sub.textContent = `Certificado PKCS#12 cargado en memoria local`;
     p12Dropzone.classList.add('border-emerald-500', 'bg-emerald-50/30');
+
+    trackEvent('p12_loaded', {
+      size_kb: Math.round(file.size / 1024),
+      is_pfx: file.name.toLowerCase().endsWith('.pfx'),
+    });
   }
 
   pdfInput?.addEventListener('change', () => {
@@ -364,13 +456,19 @@ const resolvedSubtitle =
     signBtn.disabled = true;
     showStatus('⏳ Inicializando motor criptográfico PAdES-B-B en tu navegador...', 'info');
 
+    const pos = positionSelect.value;
+    trackEvent('sign_attempt', {
+      position: pos,
+      co_sign: pos === 'bottom-left' || pos === 'bottom-center',
+      has_custom_role: Boolean(customRoleInput?.value),
+    });
+
     try {
       const [pdfBuffer, p12Buffer] = await Promise.all([
         selectedPdfFile.arrayBuffer(),
         selectedP12File.arrayBuffer(),
       ]);
 
-      const pos = positionSelect.value;
       let stampX: number | undefined = undefined;
       let stampY: number = 30;
       let pageIndex: number | undefined = undefined;
@@ -420,11 +518,17 @@ const resolvedSubtitle =
             signedMetaSummary.textContent = `Firmado por ${metadata.signer} (NIF: ${metadata.nif}) · Emisor: ${metadata.issuer}`;
           }
 
+          trackEvent('sign_success', {
+            issuer: metadata?.issuer || 'desconocido',
+            output_kb: Math.round(signedPdf.byteLength / 1024),
+          });
+
           resultContainer.classList.remove('hidden');
           worker.terminate();
         } else if (status === 'error') {
           signBtn.disabled = false;
           showStatus(`❌ ${error}`, 'error');
+          trackEvent('sign_error', { error: String(error) });
           worker.terminate();
         }
       };
@@ -432,6 +536,7 @@ const resolvedSubtitle =
       worker.onerror = (err) => {
         signBtn.disabled = false;
         showStatus(`❌ Error crítico en el Web Worker: ${err.message}`, 'error');
+        trackEvent('sign_error', { error: `worker_crash: ${err.message}` });
         worker.terminate();
       };
 
@@ -447,6 +552,7 @@ const resolvedSubtitle =
     } catch (err: any) {
       signBtn.disabled = false;
       showStatus(`❌ Error al leer los archivos locales: ${err?.message}`, 'error');
+      trackEvent('sign_error', { error: `read_failure: ${err?.message}` });
     }
   });
 </script>

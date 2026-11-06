@@ -51,6 +51,54 @@ const faqs = [
         </p>
       </div>
 
+      <!-- Apple Dual-Ecosystem Switcher -->
+      <div class="max-w-md mx-auto mb-5 bg-slate-200/80 p-1 rounded-xl flex gap-1 border border-slate-300">
+        <button
+          type="button"
+          id="btn-switch-mac"
+          class="flex-1 py-2 px-3 text-xs sm:text-sm font-bold rounded-lg transition-all flex items-center justify-center gap-1.5 bg-white text-slate-900 shadow-sm cursor-pointer"
+        >
+          <span>💻</span> Estoy en Mac (macOS)
+        </button>
+        <button
+          type="button"
+          id="btn-switch-ios"
+          class="flex-1 py-2 px-3 text-xs sm:text-sm font-medium text-slate-600 hover:text-slate-900 rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+        >
+          <span>📱</span> Estoy en iPhone / iPad
+        </button>
+      </div>
+
+      <!-- Mac Context Notice -->
+      <div id="notice-mac" class="max-w-4xl mx-auto mb-4 p-3.5 bg-blue-50/90 border border-blue-200 rounded-xl text-xs text-blue-950 flex flex-col sm:flex-row items-center justify-between gap-3 text-left">
+        <div class="flex items-center gap-2">
+          <span class="text-base select-none">💡</span>
+          <span>¿AutoFirma te da error <em>"Broken pipe"</em> o no conecta en Safari? <strong>Exporta tu .p12 desde Acceso a Llaveros en 15 segundos</strong> y firma directamente abajo sin instalar Java ni programas.</span>
+        </div>
+        <a href="/ayuda/exportar-certificado-fnmt/" class="text-blue-700 font-bold hover:underline shrink-0 text-xs">Ver pasos Mac &rarr;</a>
+      </div>
+
+      <!-- iPhone / iPad Notice -->
+      <div id="notice-ios" class="hidden max-w-4xl mx-auto mb-4 p-4 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-950 space-y-2 text-left">
+        <div class="flex items-start gap-2">
+          <span class="text-base select-none">⚠️</span>
+          <div>
+            <strong>Aviso sobre la seguridad de Apple en iOS y iPadOS:</strong>
+            Apple aísla estrictamente los certificados instalados en <em>Ajustes &rarr; VPN y gestión de dispositivos</em>, impidiendo que Safari web acceda a ellos directamente. Tienes 2 opciones:
+          </div>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-2.5 pt-1 border-t border-amber-200/70 text-[11px]">
+          <div class="bg-white/90 p-3 rounded-lg border border-amber-200 shadow-2xs">
+            <strong class="text-amber-950 block font-bold mb-0.5">Opción 1: Tienes copia .p12 en Archivos</strong>
+            Si guardaste tu archivo <code>.p12</code> en iCloud Drive o en la app <em>Archivos</em>, puedes firmar tu PDF ahora mismo en el firmador inferior.
+          </div>
+          <div class="bg-white/90 p-3 rounded-lg border border-amber-200 shadow-2xs">
+            <strong class="text-amber-950 block font-bold mb-0.5">Opción 2: Usar la App Oficial FNMT</strong>
+            Descarga gratis la app <em>Certificado Digital FNMT</em> en la App Store y utiliza su utilidad nativa <strong>"Firmar Archivos"</strong> sin exportar claves.
+          </div>
+        </div>
+      </div>
+
       <SigningStudio
         headline="Firmador Web PAdES-B-B para Apple (Safari, Mac, iPhone)"
         subheadline="Firma en segundos desde Safari en macOS, iOS y iPadOS. Compatible al 100% con chips Apple Silicon (M1, M2, M3, M4) y dispositivos móviles sin instalar Java ni AutoFirma."
@@ -214,4 +262,35 @@ const faqs = [
       "acceptedAnswer": { "@type": "Answer", "text": f.a }
     }))
   })} />
+
+  <script>
+    import { trackEvent } from '../utils/telemetry';
+
+    const btnMac = document.getElementById('btn-switch-mac');
+    const btnIos = document.getElementById('btn-switch-ios');
+    const noticeMac = document.getElementById('notice-mac');
+    const noticeIos = document.getElementById('notice-ios');
+
+    btnMac?.addEventListener('click', () => {
+      btnMac.classList.add('bg-white', 'text-slate-900', 'shadow-sm', 'font-bold');
+      btnMac.classList.remove('text-slate-600', 'font-medium');
+      btnIos?.classList.remove('bg-white', 'text-slate-900', 'shadow-sm', 'font-bold');
+      btnIos?.classList.add('text-slate-600', 'font-medium');
+
+      noticeMac?.classList.remove('hidden');
+      noticeIos?.classList.add('hidden');
+      trackEvent('tool_view', { ecosystem_tab: 'mac' });
+    });
+
+    btnIos?.addEventListener('click', () => {
+      btnIos.classList.add('bg-white', 'text-slate-900', 'shadow-sm', 'font-bold');
+      btnIos.classList.remove('text-slate-600', 'font-medium');
+      btnMac?.classList.remove('bg-white', 'text-slate-900', 'shadow-sm', 'font-bold');
+      btnMac?.classList.add('text-slate-600', 'font-medium');
+
+      noticeIos?.classList.remove('hidden');
+      noticeMac?.classList.add('hidden');
+      trackEvent('tool_view', { ecosystem_tab: 'ios' });
+    });
+  </script>
 </Layout>
