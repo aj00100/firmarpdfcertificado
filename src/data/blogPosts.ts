@@ -10,6 +10,79 @@ export interface BlogPostMeta {
 }
 
 export const publishedBlogPosts: BlogPostMeta[] = [
+  // ==========================================
+  // WAVE 2 (8 Nov 2026): Pure PDF Signing & B2B/Legal Mandatory Signatures
+  // ==========================================
+  {
+    slug: 'como-hacer-factura-rectificativa-requisitos-hacienda',
+    title: 'Cómo Hacer una Factura Rectificativa en España: Requisitos AEAT, Ejemplo y Firma Digital',
+    description:
+      'Aprende cómo emitir y firmar una factura rectificativa por sustitución o por diferencias (Art. 15 RD 1619/2012) para recuperar el IVA de facturas impagadas o corregir errores.',
+    category: 'Autónomos y Pymes',
+    readTime: '6 min de lectura',
+    updatedDate: '8 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  {
+    slug: 'como-firmar-pdf-para-lexnet-abogados-procuradores',
+    title: 'Cómo Firmar Documentos PDF y Escritos para LexNET Justicia sin Errores (PAdES)',
+    description:
+      'Requisitos técnicos del Ministerio de Justicia para firmar demandas, escritos de trámite y poderes en PDF para LexNET Abogacía y Procuradores sin bloqueos de AutoFirma ni Java.',
+    category: 'Justicia y LegalTech',
+    readTime: '7 min de lectura',
+    updatedDate: '8 de noviembre de 2026',
+    badgeColor: 'indigo',
+  },
+  {
+    slug: 'como-firmar-contrato-compraventa-vehiculo-dgt',
+    title: 'Cómo Firmar un Contrato de Compraventa de Coche o Moto con Certificado Digital (Cambio de Nombre DGT)',
+    description:
+      'Guía paso a paso para firmar el contrato de compraventa de coche o moto con certificado digital, liquidar el ITP, abonar la Tasa 1.5 y tramitar el cambio de nombre en la DGT online.',
+    category: 'Tráfico y Vehículos (DGT)',
+    readTime: '7 min de lectura',
+    updatedDate: '8 de noviembre de 2026',
+    badgeColor: 'blue',
+  },
+  {
+    slug: 'certificado-camerfirma-representante-persona-juridica-apoderamiento-aeat',
+    title: 'Certificado de Representante de Persona Jurídica (FNMT y Camerfirma) y Apoderamiento AEAT',
+    description:
+      'Cómo solicitar o renovar el certificado digital de administrador único o representante de empresa (S.L. / S.A.), otorgar apoderamientos en la AEAT y firmar con sello societario.',
+    category: 'Empresas y Sociedades (B2B)',
+    readTime: '8 min de lectura',
+    updatedDate: '8 de noviembre de 2026',
+    badgeColor: 'amber',
+  },
+  {
+    slug: 'como-firmar-facturas-electronicas-face-facturae-xsig-pdf',
+    title: 'FACe y Facturae (.xsig) vs. Factura PDF Firmada: Guía para Proveedores Públicos',
+    description:
+      'Diferencias entre el formato Facturae XML (.xsig) para el portal FACe y las facturas, albaranes o anexos en PDF firmados con certificado digital (PAdES).',
+    category: 'Facturación Pública y FACe',
+    readTime: '7 min de lectura',
+    updatedDate: '8 de noviembre de 2026',
+    badgeColor: 'amber',
+  },
+  {
+    slug: 'como-firmar-cuentas-anuales-certificacion-acta-junta-registro-mercantil',
+    title: 'Cómo Firmar la Certificación del Acta de Junta y Cuentas Anuales para el Registro Mercantil',
+    description:
+      'Requisitos del Colegio de Registradores (Programa D2) para firmar o cofirmar en PDF la certificación de acuerdos sociales y cuentas anuales con certificado digital.',
+    category: 'Registro Mercantil y Sociedades',
+    readTime: '7 min de lectura',
+    updatedDate: '8 de noviembre de 2026',
+    badgeColor: 'indigo',
+  },
+  {
+    slug: 'como-firmar-subir-documentos-plataforma-mercurio-extranjeria',
+    title: 'Cómo Firmar Solicitudes EX y Subir Documentos en PDF a la Plataforma Mercurio de Extranjería',
+    description:
+      'Guía paso a paso para acceder a la Plataforma Mercurio, renovar el NIE o solicitar arraigo, solucionar bloqueos de AutoFirma y pre-firmar formularios EX y tasas en PDF.',
+    category: 'Extranjería y Residencia',
+    readTime: '7 min de lectura',
+    updatedDate: '8 de noviembre de 2026',
+    badgeColor: 'emerald',
+  },
   // DAY 1 LIVE POST (High-Ticket VeriFactu B2B Affiliate Magnet)
   {
     slug: 'normativa-verifactu-multas-facturas-pdf',
@@ -22,19 +95,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'amber',
   },
 
-  // UNCOMMENT DAY 2 WHEN MOVED FROM blog-drafts/ TO src/pages/blog/
-  /*
-  {
-    slug: 'como-hacer-factura-rectificativa-requisitos-hacienda',
-    title: 'Cómo Hacer una Factura Rectificativa en España: Requisitos AEAT, Ejemplo y Firma Digital',
-    description:
-      'Aprende cómo emitir y firmar una factura rectificativa por sustitución o por diferencias (Art. 15 RD 1619/2012) para recuperar el IVA de facturas impagadas o corregir errores.',
-    category: 'Autónomos y Pymes',
-    readTime: '6 min de lectura',
-    updatedDate: '28 de octubre de 2026',
-    badgeColor: 'blue',
-  },
-  */
+  
 
   // DAY 2 LIVE POST: Cl@ve PIN Myth Funnel (>10,000/mo Easy KD)
   {
@@ -62,19 +123,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 5: LexNET Justicia & Abogacía (>10,000/mo x2 terms, Easy KD)
-  /*
-  {
-    slug: 'como-firmar-pdf-para-lexnet-abogados-procuradores',
-    title: 'Cómo Firmar Documentos PDF y Escritos para LexNET Justicia sin Errores (PAdES)',
-    description:
-      'Requisitos técnicos del Ministerio de Justicia para firmar demandas, escritos de trámite y poderes en PDF para LexNET Abogacía y Procuradores sin bloqueos de AutoFirma ni Java.',
-    category: 'Justicia y LegalTech',
-    readTime: '7 min de lectura',
-    updatedDate: '31 de octubre de 2026',
-    badgeColor: 'indigo',
-  },
-  */
+  
 
   // WAVE 1 (5 Nov 2026): Regional AutoFirma Bypass (Junta de Andalucía >1,000/mo, GVA, Madrid — Easy KD)
   {
@@ -90,16 +139,6 @@ export const publishedBlogPosts: BlogPostMeta[] = [
 
   // UNCOMMENT DAY 7: Plataforma Mercurio Extranjería (>1,000/mo x2), Oposiciones (>100/mo) & Becas MEC (>10,000/mo — Easy KD)
   /*
-  {
-    slug: 'como-firmar-subir-documentos-plataforma-mercurio-extranjeria',
-    title: 'Cómo Firmar Solicitudes EX y Subir Documentos en PDF a la Plataforma Mercurio de Extranjería',
-    description:
-      'Guía paso a paso para acceder a la Plataforma Mercurio, renovar el NIE o solicitar arraigo, solucionar bloqueos de AutoFirma y pre-firmar formularios EX y tasas en PDF.',
-    category: 'Extranjería y Residencia',
-    readTime: '7 min de lectura',
-    updatedDate: '2 de noviembre de 2026',
-    badgeColor: 'emerald',
-  },
   {
     slug: 'como-firmar-inscripcion-oposiciones-con-certificado-digital',
     title: 'Cómo Firmar la Inscripción a Oposiciones del Estado, Comunidades y Correos con Certificado Digital',
@@ -253,16 +292,6 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   // UNCOMMENT DAY 15: DGT Duplicado Carnet (>1,000/mo Easy KD), Informe Vehículo & Compraventa Coche (>1,000/mo)
   /*
   {
-    slug: 'como-firmar-contrato-compraventa-vehiculo-dgt',
-    title: 'Cómo Firmar un Contrato de Compraventa de Coche o Moto con Certificado Digital (Cambio de Nombre DGT)',
-    description:
-      'Guía paso a paso para firmar el contrato de compraventa de coche o moto con certificado digital, liquidar el ITP, abonar la Tasa 1.5 y tramitar el cambio de nombre en la DGT online.',
-    category: 'Tráfico y Vehículos (DGT)',
-    readTime: '7 min de lectura',
-    updatedDate: '10 de noviembre de 2026',
-    badgeColor: 'blue',
-  },
-  {
     slug: 'como-solicitar-informe-vehiculo-dgt-con-certificado-digital',
     title: 'Cómo Solicitar y Descargar el Informe de Vehículo de la DGT por Matrícula con Certificado Digital',
     description:
@@ -296,19 +325,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'emerald',
   },
 
-  // UNCOMMENT DAY 17: Camerfirma (>1,000/mo Easy KD), Representante Persona Jurídica & Apoderamiento AEAT
-  /*
-  {
-    slug: 'certificado-camerfirma-representante-persona-juridica-apoderamiento-aeat',
-    title: 'Certificado de Representante de Persona Jurídica (FNMT y Camerfirma) y Apoderamiento AEAT',
-    description:
-      'Cómo solicitar o renovar el certificado digital de administrador único o representante de empresa (S.L. / S.A.), otorgar apoderamientos en la AEAT y firmar con sello societario.',
-    category: 'Empresas y Sociedades (B2B)',
-    readTime: '8 min de lectura',
-    updatedDate: '12 de noviembre de 2026',
-    badgeColor: 'amber',
-  },
-  */
+  
 
   // WAVE 1 (5 Nov 2026): Notificaciones Electrónicas DEHú & CSV
   {
@@ -346,19 +363,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'emerald',
   },
 
-  // UNCOMMENT DAY 21: FACe, Facturae (.xsig) & Licitaciones Públicas (>1,000/mo Easy KD)
-  /*
-  {
-    slug: 'como-firmar-facturas-electronicas-face-facturae-xsig-pdf',
-    title: 'FACe y Facturae (.xsig) vs. Factura PDF Firmada: Guía para Proveedores Públicos',
-    description:
-      'Diferencias entre el formato Facturae XML (.xsig) para el portal FACe y las facturas, albaranes o anexos en PDF firmados con certificado digital (PAdES).',
-    category: 'Facturación Pública y FACe',
-    readTime: '7 min de lectura',
-    updatedDate: '16 de noviembre de 2026',
-    badgeColor: 'amber',
-  },
-  */
+  
 
   // UNCOMMENT DAY 22: Kit Digital & Kit Consulting Red.es Justificación (>1,000/mo Easy KD)
   /*
@@ -374,19 +379,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 23: Cuentas Anuales & Acta de Junta Registro Mercantil (>1,000/mo Easy KD)
-  /*
-  {
-    slug: 'como-firmar-cuentas-anuales-certificacion-acta-junta-registro-mercantil',
-    title: 'Cómo Firmar la Certificación del Acta de Junta y Cuentas Anuales para el Registro Mercantil',
-    description:
-      'Requisitos del Colegio de Registradores (Programa D2) para firmar o cofirmar en PDF la certificación de acuerdos sociales y cuentas anuales con certificado digital.',
-    category: 'Registro Mercantil y Sociedades',
-    readTime: '7 min de lectura',
-    updatedDate: '18 de noviembre de 2026',
-    badgeColor: 'indigo',
-  },
-  */
+  
 
   // UNCOMMENT DAY 24: Apostilla de La Haya Electrónica (>10,000/mo) & Traducciones Juradas PDF (>1,000/mo Easy KD)
   /*

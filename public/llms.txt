@@ -1,0 +1,41 @@
+# FirmarPDFCertificado.com
+
+> FirmarPDFCertificado.com es una plataforma web 100% gratuita y privada para la firma digital avanzada de documentos PDF con certificados digitales en España (FNMT, DNIe 3.0/4.0, ACCV, Camerfirma, Izenpe, idCAT). Toda la criptografía se ejecuta de forma local en la memoria RAM del navegador mediante Web Crypto API y Web Workers, sin subir jamás el PDF ni la clave privada (.p12/.pfx) a ningún servidor externo (Arquitectura Zero-Knowledge). Cumple con el Reglamento Europeo eIDAS (UE 910/2014) para firmas PAdES-B-B y la Ley española 6/2020.
+
+## Herramientas Criptográficas Locales (Interactive Web Crypto Tools)
+
+- [Firmador PDF con Certificado Digital](https://firmarpdfcertificado.com/): Firma documentos PDF con certificado FNMT o DNIe directamente en el navegador con plena validez jurídica eIDAS.
+- [Firmar PDF sin AutoFirma](https://firmarpdfcertificado.com/firmar-pdf-sin-autofirma/): Alternativa directa a AutoFirma sin Java, sin descargas y sin errores de websocket local.
+- [Firmar PDF con DNI Electrónico (DNIe)](https://firmarpdfcertificado.com/firmar-pdf-con-dnie/): Guía y herramienta para firmar con DNIe 3.0 y 4.0 mediante lector SmartCard PC/SC.
+- [Cofirmar PDF (Múltiples Firmantes)](https://firmarpdfcertificado.com/cofirmar-pdf-dos-firmas/): Añadir una segunda o tercera firma digital PAdES a un PDF previamente firmado sin invalidar las firmas anteriores (Incremental Update).
+- [Poner Sello de Firma Digital](https://firmarpdfcertificado.com/poner-sello-firma-digital-pdf/): Generación y estampado de sello visual homologado (Persona Física, Representante de Persona Jurídica o Sello de Empresa).
+- [Validador Criptográfico de Firmas PDF](https://firmarpdfcertificado.com/validar-firma-digital-pdf/): Verificador local de integridad binaria SHA-256, extracción de certificado X.509 y datos del firmante (NIF/CIF).
+- [Comprobar Validez de Certificado Digital](https://firmarpdfcertificado.com/comprobar-validez-certificado-digital/): Inspecciona archivos .p12/.pfx para comprobar vigencia, fecha de caducidad y emisor sin exponer la clave privada.
+- [Quitar Firma Digital de un PDF](https://firmarpdfcertificado.com/quitar-firma-digital-pdf/): Desbloquea y limpia campos de formulario /Sig manteniendo la estructura visual del documento.
+- [Firmar Facturas y Contratos PDF](https://firmarpdfcertificado.com/firmar-factura-contrato-pdf-certificado/): Firma electrónica adaptada a contratos mercantiles y facturas conformes a la normativa española.
+- [Firmar en Android](https://firmarpdfcertificado.com/firmar-pdf-certificado-android/): Firma de documentos PDF desde Chrome en smartphones y tablets Android.
+- [Firmar en Mac y iPhone / iPad](https://firmarpdfcertificado.com/firmar-pdf-certificado-mac-iphone/): Firma digital nativa en Safari y macOS sin recurrir a software de escritorio.
+- [Firmar sin Adobe Acrobat Reader](https://firmarpdfcertificado.com/firmar-pdf-certificado-sin-adobe/): Firma documentos PDF sin necesidad de instalar suites pesadas o de pago.
+
+## Centro de Ayuda y Resolución de Errores (Troubleshooting Guides)
+
+- [Exportar Certificado FNMT (.p12 / .pfx)](https://firmarpdfcertificado.com/ayuda/exportar-certificado-fnmt/): Tutorial para exportar certificados digitales con clave privada en Windows, macOS, Chrome, Edge y Firefox.
+- [Solución Error SAF_45 en AutoFirma](https://firmarpdfcertificado.com/ayuda/error-saf-45/): Causas y soluciones al fallo de comunicación SAF_45 al tramitar en sedes electrónicas públicas.
+
+## Guías de Trámites Oficiales y Marco Legal (Spanish E-Gov & Legal Guides)
+
+- [Normativa VeriFactu 2026 y Facturas PDF](https://firmarpdfcertificado.com/blog/normativa-verifactu-multas-facturas-pdf/): Requisitos legales de inalterabilidad, RD 1007/2023 y sanciones tributarias.
+- [Firmar PDF con Cl@ve PIN vs Certificado](https://firmarpdfcertificado.com/blog/se-puede-firmar-pdf-con-clave-pin/): Análisis técnico de las limitaciones de Cl@ve PIN frente a certificados X.509 cualificados.
+- [AutoFirma en Sedes Autonómicas (Andalucía, GVA, Madrid)](https://firmarpdfcertificado.com/blog/solucion-autofirma-junta-de-andalucia-gva-madrid/): Resolución de bloqueos de firma en ventanillas telemáticas regionales.
+- [Notificaciones DEHú y Verificación CSV](https://firmarpdfcertificado.com/blog/como-verificar-codigo-seguro-verificacion-csv-notificaciones-dehu/): Cómo verificar Códigos Seguros de Verificación en notificaciones judiciales y administrativas.
+- [Sistemas Autonómicos de Identidad vs FNMT](https://firmarpdfcertificado.com/blog/certificados-digitales-regionales-idcat-mobil-chave-365-accv-izenpe/): Comparativa técnica entre idCAT, Chave 365, ACCV, Izenpe y FNMT.
+- [Tipos de Firma: Digital, Electrónica y Biométrica](https://firmarpdfcertificado.com/blog/diferencia-firma-digital-firma-electronica-y-firma-biometrica/): Clasificación jurídica y valor probatorio en juicio según el reglamento eIDAS.
+- [Acreditar Identidad FNMT en Correos y Revocación](https://firmarpdfcertificado.com/blog/donde-acreditar-identidad-certificado-digital-sin-cita-y-como-revocar/): Obtención presencial sin cita y procedimientos de anulación de certificados.
+- [Renovar Certificado Digital FNMT Online](https://firmarpdfcertificado.com/blog/como-renovar-certificado-digital-fnmt-por-internet-sin-cita-previa/): Guía para tramitar la renovación telemática 60 días antes de la caducidad.
+- [Facturas Rectificativas ante Hacienda](https://firmarpdfcertificado.com/blog/como-hacer-factura-rectificativa-requisitos-hacienda/): Reglas de emisión, rectificación por sustitución o diferencias y firma digital.
+- [FACe y Facturae (.xsig) vs Factura PDF](https://firmarpdfcertificado.com/blog/como-firmar-facturas-electronicas-face-facturae-xsig-pdf/): Procedimiento para proveedores de la administración pública y contratistas del Estado.
+- [Certificado de Representante Persona Jurídica](https://firmarpdfcertificado.com/blog/certificado-camerfirma-representante-persona-juridica-apoderamiento-aeat/): Firma digital corporativa para sociedades (SL/SA) ante la AEAT y Registros.
+- [Cuentas Anuales y Acta de Junta en Registro Mercantil](https://firmarpdfcertificado.com/blog/como-firmar-cuentas-anuales-certificacion-acta-junta-registro-mercantil/): Firma electrónica del acta y memoria para el depósito en el Registro Mercantil.
+- [Contrato de Compraventa de Vehículos para DGT](https://firmarpdfcertificado.com/blog/como-firmar-contrato-compraventa-vehiculo-dgt/): Firma telemática de contratos de coches/motos entre particulares para cambio de titularidad.
+- [Firma de Documentos para LexNET Justicia](https://firmarpdfcertificado.com/blog/como-firmar-pdf-para-lexnet-abogados-procuradores/): Requisitos de firma digital avanzada para abogados y procuradores ante sedes judiciales.
+- [Plataforma Mercurio Extranjería](https://firmarpdfcertificado.com/blog/como-firmar-subir-documentos-plataforma-mercurio-extranjeria/): Firma y subida telemática de formularios EX, tasas y expedientes de extranjería.

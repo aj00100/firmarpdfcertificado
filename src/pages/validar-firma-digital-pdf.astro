@@ -30,39 +30,17 @@ const faqs = [
   }
 ];
 
-const schema = {
+const faqSchema = {
   "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "SoftwareApplication",
-      "name": "Validador de Firma Digital PDF Gratis y Verificador X.509",
-      "applicationCategory": "SecurityApplication",
-      "operatingSystem": "Web, Windows, macOS, Linux, iOS, Android",
-      "description": "Validador de firma digital PDF online y gratis. Comprueba firmas electrónicas PAdES / PKCS#7, extrae el firmante (NIF/CIF) y valida firmas digitales FNMT, DNIe y ACCV sin subir archivos.",
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR"
-      },
-      "featureList": [
-        "Extracción de certificado X.509 y NIF/CIF del firmante",
-        "Verificación criptográfica de integridad SHA-256 sobre ByteRange",
-        "Auditoría de estándares europeos PAdES (ETSI EN 319 142)",
-        "Procesamiento 100% local en el navegador (Zero-Knowledge)"
-      ]
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": faqs.map(f => ({
-        "@type": "Question",
-        "name": f.q,
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": f.a
-        }
-      }))
+  "@type": "FAQPage",
+  "mainEntity": faqs.map(f => ({
+    "@type": "Question",
+    "name": f.q,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": f.a
     }
-  ]
+  }))
 };
 ---
 
@@ -71,7 +49,7 @@ const schema = {
   description="Validador de firma digital PDF online y gratis. Comprueba si un PDF está firmado digitalmente, extrae el firmante (NIF) y valida firmas digitales FNMT, DNIe y ACCV sin subir tus archivos."
   canonicalPath="/validar-firma-digital-pdf/"
 >
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
 
   <div class="min-h-screen bg-slate-50 pb-20">
     <!-- Hero Section -->

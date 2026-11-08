@@ -7,6 +7,7 @@ interface Props {
   description?: string;
   canonicalPath?: string;
   noindex?: boolean;
+  isToolPage?: boolean;
 }
 
 const {
@@ -14,18 +15,29 @@ const {
   description = "Firma documentos PDF con tu certificado digital FNMT o DNIe gratis en tu navegador. Sin instalar AutoFirma, sin Java y 100% privado en tu equipo.",
   canonicalPath,
   noindex = false,
+  isToolPage,
 } = Astro.props;
 
 const siteUrl = "https://firmarpdfcertificado.com";
 const rawPath = canonicalPath ?? Astro.url.pathname;
 const normalizedPath = rawPath.replace(/^\/+|\/+$/g, '');
 const canonicalUrl = `${siteUrl}${normalizedPath ? `/${normalizedPath}/` : '/'}`;
-const computedTitle = title.includes('FirmarPDFCertificado') ? title : `${title} — FirmarPDFCertificado`;
+
+// Smart Title Suffix Rule: only append brand suffix if title is <= 45 chars and doesn't already include 'FirmarPDF'
+const computedTitle =
+  title.includes('FirmarPDF') || title.length > 45
+    ? title
+    : `${title} — FirmarPDFCertificado`;
+
 const ogImageUrl = `${siteUrl}/og-image.png`;
 
 // BreadcrumbList Schema (3-Tier Hierarchical for SERP Snippets)
 const pathSegments = normalizedPath ? normalizedPath.split('/') : [];
 const pageCleanName = title.split('—')[0].trim();
+
+// Determine if this is an interactive tool/app page (exclude blog, help, info, legal, errors)
+const nonToolPaths = ['blog', 'ayuda', 'contacto', 'sobre-nosotros', 'terms', 'privacy', '404', '500'];
+const isApp = isToolPage ?? (!noindex && (pathSegments.length === 0 || !nonToolPaths.includes(pathSegments[0])));
 
 const breadcrumbItems: { name: string; url: string }[] = [
   { name: 'Inicio', url: `${siteUrl}/` },
@@ -126,35 +138,38 @@ if (pathSegments.length > 0) {
       gtag('config', 'G-C7E9VCD0XB');
     </script>
 
-    <!-- Structured Data: WebApplication + BreadcrumbList -->
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "FirmarPDFCertificado",
-      "url": "https://firmarpdfcertificado.com/",
-      "applicationCategory": "BusinessApplication",
-      "applicationSubCategory": "Firma electrónica PAdES",
-      "operatingSystem": "Cualquier navegador moderno (Windows, macOS, Linux, iOS, Android)",
-      "browserRequirements": "Requiere JavaScript y navegador con soporte Web Crypto",
-      "inLanguage": "es-ES",
-      "description": "Firma documentos PDF con certificado digital FNMT o DNIe directamente en el navegador sin instalar AutoFirma ni Java.",
-      "isAccessibleForFree": true,
-      "offers": {
-        "@type": "Offer",
-        "price": "0",
-        "priceCurrency": "EUR"
-      }
-    })} />
-    <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": breadcrumbItems.map((item, idx) => ({
-        "@type": "ListItem",
-        "position": idx + 1,
-        "name": item.name,
-        "item": item.url,
-      })),
-    })} />
+    <!-- Structured Data: WebApplication (Interactive Tool Pages Only) + BreadcrumbList -->
+    {isApp && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "FirmarPDFCertificado",
+        "url": canonicalUrl,
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Cualquier navegador moderno (Windows, macOS, Linux, iOS, Android)",
+        "browserRequirements": "Requiere JavaScript y navegador con soporte Web Crypto",
+        "inLanguage": "es-ES",
+        "description": description,
+        "isAccessibleForFree": true,
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "EUR"
+        }
+      })} />
+    )}
+    {breadcrumbItems.length > 1 && (
+      <script type="application/ld+json" set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": breadcrumbItems.map((item, idx) => ({
+          "@type": "ListItem",
+          "position": idx + 1,
+          "name": item.name,
+          "item": item.url,
+        })),
+      })} />
+    )}
   </head>
   <body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col font-sans transition-colors duration-200">
     <!-- Top Navigation -->
