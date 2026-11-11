@@ -5,6 +5,7 @@
 ## Herramientas Criptográficas Locales (Interactive Web Crypto Tools)
 
 - [Firmador PDF con Certificado Digital](https://firmarpdfcertificado.com/): Firma documentos PDF con certificado FNMT o DNIe directamente en el navegador con plena validez jurídica eIDAS.
+- [Firmar PDF Online Gratis](https://firmarpdfcertificado.com/firmar-pdf-certificado-online-gratis/): Herramienta web para firmar documentos PDF con certificado digital online gratis y sin registro.
 - [Firmar PDF sin AutoFirma](https://firmarpdfcertificado.com/firmar-pdf-sin-autofirma/): Alternativa directa a AutoFirma sin Java, sin descargas y sin errores de websocket local.
 - [Firmar PDF con DNI Electrónico (DNIe)](https://firmarpdfcertificado.com/firmar-pdf-con-dnie/): Guía y herramienta para firmar con DNIe 3.0 y 4.0 mediante lector SmartCard PC/SC.
 - [Cofirmar PDF (Múltiples Firmantes)](https://firmarpdfcertificado.com/cofirmar-pdf-dos-firmas/): Añadir una segunda o tercera firma digital PAdES a un PDF previamente firmado sin invalidar las firmas anteriores (Incremental Update).
@@ -39,3 +40,10 @@
 - [Contrato de Compraventa de Vehículos para DGT](https://firmarpdfcertificado.com/blog/como-firmar-contrato-compraventa-vehiculo-dgt/): Firma telemática de contratos de coches/motos entre particulares para cambio de titularidad.
 - [Firma de Documentos para LexNET Justicia](https://firmarpdfcertificado.com/blog/como-firmar-pdf-para-lexnet-abogados-procuradores/): Requisitos de firma digital avanzada para abogados y procuradores ante sedes judiciales.
 - [Plataforma Mercurio Extranjería](https://firmarpdfcertificado.com/blog/como-firmar-subir-documentos-plataforma-mercurio-extranjeria/): Firma y subida telemática de formularios EX, tasas y expedientes de extranjería.
+- [Certificado de Retenciones IRPF](https://firmarpdfcertificado.com/blog/como-descargar-certificado-retenciones-irpf/): Cómo descargarlo para trabajadores o expedirlo y firmarlo digitalmente en PDF para empresas y gestorías (Art. 108 RIRPF).
+- [Borrador de la Declaración de la Renta 2026 en PDF](https://firmarpdfcertificado.com/blog/como-firmar-borrador-declaracion-renta-pdf/): Cómo consultar, revisar y firmar la autoliquidación en Renta WEB con certificado digital y cofirmar autorizaciones.
+- [Certificado de Estar al Corriente con Seguridad Social y Hacienda](https://firmarpdfcertificado.com/blog/como-obtener-certificado-estar-al-corriente-seguridad-social-hacienda/): Obtención telemática y verificación de integridad criptográfica para contratistas (Art. 43.1.f LGT), licitaciones y cobro de facturas.
+- [Informe de Vehículo DGT con Certificado Digital](https://firmarpdfcertificado.com/blog/como-solicitar-informe-vehiculo-dgt-con-certificado-digital/): Consulta por matrícula de cargas, embargos y kilometraje en Tráfico y firma de informe como anexo a la compraventa.
+- [Duplicado del Permiso de Conducir DGT Online](https://firmarpdfcertificado.com/blog/como-pedir-duplicado-carnet-conducir-dgt-online/): Solicitud por pérdida, robo o deterioro, pago de Tasa 4.4 y firma de autorizaciones telemáticas.
+- [Certificado de Delitos Sexuales y Antecedentes Penales](https://firmarpdfcertificado.com/blog/como-descargar-certificado-delitos-sexuales-y-antecedentes-penales/): Descarga inmediata en la Sede del Ministerio de Justicia y validación de autenticidad del sello electrónico.
+- [Certificados del Registro Civil y Últimas Voluntades](https://firmarpdfcertificado.com/blog/solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades/): Descarga gratuita de certificados oficiales de nacimiento, matrimonio, defunción y actos de última voluntad con DICIREG.
