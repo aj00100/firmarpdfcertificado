@@ -351,4 +351,18 @@ const faqs = [
       }
     }))
   })} />
+
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "FirmarPDFCertificado",
+    "url": "https://firmarpdfcertificado.com/",
+    "logo": "https://firmarpdfcertificado.com/favicon-96x96.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "contacto@firmarpdfcertificado.com",
+      "contactType": "customer support",
+      "availableLanguage": "Spanish"
+    }
+  })} />
 </Layout>

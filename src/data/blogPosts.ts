@@ -109,8 +109,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'emerald',
   },
 
-  // UNCOMMENT DAY 4: Certificado Estar al Corriente (>1,000/mo x8 terms, 100% Easy KD)
-  /*
+  // WAVE 3 (11 Nov 2026): Certificado Estar al Corriente (>1,000/mo x8 terms, 100% Easy KD)
   {
     slug: 'como-obtener-certificado-estar-al-corriente-seguridad-social-hacienda',
     title: 'Cómo Obtener el Certificado de Estar al Corriente con Hacienda y la Seguridad Social Online',
@@ -118,10 +117,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía paso a paso para descargar al instante el certificado de estar al corriente de pago (Art. 43.1.f LGT y TGSS) con certificado digital para contratistas, subvenciones y licitaciones.',
     category: 'Autónomos y Empresas',
     readTime: '7 min de lectura',
-    updatedDate: '30 de octubre de 2026',
+    updatedDate: '11 de noviembre de 2026',
     badgeColor: 'amber',
   },
-  */
 
   
 
@@ -161,8 +159,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 8: Certificado Delitos Sexuales (>10,000/mo Easy KD) & Antecedentes Penales (>1,000/mo)
-  /*
+  // WAVE 3 (11 Nov 2026): Certificado Delitos Sexuales (>10,000/mo Easy KD) & Antecedentes Penales (>1,000/mo)
   {
     slug: 'como-descargar-certificado-delitos-sexuales-y-antecedentes-penales',
     title: 'Cómo Descargar el Certificado de Delitos Sexuales y Antecedentes Penales Online al Instante',
@@ -170,10 +167,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Pasos exactos para obtener gratis el Certificado de Delitos de Naturaleza Sexual y el Certificado de Antecedentes Penales (Tasa 006) en la Sede del Ministerio de Justicia con certificado digital.',
     category: 'Ministerio de Justicia',
     readTime: '6 min de lectura',
-    updatedDate: '3 de noviembre de 2026',
+    updatedDate: '11 de noviembre de 2026',
     badgeColor: 'indigo',
   },
-  */
 
   // UNCOMMENT DAY 9: Certificado de Empadronamiento (>10,000/mo Easy KD)
   /*
@@ -189,8 +185,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 10: Registro Civil: Nacimiento (>10,000/mo), Matrimonio (>1,000/mo), Defunción (>1,000/mo), Últimas Voluntades (>1,000/mo — All Easy KD)
-  /*
+  // WAVE 3 (11 Nov 2026): Registro Civil: Nacimiento (>10,000/mo), Matrimonio (>1,000/mo), Defunción (>1,000/mo), Últimas Voluntades (>1,000/mo — All Easy KD)
   {
     slug: 'solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades',
     title: 'Certificado de Nacimiento, Matrimonio, Defunción y Últimas Voluntades Online (Gratis)',
@@ -198,12 +193,11 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Cómo descargar gratis y en el acto los certificados oficiales del Registro Civil y del Ministerio de Justicia con tu certificado digital sin pagar a gestorías intermediarias.',
     category: 'Registro Civil y Herencias',
     readTime: '8 min de lectura',
-    updatedDate: '5 de noviembre de 2026',
+    updatedDate: '11 de noviembre de 2026',
     badgeColor: 'blue',
   },
-  */
 
-  // UNCOMMENT DAY 11: Vida Laboral (>100K/mo), Renta 2026 (>10,000/mo) & Certificado Retenciones (>1,000/mo — All Easy KD)
+  // UNCOMMENT DAY 11: Vida Laboral (>100K/mo) - Wave 4
   /*
   {
     slug: 'descargar-firmar-vida-laboral-con-certificado-digital',
@@ -215,6 +209,8 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     updatedDate: '6 de noviembre de 2026',
     badgeColor: 'blue',
   },
+  */
+  // WAVE 3 (11 Nov 2026): Renta 2026 (>10,000/mo) & Certificado Retenciones (>1,000/mo — All Easy KD)
   {
     slug: 'como-firmar-borrador-declaracion-renta-pdf',
     title: 'Cómo Confirmar y Firmar el Borrador de la Declaración de la Renta 2026 en PDF',
@@ -222,7 +218,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Aprende a consultar, revisar y firmar el borrador de la Renta 2026 en Renta WEB con certificado digital FNMT o DNIe, descargar el Modelo 100 en PDF y cofirmar autorizaciones.',
     category: 'Agencia Tributaria y Renta',
     readTime: '7 min de lectura',
-    updatedDate: '6 de noviembre de 2026',
+    updatedDate: '11 de noviembre de 2026',
     badgeColor: 'amber',
   },
   {
@@ -232,10 +228,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía completa sobre el Certificado de Retenciones e Ingresos a Cuenta del IRPF (Art. 108 RIRPF). Cómo descargarlo con certificado digital y cómo firmarlo en PDF para empresas.',
     category: 'Fiscalidad e IRPF',
     readTime: '7 min de lectura',
-    updatedDate: '6 de noviembre de 2026',
+    updatedDate: '11 de noviembre de 2026',
     badgeColor: 'indigo',
   },
-  */
 
   // UNCOMMENT DAY 12: Paro SEPE (>1,000/mo) & Certificado de Empresa (>1,000/mo — Easy KD)
   /*
@@ -289,8 +284,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 15: DGT Duplicado Carnet (>1,000/mo Easy KD), Informe Vehículo & Compraventa Coche (>1,000/mo)
-  /*
+  // WAVE 3 (11 Nov 2026): DGT Duplicado Carnet (>1,000/mo Easy KD) & Informe Vehículo (>1,000/mo)
   {
     slug: 'como-solicitar-informe-vehiculo-dgt-con-certificado-digital',
     title: 'Cómo Solicitar y Descargar el Informe de Vehículo de la DGT por Matrícula con Certificado Digital',
@@ -298,7 +292,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía oficial para solicitar el informe de vehículo por matrícula en la DGT con certificado digital. Diferencias entre el informe gratis y el completo (Tasa 4.1) y comprobación de embargos.',
     category: 'Informes y Tráfico',
     readTime: '7 min de lectura',
-    updatedDate: '10 de noviembre de 2026',
+    updatedDate: '11 de noviembre de 2026',
     badgeColor: 'indigo',
   },
   {
@@ -308,10 +302,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Aprende a pedir el duplicado del carnet de conducir online en la DGT por pérdida, robo o deterioro con certificado digital. Pago de la Tasa 4.4 y permiso provisional PDF inmediato.',
     category: 'Permisos de Conducir DGT',
     readTime: '7 min de lectura',
-    updatedDate: '10 de noviembre de 2026',
+    updatedDate: '11 de noviembre de 2026',
     badgeColor: 'amber',
   },
-  */
 
   // WAVE 1 (5 Nov 2026): Regional CAs: idCAT Mòbil (>1,000/mo Easy KD), Chave 365 (>1,000/mo Easy KD), ACCV & Izenpe
   {
