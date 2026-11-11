@@ -62,7 +62,31 @@ def submit_urls():
         with urllib.request.urlopen(req) as resp:
             print(f"[OK] SubmitUrlbatch successful (HTTP {resp.status})")
     except urllib.error.HTTPError as e:
-        print(f"[FAIL] SubmitUrlbatch: HTTP {e.code} - {e.read().decode()}")
+        err_msg = e.read().decode()
+        print(f"[FAIL] SubmitUrlbatch: HTTP {e.code} - {err_msg}")
+        if 'Quota remaining' in err_msg:
+            print("Attempting fallback submission with only the 7 new Wave 3 URLs...")
+            wave3_slugs = [
+                'como-descargar-certificado-retenciones-irpf',
+                'como-firmar-borrador-declaracion-renta-pdf',
+                'como-obtener-certificado-estar-al-corriente-seguridad-social-hacienda',
+                'como-solicitar-informe-vehiculo-dgt-con-certificado-digital',
+                'como-pedir-duplicado-carnet-conducir-dgt-online',
+                'como-descargar-certificado-delitos-sexuales-y-antecedentes-penales',
+                'solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades'
+            ]
+            fallback_urls = [u for u in urls if any(s in u for s in wave3_slugs)]
+            fb_payload = json.dumps({'siteUrl': SITE_URL, 'urlList': fallback_urls}).encode('utf-8')
+            fb_req = urllib.request.Request(
+                f'https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey={API_KEY}',
+                data=fb_payload,
+                headers={'Content-Type': 'application/json; charset=utf-8'}
+            )
+            try:
+                with urllib.request.urlopen(fb_req) as fb_resp:
+                    print(f"[OK] SubmitUrlbatch (Wave 3 only - {len(fallback_urls)} URLs): HTTP {fb_resp.status}")
+            except Exception as fb_err:
+                print(f"[ERROR] Fallback failed: {fb_err}")
     except Exception as e:
         print(f"[ERROR] SubmitUrlbatch: {e}")
 
