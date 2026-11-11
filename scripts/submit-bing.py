@@ -80,7 +80,62 @@ def check_quota():
     except Exception as e:
         print(f"[ERROR] Quota check failed: {e}")
 
+def submit_indexnow():
+    print("\n=== Submitting URLs via IndexNow API ===")
+    if not os.path.exists(SITEMAP_FILE):
+        print(f"[ERROR] Sitemap file not found at {SITEMAP_FILE}")
+        return
+
+    with open(SITEMAP_FILE, 'r') as f:
+        content = f.read()
+
+    urls = re.findall(r'<loc>([^<]+)</loc>', content)
+
+    # Priority Wave 3 URLs first
+    wave3_slugs = [
+        'como-descargar-certificado-retenciones-irpf',
+        'como-firmar-borrador-declaracion-renta-pdf',
+        'como-obtener-certificado-estar-al-corriente-seguridad-social-hacienda',
+        'como-solicitar-informe-vehiculo-dgt-con-certificado-digital',
+        'como-pedir-duplicado-carnet-conducir-dgt-online',
+        'como-descargar-certificado-delitos-sexuales-y-antecedentes-penales',
+        'solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades',
+        'validar-firma-digital-pdf',
+        'firmar-pdf-con-dnie',
+        'blog'
+    ]
+    wave3_urls = [u for u in urls if any(slug in u for slug in wave3_slugs)]
+
+    print(f"Submitting {len(wave3_urls)} Wave 3 Priority URLs to IndexNow endpoints...")
+
+    payload = json.dumps({
+        'host': 'firmarpdfcertificado.com',
+        'key': API_KEY,
+        'keyLocation': f'{SITE_URL}/{API_KEY}.txt',
+        'urlList': wave3_urls
+    }).encode('utf-8')
+
+    endpoints = [
+        'https://api.indexnow.org/indexnow',
+        'https://www.bing.com/indexnow'
+    ]
+
+    for ep in endpoints:
+        req = urllib.request.Request(
+            ep,
+            data=payload,
+            headers={'Content-Type': 'application/json; charset=utf-8'}
+        )
+        try:
+            with urllib.request.urlopen(req) as resp:
+                print(f"[OK] IndexNow ({ep}): HTTP {resp.status}")
+        except urllib.error.HTTPError as e:
+            print(f"[INFO] IndexNow ({ep}): HTTP {e.code} - {e.read().decode()}")
+        except Exception as e:
+            print(f"[ERROR] IndexNow ({ep}): {e}")
+
 if __name__ == '__main__':
     submit_sitemaps()
     submit_urls()
     check_quota()
+    submit_indexnow()
