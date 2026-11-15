@@ -18,7 +18,14 @@ export type TelemetryEvent =
   | 'sign_err_unknown'
   | 'validator_pdf_loaded'
   | 'validator_success'
-  | 'validator_error';
+  | 'validator_error'
+  | 'cert_check_loaded'
+  | 'cert_check_attempt'
+  | 'cert_check_success'
+  | 'cert_check_error'
+  | 'cert_err_wrong_pass'
+  | 'cert_err_format'
+  | 'affiliate_click';
 
 export interface TelemetryProps {
   [key: string]: string | number | boolean | undefined;

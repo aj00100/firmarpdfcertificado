@@ -292,6 +292,9 @@ const faqs = [
 <script>
   import forge from 'node-forge';
   import { parseUniversalPkcs12 } from '../utils/pkcs12-universal';
+  import { trackEvent } from '../utils/telemetry';
+
+  trackEvent('tool_view', { studio: 'cert_checker' });
 
   const fileInput = document.getElementById('cert-check-input') as HTMLInputElement;
   const dropzone = document.getElementById('cert-check-dropzone') as HTMLElement;
@@ -332,6 +335,7 @@ const faqs = [
     titleEl.textContent = `✅ ${file.name}`;
     subEl.textContent = `${(file.size / 1024).toFixed(1)} KB · Introduce tu contraseña y pulsa Comprobar`;
     dropzone.classList.add('border-emerald-500', 'bg-emerald-50/30');
+    trackEvent('cert_check_loaded', { size_kb: Math.round(file.size / 1024) });
   }
 
   fileInput?.addEventListener('change', () => {
@@ -359,6 +363,7 @@ const faqs = [
 
     resultBox.classList.add('hidden');
     showMsg('⏳ Analizando estructura X.509 localmente...', false);
+    trackEvent('cert_check_attempt');
 
     try {
       const buf = await selectedFile.arrayBuffer();
@@ -396,6 +401,12 @@ const faqs = [
       const diffMs = notAfter.getTime() - now.getTime();
       const diffDays = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 
+      trackEvent('cert_check_success', {
+        days_remaining: diffDays,
+        is_expired: diffDays <= 0,
+        has_private_key: hasPrivateKey,
+      });
+
       statusBox.classList.add('hidden');
       resultBox.classList.remove('hidden');
 
@@ -428,6 +439,10 @@ const faqs = [
         bannerBadge.textContent = 'ACTIVO · VÁLIDO';
       }
     } catch (err: any) {
+      const isWrongPass = /contraseña|password/i.test(err?.message || '');
+      const errCode = isWrongPass ? 'cert_err_wrong_pass' : 'cert_err_format';
+      trackEvent('cert_check_error', { error_code: errCode, error_msg: String(err?.message || '') });
+      trackEvent(errCode as any);
       showMsg(`❌ ${err?.message || 'Contraseña incorrecta o archivo .p12/.pfx dañado. Verifica tu clave de exportación.'}`, true);
     }
   });
