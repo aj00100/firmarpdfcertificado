@@ -287,17 +287,20 @@ async function runIndependentPyHankoAudit() {
   const pyScript = `
 from pyhanko.pdf_utils.reader import PdfFileReader
 from pyhanko.sign import validation
+from pyhanko_certvalidator import ValidationContext
 
 targets = [
     ("/tmp/pades_e2e_test/signed_pbmac1.pdf", "PBMAC1"),
-    ("/tmp/pades_e2e_test/signed_legacy.pdf", "Legacy 3DES")
+    ("/tmp/pades_e2e_test/signed_legacy.pdf", "Legacy 3DES"),
+    ("/tmp/pades_e2e_test/signed_ecdsa_valid.pdf", "Detached ECDSA P-256")
 ]
 
 for path, label in targets:
     with open(path, "rb") as f:
         r = PdfFileReader(f)
         sig = r.embedded_signatures[0]
-        st = validation.validate_pdf_signature(sig)
+        vc = ValidationContext(trust_roots=[sig.signer_cert]) if sig.signer_cert else None
+        st = validation.validate_pdf_signature(sig, signer_validation_context=vc)
         assert st.intact, f"pyHanko reported signature not intact on {label}"
         assert st.valid, f"pyHanko reported signature invalid on {label}"
         assert st.coverage.name == "ENTIRE_FILE", f"pyHanko reported coverage {st.coverage.name} on {label}"
@@ -348,6 +351,12 @@ async function main() {
     '/tmp/real_signed_pdfs/pades_bes_dss.pdf',
     'REAL-WORLD: European Commission DSS PAdES-BES (SHA-512)',
     { digestAlgorithm: 'SHA-512', isSha1: false }
+  );
+
+  await runPositiveTest(
+    '/tmp/pades_e2e_test/signed_ecdsa_valid.pdf',
+    'OUR ENGINE / INDEPENDENT: Detached ECDSA P-256 Signed PDF',
+    { digestAlgorithm: 'SHA-256', isSha1: false }
   );
 
   // 2. Multi-Signature / Incremental Saves Suite
