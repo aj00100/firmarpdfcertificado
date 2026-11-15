@@ -86,7 +86,7 @@ const fixtures = [
   {
     name: 'tamper_time_pbmac1.pdf',
     category: 'Cryptographic Negative',
-    description: 'T2: Mutated signingTime in authenticated signedAttrs',
+    description: 'T2: Mutated authenticated attribute byte inside signedAttrs (breaks signature math over attributes while leaving PDF body intact)',
     path: '/tmp/tamper_tests/tamper_time_pbmac1.pdf'
   },
   {

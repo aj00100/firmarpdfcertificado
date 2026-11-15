@@ -17,8 +17,8 @@ const faqs = [
     a: "Sí, es 100% privado y seguro. A diferencia de otras webs que suben tus archivos a servidores externos, nuestro auditor ejecuta toda la criptografía (análisis ASN.1, cálculo de hashes SHA-256 y lectura de certificados X.509) directamente en la memoria RAM de tu navegador mediante WebAssembly y la API Web Crypto. Tu documento jamás sale de tu ordenador ni pasa por Internet."
   },
   {
-    q: "¿Qué certificados digitales reconoce la herramienta?",
-    a: "El motor es compatible con cualquier certificado X.509 v3 estándar bajo el reglamento europeo eIDAS. Esto incluye certificados de Persona Física, Representante de Persona Jurídica y Sello Electrónico emitidos por la FNMT-RCM, DNI electrónico (DNIe), ACCV, Camerfirma, Izenpe, Firmaprofesional, AOC, ANF AC y prestadores internacionales."
+    q: "¿Qué certificados reconoce?",
+    a: "El inspector es compatible con cualquier certificado X.509 v3 estándar (RSA o ECDSA). Decodifica y extrae en memoria local los campos Issuer y Subject de certificados emitidos por prestadores como la FNMT-RCM, DNI electrónico (DNIe), ACCV, Camerfirma, Izenpe o prestadores internacionales, sin validar la cadena de certificación contra listas de confianza externas (EU LOTL/TSL) ni servidores de revocación OCSP o listas CRL."
   },
   {
     q: "¿Por qué el validador indica 'Integridad Comprometida' en mi documento?",
@@ -45,8 +45,8 @@ const faqSchema = {
 ---
 
 <Layout
-  title="Validador de Firma Digital PDF Gratis | Validar Firmas Digitales Online"
-  description="Validador de firma digital PDF online y gratis. Comprueba si un PDF está firmado digitalmente, extrae el firmante (NIF) y valida firmas digitales FNMT, DNIe y ACCV sin subir tus archivos."
+  title="Comprobar Firma Digital PDF Online: Inspector Criptográfico Local (Sin Subir Archivos)"
+  description="Comprueba la firma digital de un PDF online y gratis en tu navegador. Inspector criptográfico local de integridad de bytes, hashes SHA-256 y certificados X.509 sin subir archivos."
   canonicalPath="/validar-firma-digital-pdf/"
 >
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
@@ -102,17 +102,17 @@ const faqSchema = {
 
           <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
             <div class="text-purple-600 font-bold text-sm uppercase tracking-wider mb-1">3. Autoridad de Certificación (CA)</div>
-            <h3 class="text-lg font-bold text-slate-900 mb-2">Reconocimiento de Prestadores Cualificados</h3>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Lectura de Entidad Emisora del Certificado</h3>
             <p class="text-sm text-slate-600 leading-relaxed">
-              Identificamos la entidad emisora del certificado digital (FNMT-RCM, Dirección General de la Policía - DNIe, ACCV, Camerfirma, Firmaprofesional, Izenpe, etc.) y verificamos el algoritmo criptográfico empleado (RSA 2048/4096 bits o ECDSA).
+              El inspector decodifica los campos <code>Issuer</code> y <code>Subject</code> del certificado X.509 estándar (como FNMT-RCM, DNIe, ACCV, Camerfirma o Izenpe) y su algoritmo de clave pública (RSA o ECDSA). La comprobación se ejecuta 100% en local sin consultar listas de confianza externas (LOTL/TSL de la Unión Europea) ni servidores de revocación en línea (OCSP/CRL).
             </p>
           </div>
 
           <div class="p-5 rounded-xl bg-slate-50 border border-slate-200">
-            <div class="text-amber-600 font-bold text-sm uppercase tracking-wider mb-1">4. Cumplimiento Europeo</div>
-            <h3 class="text-lg font-bold text-slate-900 mb-2">Atributos PAdES-B y Vigencia Temporal</h3>
+            <div class="text-amber-600 font-bold text-sm uppercase tracking-wider mb-1">4. Cumplimiento Técnico PAdES</div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Atributos PAdES y Vigencia Temporal</h3>
             <p class="text-sm text-slate-600 leading-relaxed">
-              Auditamos la presencia del atributo obligatorio europeo <code>signingCertificateV2</code> (OID <code>1.2.840.113549.1.9.16.2.47</code>) que protege contra ataques de sustitución de certificados, y cruzamos la fecha de firma con el periodo de validez del certificado.
+              Auditamos la presencia del atributo europeo <code>signingCertificateV2</code> (OID <code>1.2.840.113549.1.9.16.2.47</code>) que protege contra ataques de sustitución de certificados, y cruzamos la fecha declarada con el periodo de validez del certificado.
             </p>
           </div>
         </div>
@@ -128,7 +128,7 @@ const faqSchema = {
             Firma tus propios PDFs con Certificado Digital (.p12 / .pfx) o de forma manuscrita
           </h2>
           <p class="text-slate-300 text-sm mt-2 max-w-2xl">
-            Añade tu sello visual y firma criptográfica PAdES-B válida ante la administración sin instalar Autofirma ni Java.
+            Añade tu sello visual y firma criptográfica PAdES en formato PDF sin instalar Autofirma ni Java.
           </p>
         </div>
         <a

@@ -201,10 +201,8 @@ function buildPAdESDetachedCmsHex(identity, part1Bytes, part2Bytes, signDate) {
       {
         type: forge.pki.oids.messageDigest,
       },
-      {
-        type: forge.pki.oids.signingTime,
-        value: signDate,
-      },
+      // Note: ETSI EN 319 142-1 Section 6.3 (PAdES-B-B) forbids id-signingTime inside CMS signedAttrs.
+      // Claimed signing time is placed in PDF Signature Dictionary /M entry.
     ],
   });
 
@@ -291,6 +289,17 @@ function buildPAdESDetachedCmsHex(identity, part1Bytes, part2Bytes, signDate) {
   return cmsDer.toHex().toUpperCase();
 }
 
+function formatPdfDateWithOffset(date) {
+  const pad = (n) => String(n).padStart(2, '0');
+  const YYYY = date.getUTCFullYear();
+  const MM = pad(date.getUTCMonth() + 1);
+  const DD = pad(date.getUTCDate());
+  const HH = pad(date.getUTCHours());
+  const mm = pad(date.getUTCMinutes());
+  const SS = pad(date.getUTCSeconds());
+  return `D:${YYYY}${MM}${DD}${HH}${mm}${SS}+00'00'`;
+}
+
 // Helper: End-to-End PDF Signer
 const BYTE_RANGE_SENTINEL = 1000000000;
 const SIGNATURE_HEX_CAPACITY = 16384;
@@ -311,8 +320,8 @@ async function signPdf(pdfBytes, identity, signDate) {
       PDFNumber.of(BYTE_RANGE_SENTINEL),
     ],
     Contents: PDFHexString.of('0'.repeat(SIGNATURE_HEX_CAPACITY)),
-    Reason: PDFString.of('Validez juridica eIDAS'),
-    M: PDFString.fromDate(signDate),
+    Reason: PDFString.of('Firma digital de documento'),
+    M: PDFString.of(formatPdfDateWithOffset(signDate)),
     Name: PDFString.of(identity.commonName),
   });
   const sigDictRef = pdfDoc.context.register(sigDict);

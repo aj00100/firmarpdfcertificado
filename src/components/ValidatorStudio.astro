@@ -4,7 +4,7 @@
 
 <div class="bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
   <!-- Dropzone Principal -->
-  <div id="validator-dropzone" class="p-8 md:p-12 text-center border-2 border-dashed border-slate-300 hover:border-slate-500 rounded-xl m-4 transition-all cursor-pointer bg-slate-50/70 hover:bg-slate-100/50">
+  <div id="validator-dropzone" class="print:hidden p-8 md:p-12 text-center border-2 border-dashed border-slate-300 hover:border-slate-500 rounded-xl m-4 transition-all cursor-pointer bg-slate-50/70 hover:bg-slate-100/50">
     <input type="file" id="pdf-audit-input" accept="application/pdf,.pdf" class="hidden" />
     
     <div class="w-16 h-16 rounded-2xl bg-slate-900 text-slate-100 flex items-center justify-center mx-auto mb-4 shadow-md">
@@ -33,6 +33,12 @@
 
   <!-- Panel de Resultados de Auditoría (Oculto por defecto) -->
   <div id="audit-results-panel" class="hidden border-t border-slate-200 p-6 md:p-8 bg-white">
+    <!-- Aviso Exclusivo para Impresión / Informe PDF Físico -->
+    <div class="hidden print:block p-4 mb-4 border border-slate-300 rounded bg-slate-50 text-[10px] text-slate-700 leading-relaxed">
+      <strong>INFORME DE INSPECCIÓN CRIPTOGRÁFICA LOCAL (SIN SUBIR ARCHIVOS)</strong><br />
+      Este informe refleja exclusivamente la comprobación matemática local de la firma (integridad de bytes y clave pública) ejecutada en el navegador del usuario. No constituye una validación jurídica oficial de certificado (eIDAS / LOTL / TSL) ni comprueba el estado de revocación en tiempo real (OCSP / CRL). Para efectos legales o administrativos vinculantes, utilice pasarelas oficiales como VALIDe (valide.redsara.es) o software con conexión a listas de confianza oficiales.
+    </div>
+
     <!-- Cabecera del archivo analizado -->
     <div class="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-200">
       <div class="flex items-center gap-3">
@@ -45,7 +51,7 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 print:hidden">
         <button type="button" id="print-audit-btn" class="text-xs font-semibold px-3.5 py-2 rounded-lg border border-slate-300 text-slate-700 hover:bg-slate-100 transition-colors">
           Imprimir Informe
         </button>
@@ -89,6 +95,11 @@
       <p class="leading-relaxed">
         <strong>Validación Oficial Estatal:</strong> Para trámites judiciales o administrativos con requerimiento de informe oficial vinculante, recomendamos contrastar el documento en la pasarela oficial <a href="https://valide.redsara.es" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline font-semibold hover:text-blue-800">VALIDe (valide.redsara.es)</a>. <em>Aviso de privacidad: VALIDe procesa el archivo en servidores de la Administración General del Estado, mientras que este inspector opera 100% en tu navegador.</em>
       </p>
+    </div>
+
+    <!-- Pie de Página Exclusivo para Impresión -->
+    <div class="hidden print:block mt-6 pt-4 border-t border-slate-300 text-[9px] text-slate-500">
+      Inspección criptográfica generada en la memoria local del navegador web mediante la API Web Crypto. No se subió ningún archivo PDF para su procesamiento.
     </div>
   </div>
 </div>
@@ -247,6 +258,42 @@
     return null;
   }
 
+  function parsePdfDate(raw: string): Date | null {
+    const clean = raw.replace(/^D:/, "").trim();
+    const m = clean.match(/^(\d{4})(\d{2})(\d{2})(\d{2})?(\d{2})?(\d{2})?(?:([+-Z])(\d{2})?'?(\d{2})?'?)?/);
+    if (!m) return null;
+    const year = parseInt(m[1], 10);
+    const month = parseInt(m[2], 10) - 1;
+    const day = parseInt(m[3], 10);
+    const hour = m[4] ? parseInt(m[4], 10) : 0;
+    const min = m[5] ? parseInt(m[5], 10) : 0;
+    const sec = m[6] ? parseInt(m[6], 10) : 0;
+    const tzSign = m[7];
+    let tzOffsetMinutes = 0;
+    if (tzSign === "+" || tzSign === "-") {
+      const tzHour = m[8] ? parseInt(m[8], 10) : 0;
+      const tzMin = m[9] ? parseInt(m[9], 10) : 0;
+      tzOffsetMinutes = (tzHour * 60 + tzMin) * (tzSign === "+" ? 1 : -1);
+    }
+    const utcMillis = Date.UTC(year, month, day, hour, min, sec) - (tzOffsetMinutes * 60 * 1000);
+    return new Date(utcMillis);
+  }
+
+  function getRsaKeyBits(spkiBytes: Uint8Array): number | null {
+    const root = parseAsn1(spkiBytes);
+    if (!root || !root.children || root.children.length < 2) return null;
+    const bitStringNode = root.children[1];
+    if (bitStringNode.tag !== 0x03) return null;
+    const rsaPkDer = spkiBytes.subarray(bitStringNode.valueStart + 1, bitStringNode.valueStart + bitStringNode.length);
+    const rsaSeq = parseAsn1(rsaPkDer);
+    if (!rsaSeq || !rsaSeq.children || rsaSeq.children.length < 2) return null;
+    const modNode = rsaSeq.children[0];
+    if (modNode.tag !== 0x02) return null;
+    let modLen = modNode.length;
+    if (rsaPkDer[modNode.valueStart] === 0x00) modLen--;
+    return modLen * 8;
+  }
+
   function extractRDNMap(bytes: Uint8Array, nameNode: Asn1Node): Record<string, string> {
     const map: Record<string, string> = {};
     if (!nameNode.children) return map;
@@ -295,6 +342,12 @@
     subjectMap: Record<string, string>;
     validFrom: Date | null;
     validTo: Date | null;
+    tbsDer: Uint8Array;
+    certSigAlgoOid: string;
+    certSigBytes: Uint8Array;
+    isSelfSignedSubjectIssuer: boolean;
+    selfSignatureVerified: boolean | null;
+    rsaKeyBits: number | null;
   }
 
   interface ExtractedSignerInfo {
@@ -400,7 +453,49 @@
           validFrom = decodeAsn1Time(cmsBytes, tbs.children[4].children[0]);
           validTo = decodeAsn1Time(cmsBytes, tbs.children[4].children[1]);
         }
-        certs.push({ serialHex, rawDer, spkiBytes, keyAlgoOid, curveOid, issuerMap, subjectMap, validFrom, validTo });
+
+        const tbsDer = cmsBytes.subarray(tbs.start, tbs.start + tbs.headerLen + tbs.length);
+        let certSigAlgoOid = "";
+        if (node.children[1].children && node.children[1].children[0]?.tag === 0x06) {
+          certSigAlgoOid = decodeOid(cmsBytes, node.children[1].children[0]);
+        }
+        const certSigNode = node.children[2];
+        const certSigBytes = (certSigNode.length > 1)
+          ? cmsBytes.subarray(certSigNode.valueStart + 1, certSigNode.valueStart + certSigNode.length)
+          : new Uint8Array();
+
+        // Check if subject DN === issuer DN
+        const issuerDer = cmsBytes.subarray(tbs.children[3].start, tbs.children[3].start + tbs.children[3].headerLen + tbs.children[3].length);
+        const subjectDer = cmsBytes.subarray(tbs.children[5].start, tbs.children[5].start + tbs.children[5].headerLen + tbs.children[5].length);
+        let dnDerMatch = (issuerDer.length === subjectDer.length);
+        if (dnDerMatch) {
+          for (let i = 0; i < issuerDer.length; i++) {
+            if (issuerDer[i] !== subjectDer[i]) { dnDerMatch = false; break; }
+          }
+        }
+        const dnKeysI = Object.keys(issuerMap);
+        const dnKeysS = Object.keys(subjectMap);
+        const dnStringMatch = dnKeysI.length > 0 && dnKeysI.length === dnKeysS.length && dnKeysI.every(k => issuerMap[k] === subjectMap[k]);
+        const isSelfSignedSubjectIssuer = dnDerMatch || dnStringMatch;
+        const rsaKeyBits = (keyAlgoOid === "1.2.840.113549.1.1.1" && spkiBytes.length > 0) ? getRsaKeyBits(spkiBytes) : null;
+
+        certs.push({
+          serialHex,
+          rawDer,
+          spkiBytes,
+          keyAlgoOid,
+          curveOid,
+          issuerMap,
+          subjectMap,
+          validFrom,
+          validTo,
+          tbsDer,
+          certSigAlgoOid,
+          certSigBytes,
+          isSelfSignedSubjectIssuer,
+          selfSignatureVerified: null,
+          rsaKeyBits
+        });
       }
 
       // 2. Detectar SignerInfo
@@ -458,16 +553,16 @@
                     }
                   } else if (oid === "1.2.840.113549.1.9.16.2.47") {
                     hasPadesEssCertIdV2 = true;
-                    // Recorrer árbol de SigningCertificateV2 para extraer certHash
+                    // RFC 5035 §3: The FIRST ESSCertIDv2 element identifies the certificate used to verify the signature.
                     function searchEssHash(n: Asn1Node) {
-                      if (n.tag === 0x06) {
+                      if (n.tag === 0x06 && !essCertHashHex) {
                         const hashOid = decodeOid(cmsBytes, n);
                         if (OID_HASH[hashOid]) essCertHashAlgo = OID_HASH[hashOid];
                       }
-                      if (n.tag === 0x04 && [32, 48, 64].includes(n.length)) {
+                      if (n.tag === 0x04 && [32, 48, 64].includes(n.length) && !essCertHashHex) {
                         essCertHashHex = toHex(cmsBytes.subarray(n.valueStart, n.valueStart + n.length));
                       }
-                      if (n.children) n.children.forEach(searchEssHash);
+                      if (n.children && !essCertHashHex) n.children.forEach(searchEssHash);
                     }
                     searchEssHash(attr.children[1]);
                   }
@@ -566,8 +661,12 @@
     sigAlgorithmLabel: string;
     certHashMatches: boolean | null;
     certSubstitutionDetected: boolean;
+    hasMalformedEssCert: boolean;
     sidMatched: boolean;
     isSha1: boolean;
+    rsaKeyBits: number | null;
+    isWeakRsaKey: boolean;
+    pdfMDate: Date | null;
     matchedCert: ExtractedCert | null;
     signerInfo: ExtractedSignerInfo | null;
     cmsInfo: ReturnType<typeof inspectPkcs7Cms>;
@@ -626,6 +725,22 @@
         cmsBytes = hexToBytes(hexMatch[1]);
       }
 
+      // Extraer fecha declarada en /M exclusivamente dentro del diccionario del /Contents actual
+      let pdfMDate: Date | null = null;
+      const dictStartIdx = latin1Text.lastIndexOf("<<", l0);
+      const dictEndIdx = latin1Text.indexOf(">>", b1);
+      if (dictStartIdx !== -1 && dictEndIdx !== -1 && dictEndIdx > dictStartIdx && (dictEndIdx - dictStartIdx) < 32768) {
+        // Excluir el payload hexadecimal de /Contents para evitar señuelos dentro del bloque CMS
+        const dictHeader = latin1Text.slice(dictStartIdx, l0);
+        const dictFooter = latin1Text.slice(b1, dictEndIdx);
+        const headerMatch = dictHeader.match(/\/M\s*\(([^)]+)\)/);
+        const footerMatch = dictFooter.match(/\/M\s*\(([^)]+)\)/);
+        const targetMatch = headerMatch || footerMatch;
+        if (targetMatch) {
+          pdfMDate = parsePdfDate(targetMatch[1]);
+        }
+      }
+
       const cmsData = inspectCmsFull(cmsBytes);
       const cmsInfo = inspectPkcs7Cms(cmsBytes);
 
@@ -636,6 +751,7 @@
       let sigAlgorithmLabel = "RSA PKCS#1 v1.5";
       let certHashMatches: boolean | null = null;
       let certSubstitutionDetected = false;
+      let hasMalformedEssCert = false;
       let sidMatched = false;
       let matchedCert: ExtractedCert | null = null;
       let signerInfo: ExtractedSignerInfo | null = null;
@@ -660,19 +776,107 @@
           cmsInfo.validFrom = matchedCert.validFrom;
           cmsInfo.validTo = matchedCert.validTo;
 
-          // Verificación de SigningCertificateV2 (defensa contra sustitución de certificados T4)
-          if (signerInfo.hasPadesEssCertIdV2 && signerInfo.essCertHashHex && matchedCert.rawDer.length > 0) {
+          // Verificación criptográfica de certificado autofirmado (Item 6)
+          if (matchedCert.isSelfSignedSubjectIssuer && matchedCert.spkiBytes.length > 0 && matchedCert.certSigBytes.length > 0) {
             try {
-              const certDerHash = await crypto.subtle.digest(signerInfo.essCertHashAlgo || "SHA-256", matchedCert.rawDer);
-              const calcCertHashHex = toHex(new Uint8Array(certDerHash));
-              certHashMatches = (calcCertHashHex.toLowerCase() === signerInfo.essCertHashHex.toLowerCase());
-              if (!certHashMatches) {
-                certSubstitutionDetected = true;
+              let certHashName = "SHA-256";
+              if (matchedCert.certSigAlgoOid === "1.2.840.113549.1.1.5" || matchedCert.certSigAlgoOid === "1.2.840.10045.4.1") {
+                certHashName = "SHA-1";
+              } else if (matchedCert.certSigAlgoOid === "1.2.840.113549.1.1.12" || matchedCert.certSigAlgoOid === "1.2.840.10045.4.3.3") {
+                certHashName = "SHA-384";
+              } else if (matchedCert.certSigAlgoOid === "1.2.840.113549.1.1.13" || matchedCert.certSigAlgoOid === "1.2.840.10045.4.3.4") {
+                certHashName = "SHA-512";
+              }
+
+              const isCertEcdsa = (matchedCert.keyAlgoOid === "1.2.840.10045.2.1" || matchedCert.certSigAlgoOid.startsWith("1.2.840.10045.4."));
+              if (isCertEcdsa) {
+                const curveMap: Record<string, { name: string; byteLen: number }> = {
+                  "1.2.840.10045.3.1.7": { name: "P-256", byteLen: 32 },
+                  "1.3.132.0.34": { name: "P-384", byteLen: 48 },
+                  "1.3.132.0.35": { name: "P-521", byteLen: 66 }
+                };
+                const cInfo = curveMap[matchedCert.curveOid] || { name: "P-256", byteLen: 32 };
+                const sigAsn1 = parseAsn1(matchedCert.certSigBytes);
+                if (sigAsn1 && sigAsn1.children && sigAsn1.children.length >= 2) {
+                  let rB = matchedCert.certSigBytes.subarray(sigAsn1.children[0].valueStart, sigAsn1.children[0].valueStart + sigAsn1.children[0].length);
+                  let sB = matchedCert.certSigBytes.subarray(sigAsn1.children[1].valueStart, sigAsn1.children[1].valueStart + sigAsn1.children[1].length);
+                  if (rB[0] === 0x00) rB = rB.subarray(1);
+                  if (sB[0] === 0x00) sB = sB.subarray(1);
+                  const p1363 = new Uint8Array(cInfo.byteLen * 2);
+                  p1363.set(rB, cInfo.byteLen - rB.length);
+                  p1363.set(sB, cInfo.byteLen * 2 - sB.length);
+
+                  const pubKey = await crypto.subtle.importKey(
+                    "spki",
+                    matchedCert.spkiBytes,
+                    { name: "ECDSA", namedCurve: cInfo.name },
+                    false,
+                    ["verify"]
+                  );
+                  matchedCert.selfSignatureVerified = await crypto.subtle.verify(
+                    { name: "ECDSA", hash: { name: certHashName } },
+                    pubKey,
+                    p1363,
+                    matchedCert.tbsDer
+                  );
+                } else {
+                  matchedCert.selfSignatureVerified = false;
+                }
+              } else {
+                const pubKey = await crypto.subtle.importKey(
+                  "spki",
+                  matchedCert.spkiBytes,
+                  { name: "RSASSA-PKCS1-v1_5", hash: { name: certHashName } },
+                  false,
+                  ["verify"]
+                );
+                matchedCert.selfSignatureVerified = await crypto.subtle.verify(
+                  "RSASSA-PKCS1-v1_5",
+                  pubKey,
+                  matchedCert.certSigBytes,
+                  matchedCert.tbsDer
+                );
               }
             } catch {
-              certHashMatches = false;
-              certSubstitutionDetected = true;
+              matchedCert.selfSignatureVerified = false;
             }
+          }
+
+          // Verificación exhaustiva de SigningCertificateV2:
+          // (a) Malformado -> fallo de verificación dura (hasMalformedEssCert = true)
+          // (b) Ausente -> PKCS#7 clásico / sin ESSCertIDv2 (NUNCA sustitución ni malformado)
+          // (c) Mismatch real -> Discrepancia en ESSCertIDv2 (posible sustitución)
+          if (signerInfo.hasPadesEssCertIdV2) {
+            if (!signerInfo.essCertHashHex) {
+              // Caso (a): Atributo malformado o sin certHash extraíble
+              certHashMatches = null;
+              certSubstitutionDetected = false;
+              hasMalformedEssCert = true;
+            } else if (matchedCert.rawDer.length > 0) {
+              try {
+                const certDerHash = await crypto.subtle.digest(signerInfo.essCertHashAlgo || "SHA-256", matchedCert.rawDer);
+                const calcCertHashHex = toHex(new Uint8Array(certDerHash));
+                if (calcCertHashHex.toLowerCase() === signerInfo.essCertHashHex.toLowerCase()) {
+                  certHashMatches = true;
+                  certSubstitutionDetected = false;
+                  hasMalformedEssCert = false;
+                } else {
+                  // Caso (c): Discrepancia real en el hash del certificado
+                  certHashMatches = false;
+                  certSubstitutionDetected = true;
+                  hasMalformedEssCert = false;
+                }
+              } catch {
+                certHashMatches = null;
+                certSubstitutionDetected = false;
+                hasMalformedEssCert = true;
+              }
+            }
+          } else {
+            // Caso (b): Atributo ausente
+            certHashMatches = null;
+            certSubstitutionDetected = false;
+            hasMalformedEssCert = false;
           }
         }
 
@@ -757,7 +961,8 @@
               }
             }
           } else if (isRsa && matchedCert?.spkiBytes) {
-            sigAlgorithmLabel = "RSA PKCS#1 v1.5";
+            const rsaBits = matchedCert.rsaKeyBits;
+            sigAlgorithmLabel = rsaBits ? `RSA PKCS#1 v1.5 (${rsaBits} bits)` : "RSA PKCS#1 v1.5";
             try {
               const pubKey = await crypto.subtle.importKey(
                 "spki",
@@ -786,6 +991,9 @@
         }
       }
 
+      const rsaKeyBits = matchedCert?.rsaKeyBits ?? null;
+      const isWeakRsaKey = (rsaKeyBits !== null && rsaKeyBits < 2048);
+
       signatures.push({
         index: idx + 1,
         byteRange: [b0, l0, b1, l1],
@@ -802,8 +1010,12 @@
         sigAlgorithmLabel,
         certHashMatches,
         certSubstitutionDetected,
+        hasMalformedEssCert,
         sidMatched,
         isSha1,
+        rsaKeyBits,
+        isWeakRsaKey,
+        pdfMDate,
         matchedCert,
         signerInfo,
         cmsInfo
@@ -898,6 +1110,7 @@
       const hasFailedMath = signatures.some(s => s.mathSignatureStatus === "INVALID");
       const hasGapTampering = signatures.some(s => !s.gapIntegrityValid);
       const hasCertSubstitution = signatures.some(s => s.certSubstitutionDetected);
+      const hasMalformedEssCert = signatures.some(s => s.hasMalformedEssCert);
       const hasUnsupportedAlgorithm = signatures.some(s => s.mathSignatureStatus === "UNSUPPORTED_ALGORITHM");
       const hasSha1 = signatures.some(s => s.isSha1);
 
@@ -907,15 +1120,17 @@
 
       trackEvent('validator_success', {
         signature_count: signatures.length,
-        all_intact: !hasCorruptedHash && !hasFailedMath && !hasGapTampering && !hasCertSubstitution && !hasTrailingData,
+        all_intact: !hasCorruptedHash && !hasFailedMath && !hasGapTampering && !hasCertSubstitution && !hasMalformedEssCert && !hasTrailingData,
       });
 
-      if (hasCorruptedHash || hasFailedMath || hasGapTampering || hasCertSubstitution) {
+      if (hasCorruptedHash || hasFailedMath || hasGapTampering || hasCertSubstitution || hasMalformedEssCert) {
         statusBanner.className = "mt-6 p-5 rounded-xl border bg-red-50 border-red-300 text-red-950 flex items-start gap-4";
         statusIcon.innerHTML = `<svg class="w-7 h-7 text-red-600 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`;
         statusTitle.textContent = "Alerta: Integridad Criptográfica Comprometida o Manipulación Detectada";
-        statusDesc.textContent = hasCertSubstitution
-          ? "Se ha detectado una discrepancia crítica entre el certificado incluido en el archivo y el atributo firmado SigningCertificateV2 (posible ataque de sustitución de identidad)."
+        statusDesc.textContent = hasMalformedEssCert
+          ? "Se ha detectado un atributo SigningCertificateV2 malformado en los atributos autenticados (la vinculación del certificado no es verificable)."
+          : hasCertSubstitution
+          ? "El certificado incluido en el documento no coincide con el hash firmado en el atributo SigningCertificateV2 (ESSCertIDv2)."
           : hasGapTampering
           ? "Se ha detectado contenido anómalo o inyección de operadores PDF dentro del gap de la firma (/ByteRange Wrapping Attack)."
           : hasCorruptedHash
@@ -953,17 +1168,58 @@
         const signerId = rawId || "No especificado en OID";
         const orgName = subj.O || "Persona Física / Particular";
         const issuerName = iss.CN || iss.O || "Autoridad de Certificación Declarada (CA)";
-        const signDate = sig.signerInfo?.signingTime ? sig.signerInfo.signingTime.toLocaleString("es-ES") : "Sello temporal no embebido";
+
+        const isSelfSignedVerified = (sig.matchedCert?.isSelfSignedSubjectIssuer && sig.matchedCert?.selfSignatureVerified === true);
+        const caTrustStatus = isSelfSignedVerified
+          ? "Autofirmado: ninguna autoridad respalda esta identidad"
+          : "Emisor no verificado contra listas de confianza (LOTL/TSL) ni OCSP/CRL";
+
+        const tzName = Intl.DateTimeFormat().resolvedOptions().timeZone || "hora local";
+
         const validRange = sig.matchedCert?.validFrom && sig.matchedCert?.validTo
-          ? `${sig.matchedCert.validFrom.toLocaleDateString("es-ES")} → ${sig.matchedCert.validTo.toLocaleDateString("es-ES")}`
+          ? `${sig.matchedCert.validFrom.toLocaleDateString("es-ES")} (${sig.matchedCert.validFrom.toISOString().slice(0, 10)} UTC) → ${sig.matchedCert.validTo.toLocaleDateString("es-ES")} (${sig.matchedCert.validTo.toISOString().slice(0, 10)} UTC)`
           : "Declarada en estructura X.509";
+
+        const isDocTimeStamp = sig.signerInfo?.isDocTimeStamp ?? false;
+        const claimedDate = (sig.signerInfo?.signingTime) ? sig.signerInfo.signingTime : sig.pdfMDate;
+
+        let dateRowTitle = "Fecha declarada por el firmante (sin sello de tiempo TSA)";
+        let dateRowContent = "";
+
+        if (isDocTimeStamp) {
+          dateRowTitle = "Sello de Tiempo Certificado (RFC 3161 TSA)";
+          const tstDateStr = claimedDate
+            ? `${claimedDate.toLocaleString("es-ES")} (${tzName}) / ${claimedDate.toISOString().replace("T", " ").slice(0, 19)} UTC`
+            : "Timestamp embebido";
+          dateRowContent = `${tstDateStr} <span class="text-xs text-emerald-700 font-semibold block mt-0.5">✓ Sellado oficialmente por Autoridad de Sellado de Tiempo</span>`;
+        } else if (claimedDate) {
+          dateRowTitle = "Fecha declarada por el firmante (sin sello de tiempo TSA)";
+          const claimedDateStr = `${claimedDate.toLocaleString("es-ES")} (${tzName}) / ${claimedDate.toISOString().replace("T", " ").slice(0, 19)} UTC`;
+          const validFrom = sig.matchedCert?.validFrom;
+          const validTo = sig.matchedCert?.validTo;
+          let dateWarningHtml = "";
+          if (validFrom && validTo) {
+            const isWithinValidity = (claimedDate >= validFrom && claimedDate <= validTo);
+            if (!isWithinValidity) {
+              dateWarningHtml = `<span class="text-xs text-red-600 font-semibold block mt-1">⚠ La fecha declarada está fuera del periodo de validez del certificado (certificado no vigente en la fecha declarada)</span>`;
+            } else {
+              dateWarningHtml = `<span class="text-[11px] text-slate-400 block mt-0.5">Fecha dentro del periodo de vigencia del certificado</span>`;
+            }
+          }
+          dateRowContent = `${claimedDateStr} <span class="text-xs text-slate-500 block">Vigencia del cert: ${validRange}</span>${dateWarningHtml}`;
+        } else {
+          dateRowTitle = "Fecha declarada por el firmante (sin sello de tiempo TSA)";
+          dateRowContent = `Fecha no declarada en el archivo <span class="text-xs text-slate-500 block">Vigencia del cert: ${validRange}</span>`;
+        }
 
         let badgeClass = "bg-slate-200 text-slate-800";
         let badgeLabel = "✓ Integridad Matemática Comprobada";
 
-        if (sig.mathSignatureStatus === "INVALID" || !sig.hashMatches || !sig.gapIntegrityValid || sig.certSubstitutionDetected) {
+        if (sig.mathSignatureStatus === "INVALID" || !sig.hashMatches || !sig.gapIntegrityValid || sig.certSubstitutionDetected || sig.hasMalformedEssCert) {
           badgeClass = "bg-red-100 text-red-800";
-          badgeLabel = "✕ Firma Inválida o Manipulada";
+          badgeLabel = sig.hasMalformedEssCert
+            ? "✕ Atributo PAdES Malformado o No Verificable"
+            : "✕ Firma Inválida o Manipulada";
         } else if (sig.mathSignatureStatus === "UNSUPPORTED_ALGORITHM") {
           badgeClass = "bg-amber-100 text-amber-800";
           badgeLabel = `⚠ Algoritmo No Soportado (${sig.sigAlgorithmLabel})`;
@@ -983,6 +1239,9 @@
         } else {
           mathResultText = `✕ Fallo de verificación matemática (${sig.sigAlgorithmLabel})`;
         }
+        if (sig.isWeakRsaKey) {
+          mathResultText += `<span class="text-xs text-amber-700 font-semibold block mt-0.5">⚠ Clave RSA débil (${sig.rsaKeyBits} bits): estándar recomendado ≥ 2048 bits</span>`;
+        }
 
         let coverageText = "";
         if (sig.isLatestSignature) {
@@ -993,13 +1252,15 @@
 
         let padesBindingText = "";
         if (sig.signerInfo?.hasPadesEssCertIdV2) {
-          padesBindingText = sig.certHashMatches
-            ? "PAdES-B (ESSCertIDv2 verificado)"
-            : sig.certSubstitutionDetected
-            ? "⚠ ALERTA: Discrepancia en ESSCertIDv2 (Posible sustitución de cert)"
-            : "PAdES-B (ESSCertIDv2 presente)";
+          if (sig.certSubstitutionDetected) {
+            padesBindingText = "⚠ ALERTA: Discrepancia en ESSCertIDv2 (El certificado no coincide con el hash firmado)";
+          } else if (sig.certHashMatches === true) {
+            padesBindingText = "PAdES-B (ESSCertIDv2 verificado)";
+          } else {
+            padesBindingText = "PAdES (atributo SigningCertificateV2 malformado: vínculo con el certificado no verificable)";
+          }
         } else {
-          padesBindingText = "PKCS#7 Clásico";
+          padesBindingText = "PKCS#7 Clásico (sin atributo ESSCertIDv2: vínculo con el certificado no verificable)";
         }
 
         return `
@@ -1027,11 +1288,11 @@
               <div class="bg-white p-3.5 rounded-lg border border-slate-200">
                 <span class="text-xs text-slate-400 uppercase font-bold block">Autoridad Emisora Declarada (CA)</span>
                 <span class="font-semibold text-slate-900">${issuerName}</span>
-                <span class="text-[11px] text-slate-400 block mt-0.5">Cadena de confianza no verificada con Lista de Confianza TSL</span>
+                <span class="text-[11px] text-slate-500 block mt-0.5">${caTrustStatus}</span>
               </div>
               <div class="bg-white p-3.5 rounded-lg border border-slate-200">
-                <span class="text-xs text-slate-400 uppercase font-bold block">Fecha de Firma / Validez del Certificado</span>
-                <span class="font-semibold text-slate-900">${signDate} <span class="text-xs text-slate-500 block">Vigencia del cert: ${validRange}</span></span>
+                <span class="text-xs text-slate-400 uppercase font-bold block">${dateRowTitle}</span>
+                <span class="font-semibold text-slate-900">${dateRowContent}</span>
               </div>
             </div>
 

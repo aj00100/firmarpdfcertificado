@@ -212,10 +212,8 @@ function buildPAdESDetachedCmsHex(identity, part1Bytes, part2Bytes, signDate) {
       {
         type: forge.pki.oids.messageDigest,
       },
-      {
-        type: forge.pki.oids.signingTime,
-        value: signDate,
-      },
+      // Note: ETSI EN 319 142-1 Section 6.3 (PAdES-B-B) forbids id-signingTime inside CMS signedAttrs.
+      // Claimed signing time is placed in PDF Signature Dictionary /M entry.
     ],
   });
 

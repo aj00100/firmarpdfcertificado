@@ -101,6 +101,12 @@ async function testDomForFile(filePath, expectedType, testLabel) {
   console.log(`  Rendered Title:        "${title}"`);
   console.log(`  Rendered Desc:         "${desc.slice(0, 100)}..."`);
 
+  // Hard Negative Regression Assertions (Item 4)
+  const renderedHtml = window.document.documentElement.innerHTML;
+  assert(!renderedHtml.includes('PAdES-B válida'), 'Rendered DOM does NOT contain forbidden string "PAdES-B válida"');
+  assert(!renderedHtml.includes('Conforme al Reglamento'), 'Rendered DOM does NOT contain forbidden string "Conforme al Reglamento"');
+  assert(!renderedHtml.includes('validez jurídica garantizada'), 'Rendered DOM does NOT contain forbidden string "validez jurídica garantizada"');
+
   if (expectedType === 'NEUTRAL_VALID') {
     assert(bannerClass.includes('bg-slate-100'), 'Positive file renders neutral slate banner (bg-slate-100)');
     assert(!bannerClass.includes('bg-red-50'), 'Positive file DOES NOT render red alert banner');
@@ -128,6 +134,19 @@ async function main() {
   console.log('=====================================================================');
   console.log('=== STARTING BROWSER DOM BANNER & TAMPER UI INTEGRATION SUITE ===');
   console.log('=====================================================================');
+
+  // Hard Negative Static Source Assertions (Item 4)
+  const pagePath = path.join(__dirname, '../src/pages/validar-firma-digital-pdf.astro');
+  const pageCode = fs.readFileSync(pagePath, 'utf8');
+  assert(!pageCode.includes('PAdES-B válida'), 'validar-firma-digital-pdf.astro does NOT contain "PAdES-B válida"');
+  assert(!pageCode.includes('Conforme al Reglamento'), 'validar-firma-digital-pdf.astro does NOT contain "Conforme al Reglamento"');
+  assert(!pageCode.includes('validez jurídica garantizada'), 'validar-firma-digital-pdf.astro does NOT contain "validez jurídica garantizada"');
+  assert(!studioCode.includes('PAdES-B válida'), 'ValidatorStudio.astro does NOT contain "PAdES-B válida"');
+  assert(!studioCode.includes('Conforme al Reglamento'), 'ValidatorStudio.astro does NOT contain "Conforme al Reglamento"');
+  assert(!studioCode.includes('validez jurídica garantizada'), 'ValidatorStudio.astro does NOT contain "validez jurídica garantizada"');
+  assert(pageCode.includes('title="Comprobar Firma Digital PDF Online: Inspector Criptográfico Local (Sin Subir Archivos)"'), 'Title matches exact SEO requirement');
+  assert(pageCode.includes('canonicalPath="/validar-firma-digital-pdf/"'), 'Canonical URL slug is preserved untouched');
+  assert(studioCode.includes('Autofirmado: ninguna autoridad respalda esta identidad'), 'Self-signed label matches exact agreed text');
 
   // 1. Positive Tests (Should render neutral slate banner)
   await testDomForFile('/tmp/pades_e2e_test/signed_pbmac1.pdf', 'NEUTRAL_VALID', 'Positive Synthetic PBMAC1');

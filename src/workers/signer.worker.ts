@@ -90,7 +90,7 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
     const signDate = new Date();
     const effectiveReason =
       stampConfig.customReason?.trim() ||
-      'Validez jurídica conforme a Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020';
+      'Firma digital de documento';
 
     // Detect if the PDF already contains an active cryptographic signature
     const hasExistingSignatures = /\/ByteRange\s*\[\s*\d+\s+\d+\s+\d+\s+\d+\s*\]/.test(existingText);
@@ -192,6 +192,17 @@ function resolveStampCoordinates(
   return { stampX, stampY };
 }
 
+function formatPdfDateWithOffset(date: Date): string {
+  const pad = (n: number) => String(n).padStart(2, '0');
+  const YYYY = date.getUTCFullYear();
+  const MM = pad(date.getUTCMonth() + 1);
+  const DD = pad(date.getUTCDate());
+  const HH = pad(date.getUTCHours());
+  const mm = pad(date.getUTCMinutes());
+  const SS = pad(date.getUTCSeconds());
+  return `D:${YYYY}${MM}${DD}${HH}${mm}${SS}+00'00'`;
+}
+
 async function prepareInitialSignedPdf(
   pdfBytes: Uint8Array,
   identity: ExtractedIdentity,
@@ -258,7 +269,7 @@ async function prepareInitialSignedPdf(
     ],
     Contents: PDFHexString.of('0'.repeat(SIGNATURE_HEX_CAPACITY)),
     Reason: PDFString.of(effectiveReason),
-    M: PDFString.fromDate(signDate),
+    M: PDFString.of(formatPdfDateWithOffset(signDate)),
     Name: PDFString.of(identity.commonName),
   });
   const sigDictRef = pdfDoc.context.register(sigDict);
@@ -409,7 +420,7 @@ async function prepareIncrementalCoSignedPdf(
     ],
     Contents: PDFHexString.of('0'.repeat(SIGNATURE_HEX_CAPACITY)),
     Reason: PDFString.of(effectiveReason),
-    M: PDFString.fromDate(signDate),
+    M: PDFString.of(formatPdfDateWithOffset(signDate)),
     Name: PDFString.of(identity.commonName),
   });
 
@@ -749,7 +760,7 @@ async function createOfficialSpanishStamp(
   });
 
   const bottomLine =
-    opts.customReason || 'Validez jurídica conforme a Reglamento (UE) 910/2014 (eIDAS) y Ley 6/2020';
+    opts.customReason || 'Firma digital de documento';
 
   tempPage.drawText(cleanText(bottomLine, 56), {
     x: 10,
@@ -908,10 +919,8 @@ function buildPAdESDetachedCmsHex(
       {
         type: forge.pki.oids.messageDigest,
       },
-      {
-        type: forge.pki.oids.signingTime,
-        value: signDate as any,
-      },
+      // Note: ETSI EN 319 142-1 Section 6.3 (PAdES-B-B) forbids id-signingTime inside CMS signedAttrs.
+      // Claimed signing time is placed in PDF Signature Dictionary /M entry.
     ],
   });
 
