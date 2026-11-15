@@ -845,6 +845,9 @@ function buildPAdESDetachedCmsHex(
   certMd.update(forge.asn1.toDer(certAsn1).getBytes(), 'raw');
   const certHashBytes = certMd.digest().getBytes();
 
+  // ETSI EN 319 142 / RFC 5035 Section 3:
+  // ESSCertIDv2 ::= SEQUENCE { hashAlgorithm DEFAULT {id-sha256}, certHash OCTET STRING }
+  // When SHA-256 is used, hashAlgorithm is omitted per RFC 5035.
   const signingCertificateV2Asn1 = forge.asn1.create(
     forge.asn1.Class.UNIVERSAL,
     forge.asn1.Type.SEQUENCE,
@@ -862,24 +865,17 @@ function buildPAdESDetachedCmsHex(
             [
               forge.asn1.create(
                 forge.asn1.Class.UNIVERSAL,
-                forge.asn1.Type.OID,
+                forge.asn1.Type.OCTETSTRING,
                 false,
-                forge.asn1.oidToDer('2.16.840.1.101.3.4.2.1').getBytes()
+                certHashBytes
               ),
             ]
-          ),
-          forge.asn1.create(
-            forge.asn1.Class.UNIVERSAL,
-            forge.asn1.Type.OCTETSTRING,
-            false,
-            certHashBytes
           ),
         ]
       ),
     ]
   );
 
-  // Custom attribute sequence: Attribute ::= SEQUENCE { attrType OID, attrValues SET OF AttributeValue }
   const scv2AttrAsn1 = forge.asn1.create(
     forge.asn1.Class.UNIVERSAL,
     forge.asn1.Type.SEQUENCE,
