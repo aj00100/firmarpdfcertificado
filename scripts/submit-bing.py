@@ -1,25 +1,64 @@
 #!/usr/bin/env python3
 """
 Automated Bing Webmaster URL & Sitemap Submission Script
-Usage: python3 scripts/submit-bing.py [API_KEY]
+Usage:
+    python3 scripts/submit-bing.py [--quota] [--dry-run] [--force]
 """
 import os
 import re
 import sys
 import json
+import argparse
 import urllib.request
 import urllib.error
+from datetime import datetime
 
-API_KEY = sys.argv[1] if len(sys.argv) > 1 else os.environ.get('BING_API_KEY', '5975fcff074646aab15936d745241603')
+API_KEY = os.environ.get('BING_API_KEY', '5975fcff074646aab15936d745241603')
 SITE_URL = 'https://firmarpdfcertificado.com'
-SITEMAP_FILE = os.path.join(os.path.dirname(__file__), '..', 'dist', 'sitemap-0.xml')
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+SITEMAP_FILE = os.path.join(SCRIPT_DIR, '..', 'dist', 'sitemap-0.xml')
+CACHE_FILE = os.path.join(SCRIPT_DIR, '.bing_submitted_urls.json')
+
+def load_cache():
+    if os.path.exists(CACHE_FILE):
+        try:
+            with open(CACHE_FILE, 'r') as f:
+                return json.load(f)
+        except Exception:
+            return {}
+    return {}
+
+def save_cache(cache):
+    try:
+        with open(CACHE_FILE, 'w') as f:
+            json.dump(cache, f, indent=2)
+    except Exception as e:
+        print(f"[WARN] Failed to write cache: {e}")
+
+def check_quota():
+    print("=== Bing Submission Quota ===")
+    req = urllib.request.Request(
+        f'https://ssl.bing.com/webmaster/api.svc/json/GetUrlSubmissionQuota?siteUrl={SITE_URL}&apikey={API_KEY}'
+    )
+    try:
+        with urllib.request.urlopen(req) as resp:
+            data = json.loads(resp.read().decode())
+            quota = data.get('d', {})
+            daily = quota.get('DailyQuota')
+            monthly = quota.get('MonthlyQuota')
+            print(f"Daily Quota Remaining:   {daily}")
+            print(f"Monthly Quota Remaining: {monthly}")
+            return daily, monthly
+    except Exception as e:
+        print(f"[ERROR] Quota check failed: {e}")
+        return None, None
 
 def submit_sitemaps():
     feeds = [
         f'{SITE_URL}/sitemap-index.xml',
         f'{SITE_URL}/sitemap-0.xml'
     ]
-    print("=== Submitting Sitemaps to Bing ===")
+    print("\n=== Submitting Sitemaps to Bing ===")
     for feed in feeds:
         payload = json.dumps({'siteUrl': SITE_URL, 'feedUrl': feed}).encode('utf-8')
         req = urllib.request.Request(
@@ -35,7 +74,7 @@ def submit_sitemaps():
         except Exception as e:
             print(f"[ERROR] SubmitFeed {feed}: {e}")
 
-def submit_urls():
+def submit_urls(force=False, dry_run=False):
     print("\n=== Submitting URLs to Bing ===")
     if not os.path.exists(SITEMAP_FILE):
         print(f"[ERROR] Sitemap file not found at {SITEMAP_FILE}. Run 'npm run build' first.")
@@ -44,12 +83,31 @@ def submit_urls():
     with open(SITEMAP_FILE, 'r') as f:
         content = f.read()
 
-    urls = re.findall(r'<loc>([^<]+)</loc>', content)
-    print(f"Discovered {len(urls)} URLs in {SITEMAP_FILE}")
+    all_urls = re.findall(r'<loc>([^<]+)</loc>', content)
+    cache = load_cache()
+
+    if force:
+        urls_to_submit = all_urls
+        print(f"[FORCE] Submitting all {len(urls_to_submit)} URLs regardless of cache.")
+    else:
+        urls_to_submit = [u for u in all_urls if u not in cache]
+        print(f"Discovered {len(all_urls)} total URLs in sitemap.")
+        print(f"Found {len(cache)} previously submitted URLs in cache.")
+        print(f"Strictly NEW URLs to submit: {len(urls_to_submit)}")
+
+    if not urls_to_submit:
+        print("[SKIP] All URLs have already been submitted! Quota preserved (0 credits burned).")
+        return
+
+    if dry_run:
+        print(f"[DRY RUN] Would submit {len(urls_to_submit)} URLs:")
+        for u in urls_to_submit:
+            print(f"  - {u}")
+        return
 
     payload = json.dumps({
         'siteUrl': SITE_URL,
-        'urlList': urls
+        'urlList': urls_to_submit
     }).encode('utf-8')
 
     req = urllib.request.Request(
@@ -60,106 +118,33 @@ def submit_urls():
 
     try:
         with urllib.request.urlopen(req) as resp:
-            print(f"[OK] SubmitUrlbatch successful (HTTP {resp.status})")
+            print(f"[OK] SubmitUrlbatch successful (HTTP {resp.status}) - {len(urls_to_submit)} URLs submitted.")
+            now_iso = datetime.utcnow().isoformat()
+            for u in urls_to_submit:
+                cache[u] = now_iso
+            save_cache(cache)
     except urllib.error.HTTPError as e:
-        err_msg = e.read().decode()
-        print(f"[FAIL] SubmitUrlbatch: HTTP {e.code} - {err_msg}")
-        if 'Quota remaining' in err_msg:
-            print("Attempting fallback submission with only the 7 new Wave 3 URLs...")
-            wave3_slugs = [
-                'como-descargar-certificado-retenciones-irpf',
-                'como-firmar-borrador-declaracion-renta-pdf',
-                'como-obtener-certificado-estar-al-corriente-seguridad-social-hacienda',
-                'como-solicitar-informe-vehiculo-dgt-con-certificado-digital',
-                'como-pedir-duplicado-carnet-conducir-dgt-online',
-                'como-descargar-certificado-delitos-sexuales-y-antecedentes-penales',
-                'solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades'
-            ]
-            fallback_urls = [u for u in urls if any(s in u for s in wave3_slugs)]
-            fb_payload = json.dumps({'siteUrl': SITE_URL, 'urlList': fallback_urls}).encode('utf-8')
-            fb_req = urllib.request.Request(
-                f'https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlbatch?apikey={API_KEY}',
-                data=fb_payload,
-                headers={'Content-Type': 'application/json; charset=utf-8'}
-            )
-            try:
-                with urllib.request.urlopen(fb_req) as fb_resp:
-                    print(f"[OK] SubmitUrlbatch (Wave 3 only - {len(fallback_urls)} URLs): HTTP {fb_resp.status}")
-            except Exception as fb_err:
-                print(f"[ERROR] Fallback failed: {fb_err}")
+        print(f"[FAIL] SubmitUrlbatch: HTTP {e.code} - {e.read().decode()}")
     except Exception as e:
         print(f"[ERROR] SubmitUrlbatch: {e}")
 
-def check_quota():
-    print("\n=== Checking Bing Submission Quota ===")
-    req = urllib.request.Request(
-        f'https://ssl.bing.com/webmaster/api.svc/json/GetUrlSubmissionQuota?siteUrl={SITE_URL}&apikey={API_KEY}'
-    )
-    try:
-        with urllib.request.urlopen(req) as resp:
-            data = json.loads(resp.read().decode())
-            quota = data.get('d', {})
-            print(f"Daily Quota Remaining:   {quota.get('DailyQuota')}")
-            print(f"Monthly Quota Remaining: {quota.get('MonthlyQuota')}")
-    except Exception as e:
-        print(f"[ERROR] Quota check failed: {e}")
+def main():
+    parser = argparse.ArgumentParser(description="Bing Webmaster URL Submission Guard")
+    parser.add_argument('--quota', action='store_true', help='Only check quota without submitting')
+    parser.add_argument('--dry-run', action='store_true', help='Simulate submission without burning quota')
+    parser.add_argument('--force', action='store_true', help='Force resubmission of all URLs')
+    parser.add_argument('--skip-sitemaps', action='store_true', help='Skip submitting sitemaps')
+    args = parser.parse_args()
 
-def submit_indexnow():
-    print("\n=== Submitting URLs via IndexNow API ===")
-    if not os.path.exists(SITEMAP_FILE):
-        print(f"[ERROR] Sitemap file not found at {SITEMAP_FILE}")
+    if args.quota:
+        check_quota()
         return
 
-    with open(SITEMAP_FILE, 'r') as f:
-        content = f.read()
-
-    urls = re.findall(r'<loc>([^<]+)</loc>', content)
-
-    # Priority Wave 3 URLs first
-    wave3_slugs = [
-        'como-descargar-certificado-retenciones-irpf',
-        'como-firmar-borrador-declaracion-renta-pdf',
-        'como-obtener-certificado-estar-al-corriente-seguridad-social-hacienda',
-        'como-solicitar-informe-vehiculo-dgt-con-certificado-digital',
-        'como-pedir-duplicado-carnet-conducir-dgt-online',
-        'como-descargar-certificado-delitos-sexuales-y-antecedentes-penales',
-        'solicitar-certificado-nacimiento-matrimonio-defuncion-ultimas-voluntades',
-        'validar-firma-digital-pdf',
-        'firmar-pdf-con-dnie',
-        'blog'
-    ]
-    wave3_urls = [u for u in urls if any(slug in u for slug in wave3_slugs)]
-
-    print(f"Submitting {len(wave3_urls)} Wave 3 Priority URLs to IndexNow endpoints...")
-
-    payload = json.dumps({
-        'host': 'firmarpdfcertificado.com',
-        'key': API_KEY,
-        'keyLocation': f'{SITE_URL}/{API_KEY}.txt',
-        'urlList': wave3_urls
-    }).encode('utf-8')
-
-    endpoints = [
-        'https://api.indexnow.org/indexnow',
-        'https://www.bing.com/indexnow'
-    ]
-
-    for ep in endpoints:
-        req = urllib.request.Request(
-            ep,
-            data=payload,
-            headers={'Content-Type': 'application/json; charset=utf-8'}
-        )
-        try:
-            with urllib.request.urlopen(req) as resp:
-                print(f"[OK] IndexNow ({ep}): HTTP {resp.status}")
-        except urllib.error.HTTPError as e:
-            print(f"[INFO] IndexNow ({ep}): HTTP {e.code} - {e.read().decode()}")
-        except Exception as e:
-            print(f"[ERROR] IndexNow ({ep}): {e}")
+    check_quota()
+    if not args.skip_sitemaps and not args.dry_run:
+        submit_sitemaps()
+    submit_urls(force=args.force, dry_run=args.dry_run)
+    check_quota()
 
 if __name__ == '__main__':
-    submit_sitemaps()
-    submit_urls()
-    check_quota()
-    submit_indexnow()
+    main()
