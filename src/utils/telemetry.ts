@@ -31,7 +31,23 @@ export interface TelemetryProps {
   [key: string]: string | number | boolean | undefined;
 }
 
-export function trackEvent(_event: TelemetryEvent, _props: TelemetryProps = {}): void {
-  // Cookieless, zero third-party tracking. Completely local to fulfill LSSI/AEPD strict privacy.
-  return;
+export function trackEvent(event: TelemetryEvent, props: TelemetryProps = {}): void {
+  try {
+    if (typeof window === 'undefined') return;
+
+    // Strict privacy hygiene: filter out any inadvertent user/file metadata
+    const sanitizedProps: TelemetryProps = {};
+    const forbiddenKeys = ['filename', 'file_name', 'name', 'nif', 'cn', 'subject', 'issuer', 'stack', 'pass', 'password'];
+    for (const [key, val] of Object.entries(props)) {
+      if (forbiddenKeys.includes(key.toLowerCase())) continue;
+      sanitizedProps[key] = val;
+    }
+
+    const win = window as any;
+    if (typeof win.gtag === 'function') {
+      win.gtag('event', event, sanitizedProps);
+    }
+  } catch (_) {
+    // Fail silently; never interrupt user interaction
+  }
 }

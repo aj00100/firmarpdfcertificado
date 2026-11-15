@@ -129,6 +129,20 @@ if (pathSegments.length > 0) {
       })();
     </script>
 
+    <!-- Google tag (gtag.js) & Google Consent Mode v2 -->
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('consent', 'default', {
+        'ad_storage': 'denied',
+        'ad_user_data': 'denied',
+        'ad_personalization': 'denied',
+        'analytics_storage': 'denied'
+      });
+      gtag('js', new Date());
+      gtag('config', 'G-C7E9VCD0XB');
+    </script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-C7E9VCD0XB"></script>
 
     <!-- Structured Data: WebApplication (Interactive Tool Pages Only) + BreadcrumbList -->
     {isApp && (
