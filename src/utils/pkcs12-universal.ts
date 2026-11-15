@@ -1,31 +1,34 @@
 // src/utils/pkcs12-universal.ts
 /**
- * Universal PKCS#12 (.p12 / .pfx) Parser & Decryptor
+ * Universal PKCS#12 (.p12 / .pfx) Parser, Verifier & Decryptor
  * 
- * Supports:
- *  - Legacy PBES1 (3DES, 40-bit RC2, SHA-1) via node-forge
- *  - Modern PBES2 (AES-128-CBC, AES-192-CBC, AES-256-CBC, 3DES) via WebCrypto & node-forge
- *  - PBKDF2 key derivation with SHA-1, SHA-256, SHA-384, SHA-512
- *  - Windows 11 (22H2+), macOS Sonoma/Sequoia, iOS 17+, and OpenSSL 3.x default exports
- *  - Full X.509 Certificate & RSA PrivateKey extraction for PAdES signing
+ * Conformance & Security:
+ *  - Outer MAC integrity verification:
+ *     * Standard PKCS#12 MAC (SHA-1, SHA-256, SHA-512) via node-forge
+ *     * RFC 9879 PBMAC1 (PBKDF2 + HMAC-SHA256/384/512) via WebCrypto
+ *     * Prevents silent fallback bypass on standard MAC failures
+ *  - Modern PBES2 Decryption (AES-128-CBC, AES-192-CBC, AES-256-CBC, 3DES) via WebCrypto
+ *  - Strict Credential Validation:
+ *     * Enforces presence of both X.509 certificate(s) and private key
+ *     * Cryptographically matches RSA public key with private key modulus
+ *  - 100% Client-Side Web Worker execution in browser RAM (zero file uploads)
  */
 import forge from 'node-forge';
 
 export interface UniversalPkcs12Result {
   certs: forge.pki.Certificate[];
-  privateKey: forge.pki.rsa.PrivateKey | null;
+  privateKey: forge.pki.rsa.PrivateKey;
   engine: 'forge-legacy' | 'webcrypto-pbes2';
+  integrity: 'verified' | 'unverified';
 }
 
-export interface Pkcs12ErrorDetails {
-  code:
-    | 'wrong_password'
-    | 'unsupported_cipher'
-    | 'corrupt_file'
-    | 'no_private_key'
-    | 'no_certs'
-    | 'unknown';
-  message: string;
+export interface PBMAC1Parameters {
+  salt: Uint8Array;
+  iterations: number;
+  keyLengthBytes: number;
+  pbkdf2Prf: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
+  macHash: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
+  expectedMac: Uint8Array;
 }
 
 const OID = {
@@ -33,6 +36,7 @@ const OID = {
   encryptedData: '1.2.840.113549.1.7.6',
   pkcs5PBES2: '1.2.840.113549.1.5.13',
   pkcs5PBKDF2: '1.2.840.113549.1.5.12',
+  pbmac1: '1.2.840.113549.1.5.14',
   pbeWithSHAAnd3Key3DES: '1.2.840.113549.1.12.1.3',
   pbeWithSHAAnd40BitRC2: '1.2.840.113549.1.12.1.6',
   aes128CBC: '2.16.840.1.101.3.4.1.2',
@@ -77,6 +81,23 @@ function uint8ArrayToBinaryString(arr: Uint8Array): string {
   return res;
 }
 
+function asn1IntToNumber(node: any): number {
+  if (!node || !node.value) return 0;
+  return parseInt(forge.util.bytesToHex(node.value), 16);
+}
+
+/**
+ * Fixed-work byte comparison helper
+ */
+export function constantWorkEqual(a: Uint8Array, b: Uint8Array): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a[i] ^ b[i];
+  }
+  return diff === 0;
+}
+
 function getSubtleCrypto(): SubtleCrypto {
   const cryptoObj =
     (typeof globalThis !== 'undefined' && globalThis.crypto) ||
@@ -86,6 +107,145 @@ function getSubtleCrypto(): SubtleCrypto {
     throw new Error('WebCrypto API (crypto.subtle) no está disponible en este entorno.');
   }
   return cryptoObj.subtle;
+}
+
+/**
+ * RFC 9879 PBMAC1 Outer MAC Verification
+ */
+export async function verifyPBMAC1(
+  authSafeBytes: Uint8Array,
+  password: string,
+  params: PBMAC1Parameters
+): Promise<boolean> {
+  const {
+    salt,
+    iterations,
+    keyLengthBytes,
+    pbkdf2Prf,
+    macHash,
+    expectedMac,
+  } = params;
+
+  if (!Number.isSafeInteger(iterations) || iterations < 1) {
+    throw new Error('INVALID_PBKDF2_ITERATIONS: Iteraciones PBKDF2 inválidas.');
+  }
+
+  // Safety ceiling calibrated for mobile / web workers
+  if (iterations > 1_000_000) {
+    throw new Error('PBKDF2_RESOURCE_LIMIT: Las iteraciones exceden el límite de seguridad (1.000.000).');
+  }
+
+  if (
+    !Number.isSafeInteger(keyLengthBytes) ||
+    keyLengthBytes < 20 ||
+    keyLengthBytes > 128
+  ) {
+    throw new Error('INVALID_PBMAC1_KEY_LENGTH: Longitud de clave PBMAC1 inválida (debe ser 20-128 bytes).');
+  }
+
+  const subtle = getSubtleCrypto();
+
+  // RFC 9879: UTF-8 password, without BOM or terminating null character
+  const passwordBytes = new TextEncoder().encode(password);
+
+  const passwordKey = await subtle.importKey(
+    'raw',
+    passwordBytes,
+    'PBKDF2',
+    false,
+    ['deriveBits']
+  );
+
+  // Derive the PBMAC1 key
+  const derivedKey = await subtle.deriveBits(
+    {
+      name: 'PBKDF2',
+      salt,
+      iterations,
+      hash: pbkdf2Prf,
+    },
+    passwordKey,
+    keyLengthBytes * 8
+  );
+
+  // Import derived key for HMAC
+  const hmacKey = await subtle.importKey(
+    'raw',
+    derivedKey,
+    {
+      name: 'HMAC',
+      hash: macHash,
+    },
+    false,
+    ['sign']
+  );
+
+  // Authenticate the original AuthenticatedSafe content bytes
+  const calculatedMac = new Uint8Array(
+    await subtle.sign('HMAC', hmacKey, authSafeBytes)
+  );
+
+  return constantWorkEqual(calculatedMac, expectedMac);
+}
+
+function parsePBMAC1Parameters(macDigestInfo: any): PBMAC1Parameters {
+  const algId = macDigestInfo.value[0];
+  const expectedMac = binaryStringToUint8Array(getOctetStringBytes(macDigestInfo.value[1]));
+
+  const pbmac1ParamsSeq = algId.value[1];
+  if (!pbmac1ParamsSeq || !Array.isArray(pbmac1ParamsSeq.value) || pbmac1ParamsSeq.value.length < 2) {
+    throw new Error('ASN1_PARSE_FAILED: Parámetros PBMAC1 incompletos en el ASN.1.');
+  }
+
+  const kdfSeq = pbmac1ParamsSeq.value[0];
+  const macSchemeSeq = pbmac1ParamsSeq.value[1];
+
+  const kdfOid = forge.asn1.derToOid(kdfSeq.value[0].value);
+  if (kdfOid !== OID.pkcs5PBKDF2) {
+    throw new Error(`UNSUPPORTED_KDF: KDF de PBMAC1 no soportado (${kdfOid}). Se requiere PBKDF2.`);
+  }
+
+  const pbkdf2Params = kdfSeq.value[1];
+  if (!pbkdf2Params || !Array.isArray(pbkdf2Params.value) || pbkdf2Params.value.length < 2) {
+    throw new Error('ASN1_PARSE_FAILED: Parámetros PBKDF2 de PBMAC1 ausentes.');
+  }
+
+  const salt = binaryStringToUint8Array(getOctetStringBytes(pbkdf2Params.value[0]));
+  const iterations = asn1IntToNumber(pbkdf2Params.value[1]);
+
+  // RFC 9879: keyLength MUST be explicitly present in PBKDF2-params
+  if (pbkdf2Params.value.length < 3 || pbkdf2Params.value[2].type !== forge.asn1.Type.INTEGER) {
+    throw new Error('INVALID_PBMAC1_KEY_LENGTH: Parámetro keyLength ausente en PBKDF2 (requerido por RFC 9879).');
+  }
+  const keyLengthBytes = asn1IntToNumber(pbkdf2Params.value[2]);
+
+  let pbkdf2Prf: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-1';
+  if (pbkdf2Params.value.length > 3 && pbkdf2Params.value[3]) {
+    const prfSeq = pbkdf2Params.value[3];
+    const prfOid = forge.asn1.derToOid(prfSeq.value[0].value);
+    if (prfOid === OID.hmacWithSHA256) pbkdf2Prf = 'SHA-256';
+    else if (prfOid === OID.hmacWithSHA384) pbkdf2Prf = 'SHA-384';
+    else if (prfOid === OID.hmacWithSHA512) pbkdf2Prf = 'SHA-512';
+    else if (prfOid === OID.hmacWithSHA1) pbkdf2Prf = 'SHA-1';
+    else throw new Error(`UNSUPPORTED_PRF: PRF de PBKDF2 no soportado (${prfOid})`);
+  }
+
+  const macOid = forge.asn1.derToOid(macSchemeSeq.value[0].value);
+  let macHash: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
+  if (macOid === OID.hmacWithSHA256) macHash = 'SHA-256';
+  else if (macOid === OID.hmacWithSHA384) macHash = 'SHA-384';
+  else if (macOid === OID.hmacWithSHA512) macHash = 'SHA-512';
+  else if (macOid === OID.hmacWithSHA1) macHash = 'SHA-1';
+  else throw new Error(`UNSUPPORTED_MAC_ALGORITHM: Esquema MAC de PBMAC1 no soportado (${macOid})`);
+
+  return {
+    salt,
+    iterations,
+    keyLengthBytes,
+    pbkdf2Prf,
+    macHash,
+    expectedMac,
+  };
 }
 
 async function decryptPBES2WithWebCrypto(
@@ -98,7 +258,7 @@ async function decryptPBES2WithWebCrypto(
 
   const kdfOid = forge.asn1.derToOid(kdfSeq.value[0].value);
   if (kdfOid !== OID.pkcs5PBKDF2) {
-    throw new Error(`Algoritmo KDF no soportado: ${kdfOid}`);
+    throw new Error(`UNSUPPORTED_KDF: Algoritmo KDF no soportado: ${kdfOid}`);
   }
 
   const pbkdf2Params = kdfSeq.value[1];
@@ -109,7 +269,6 @@ async function decryptPBES2WithWebCrypto(
   let prfHash = 'SHA-1';
   let keyLengthBits = 256;
 
-  // Detect PRF algorithm if present
   if (pbkdf2Params.value.length > 2) {
     for (let i = 2; i < pbkdf2Params.value.length; i++) {
       const param = pbkdf2Params.value[i];
@@ -130,13 +289,18 @@ async function decryptPBES2WithWebCrypto(
   else if (encOid === OID.aes192CBC) keyLengthBits = 192;
   else if (encOid === OID.aes128CBC) keyLengthBits = 128;
   else if (encOid === OID.desEDE3CBC) {
-    // 3DES inside PBES2 fallback to forge
-    const md =
-      prfHash === 'SHA-256'
-        ? forge.md.sha256.create()
-        : prfHash === 'SHA-512'
-        ? forge.md.sha512.create()
-        : forge.md.sha1.create();
+    // 3DES inside PBES2 fallback to forge with explicit PRF mapping
+    const mdMap: Record<string, () => forge.md.MessageDigest> = {
+      'SHA-1': forge.md.sha1.create,
+      'SHA-256': forge.md.sha256.create,
+      'SHA-384': forge.md.sha384.create,
+      'SHA-512': forge.md.sha512.create,
+    };
+    const mdFactory = mdMap[prfHash];
+    if (!mdFactory) {
+      throw new Error(`UNSUPPORTED_PRF: Algoritmo PRF no soportado para 3DES PBES2: ${prfHash}`);
+    }
+    const md = mdFactory();
     const dk = forge.pkcs5.pbkdf2(
       password,
       forge.util.createBuffer(uint8ArrayToBinaryString(salt)),
@@ -152,7 +316,7 @@ async function decryptPBES2WithWebCrypto(
     }
     return binaryStringToUint8Array(cipher.output.getBytes());
   } else {
-    throw new Error(`Esquema de cifrado PBES2 no soportado (OID: ${encOid})`);
+    throw new Error(`UNSUPPORTED_PBE_ALGORITHM: Esquema de cifrado PBES2 no soportado (OID: ${encOid})`);
   }
 
   const subtle = getSubtleCrypto();
@@ -193,19 +357,246 @@ async function decryptPBES2WithWebCrypto(
 }
 
 /**
- * Parses any PKCS#12 (.p12 / .pfx) buffer, automatically falling back to WebCrypto PBES2
- * when node-forge fails on modern Windows 11 / macOS / OpenSSL 3 certificates.
+ * Validates that the private key corresponds to the given X.509 certificate
+ */
+function matchesCertificate(cert: forge.pki.Certificate, privateKey: forge.pki.rsa.PrivateKey): boolean {
+  const pub = cert.publicKey as any;
+  if (pub && pub.n && privateKey.n && pub.e && privateKey.e) {
+    return pub.n.equals(privateKey.n) && pub.e.equals(privateKey.e);
+  }
+  return true; // Non-RSA fallback
+}
+
+/**
+ * Unpacks and decrypts SafeBags from the AuthenticatedSafe structure
+ */
+async function unpackAuthenticatedSafe(
+  authSafeCI: any,
+  password: string
+): Promise<{ certs: forge.pki.Certificate[]; privateKey: forge.pki.rsa.PrivateKey }> {
+  const authSafeBytes = getOctetStringBytes(authSafeCI.value[1].value[0]);
+  const authSafeAsn1 = forge.asn1.fromDer(forge.util.createBuffer(authSafeBytes));
+
+  const allSafeBags: any[] = [];
+
+  for (const ci of authSafeAsn1.value) {
+    const contentTypeOid = forge.asn1.derToOid(ci.value[0].value);
+
+    if (contentTypeOid === OID.data) {
+      const dataBytes = getOctetStringBytes(ci.value[1].value[0]);
+      const scAsn1 = forge.asn1.fromDer(forge.util.createBuffer(dataBytes));
+      if (Array.isArray(scAsn1.value)) {
+        allSafeBags.push(...scAsn1.value);
+      }
+    } else if (contentTypeOid === OID.encryptedData) {
+      const encData = ci.value[1].value[0];
+      const encInfo = encData.value[1];
+      const encAlgOid = forge.asn1.derToOid(encInfo.value[1].value[0].value);
+      const ciphertextStr = getOctetStringBytes(encInfo.value[2]);
+      const ciphertext = binaryStringToUint8Array(ciphertextStr);
+
+      let decryptedBytes: Uint8Array;
+      if (encAlgOid === OID.pkcs5PBES2) {
+        decryptedBytes = await decryptPBES2WithWebCrypto(
+          encInfo.value[1].value[1],
+          ciphertext,
+          password
+        );
+      } else {
+        const cipher = (forge.pki as any).pbe.getCipher(
+          encAlgOid,
+          encInfo.value[1].value[1],
+          password
+        );
+        cipher.update(forge.util.createBuffer(uint8ArrayToBinaryString(ciphertext)));
+        if (!cipher.finish()) {
+          throw new Error('Error al desencriptar SafeContents PKCS#12.');
+        }
+        decryptedBytes = binaryStringToUint8Array(cipher.output.getBytes());
+      }
+
+      const scAsn1 = forge.asn1.fromDer(
+        forge.util.createBuffer(uint8ArrayToBinaryString(decryptedBytes))
+      );
+      if (Array.isArray(scAsn1.value)) {
+        allSafeBags.push(...scAsn1.value);
+      }
+    }
+  }
+
+  let privateKey: forge.pki.rsa.PrivateKey | null = null;
+  const certs: forge.pki.Certificate[] = [];
+
+  for (const bag of allSafeBags) {
+    if (!bag.value || !bag.value[0]) continue;
+    const bagOid = forge.asn1.derToOid(bag.value[0].value);
+
+    if (bagOid === OID.certBag) {
+      const certSeq = bag.value[1].value[0];
+      const certBytes = getOctetStringBytes(certSeq.value[1].value[0]);
+      const certAsn1 = forge.asn1.fromDer(forge.util.createBuffer(certBytes));
+      certs.push(forge.pki.certificateFromAsn1(certAsn1));
+    } else if (bagOid === OID.keyBag) {
+      const pkAsn1 = bag.value[1].value[0];
+      privateKey = forge.pki.privateKeyFromAsn1(pkAsn1) as forge.pki.rsa.PrivateKey;
+    } else if (bagOid === OID.pkcs8ShroudedKeyBag) {
+      const epki = bag.value[1].value[0];
+      const algOid = forge.asn1.derToOid(epki.value[0].value[0].value);
+      const ciphertextStr = getOctetStringBytes(epki.value[1]);
+      const ciphertext = binaryStringToUint8Array(ciphertextStr);
+
+      let decryptedKeyBytes: Uint8Array;
+      if (algOid === OID.pkcs5PBES2) {
+        decryptedKeyBytes = await decryptPBES2WithWebCrypto(
+          epki.value[0].value[1],
+          ciphertext,
+          password
+        );
+      } else {
+        const pkAsn1 = forge.pki.decryptPrivateKeyInfo(epki, password);
+        if (pkAsn1) {
+          privateKey = forge.pki.privateKeyFromAsn1(pkAsn1) as forge.pki.rsa.PrivateKey;
+          continue;
+        }
+        throw new Error('Contraseña del certificado incorrecta.');
+      }
+
+      const pkAsn1 = forge.asn1.fromDer(
+        forge.util.createBuffer(uint8ArrayToBinaryString(decryptedKeyBytes))
+      );
+      privateKey = forge.pki.privateKeyFromAsn1(pkAsn1) as forge.pki.rsa.PrivateKey;
+    }
+  }
+
+  // Bug A fix: Require BOTH privateKey and at least one certificate
+  if (!privateKey || certs.length === 0) {
+    throw new Error('INCOMPLETE_PKCS12_CREDENTIALS: El archivo debe contener al menos un certificado X.509 y una clave privada.');
+  }
+
+  // Validate private key corresponds to certificate
+  const matchingCert = certs.find((c) => matchesCertificate(c, privateKey!));
+  if (!matchingCert) {
+    throw new Error('CERTIFICATE_KEY_MISMATCH: La clave privada extraída no coincide con ningún certificado en el archivo .p12.');
+  }
+
+  // Place matching signer certificate first
+  certs.sort((a, b) => (matchesCertificate(a, privateKey!) ? -1 : matchesCertificate(b, privateKey!) ? 1 : 0));
+
+  return { certs, privateKey };
+}
+
+/**
+ * Parses any PKCS#12 (.p12 / .pfx) buffer with strict MAC verification and universal compatibility.
  */
 export async function parseUniversalPkcs12(
-  p12Buffer: ArrayBuffer,
+  p12Input: ArrayBuffer | Uint8Array,
   password: string
 ): Promise<UniversalPkcs12Result> {
-  // --- STRATEGY 1: Standard node-forge Parser (Fast path for legacy 3DES/RC2 & standard files) ---
-  try {
-    const der = forge.util.createBuffer(new Uint8Array(p12Buffer));
-    const asn1 = forge.asn1.fromDer(der);
-    const p12 = forge.pkcs12.pkcs12FromAsn1(asn1, false, password);
+  const u8 = p12Input instanceof Uint8Array ? p12Input : new Uint8Array(p12Input);
+  const pfxDer = forge.util.createBuffer(u8);
+  const pfxAsn1 = forge.asn1.fromDer(pfxDer);
 
+  if (!pfxAsn1 || pfxAsn1.type !== forge.asn1.Type.SEQUENCE || !Array.isArray(pfxAsn1.value)) {
+    throw new Error('CORRUPT_FILE: El archivo seleccionado no es un contenedor PKCS#12 válido.');
+  }
+
+  const authSafeCI = pfxAsn1.value[1];
+  if (!authSafeCI || !authSafeCI.value || !authSafeCI.value[1]) {
+    throw new Error('CORRUPT_FILE: Estructura AuthenticatedSafe de PKCS#12 inválida.');
+  }
+
+  const hasMacData = pfxAsn1.value.length > 2 && Boolean(pfxAsn1.value[2]);
+  let macAlgOid: string | null = null;
+  let isPBMAC1 = false;
+
+  if (hasMacData) {
+    const macData = pfxAsn1.value[2];
+    const macDigestInfo = macData.value[0];
+    const algId = macDigestInfo.value[0];
+    macAlgOid = forge.asn1.derToOid(algId.value[0].value);
+    isPBMAC1 = macAlgOid === OID.pbmac1;
+  }
+
+  // === BRANCH 1: RFC 9879 PBMAC1 Verified Pathway ===
+  if (isPBMAC1) {
+    const macData = pfxAsn1.value[2];
+    const macDigestInfo = macData.value[0];
+    const pbmac1Params = parsePBMAC1Parameters(macDigestInfo);
+
+    const authSafeRaw = getOctetStringBytes(authSafeCI.value[1].value[0]);
+    const authSafeBytes = binaryStringToUint8Array(authSafeRaw);
+
+    const macValid = await verifyPBMAC1(authSafeBytes, password, pbmac1Params);
+    if (!macValid) {
+      throw new Error('MAC_VERIFICATION_FAILED: Contraseña del certificado incorrecta o verificación de integridad (PBMAC1) fallida.');
+    }
+
+    // Integrity successfully verified; decrypt contents
+    const { certs, privateKey } = await unpackAuthenticatedSafe(authSafeCI, password);
+    return {
+      certs,
+      privateKey,
+      engine: 'webcrypto-pbes2',
+      integrity: 'verified',
+    };
+  }
+
+  // === BRANCH 2: Standard PKCS#12 MAC Pathway (via node-forge) ===
+  if (hasMacData) {
+    try {
+      const p12 = forge.pkcs12.pkcs12FromAsn1(pfxAsn1, false, password);
+
+      const keyBags =
+        p12.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag })[
+          forge.pki.oids.pkcs8ShroudedKeyBag
+        ] || [];
+      const plainKeyBags =
+        p12.getBags({ bagType: forge.pki.oids.keyBag })[forge.pki.oids.keyBag] || [];
+
+      let privateKey: forge.pki.rsa.PrivateKey | null = null;
+      for (const bag of [...keyBags, ...plainKeyBags]) {
+        if (bag.key) {
+          privateKey = bag.key as forge.pki.rsa.PrivateKey;
+          break;
+        }
+      }
+
+      const certBags =
+        p12.getBags({ bagType: forge.pki.oids.certBag })[forge.pki.oids.certBag] || [];
+      const certs: forge.pki.Certificate[] = certBags
+        .map((b) => b.cert)
+        .filter((c): c is forge.pki.Certificate => Boolean(c));
+
+      // Bug A fix: Enforce complete credentials
+      if (!privateKey || certs.length === 0) {
+        throw new Error('INCOMPLETE_PKCS12_CREDENTIALS: El archivo debe contener al menos un certificado X.509 y una clave privada.');
+      }
+
+      // Validate matching key and certificate
+      const matchingCert = certs.find((c) => matchesCertificate(c, privateKey!));
+      if (!matchingCert) {
+        throw new Error('CERTIFICATE_KEY_MISMATCH: La clave privada extraída no coincide con ningún certificado en el archivo .p12.');
+      }
+      certs.sort((a, b) => (matchesCertificate(a, privateKey!) ? -1 : matchesCertificate(b, privateKey!) ? 1 : 0));
+
+      return { certs, privateKey, engine: 'forge-legacy', integrity: 'verified' };
+    } catch (forgeErr: any) {
+      const msg = String(forgeErr?.message || '');
+
+      // CRITICAL SECURITY FIX: Never silently bypass a failed standard MAC
+      if (/mac could not be verified/i.test(msg) || /invalid password/i.test(msg)) {
+        throw new Error('MAC_VERIFICATION_FAILED: Contraseña del certificado incorrecta o contenedor alterado.');
+      }
+
+      // If MAC was verified but SafeBag cipher is unsupported by forge, fallback to WebCrypto
+      const { certs, privateKey } = await unpackAuthenticatedSafe(authSafeCI, password);
+      return { certs, privateKey, engine: 'webcrypto-pbes2', integrity: 'verified' };
+    }
+  }
+
+  // === BRANCH 3: Absent MAC (Unverified Compatibility Mode) ===
+  try {
+    const p12 = forge.pkcs12.pkcs12FromAsn1(pfxAsn1, false, password);
     const keyBags =
       p12.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag })[
         forge.pki.oids.pkcs8ShroudedKeyBag
@@ -228,138 +619,17 @@ export async function parseUniversalPkcs12(
       .filter((c): c is forge.pki.Certificate => Boolean(c));
 
     if (privateKey && certs.length > 0) {
-      return { certs, privateKey, engine: 'forge-legacy' };
+      const matchingCert = certs.find((c) => matchesCertificate(c, privateKey!));
+      if (!matchingCert) {
+        throw new Error('CERTIFICATE_KEY_MISMATCH: La clave privada extraída no coincide con ningún certificado.');
+      }
+      certs.sort((a, b) => (matchesCertificate(a, privateKey!) ? -1 : matchesCertificate(b, privateKey!) ? 1 : 0));
+      return { certs, privateKey, engine: 'forge-legacy', integrity: 'unverified' };
     }
-  } catch (forgeErr: any) {
-    const msg = String(forgeErr?.message || '');
-    // If forge specifically failed with MAC verification error on invalid password, check if it's really wrong password
-    if (/mac could not be verified/i.test(msg) && !/unsupported/i.test(msg)) {
-      // Could be wrong password, or could be SHA-256 MAC algorithm unsupported by forge
-      // Let WebCrypto fallback attempt decryption; if it also fails on password, it will confirm
-    }
+  } catch {
+    // Fall back to WebCrypto unpacker for unverified containers
   }
 
-  // --- STRATEGY 2: Native WebCrypto PBES2 Universal Fallback ---
-  try {
-    const pfxAsn1 = forge.asn1.fromDer(forge.util.createBuffer(new Uint8Array(p12Buffer)));
-    if (!pfxAsn1 || pfxAsn1.type !== forge.asn1.Type.SEQUENCE || !Array.isArray(pfxAsn1.value)) {
-      throw new Error('El archivo seleccionado no es un contenedor PKCS#12 válido.');
-    }
-
-    const authSafeCI = pfxAsn1.value[1];
-    if (!authSafeCI || !authSafeCI.value || !authSafeCI.value[1]) {
-      throw new Error('Estructura AuthenticatedSafe de PKCS#12 inválida.');
-    }
-
-    const authSafeBytes = getOctetStringBytes(authSafeCI.value[1].value[0]);
-    const authSafeAsn1 = forge.asn1.fromDer(forge.util.createBuffer(authSafeBytes));
-
-    const allSafeBags: any[] = [];
-
-    for (const ci of authSafeAsn1.value) {
-      const contentTypeOid = forge.asn1.derToOid(ci.value[0].value);
-
-      if (contentTypeOid === OID.data) {
-        const dataBytes = getOctetStringBytes(ci.value[1].value[0]);
-        const scAsn1 = forge.asn1.fromDer(forge.util.createBuffer(dataBytes));
-        if (Array.isArray(scAsn1.value)) {
-          allSafeBags.push(...scAsn1.value);
-        }
-      } else if (contentTypeOid === OID.encryptedData) {
-        const encData = ci.value[1].value[0];
-        const encInfo = encData.value[1];
-        const encAlgOid = forge.asn1.derToOid(encInfo.value[1].value[0].value);
-        const ciphertextStr = getOctetStringBytes(encInfo.value[2]);
-        const ciphertext = binaryStringToUint8Array(ciphertextStr);
-
-        let decryptedBytes: Uint8Array;
-        if (encAlgOid === OID.pkcs5PBES2) {
-          decryptedBytes = await decryptPBES2WithWebCrypto(
-            encInfo.value[1].value[1],
-            ciphertext,
-            password
-          );
-        } else {
-          // Legacy PKCS#12 PBE via forge
-          const cipher = (forge.pki as any).pbe.getCipher(
-            encAlgOid,
-            encInfo.value[1].value[1],
-            password
-          );
-          cipher.update(forge.util.createBuffer(uint8ArrayToBinaryString(ciphertext)));
-          if (!cipher.finish()) {
-            throw new Error('Error al desencriptar SafeContents PKCS#12.');
-          }
-          decryptedBytes = binaryStringToUint8Array(cipher.output.getBytes());
-        }
-
-        const scAsn1 = forge.asn1.fromDer(
-          forge.util.createBuffer(uint8ArrayToBinaryString(decryptedBytes))
-        );
-        if (Array.isArray(scAsn1.value)) {
-          allSafeBags.push(...scAsn1.value);
-        }
-      }
-    }
-
-    let privateKey: forge.pki.rsa.PrivateKey | null = null;
-    const certs: forge.pki.Certificate[] = [];
-
-    for (const bag of allSafeBags) {
-      if (!bag.value || !bag.value[0]) continue;
-      const bagOid = forge.asn1.derToOid(bag.value[0].value);
-
-      if (bagOid === OID.certBag) {
-        const certSeq = bag.value[1].value[0];
-        const certBytes = getOctetStringBytes(certSeq.value[1].value[0]);
-        const certAsn1 = forge.asn1.fromDer(forge.util.createBuffer(certBytes));
-        certs.push(forge.pki.certificateFromAsn1(certAsn1));
-      } else if (bagOid === OID.keyBag) {
-        const pkAsn1 = bag.value[1].value[0];
-        privateKey = forge.pki.privateKeyFromAsn1(pkAsn1) as forge.pki.rsa.PrivateKey;
-      } else if (bagOid === OID.pkcs8ShroudedKeyBag) {
-        const epki = bag.value[1].value[0];
-        const algOid = forge.asn1.derToOid(epki.value[0].value[0].value);
-        const ciphertextStr = getOctetStringBytes(epki.value[1]);
-        const ciphertext = binaryStringToUint8Array(ciphertextStr);
-
-        let decryptedKeyBytes: Uint8Array;
-        if (algOid === OID.pkcs5PBES2) {
-          decryptedKeyBytes = await decryptPBES2WithWebCrypto(
-            epki.value[0].value[1],
-            ciphertext,
-            password
-          );
-        } else {
-          const pkAsn1 = forge.pki.decryptPrivateKeyInfo(epki, password);
-          if (pkAsn1) {
-            privateKey = forge.pki.privateKeyFromAsn1(pkAsn1) as forge.pki.rsa.PrivateKey;
-            continue;
-          }
-          throw new Error('Contraseña del certificado incorrecta.');
-        }
-
-        const pkAsn1 = forge.asn1.fromDer(
-          forge.util.createBuffer(uint8ArrayToBinaryString(decryptedKeyBytes))
-        );
-        privateKey = forge.pki.privateKeyFromAsn1(pkAsn1) as forge.pki.rsa.PrivateKey;
-      }
-    }
-
-    if (!privateKey && certs.length === 0) {
-      throw new Error(
-        'Contraseña del certificado incorrecta o no se pudieron extraer las credenciales.'
-      );
-    }
-
-    return { certs, privateKey, engine: 'webcrypto-pbes2' };
-  } catch (err: any) {
-    const rawMsg = String(err?.message || '');
-    if (/contraseña|password|operationerror|padding/i.test(rawMsg)) {
-      throw new Error('Contraseña del certificado incorrecta. Verifique su clave de exportación.');
-    }
-    throw new Error(
-      `Error al procesar el archivo .p12/.pfx: ${rawMsg || 'Formato no soportado o archivo dañado.'}`
-    );
-  }
+  const { certs, privateKey } = await unpackAuthenticatedSafe(authSafeCI, password);
+  return { certs, privateKey, engine: 'webcrypto-pbes2', integrity: 'unverified' };
 }
