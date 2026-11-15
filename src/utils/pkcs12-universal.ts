@@ -26,8 +26,8 @@ export interface PBMAC1Parameters {
   salt: Uint8Array;
   iterations: number;
   keyLengthBytes: number;
-  pbkdf2Prf: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
-  macHash: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
+  pbkdf2Prf: 'SHA-256' | 'SHA-384' | 'SHA-512';
+  macHash: 'SHA-256' | 'SHA-384' | 'SHA-512';
   expectedMac: Uint8Array;
 }
 
@@ -213,30 +213,45 @@ function parsePBMAC1Parameters(macDigestInfo: any): PBMAC1Parameters {
   const salt = binaryStringToUint8Array(getOctetStringBytes(pbkdf2Params.value[0]));
   const iterations = asn1IntToNumber(pbkdf2Params.value[1]);
 
-  // RFC 9879: keyLength MUST be explicitly present in PBKDF2-params
-  if (pbkdf2Params.value.length < 3 || pbkdf2Params.value[2].type !== forge.asn1.Type.INTEGER) {
-    throw new Error('INVALID_PBMAC1_KEY_LENGTH: Parámetro keyLength ausente en PBKDF2 (requerido por RFC 9879).');
+  // RFC 9879 Section 5 & A.6: keyLength MUST be explicitly present as an INTEGER in PBKDF2-params
+  if (
+    pbkdf2Params.value.length < 3 ||
+    !pbkdf2Params.value[2] ||
+    pbkdf2Params.value[2].type !== forge.asn1.Type.INTEGER
+  ) {
+    throw new Error('PBKDF2_KEY_LENGTH_REQUIRED: Parámetro keyLength ausente en PBKDF2 de PBMAC1 (requerido por RFC 9879).');
   }
   const keyLengthBytes = asn1IntToNumber(pbkdf2Params.value[2]);
 
-  let pbkdf2Prf: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512' = 'SHA-1';
+  // RFC 9879 Section 7: PRF MUST NOT be SHA-1 or <= 160 bits
+  let pbkdf2Prf: 'SHA-256' | 'SHA-384' | 'SHA-512';
   if (pbkdf2Params.value.length > 3 && pbkdf2Params.value[3]) {
     const prfSeq = pbkdf2Params.value[3];
     const prfOid = forge.asn1.derToOid(prfSeq.value[0].value);
     if (prfOid === OID.hmacWithSHA256) pbkdf2Prf = 'SHA-256';
     else if (prfOid === OID.hmacWithSHA384) pbkdf2Prf = 'SHA-384';
     else if (prfOid === OID.hmacWithSHA512) pbkdf2Prf = 'SHA-512';
-    else if (prfOid === OID.hmacWithSHA1) pbkdf2Prf = 'SHA-1';
-    else throw new Error(`UNSUPPORTED_PRF: PRF de PBKDF2 no soportado (${prfOid})`);
+    else if (prfOid === OID.hmacWithSHA1) {
+      throw new Error('UNSUPPORTED_PRF: PBKDF2 con HMAC-SHA1 está prohibido para PBMAC1 (RFC 9879 Sección 7 prohíbe funciones <= 160 bits).');
+    } else {
+      throw new Error(`UNSUPPORTED_PRF: PRF de PBKDF2 no soportado (${prfOid})`);
+    }
+  } else {
+    // If PRF parameter is omitted, RFC 8018 default is HMAC-SHA1, which RFC 9879 Section 7 explicitly forbids
+    throw new Error('UNSUPPORTED_PRF: Parámetro PRF ausente en PBKDF2; SHA-1 por defecto está prohibido en PBMAC1 (RFC 9879).');
   }
 
+  // RFC 9879 Section 7: Message Authentication Scheme MUST NOT be <= 160 bits (e.g. SHA-1)
   const macOid = forge.asn1.derToOid(macSchemeSeq.value[0].value);
-  let macHash: 'SHA-1' | 'SHA-256' | 'SHA-384' | 'SHA-512';
+  let macHash: 'SHA-256' | 'SHA-384' | 'SHA-512';
   if (macOid === OID.hmacWithSHA256) macHash = 'SHA-256';
   else if (macOid === OID.hmacWithSHA384) macHash = 'SHA-384';
   else if (macOid === OID.hmacWithSHA512) macHash = 'SHA-512';
-  else if (macOid === OID.hmacWithSHA1) macHash = 'SHA-1';
-  else throw new Error(`UNSUPPORTED_MAC_ALGORITHM: Esquema MAC de PBMAC1 no soportado (${macOid})`);
+  else if (macOid === OID.hmacWithSHA1) {
+    throw new Error('UNSUPPORTED_MAC_ALGORITHM: HMAC-SHA1 está prohibido para PBMAC1 (RFC 9879 Sección 7 prohíbe funciones de resumen <= 160 bits).');
+  } else {
+    throw new Error(`UNSUPPORTED_MAC_ALGORITHM: Esquema MAC de PBMAC1 no soportado (${macOid})`);
+  }
 
   return {
     salt,
@@ -493,8 +508,19 @@ export async function parseUniversalPkcs12(
   password: string
 ): Promise<UniversalPkcs12Result> {
   const u8 = p12Input instanceof Uint8Array ? p12Input : new Uint8Array(p12Input);
-  const pfxDer = forge.util.createBuffer(u8);
-  const pfxAsn1 = forge.asn1.fromDer(pfxDer);
+  let pfxAsn1: any;
+  try {
+    pfxAsn1 = forge.asn1.fromDer(forge.util.createBuffer(u8));
+  } catch {
+    try {
+      pfxAsn1 = forge.asn1.fromDer(forge.util.createBuffer(u8), {
+        strict: false,
+        parseAllBytes: false,
+      });
+    } catch {
+      throw new Error('CORRUPT_FILE: El archivo seleccionado no es un contenedor PKCS#12 válido.');
+    }
+  }
 
   if (!pfxAsn1 || pfxAsn1.type !== forge.asn1.Type.SEQUENCE || !Array.isArray(pfxAsn1.value)) {
     throw new Error('CORRUPT_FILE: El archivo seleccionado no es un contenedor PKCS#12 válido.');
