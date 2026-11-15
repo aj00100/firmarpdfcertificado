@@ -135,8 +135,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'blue',
   },
 
-  // UNCOMMENT DAY 7: Plataforma Mercurio Extranjería (>1,000/mo x2), Oposiciones (>100/mo) & Becas MEC (>10,000/mo — Easy KD)
-  /*
+  // WAVE 4 (15 Nov 2026): Oposiciones (>100/mo) & Becas MEC (>10,000/mo — Easy KD)
   {
     slug: 'como-firmar-inscripcion-oposiciones-con-certificado-digital',
     title: 'Cómo Firmar la Inscripción a Oposiciones del Estado, Comunidades y Correos con Certificado Digital',
@@ -144,7 +143,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Aprende a realizar la inscripción a oposiciones del Estado (IPS Modelo 790), Correos, Justicia y Comunidades Autónomas con certificado digital y cómo firmar tus méritos en PDF.',
     category: 'Empleo Público y Oposiciones',
     readTime: '7 min de lectura',
-    updatedDate: '2 de noviembre de 2026',
+    updatedDate: '15 de noviembre de 2026',
     badgeColor: 'blue',
   },
   {
@@ -154,10 +153,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía completa sobre las Becas MEC 2026/2027 del Ministerio de Educación: plazos, requisitos de renta, resolución y cómo cofirmar autorizaciones familiares y contratos de alquiler en PDF.',
     category: 'Educación y Becas MEC',
     readTime: '7 min de lectura',
-    updatedDate: '2 de noviembre de 2026',
+    updatedDate: '15 de noviembre de 2026',
     badgeColor: 'indigo',
   },
-  */
 
   // WAVE 3 (11 Nov 2026): Certificado Delitos Sexuales (>10,000/mo Easy KD) & Antecedentes Penales (>1,000/mo)
   {
@@ -171,8 +169,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'indigo',
   },
 
-  // UNCOMMENT DAY 9: Certificado de Empadronamiento (>10,000/mo Easy KD)
-  /*
+  // WAVE 4 (15 Nov 2026): Certificado de Empadronamiento (>10,000/mo Easy KD)
   {
     slug: 'descargar-certificado-empadronamiento-con-certificado-digital',
     title: 'Cómo Descargar el Certificado o Volante de Empadronamiento Online con Certificado Digital',
@@ -180,10 +177,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía para obtener al instante el certificado de empadronamiento individual o colectivo en Madrid, Barcelona, Valencia, Sevilla y cualquier ayuntamiento sin pedir cita previa.',
     category: 'Trámites Municipales y Padrón',
     readTime: '7 min de lectura',
-    updatedDate: '4 de noviembre de 2026',
+    updatedDate: '15 de noviembre de 2026',
     badgeColor: 'emerald',
   },
-  */
 
   // WAVE 3 (11 Nov 2026): Registro Civil: Nacimiento (>10,000/mo), Matrimonio (>1,000/mo), Defunción (>1,000/mo), Últimas Voluntades (>1,000/mo — All Easy KD)
   {
@@ -270,8 +266,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
   },
   */
 
-  // UNCOMMENT DAY 14: Catastro (>10,000/mo), Certificado Catastral Telemático & Valor de Referencia (>1,000/mo — Easy KD)
-  /*
+  // WAVE 4 (15 Nov 2026): Catastro (>10,000/mo), Certificado Catastral Telemático & Valor de Referencia (>1,000/mo — Easy KD)
   {
     slug: 'como-descargar-certificado-catastral-y-valor-referencia',
     title: 'Sede Electrónica del Catastro: Cómo Descargar Certificado Descriptivo y Gráfico y Valor de Referencia',
@@ -279,10 +274,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía para obtener el certificado catastral telemático, consultar el valor de referencia de inmuebles de Hacienda y descargar planos y referencias catastrales en PDF.',
     category: 'Catastro Inmobiliario e Impuestos',
     readTime: '7 min de lectura',
-    updatedDate: '9 de noviembre de 2026',
+    updatedDate: '15 de noviembre de 2026',
     badgeColor: 'indigo',
   },
-  */
 
   // WAVE 3 (11 Nov 2026): DGT Duplicado Carnet (>1,000/mo Easy KD) & Informe Vehículo (>1,000/mo)
   {
@@ -358,8 +352,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
 
   
 
-  // UNCOMMENT DAY 22: Kit Digital & Kit Consulting Red.es Justificación (>1,000/mo Easy KD)
-  /*
+  // WAVE 4 (15 Nov 2026): Kit Digital & Kit Consulting Red.es Justificación (>1,000/mo Easy KD)
   {
     slug: 'como-firmar-acuerdos-justificacion-kit-digital-kit-consulting-red-es',
     title: 'Kit Digital y Kit Consulting (Red.es): Cómo Firmar Acuerdos y Justificaciones en PDF',
@@ -367,15 +360,11 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Cómo firmar y cofirmar actas de conformidad, autorizaciones y memorias de justificación del Kit Digital en Red.es sin errores de AutoFirma.',
     category: 'Subvenciones y Kit Digital',
     readTime: '6 min de lectura',
-    updatedDate: '17 de noviembre de 2026',
+    updatedDate: '15 de noviembre de 2026',
     badgeColor: 'blue',
   },
-  */
 
-  
-
-  // UNCOMMENT DAY 24: Apostilla de La Haya Electrónica (>10,000/mo) & Traducciones Juradas PDF (>1,000/mo Easy KD)
-  /*
+  // WAVE 4 (15 Nov 2026): Apostilla de La Haya Electrónica (>10,000/mo) & Traducciones Juradas PDF (>1,000/mo Easy KD)
   {
     slug: 'como-solicitar-apostilla-de-la-haya-electronica-y-firmar-traducciones-juradas-pdf',
     title: 'Apostilla de La Haya Electrónica (e-APP) Online y Firma de Traducciones Juradas en PDF',
@@ -383,13 +372,11 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Cómo solicitar la Apostilla de La Haya Electrónica en el Ministerio de Justicia con certificado digital y cómo firmar o verificar Traducciones Juradas en PDF.',
     category: 'Trámites Internacionales y MAEC',
     readTime: '7 min de lectura',
-    updatedDate: '19 de noviembre de 2026',
+    updatedDate: '15 de noviembre de 2026',
     badgeColor: 'emerald',
   },
-  */
 
-  // UNCOMMENT DAY 25: Registro Electrónico General Red SARA (>10,000/mo Easy KD)
-  /*
+  // WAVE 4 (15 Nov 2026): Registro Electrónico General Red SARA (>10,000/mo Easy KD)
   {
     slug: 'como-presentar-escritos-registro-electronico-general-red-sara-subvenciones-pdf',
     title: 'Registro Electrónico General (Red SARA): Cómo Firmar y Presentar Instancias y Recursos PDF',
@@ -397,10 +384,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía práctica para presentar escritos, alegaciones y solicitudes de subvenciones en cualquier administración pública a través de reg.redsara.es con PDFs firmados.',
     category: 'Registro Electrónico Red SARA',
     readTime: '6 min de lectura',
-    updatedDate: '20 de noviembre de 2026',
+    updatedDate: '15 de noviembre de 2026',
     badgeColor: 'blue',
   },
-  */
 
   // WAVE 1 (5 Nov 2026): Renovar Certificado Digital FNMT Online (>100,000/mo Easy KD)
   {
