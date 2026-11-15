@@ -148,6 +148,12 @@ async function runAllTests() {
     { sec: 'A.6', desc: 'Invalid: Missing Key Length', shouldPass: false },
   ];
 
+  const expectedErrors = {
+    'A.4': 'MAC_VERIFICATION_FAILED',
+    'A.5': 'MAC_VERIFICATION_FAILED',
+    'A.6': 'PBKDF2_KEY_LENGTH_REQUIRED',
+  };
+
   for (const t of rfcSuites) {
     total++;
     const rawBuf = Buffer.from(rfcVectors[t.sec], 'base64');
@@ -162,13 +168,21 @@ async function runAllTests() {
         console.error(`[FAIL ❌] RFC 9879 ${t.sec} (${t.desc}) -> Expected failure, but succeeded!`);
       }
     } catch (e) {
-      if (!t.shouldPass) {
-        console.log(
-          `[PASS ✅] RFC 9879 ${t.sec} (${t.desc}) -> Correctly rejected: "${e.message}"`
-        );
-        passed++;
+      const message = String(e?.message || e);
+      if (t.shouldPass) {
+        console.error(`[FAIL ❌] RFC 9879 ${t.sec} (${t.desc}) -> Failed unexpectedly: ${message}`);
       } else {
-        console.error(`[FAIL ❌] RFC 9879 ${t.sec} (${t.desc}) -> Failed unexpectedly: ${e.message}`);
+        const expected = expectedErrors[t.sec];
+        if (message.includes(expected)) {
+          console.log(
+            `[PASS ✅] RFC 9879 ${t.sec} (${t.desc}) -> Correctly rejected with exact code: "${expected}"`
+          );
+          passed++;
+        } else {
+          console.error(
+            `[FAIL ❌] RFC 9879 ${t.sec} (${t.desc}) -> Expected code "${expected}", but received: "${message}"`
+          );
+        }
       }
     }
   }
