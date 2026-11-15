@@ -100,18 +100,23 @@
     length: number;
     start: number;
     valueStart: number;
+    isIndefinite?: boolean;
     children?: Asn1Node[];
   }
 
-  // Decodificador ASN.1 DER/BER ligero en memoria
+  // Decodificador ASN.1 DER/BER ligero en memoria (soporta longitud definida e indefinida 0x80)
   function parseAsn1(bytes: Uint8Array, offset = 0, maxOffset = bytes.length): Asn1Node | null {
-    if (offset >= maxOffset || bytes[offset] === 0x00) return null;
+    if (offset >= maxOffset) return null;
     const start = offset;
     const tag = bytes[offset++];
     if (offset >= maxOffset) return null;
 
+    let isIndefinite = false;
     let length = bytes[offset++];
-    if (length & 0x80) {
+    if (length === 0x80) {
+      isIndefinite = true;
+      length = 0;
+    } else if (length & 0x80) {
       const numBytes = length & 0x7f;
       if (numBytes === 0 || numBytes > 4 || offset + numBytes > maxOffset) return null;
       length = 0;
@@ -122,15 +127,15 @@
 
     const valueStart = offset;
     const headerLen = valueStart - start;
-    if (valueStart + length > maxOffset) return null;
+    if (!isIndefinite && valueStart + length > maxOffset) return null;
 
-    const node: Asn1Node = { tag, headerLen, length, start, valueStart };
+    const node: Asn1Node = { tag, headerLen, length, start, valueStart, isIndefinite };
     const isConstructed = (tag & 0x20) !== 0;
 
     if (isConstructed) {
       node.children = [];
       let childOffset = valueStart;
-      const end = valueStart + length;
+      const end = isIndefinite ? maxOffset : valueStart + length;
       while (childOffset < end) {
         if (bytes[childOffset] === 0x00 && bytes[childOffset + 1] === 0x00) {
           childOffset += 2;
@@ -140,6 +145,9 @@
         if (!child) break;
         node.children.push(child);
         childOffset = child.valueStart + child.length;
+      }
+      if (isIndefinite) {
+        node.length = childOffset - valueStart;
       }
     }
 
@@ -223,7 +231,7 @@
     }
     // Use the outer ASN.1 SEQUENCE header to determine exact DER byte length without corrupting trailing 0x00
     const root = parseAsn1(raw);
-    if (root && root.start === 0) {
+    if (root && root.start === 0 && !root.isIndefinite) {
       const exactDerLen = root.headerLen + root.length;
       if (exactDerLen <= raw.length) {
         return raw.subarray(0, exactDerLen);
@@ -288,11 +296,14 @@
       if (node.tag === 0x30 && node.children && node.children.length >= 2 && node.children[0].tag === 0x06) {
         const oid = decodeOid(cmsBytes, node.children[0]);
         if (oid === "1.2.840.113549.1.9.4") {
-          // messageDigest -> SET -> OCTET STRING
+          // messageDigest -> SET -> OCTET STRING (conservar el primer hash de signedAttrs)
           const setNode = node.children[1];
           if (setNode.children && setNode.children[0]?.tag === 0x04) {
             const octNode = setNode.children[0];
-            result.messageDigestHex = toHex(cmsBytes.subarray(octNode.valueStart, octNode.valueStart + octNode.length));
+            const hex = toHex(cmsBytes.subarray(octNode.valueStart, octNode.valueStart + octNode.length));
+            if ([40, 64, 96, 128].includes(hex.length) && !result.messageDigestHex) {
+              result.messageDigestHex = hex;
+            }
           }
         } else if (oid === "1.2.840.113549.1.9.5") {
           // signingTime -> SET -> UTCTime / GeneralizedTime
@@ -366,7 +377,9 @@
         cmsBytes = hexToBytes(hexMatch[1]);
       }
 
-      // Calcular el hash SHA-256 real de los dos intervalos del ByteRange
+      const cmsInfo = inspectPkcs7Cms(cmsBytes);
+
+      // Calcular el hash real de los dos intervalos del ByteRange según el algoritmo de la firma (SHA-1 / SHA-256 / SHA-384 / SHA-512)
       let calculatedRangeHashHex = "";
       const rangeValidBounds = b0 === 0 && b1 >= b0 + l0 && b1 + l1 <= pdfBytes.length;
 
@@ -374,11 +387,21 @@
         const signedBytes = new Uint8Array(l0 + l1);
         signedBytes.set(pdfBytes.subarray(b0, b0 + l0), 0);
         signedBytes.set(pdfBytes.subarray(b1, b1 + l1), l0);
-        const digestBuf = await crypto.subtle.digest("SHA-256", signedBytes);
+
+        let algo = "SHA-256";
+        if (cmsInfo.messageDigestHex.length === 40) {
+          algo = "SHA-1";
+        } else if (cmsInfo.messageDigestHex.length === 96) {
+          algo = "SHA-384";
+        } else if (cmsInfo.messageDigestHex.length === 128) {
+          algo = "SHA-512";
+        }
+        cmsInfo.digestAlgorithm = algo;
+
+        const digestBuf = await crypto.subtle.digest(algo, signedBytes);
         calculatedRangeHashHex = toHex(new Uint8Array(digestBuf));
       }
 
-      const cmsInfo = inspectPkcs7Cms(cmsBytes);
       const coversEntireFile = b1 + l1 === pdfBytes.length;
       const hashMatches =
         cmsInfo.messageDigestHex.length > 0 &&
@@ -550,7 +573,7 @@
                 ${sig.cmsInfo.hasPadesEssCertIdV2 ? "Presente (Cumple ETSI EN 319 142)" : "PKCS#7 Clásico"}
               </div>
               <div class="break-all">
-                <strong class="text-slate-800 block">MessageDigest Firmado:</strong>
+                <strong class="text-slate-800 block">Algoritmo y MessageDigest (${sig.cmsInfo.digestAlgorithm}):</strong>
                 <code>${sig.cmsInfo.messageDigestHex ? sig.cmsInfo.messageDigestHex.slice(0, 32) + "..." : "N/A"}</code>
               </div>
             </div>

@@ -45,7 +45,7 @@ fn(m, m.exports, require, globalThis);
 
 const { auditPdfBuffer } = m.exports;
 
-async function testPdf(pdfPath, label) {
+async function testPdf(pdfPath, label, options = {}) {
   console.log(`\n===============================================================`);
   console.log(`=== AUDITING [${label}] VIA ValidatorStudio LOGIC ===`);
   console.log(`===============================================================`);
@@ -73,22 +73,22 @@ async function testPdf(pdfPath, label) {
     console.log(`\n--- Signature #${sig.index} Audit Details ---`);
     console.log(`  ByteRange: [${sig.byteRange.join(', ')}]`);
     console.log(`  Covers Entire File: ${sig.coversEntireFile ? 'YES ✅' : 'NO ❌'}`);
-    console.log(`  Calculated Range Hash: ${sig.calculatedRangeHashHex}`);
+    console.log(`  Calculated Range Hash (${sig.cmsInfo.digestAlgorithm}): ${sig.calculatedRangeHashHex}`);
     console.log(`  CMS Signed messageDigest: ${sig.cmsInfo.messageDigestHex}`);
     console.log(`  Hash Match (Integrity): ${sig.hashMatches ? 'INTACT ✅' : 'CORRUPTED ❌'}`);
-    console.log(`  Signer Common Name: "${sig.cmsInfo.subject.CN || 'Unknown'}"`);
+    console.log(`  Signer Common Name: "${sig.cmsInfo.subject.CN || Object.values(sig.cmsInfo.subject).join(', ') || 'Unknown'}"`);
     console.log(`  Signer ID / NIF: "${sig.cmsInfo.subject.serialNumber || sig.cmsInfo.subject.organizationIdentifier || 'N/A'}"`);
     console.log(`  Issuer: "${sig.cmsInfo.issuer.CN || sig.cmsInfo.issuer.O || 'Unknown'}"`);
     console.log(`  Signing Time: ${sig.cmsInfo.signingTime ? sig.cmsInfo.signingTime.toISOString() : 'N/A'}`);
-    console.log(`  PAdES ESSCertIDv2 (SigningCertificateV2) Present: ${sig.cmsInfo.hasPadesEssCertIdV2 ? 'YES ✅' : 'NO ❌'}`);
+    console.log(`  PAdES ESSCertIDv2 (SigningCertificateV2) Present: ${sig.cmsInfo.hasPadesEssCertIdV2 ? 'YES ✅' : 'NO (Classic PKCS#7)'}`);
 
     if (!sig.hashMatches) {
       throw new Error(`Hash mismatch on signature #${sig.index}!`);
     }
-    if (!sig.coversEntireFile) {
+    if (options.requireCoversEntireFile !== false && !sig.coversEntireFile) {
       throw new Error(`ByteRange does not cover entire file on signature #${sig.index}!`);
     }
-    if (!sig.cmsInfo.hasPadesEssCertIdV2) {
+    if (options.requirePadesEssCertIdV2 && !sig.cmsInfo.hasPadesEssCertIdV2) {
       throw new Error(`Missing PAdES ESSCertIDv2 attribute on signature #${sig.index}!`);
     }
   }
@@ -99,12 +99,21 @@ async function testPdf(pdfPath, label) {
 async function run() {
   const pbmac1Pdf = '/tmp/pades_e2e_test/signed_pbmac1.pdf';
   const legacyPdf = '/tmp/pades_e2e_test/signed_legacy.pdf';
+  const afirmaConvenio = '/tmp/real_signed_pdfs/afirma_convenio_firmado.pdf';
+  const afirmaAbogacia = '/tmp/real_signed_pdfs/afirma_abogacia_estado.pdf';
+  const euDssPadesBes = '/tmp/real_signed_pdfs/pades_bes_dss.pdf';
 
-  await testPdf(pbmac1Pdf, 'Modern PBMAC1 RFC 9879 Signed PDF');
-  await testPdf(legacyPdf, 'Legacy 3DES Signed PDF');
+  // 1. Audit Our Own Engine Outputs (Strict PAdES-B-B + Full Document Coverage)
+  await testPdf(pbmac1Pdf, 'OUR ENGINE: Modern PBMAC1 RFC 9879 Signed PDF', { requirePadesEssCertIdV2: true });
+  await testPdf(legacyPdf, 'OUR ENGINE: Legacy 3DES Signed PDF', { requirePadesEssCertIdV2: true });
+
+  // 2. Audit Real-World External Government & European Commission Outputs
+  await testPdf(afirmaConvenio, 'REAL-WORLD: AutoFirma Convenio Firmado (Spain Gov, SHA-1)');
+  await testPdf(afirmaAbogacia, 'REAL-WORLD: AutoFirma Abogacía del Estado (Spain FNMT Clase 2 CA, BER Indefinite Length)');
+  await testPdf(euDssPadesBes, 'REAL-WORLD: European Commission DSS PAdES-BES (SHA-512)', { requirePadesEssCertIdV2: true });
 
   console.log('\n===============================================================');
-  console.log('=== ALL VALIDATOR STUDIO REALITY CHECKS PASSED (100%) ===');
+  console.log('=== ALL VALIDATOR STUDIO REALITY CHECKS PASSED (5/5 = 100%) ===');
   console.log('===============================================================');
 }
 
