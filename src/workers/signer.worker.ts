@@ -879,6 +879,27 @@ function buildPAdESDetachedCmsHex(
     ]
   );
 
+  // Custom attribute sequence: Attribute ::= SEQUENCE { attrType OID, attrValues SET OF AttributeValue }
+  const scv2AttrAsn1 = forge.asn1.create(
+    forge.asn1.Class.UNIVERSAL,
+    forge.asn1.Type.SEQUENCE,
+    true,
+    [
+      forge.asn1.create(
+        forge.asn1.Class.UNIVERSAL,
+        forge.asn1.Type.OID,
+        false,
+        forge.asn1.oidToDer('1.2.840.113549.1.9.16.2.47').getBytes()
+      ),
+      forge.asn1.create(
+        forge.asn1.Class.UNIVERSAL,
+        forge.asn1.Type.SET,
+        true,
+        [signingCertificateV2Asn1]
+      ),
+    ]
+  );
+
   p7.addSigner({
     key: identity.privateKeyForge,
     certificate: identity.signerCertForge,
@@ -895,14 +916,86 @@ function buildPAdESDetachedCmsHex(
         type: forge.pki.oids.signingTime,
         value: signDate as any,
       },
-      {
-        type: '1.2.840.113549.1.9.16.2.47',
-        value: signingCertificateV2Asn1,
-      },
     ],
   });
 
+  // Calculate base message digest and initialize structure
   p7.sign({ detached: true });
+
+  // Inject SigningCertificateV2 into authenticatedAttributesAsn1
+  const signer = (p7 as any).signers[0];
+  signer.authenticatedAttributesAsn1.value.push(scv2AttrAsn1);
+
+  // Sort attributes SET by DER octets per X.690 / RFC 5652 Section 5.3 rules
+  signer.authenticatedAttributesAsn1.value.sort((a: any, b: any) => {
+    const derA = forge.asn1.toDer(a).getBytes();
+    const derB = forge.asn1.toDer(b).getBytes();
+    return derA < derB ? -1 : derA > derB ? 1 : 0;
+  });
+
+  // Re-sign the complete attributes SET with the signer's RSA private key
+  const attrsSet = forge.asn1.create(
+    forge.asn1.Class.UNIVERSAL,
+    forge.asn1.Type.SET,
+    true,
+    signer.authenticatedAttributesAsn1.value
+  );
+  const attrsDerBytes = forge.asn1.toDer(attrsSet).getBytes();
+  const md = forge.md.sha256.create();
+  md.update(attrsDerBytes, 'raw');
+  signer.signature = identity.privateKeyForge.sign(md);
+
+  // Rebuild signerInfos with updated authenticatedAttributes and signature
+  (p7 as any).signerInfos = [
+    forge.asn1.create(forge.asn1.Class.UNIVERSAL, forge.asn1.Type.SEQUENCE, true, [
+      // version
+      forge.asn1.create(
+        forge.asn1.Class.UNIVERSAL,
+        forge.asn1.Type.INTEGER,
+        false,
+        forge.asn1.integerToDer(signer.version).getBytes()
+      ),
+      // issuerAndSerialNumber
+      forge.asn1.create(forge.asn1.Class.UNIVERSAL, forge.asn1.Type.SEQUENCE, true, [
+        forge.pki.distinguishedNameToAsn1({ attributes: signer.issuer }),
+        forge.asn1.create(
+          forge.asn1.Class.UNIVERSAL,
+          forge.asn1.Type.INTEGER,
+          false,
+          forge.util.hexToBytes(signer.serialNumber)
+        ),
+      ]),
+      // digestAlgorithm
+      forge.asn1.create(forge.asn1.Class.UNIVERSAL, forge.asn1.Type.SEQUENCE, true, [
+        forge.asn1.create(
+          forge.asn1.Class.UNIVERSAL,
+          forge.asn1.Type.OID,
+          false,
+          forge.asn1.oidToDer(signer.digestAlgorithm).getBytes()
+        ),
+        forge.asn1.create(forge.asn1.Class.UNIVERSAL, forge.asn1.Type.NULL, false, ''),
+      ]),
+      // authenticatedAttributes [0] IMPLICIT
+      signer.authenticatedAttributesAsn1,
+      // digestEncryptionAlgorithm
+      forge.asn1.create(forge.asn1.Class.UNIVERSAL, forge.asn1.Type.SEQUENCE, true, [
+        forge.asn1.create(
+          forge.asn1.Class.UNIVERSAL,
+          forge.asn1.Type.OID,
+          false,
+          forge.asn1.oidToDer(signer.signatureAlgorithm).getBytes()
+        ),
+        forge.asn1.create(forge.asn1.Class.UNIVERSAL, forge.asn1.Type.NULL, false, ''),
+      ]),
+      // signature
+      forge.asn1.create(
+        forge.asn1.Class.UNIVERSAL,
+        forge.asn1.Type.OCTETSTRING,
+        false,
+        signer.signature
+      ),
+    ]),
+  ];
 
   const cmsAsn1 = p7.toAsn1();
   const cmsDer = forge.asn1.toDer(cmsAsn1);
