@@ -364,7 +364,7 @@ function matchesCertificate(cert: forge.pki.Certificate, privateKey: forge.pki.r
   if (pub && pub.n && privateKey.n && pub.e && privateKey.e) {
     return pub.n.equals(privateKey.n) && pub.e.equals(privateKey.e);
   }
-  return true; // Non-RSA fallback
+  return false;
 }
 
 /**
