@@ -15,6 +15,7 @@ import {
 } from 'pdf-lib';
 import * as asn1js from 'asn1js';
 import forge from 'node-forge';
+import { parseUniversalPkcs12 } from '../utils/pkcs12-universal';
 
 interface SignRequest {
   pdfBuffer: ArrayBuffer;
@@ -140,9 +141,26 @@ self.onmessage = async (e: MessageEvent<SignRequest>) => {
       [signedPdfBytes.buffer]
     );
   } catch (err: any) {
+    const rawMsg = err?.message || 'Error al procesar el certificado digital o firmar el PDF.';
+    let errorCode = 'sign_err_unknown';
+    if (/contraseña|password/i.test(rawMsg)) {
+      errorCode = 'sign_err_wrong_pass';
+    } else if (/formato|cifrado|contenedor|pkcs/i.test(rawMsg)) {
+      errorCode = 'sign_err_p12_format';
+    } else if (/protegido|cifrado|desbloquear/i.test(rawMsg)) {
+      errorCode = 'sign_err_pdf_encrypted';
+    } else if (/caducado|expiró/i.test(rawMsg)) {
+      errorCode = 'sign_err_cert_expired';
+    } else if (/vigencia|no es válido/i.test(rawMsg)) {
+      errorCode = 'sign_err_cert_not_yet_valid';
+    } else if (/sin clave privada/i.test(rawMsg)) {
+      errorCode = 'sign_err_no_private_key';
+    }
+
     self.postMessage({
       status: 'error',
-      error: err?.message || 'Error al procesar el certificado digital o firmar el PDF.',
+      error: rawMsg,
+      code: errorCode,
     });
   }
 };
@@ -557,39 +575,14 @@ async function extractPkcs12Identity(
     throw new Error('El archivo seleccionado no es un contenedor PKCS#12 (.p12 / .pfx) válido.');
   }
 
-  let p12Forge: forge.pkcs12.Pkcs12Pfx;
-  try {
-    const derBytes = forge.util.createBuffer(new Uint8Array(p12Buffer));
-    const p12Asn1 = forge.asn1.fromDer(derBytes);
-    p12Forge = forge.pkcs12.pkcs12FromAsn1(p12Asn1, false, password);
-  } catch {
-    throw new Error('Contraseña del certificado incorrecta o formato de cifrado no soportado.');
-  }
-
-  let privateKeyForge: forge.pki.rsa.PrivateKey | null = null;
-  const keyBags =
-    p12Forge.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag })[
-      forge.pki.oids.pkcs8ShroudedKeyBag
-    ] || [];
-  const plainKeyBags =
-    p12Forge.getBags({ bagType: forge.pki.oids.keyBag })[forge.pki.oids.keyBag] || [];
-
-  for (const bag of [...keyBags, ...plainKeyBags]) {
-    if (bag.key) {
-      privateKeyForge = bag.key as forge.pki.rsa.PrivateKey;
-      break;
-    }
-  }
+  const { certs, privateKey: privateKeyForge } = await parseUniversalPkcs12(
+    p12Buffer,
+    password
+  );
 
   if (!privateKeyForge) {
     throw new Error('El archivo no contiene clave privada (.p12/.pfx exportado sin clave privada).');
   }
-
-  const certBags =
-    p12Forge.getBags({ bagType: forge.pki.oids.certBag })[forge.pki.oids.certBag] || [];
-  const certs: forge.pki.Certificate[] = certBags
-    .map((b) => b.cert)
-    .filter((c): c is forge.pki.Certificate => Boolean(c));
 
   if (certs.length === 0) {
     throw new Error('No se encontraron certificados X.509 en el archivo .p12/.pfx.');

@@ -8,8 +8,17 @@ export type TelemetryEvent =
   | 'sign_attempt'
   | 'sign_success'
   | 'sign_error'
+  | 'sign_err_wrong_pass'
+  | 'sign_err_p12_format'
+  | 'sign_err_pdf_encrypted'
+  | 'sign_err_cert_expired'
+  | 'sign_err_cert_not_yet_valid'
+  | 'sign_err_no_private_key'
+  | 'sign_err_worker_crash'
+  | 'sign_err_unknown'
   | 'validator_pdf_loaded'
-  | 'validator_success';
+  | 'validator_success'
+  | 'validator_error';
 
 export interface TelemetryProps {
   [key: string]: string | number | boolean | undefined;

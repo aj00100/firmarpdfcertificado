@@ -291,6 +291,7 @@ const faqs = [
 
 <script>
   import forge from 'node-forge';
+  import { parseUniversalPkcs12 } from '../utils/pkcs12-universal';
 
   const fileInput = document.getElementById('cert-check-input') as HTMLInputElement;
   const dropzone = document.getElementById('cert-check-dropzone') as HTMLElement;
@@ -361,15 +362,10 @@ const faqs = [
 
     try {
       const buf = await selectedFile.arrayBuffer();
-      const der = forge.util.createBuffer(new Uint8Array(buf));
-      const asn1 = forge.asn1.fromDer(der);
-      const p12 = forge.pkcs12.pkcs12FromAsn1(asn1, false, passInput.value || '');
-
-      const certBags = p12.getBags({ bagType: forge.pki.oids.certBag })[forge.pki.oids.certBag] || [];
-      const certs = certBags.map((b) => b.cert).filter((c): c is forge.pki.Certificate => Boolean(c));
+      const { certs, privateKey } = await parseUniversalPkcs12(buf, passInput.value || '');
 
       if (certs.length === 0) {
-        throw new Error('No se encontraron certificados X.509 en el archivo.');
+        throw new Error('No se encontraron certificados X.509 en el archivo .p12/.pfx.');
       }
 
       let signerCert = certs[0];
@@ -381,9 +377,7 @@ const faqs = [
         }
       }
 
-      const keyBags = p12.getBags({ bagType: forge.pki.oids.pkcs8ShroudedKeyBag })[forge.pki.oids.pkcs8ShroudedKeyBag] || [];
-      const plainKeyBags = p12.getBags({ bagType: forge.pki.oids.keyBag })[forge.pki.oids.keyBag] || [];
-      const hasPrivateKey = [...keyBags, ...plainKeyBags].some((b) => Boolean(b.key));
+      const hasPrivateKey = Boolean(privateKey);
 
       const cnAttr = signerCert.subject.getField('CN');
       const cn = cnAttr ? String(cnAttr.value) : 'Titular Reconocido';
@@ -434,7 +428,7 @@ const faqs = [
         bannerBadge.textContent = 'ACTIVO · VÁLIDO';
       }
     } catch (err: any) {
-      showMsg('❌ Contraseña incorrecta o archivo .p12/.pfx dañado. Verifica tu clave de exportación.', true);
+      showMsg(`❌ ${err?.message || 'Contraseña incorrecta o archivo .p12/.pfx dañado. Verifica tu clave de exportación.'}`, true);
     }
   });
 </script>

@@ -496,7 +496,7 @@ const resolvedSubtitle =
       const worker = new SignerWorker();
 
       worker.onmessage = (e) => {
-        const { status, message, signedPdf, metadata, error } = e.data;
+        const { status, message, signedPdf, metadata, error, code } = e.data;
 
         if (status === 'parsing' || status === 'preparing' || status === 'signing') {
           showStatus(`🔐 ${message}`, 'info');
@@ -528,7 +528,9 @@ const resolvedSubtitle =
         } else if (status === 'error') {
           signBtn.disabled = false;
           showStatus(`❌ ${error}`, 'error');
-          trackEvent('sign_error', { error: String(error) });
+          const errCode = (code as any) || 'sign_err_unknown';
+          trackEvent('sign_error', { error_code: errCode, error_msg: String(error) });
+          trackEvent(errCode as any);
           worker.terminate();
         }
       };
@@ -536,7 +538,8 @@ const resolvedSubtitle =
       worker.onerror = (err) => {
         signBtn.disabled = false;
         showStatus(`❌ Error crítico en el Web Worker: ${err.message}`, 'error');
-        trackEvent('sign_error', { error: `worker_crash: ${err.message}` });
+        trackEvent('sign_error', { error_code: 'sign_err_worker_crash', error_msg: err.message });
+        trackEvent('sign_err_worker_crash');
         worker.terminate();
       };
 
@@ -552,7 +555,8 @@ const resolvedSubtitle =
     } catch (err: any) {
       signBtn.disabled = false;
       showStatus(`❌ Error al leer los archivos locales: ${err?.message}`, 'error');
-      trackEvent('sign_error', { error: `read_failure: ${err?.message}` });
+      trackEvent('sign_error', { error_code: 'sign_err_read_failure', error_msg: err?.message });
+      trackEvent('sign_err_p12_format');
     }
   });
 </script>
