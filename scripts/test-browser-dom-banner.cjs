@@ -104,7 +104,7 @@ async function testDomForFile(filePath, expectedType, testLabel) {
   if (expectedType === 'NEUTRAL_VALID') {
     assert(bannerClass.includes('bg-slate-100'), 'Positive file renders neutral slate banner (bg-slate-100)');
     assert(!bannerClass.includes('bg-red-50'), 'Positive file DOES NOT render red alert banner');
-    assert(title.includes('Firma Analizada Localmente: Integridad Criptográfica Verificada'), 'Title confirms local cryptographic integrity');
+    assert(title.includes('Análisis Local: Integridad de Bytes y Firma Matemática Coincidentes'), 'Title confirms byte integrity and math match without claiming full verification');
     assert(desc.includes('Estructura interna PDF (árbol de objetos y tabla xref) no analizada'), 'Description explicitly disclaims unanalyzed PDF object graph');
     assert(listHtml.includes('Integridad Matemática Comprobada') || listHtml.includes('Algoritmo SHA-1'), 'Signature card confirms mathematical integrity');
   } else if (expectedType === 'ALERT_TAMPERED') {

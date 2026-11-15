@@ -941,7 +941,7 @@
         // Estado Neutro Slate (Verificación Matemática Local comprobada, sin triunfalismo)
         statusBanner.className = "mt-6 p-5 rounded-xl border bg-slate-100 border-slate-300 text-slate-900 flex items-start gap-4";
         statusIcon.innerHTML = `<svg class="w-7 h-7 text-slate-700 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`;
-        statusTitle.textContent = `Firma Analizada Localmente: Integridad Criptográfica Verificada (${signatures.length} ${signatures.length === 1 ? "firma" : "firmas"})`;
+        statusTitle.textContent = `Análisis Local: Integridad de Bytes y Firma Matemática Coincidentes (${signatures.length} ${signatures.length === 1 ? "firma" : "firmas"})`;
         statusDesc.textContent = "La firma matemática y el resumen criptográfico coinciden con la clave pública y el certificado embebidos en el archivo. Estructura interna PDF (árbol de objetos y tabla xref) no analizada; este análisis se limita a la integridad de los rangos de bytes detectados.";
       }
 
