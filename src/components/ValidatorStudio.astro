@@ -15,10 +15,10 @@
     </div>
 
     <h2 class="text-xl md:text-2xl font-bold text-slate-900 mb-2">
-      Arrastra aquí el archivo PDF que deseas auditar
+      Arrastra aquí el archivo PDF que deseas inspeccionar
     </h2>
     <p class="text-slate-500 text-sm max-w-lg mx-auto mb-6">
-      Inspección criptográfica local de firmas PAdES y PKCS#7. Verificación matemática en la memoria RAM de tu navegador, sin enviar datos a ningún servidor.
+      Inspector criptográfico local de firmas PAdES y PKCS#7. Análisis de rangos /ByteRange y verificación matemática en la memoria RAM de tu navegador, sin enviar datos a ningún servidor.
     </p>
 
     <button type="button" id="select-pdf-btn" class="bg-slate-900 hover:bg-slate-800 text-white font-semibold px-6 py-3 rounded-xl text-sm shadow transition-colors inline-flex items-center gap-2">
@@ -75,16 +75,19 @@
           <line x1="12" y1="16" x2="12" y2="12"/>
           <line x1="12" y1="8" x2="12.01" y2="8"/>
         </svg>
-        Alcance de la Auditoría Local y Validez Jurídica
+        Alcance de la Inspección Criptográfica y Límites Técnicos
       </div>
       <p class="leading-relaxed">
-        <strong>Verificación Matemática Local:</strong> Este visor comprueba en la memoria de tu navegador que el archivo no ha sido manipulado tras la firma y que la firma matemática (RSA o ECDSA) coincide con la clave pública del certificado incluido en el documento.
+        <strong>Inspección Criptográfica de Bytes (No Analizador de Estructura PDF):</strong> Este inspector analiza exclusivamente la integridad matemática de los bloques PKCS#7 / CAdES y los rangos /ByteRange en memoria RAM local. No analiza la tabla xref ni el árbol de objetos PDF del documento, por lo que este análisis se limita a la integridad de los rangos de bytes detectados y no sustituye a los validadores oficiales estatales (<a href="https://valide.redsara.es" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline font-semibold hover:text-blue-800">VALIDe</a>) ni al motor de Adobe Acrobat.
       </p>
       <p class="leading-relaxed">
-        <strong>Límite de Confianza (eIDAS / TSL):</strong> La identidad del firmante corresponde a la declarada en el certificado del archivo. Para certificar legalmente si la entidad emisora está en la Lista de Confianza europea (TSL) o si el certificado ha sido revocado (OCSP/CRL), se requiere consulta en línea a las autoridades certificadoras.
+        <strong>Verificación Matemática Local:</strong> Comprueba en la memoria de tu navegador que el resumen criptográfico del archivo coincide con el atributo <code>messageDigest</code> firmado y que la firma matemática (RSA o ECDSA) es válida para la clave pública del certificado incrustado.
       </p>
       <p class="leading-relaxed">
-        <strong>Validación Oficial Estatal:</strong> Para trámites judiciales o administrativos con requerimiento de informe oficial vinculante, puedes utilizar la pasarela estatal <a href="https://valide.redsara.es" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline font-semibold hover:text-blue-800">VALIDe (valide.redsara.es)</a>. <em>Aviso de privacidad: VALIDe requiere subir el archivo a servidores de la Administración General del Estado, mientras que esta herramienta procesa el 100% en local sin transmitir tus documentos.</em>
+        <strong>Límite de Confianza e Identidad (eIDAS / TSL):</strong> La identidad mostrada corresponde a la declarada en el certificado del archivo. Para contrastar si el certificado ha sido revocado en tiempo real (OCSP/CRL) o si la Autoridad de Certificación está acreditada en la lista europea TSL, se requiere consulta externa a prestadores cualificados.
+      </p>
+      <p class="leading-relaxed">
+        <strong>Validación Oficial Estatal:</strong> Para trámites judiciales o administrativos con requerimiento de informe oficial vinculante, recomendamos contrastar el documento en la pasarela oficial <a href="https://valide.redsara.es" target="_blank" rel="noopener noreferrer" class="text-blue-600 underline font-semibold hover:text-blue-800">VALIDe (valide.redsara.es)</a>. <em>Aviso de privacidad: VALIDe procesa el archivo en servidores de la Administración General del Estado, mientras que este inspector opera 100% en tu navegador.</em>
       </p>
     </div>
   </div>
@@ -939,7 +942,7 @@
         statusBanner.className = "mt-6 p-5 rounded-xl border bg-slate-100 border-slate-300 text-slate-900 flex items-start gap-4";
         statusIcon.innerHTML = `<svg class="w-7 h-7 text-slate-700 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>`;
         statusTitle.textContent = `Firma Analizada Localmente: Integridad Criptográfica Verificada (${signatures.length} ${signatures.length === 1 ? "firma" : "firmas"})`;
-        statusDesc.textContent = "La firma matemática y el resumen criptográfico coinciden con la clave pública y el certificado embebidos en el archivo. El rango firmado abarca el documento completo sin modificaciones posteriores.";
+        statusDesc.textContent = "La firma matemática y el resumen criptográfico coinciden con la clave pública y el certificado embebidos en el archivo. Estructura interna PDF (árbol de objetos y tabla xref) no analizada; este análisis se limita a la integridad de los rangos de bytes detectados.";
       }
 
       signaturesList.innerHTML = signatures.map((sig) => {

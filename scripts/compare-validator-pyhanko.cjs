@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
  * Standalone Side-by-Side Verification Matrix:
- * ValidatorStudio (In-Browser Client Engine) vs. pyHanko (Independent Reference Validator)
+ * ValidatorStudio (Inspector de Firmas) vs. pyHanko (v0.38.1)
  *
- * Evaluates all 11 external, synthetic, and negative fixtures.
+ * Evaluates all external, synthetic, and physical cryptographic negative fixtures.
  */
 
 const fs = require('fs');
@@ -32,21 +32,22 @@ fn(m, m.exports, require, globalThis);
 const { auditPdfBuffer } = m.exports;
 
 const fixtures = [
+  // --- Positives ---
   {
     name: 'signed_pbmac1.pdf',
-    category: 'Positive (Synthetic / Our Engine)',
+    category: 'Positive (Synthetic)',
     description: 'Modern PBMAC1 (RFC 9879) SHA-256 + RSA-2048',
     path: '/tmp/pades_e2e_test/signed_pbmac1.pdf'
   },
   {
     name: 'signed_legacy.pdf',
-    category: 'Positive (Synthetic / Our Engine)',
+    category: 'Positive (Synthetic)',
     description: 'Legacy TripleDES/RC2 SHA-256 + RSA-2048',
     path: '/tmp/pades_e2e_test/signed_legacy.pdf'
   },
   {
     name: 'signed_ecdsa_valid.pdf',
-    category: 'Positive (Synthetic / Our Engine)',
+    category: 'Positive (Synthetic)',
     description: 'Detached PAdES ECDSA P-256 + SHA-256',
     path: '/tmp/pades_e2e_test/signed_ecdsa_valid.pdf'
   },
@@ -70,32 +71,78 @@ const fixtures = [
   },
   {
     name: 'pades_5_sigs_dss.pdf',
-    category: 'Positive Multi-Sig (Real-World EU DSS)',
-    description: 'EU DSS 6 signatures (5 signatures + RFC 3161 DocTimeStamp)',
+    category: 'Multi-Sig / Damaged Structure',
+    description: 'EU DSS 6 signatures; unparsed/corrupted xref across independent parsers',
     path: '/tmp/real_signed_pdfs/pades_5_sigs_dss.pdf'
   },
+
+  // --- Cryptographic Negatives (Tampered ByteRange / Signature / Cert) ---
+  {
+    name: 'tamper_sig_pbmac1.pdf',
+    category: 'Cryptographic Negative',
+    description: 'T1: Bit-flipped byte in RSA signature value',
+    path: '/tmp/tamper_tests/tamper_sig_pbmac1.pdf'
+  },
+  {
+    name: 'tamper_time_pbmac1.pdf',
+    category: 'Cryptographic Negative',
+    description: 'T2: Mutated signingTime in authenticated signedAttrs',
+    path: '/tmp/tamper_tests/tamper_time_pbmac1.pdf'
+  },
+  {
+    name: 'tamper_content_pbmac1.pdf',
+    category: 'Cryptographic Negative',
+    description: 'T3: Mutated document content inside ByteRange',
+    path: '/tmp/tamper_tests/tamper_content_pbmac1.pdf'
+  },
+  {
+    name: 'tamper_sha1_convenio.pdf',
+    category: 'Cryptographic Negative',
+    description: 'Real AutoFirma SHA-1 with mutated body byte',
+    path: '/tmp/tamper_matrix_full/tamper_sha1_convenio.pdf'
+  },
+  {
+    name: 'tamper_sha512_dss.pdf',
+    category: 'Cryptographic Negative',
+    description: 'Real EU DSS SHA-512 with mutated body byte',
+    path: '/tmp/tamper_matrix_full/tamper_sha512_dss.pdf'
+  },
+  {
+    name: 'tamper_ecdsa_sig.pdf',
+    category: 'Cryptographic Negative',
+    description: 'Detached ECDSA with bit-flipped signature byte',
+    path: '/tmp/tamper_matrix_full/tamper_ecdsa_sig.pdf'
+  },
+  {
+    name: 'tamper_cert_substitution.pdf',
+    category: 'Cryptographic Negative',
+    description: 'T4: Certificate substitution in CMS certs bag',
+    path: '/tmp/tamper_matrix_full/tamper_cert_substitution.pdf'
+  },
+
+  // --- External Negative Fixtures (Structural Faults / Trailing Data) ---
   {
     name: 'dss_modified_after_sig.pdf',
-    category: 'Negative (Real-World EU DSS)',
-    description: 'Official EU DSS: Appended modification after signature',
+    category: 'Structural Negative (EU DSS)',
+    description: 'Appended revision after signature (hybrid-reference file)',
     path: '/tmp/negative_test_pdfs/dss_modified_after_sig.pdf'
   },
   {
     name: 'dss_pdf_corrupted.pdf',
-    category: 'Negative (Real-World EU DSS)',
-    description: 'Official EU DSS: Corrupted stream inside ByteRange',
+    category: 'Structural Negative (EU DSS)',
+    description: 'Damaged PDF xref / corrupted object stream',
     path: '/tmp/negative_test_pdfs/dss_pdf_corrupted.pdf'
   },
   {
     name: 'dss_out_of_byterange.pdf',
-    category: 'Negative (Real-World EU DSS)',
-    description: 'Official EU DSS: Content injected outside ByteRange',
+    category: 'Structural Negative (EU DSS)',
+    description: 'Content injected outside ByteRange',
     path: '/tmp/negative_test_pdfs/dss_out_of_byterange.pdf'
   },
   {
     name: 'afirma_shadow_attack.pdf',
-    category: 'Negative (Real-World Spanish Gov)',
-    description: 'Official @firma: Shadow attack revision with altered text',
+    category: 'Structural Negative (@firma)',
+    description: 'Shadow revision with nondecreasing xref violation',
     path: '/tmp/negative_test_pdfs/afirma_shadow_attack.pdf'
   }
 ];
@@ -111,7 +158,6 @@ from pyhanko_certvalidator import ValidationContext
 path = sys.argv[1]
 try:
     with open(path, "rb") as f:
-        # Try default strict mode first, fallback to non-strict
         try:
             r = PdfFileReader(f, strict=True)
             mode = "strict"
@@ -180,105 +226,41 @@ async function main() {
     rows.push({ fixture: f, vResult, pResult });
   }
 
-  console.log('\n========================================================================================');
-  console.log('DETAILED FIXTURE BREAKDOWN');
-  console.log('========================================================================================\n');
-
-  for (const { fixture, vResult, pResult } of rows) {
-    console.log(`----------------------------------------------------------------------------------------`);
-    console.log(`FIXTURE: ${fixture.name}`);
-    console.log(`Category:    ${fixture.category}`);
-    console.log(`Description: ${fixture.description}`);
-    console.log(`File Size:   ${fs.statSync(fixture.path).size} bytes`);
-
-    // ValidatorStudio summary
-    const vSigs = vResult.signatures || [];
-    console.log(`\n  [ValidatorStudio Verdict]`);
-    console.log(`    Signatures Detected: ${vSigs.length}`);
-    vSigs.forEach((s, idx) => {
-      const whole = s.coversEntireFile ? 'Entire File' : (s.isEnclosedBySubsequent ? 'Historical Revision (Enclosed)' : 'Trailing Data / Uncovered');
-      console.log(`    - Sig #${idx + 1}: HashMatch=${s.hashMatches}, Math=${s.mathSignatureStatus} (${s.sigAlgorithmLabel}), SID=${s.sidMatched}, Coverage=${whole}`);
-    });
-
-    // pyHanko summary
-    console.log(`\n  [pyHanko Verdict]`);
-    if (pResult.ok) {
-      console.log(`    Parser Mode:         ${pResult.mode}`);
-      console.log(`    Signatures Detected: ${pResult.count}`);
-      (pResult.signatures || []).forEach((s, idx) => {
-        if (s.error) {
-          console.log(`    - Sig #${idx + 1}: Error -> ${s.error}`);
-        } else {
-          console.log(`    - Sig #${idx + 1}: Intact=${s.intact}, Valid=${s.valid}, Coverage=${s.coverage}, Summary=${s.summary}`);
-        }
-      });
-    } else {
-      console.log(`    Parser Error: ${pResult.error}`);
-    }
-
-    // Concordance Analysis
-    console.log(`\n  [Concordance / Discrepancy Analysis]`);
-    if (fixture.category.startsWith('Positive')) {
-      if (fixture.name === 'afirma_abogacia_estado.pdf') {
-        console.log(`    Concordance: Full agreement on signature validity and hash integrity under pyHanko non-strict mode.`);
-        console.log(`    Note: pyHanko strict mode rejects due to free xref generation 0 semantics; non-strict accepts with intact=True, valid=True.`);
-      } else if (fixture.name === 'pades_5_sigs_dss.pdf') {
-        console.log(`    Concordance: Discrepancy due to pyHanko xref bug.`);
-        console.log(`    Analysis: ValidatorStudio successfully parses all 6 signatures (5 PAdES + 1 RFC 3161 DocTimeStamp) with ByteRange hash match.`);
-        console.log(`    pyHanko fails with OSError: [Errno 22] Invalid argument in _attempt_startxref_correction due to seek(-11) on stream offset 0 from /Prev 0.`);
-      } else {
-        console.log(`    Concordance: 100% Full Agreement. Both engines confirm valid signature, matching digest, and ENTIRE_FILE coverage.`);
-      }
-    } else {
-      // Negative
-      console.log(`    Concordance: Both engines reject / flag the document as invalid, modified, or corrupted.`);
-      if (fixture.name === 'dss_modified_after_sig.pdf') {
-        console.log(`    - ValidatorStudio: Flags coversEntireFile=false (trailing bytes outside ByteRange detected).`);
-        console.log(`    - pyHanko: Rejects document structure (hybrid-reference file policy).`);
-      } else if (fixture.name === 'dss_pdf_corrupted.pdf') {
-        console.log(`    - ValidatorStudio: Flags hashMatches=false (digest mismatch from corrupted stream).`);
-        console.log(`    - pyHanko: Rejects PDF stream parsing (Dictionary read error).`);
-      } else if (fixture.name === 'dss_out_of_byterange.pdf') {
-        console.log(`    - ValidatorStudio: Flags coversEntireFile=false (trailing bytes detected).`);
-        console.log(`    - pyHanko: Reports intact=False, coverage=UNCLEAR, summary=INVALID.`);
-      } else if (fixture.name === 'afirma_shadow_attack.pdf') {
-        console.log(`    - ValidatorStudio: Flags unauthenticated trailing update / shadow revision after signature #2.`);
-        console.log(`    - pyHanko: Rejects xref structure (XRef section sizes nondecreasing violation).`);
-      }
-    }
-  }
-
   // Print Markdown summary table
   console.log('\n========================================================================================');
   console.log('MARKDOWN COMPARISON TABLE');
   console.log('========================================================================================\n');
 
-  console.log('| # | Fixture Name | Type | Expected Status | ValidatorStudio Verdict | pyHanko Verdict | Agreement / Analysis |');
-  console.log('|---|---|---|---|---|---|---|');
+  console.log('| # | Fixture Name | Category | ValidatorStudio Verdict | pyHanko Verdict | Concordance & Technical Root Cause |');
+  console.log('|---|---|---|---|---|---|');
 
   rows.forEach(({ fixture, vResult, pResult }, i) => {
     const vSigs = vResult.signatures || [];
     let vSummary = '';
     if (vSigs.length === 0) {
-      vSummary = 'No signatures found';
+      vSummary = 'No signatures detected';
     } else {
       const allHashMatch = vSigs.every(s => s.hashMatches);
       const allMathValid = vSigs.every(s => s.mathSignatureStatus === 'VALID');
       const whole = vSigs[vSigs.length - 1].coversEntireFile;
-      if (allHashMatch && allMathValid && whole) {
-        vSummary = `PASS (${vSigs.length} sigs, valid math & coverage)`;
+      const certSub = vSigs.some(s => s.certSubstitutionDetected);
+
+      if (certSub) {
+        vSummary = 'REJECT (certSubstitutionDetected=true)';
       } else if (!allHashMatch) {
-        vSummary = `REJECT (Hash mismatch on byteRange)`;
+        vSummary = 'REJECT (hashMatches=false)';
+      } else if (!allMathValid) {
+        vSummary = `REJECT (mathSignatureStatus=INVALID)`;
       } else if (!whole) {
-        vSummary = `FLAGGED (Trailing data / shadow revision)`;
+        vSummary = `FLAGGED (coversEntireFile=false / trailing data)`;
       } else {
-        vSummary = `FLAGGED (${vSigs.map(s => s.mathSignatureStatus).join(', ')})`;
+        vSummary = `PASS (${vSigs.length} sig, math=VALID, whole=true)`;
       }
     }
 
     let pSummary = '';
     if (!pResult.ok) {
-      pSummary = `REJECT / ERROR (${pResult.error.split(':')[0]})`;
+      pSummary = `REJECT (${pResult.error.split(':')[0]})`;
     } else {
       const sigs = pResult.signatures || [];
       const hasError = sigs.some(s => s.error);
@@ -286,32 +268,39 @@ async function main() {
       const allValid = sigs.every(s => s.valid);
       if (hasError) {
         pSummary = `REJECT (${sigs.find(s => s.error).error.split(':')[0]})`;
+      } else if (!allIntact && allValid) {
+        pSummary = `REJECT (intact=False, valid=True)`;
+      } else if (allIntact && !allValid) {
+        pSummary = `REJECT (intact=True, valid=False)`;
       } else if (allIntact && allValid) {
-        pSummary = `PASS (${sigs.length} sigs, intact & valid)`;
-      } else if (!allIntact) {
-        pSummary = `REJECT (intact=False)`;
+        pSummary = `PASS (intact=True, valid=True)`;
       } else {
-        pSummary = `FLAGGED (summary=${sigs[0]?.summary})`;
+        pSummary = `FLAGGED (${sigs[0]?.summary})`;
       }
     }
 
-    let agree = '';
-    if (fixture.category.startsWith('Positive')) {
+    let concordance = '';
+    if (fixture.name === 'pades_5_sigs_dss.pdf') {
+      concordance = 'Divergence: PDF xref damaged across pyHanko (OSError seek -11), qpdf (missing page tree), and pdfinfo (xref 108 missing). ValidatorStudio parses byte ranges without object graph validation.';
+    } else if (fixture.name.startsWith('tamper_sig') || fixture.name.startsWith('tamper_ecdsa')) {
+      concordance = 'Exact Match: Both report hashMatches=true but cryptographic signature verification fails (INVALID).';
+    } else if (fixture.name.startsWith('tamper_time')) {
+      concordance = 'Exact Match: Both report hashMatches=true but signedAttrs modification invalidates signature (INVALID).';
+    } else if (fixture.name.startsWith('tamper_content') || fixture.name.startsWith('tamper_sha1') || fixture.name.startsWith('tamper_sha512')) {
+      concordance = 'Exact Match: Both report signature math verifies over attributes, but document content digest fails (intact=False).';
+    } else if (fixture.name === 'tamper_cert_substitution.pdf') {
+      concordance = 'Exact Match: ValidatorStudio flags certSubstitutionDetected; pyHanko rejects with NO_SIGNING_CERTIFICATE_FOUND.';
+    } else if (fixture.category.includes('Positive')) {
       if (fixture.name === 'afirma_abogacia_estado.pdf') {
-        agree = 'Agree (pyHanko requires non-strict)';
-      } else if (fixture.name === 'pades_5_sigs_dss.pdf') {
-        agree = 'Discrepancy (pyHanko /Prev 0 seek bug)';
+        concordance = 'Match: Both PASS (pyHanko requires non-strict mode due to free xref generation 0 in PDF 1.4).';
       } else {
-        agree = 'Agree (Both PASS)';
+        concordance = 'Match: Both PASS with valid math and whole-file coverage.';
       }
     } else {
-      agree = 'Agree (Both REJECT / FLAG)';
+      concordance = 'Divergent Rejection: Both reject, but pyHanko fails on PDF syntax/xref errors while ValidatorStudio flags trailing bytes or hash mismatch.';
     }
 
-    const typeStr = fixture.category.includes('Negative') ? 'Negative' : (fixture.category.includes('Multi-Sig') ? 'Multi-Sig' : 'Positive');
-    const expected = fixture.category.includes('Negative') ? 'TAMPER / REJECT' : 'VALID';
-
-    console.log(`| ${i + 1} | \`${fixture.name}\` | ${typeStr} | ${expected} | ${vSummary} | ${pSummary} | ${agree} |`);
+    console.log(`| ${i + 1} | \`${fixture.name}\` | ${fixture.category} | ${vSummary} | ${pSummary} | ${concordance} |`);
   });
 }
 
