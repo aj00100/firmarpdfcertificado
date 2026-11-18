@@ -1,0 +1,40 @@
+channel_group,event_name,event_count,total_users
+Direct,page_view,157,95
+Direct,session_start,111,95
+Direct,first_visit,98,95
+Direct,user_engagement,78,31
+Organic Search,page_view,69,26
+Organic Search,user_engagement,66,23
+Organic Search,session_start,36,26
+Organic Search,first_visit,25,25
+Organic Search,scroll,24,5
+Direct,tool_view,22,17
+Organic Search,tool_view,21,12
+AI Assistant,page_view,17,1
+Direct,scroll,15,4
+Referral,first_visit,12,12
+Referral,page_view,12,12
+Referral,session_start,12,12
+Unassigned,user_engagement,12,8
+AI Assistant,user_engagement,11,1
+Unassigned,page_view,6,3
+Direct,p12_help_tab_switched,5,1
+Direct,sign_attempt,4,2
+Referral,scroll,4,4
+Referral,user_engagement,4,4
+AI Assistant,session_start,3,1
+Direct,pdf_loaded,3,3
+Direct,sign_success,3,2
+Organic Search,pdf_loaded,3,3
+AI Assistant,scroll,2,1
+Direct,p12_loaded,2,2
+Organic Search,p12_loaded,2,2
+Unassigned,session_start,2,1
+Direct,p12_help_expanded,1,1
+Direct,sign_error,1,1
+Direct,validator_pdf_loaded,1,1
+Direct,validator_success,1,1
+Organic Search,sign_attempt,1,1
+Organic Search,sign_success,1,1
+Referral,tool_view,1,1
+Unassigned,scroll,1,1

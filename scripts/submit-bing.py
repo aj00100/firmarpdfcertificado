@@ -13,7 +13,19 @@ import urllib.request
 import urllib.error
 from datetime import datetime
 
-API_KEY = os.environ.get('BING_API_KEY', '5975fcff074646aab15936d745241603')
+BING_KEY_FILE = "/data/data/com.termux/files/home/micro-tools/.bing_api_key"
+def load_bing_key():
+    if os.environ.get("BING_API_KEY"):
+        return os.environ.get("BING_API_KEY").strip()
+    if os.path.exists(BING_KEY_FILE):
+        try:
+            with open(BING_KEY_FILE, "r", encoding="utf-8") as f:
+                return f.read().strip()
+        except Exception:
+            pass
+    return ""
+
+API_KEY = load_bing_key()
 SITE_URL = 'https://firmarpdfcertificado.com'
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 SITEMAP_FILE = os.path.join(SCRIPT_DIR, '..', 'dist', 'sitemap-0.xml')

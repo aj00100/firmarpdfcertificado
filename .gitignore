@@ -35,3 +35,18 @@ test-verification/
 TODO*.md
 *.todo
 
+# Credentials, keys, secrets & raw analytics data (NEVER commit)
+*.json_credentials*
+*credential*
+*.pem
+*.key
+*.p12
+*.pfx
+.gsc_credentials.json
+gen-lang-client-*.json
+baseline_*_raw.json
+__pycache__/
+scripts/__pycache__/
+*.pyc
+
+

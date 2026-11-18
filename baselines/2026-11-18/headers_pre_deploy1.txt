@@ -1,0 +1,106 @@
+================================================================================
+URL: https://firmarpdfcertificado.com/comprobar-validez-certificado-digital/
+================================================================================
+HTTP/2 200 
+date: Wed, 18 Nov 2026 02:31:06 GMT
+content-type: text/html; charset=utf-8
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=bOiOKzqDCKdipRk87UM12X0FqGPKoHrNSEVwM1%2BjgyaYjFqLMZ1KaekXmWIkHM2DT1KGjIdI18lQD3F5zn4q6FHpycS2waADhlLkW1I7vReXftj8TZSCR9Velr%2BrpnDB7GTjgiAnenk5%2BlUu0N%2B38lyQpL7Vins%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.google.com https://*.doubleclick.net https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://fundingchoicesmessages.google.com https://*.google.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.googleusercontent.com https://fundingchoicesmessages.google.com https://*.adtrafficquality.google; connect-src 'self' blob: data: https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.google.com https://*.adtrafficquality.google; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.adtrafficquality.google; worker-src 'self' blob: https://cdnjs.cloudflare.com; frame-ancestors 'self';
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+server: cloudflare
+cf-cache-status: DYNAMIC
+cf-ray: a5c38e9a2da4479b-SIN
+alt-svc: h3=":443"; ma=86400
+
+
+
+================================================================================
+URL: https://firmarpdfcertificado.com/firmar-pdf-certificado-mac-iphone/
+================================================================================
+HTTP/2 200 
+date: Wed, 18 Nov 2026 02:31:12 GMT
+content-type: text/html; charset=utf-8
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=xq2IVEHhVoMVWUl0kuy%2BlplrbR7%2BoQMb4H61BiuEEHTE6pW1EFPz2viXSKD6XvOtC2Hn%2FaHlLtmGIzo6F9Wn9TtX7H%2Fqz5Acxl2ZzpJS%2BIpXCH2y0m0CeCXGnzA32q0enZMSxOnci1ltII%2B08AAMfGw3K6e40iM%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.google.com https://*.doubleclick.net https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://fundingchoicesmessages.google.com https://*.google.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.googleusercontent.com https://fundingchoicesmessages.google.com https://*.adtrafficquality.google; connect-src 'self' blob: data: https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.google.com https://*.adtrafficquality.google; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.adtrafficquality.google; worker-src 'self' blob: https://cdnjs.cloudflare.com; frame-ancestors 'self';
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+server: cloudflare
+cf-cache-status: DYNAMIC
+cf-ray: a5c38ebf6e46fe22-SIN
+alt-svc: h3=":443"; ma=86400
+
+
+
+================================================================================
+URL: https://firmarpdfcertificado.com/blog/como-renovar-certificado-digital-fnmt-por-internet-sin-cita-previa/
+================================================================================
+HTTP/2 200 
+date: Wed, 18 Nov 2026 02:31:19 GMT
+content-type: text/html; charset=utf-8
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=E5kR5fAKrNsffi%2BHENvTl9mWeXVGuI6tOSivf0Xw94dKxlN7lgwUNSjFXlL%2B%2FW%2FwSsNrGfa8ASqqDAodCfFW96sHczwTpjaYAJ83HnklZFWGN6XFT4i0fkyhhgL9HvZFAYILzK8LBMpUM9RIptiFIdAeXCeeWzg%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.google.com https://*.doubleclick.net https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://fundingchoicesmessages.google.com https://*.google.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.googleusercontent.com https://fundingchoicesmessages.google.com https://*.adtrafficquality.google; connect-src 'self' blob: data: https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.google.com https://*.adtrafficquality.google; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.adtrafficquality.google; worker-src 'self' blob: https://cdnjs.cloudflare.com; frame-ancestors 'self';
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+server: cloudflare
+cf-cache-status: DYNAMIC
+cf-ray: a5c38ee91c6086fb-SIN
+alt-svc: h3=":443"; ma=86400
+
+
+
+================================================================================
+URL: https://firmarpdfcertificado.com/
+================================================================================
+HTTP/2 200 
+date: Wed, 18 Nov 2026 02:31:25 GMT
+content-type: text/html; charset=utf-8
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=UoOGrUq%2FFsjIkW3LjnFpma8eW%2FCplLrvNK0yWx9usuvodLzf1tiB8FlSRuGiQpyplUZUiJec%2F%2FE%2B3%2FN4iFfH5ucx7MWkEmSeNixdRNikPe7BMXL4FJvYujU0hTT7ZL6SsMg6K3jy%2B9oVjQLV%2Fp317I4%2BLkDszC8%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+access-control-allow-origin: *
+cache-control: public, max-age=0, must-revalidate
+strict-transport-security: max-age=31536000; includeSubDomains; preload
+content-security-policy: default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' 'wasm-unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://pagead2.googlesyndication.com https://partner.googleadservices.com https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.google.com https://*.doubleclick.net https://*.adtrafficquality.google; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com https://fundingchoicesmessages.google.com https://*.google.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://www.google-analytics.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://*.googleusercontent.com https://fundingchoicesmessages.google.com https://*.adtrafficquality.google; connect-src 'self' blob: data: https://unpkg.com https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://*.googletagmanager.com https://pagead2.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.google.com https://*.adtrafficquality.google; frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://*.googlesyndication.com https://*.doubleclick.net https://*.google.com https://fundingchoicesmessages.google.com https://*.fundingchoicesmessages.google.com https://*.adtrafficquality.google; worker-src 'self' blob: https://cdnjs.cloudflare.com; frame-ancestors 'self';
+permissions-policy: camera=(), microphone=(), geolocation=(), payment=()
+referrer-policy: strict-origin-when-cross-origin
+x-content-type-options: nosniff
+x-frame-options: SAMEORIGIN
+server: cloudflare
+cf-cache-status: DYNAMIC
+cf-ray: a5c38f0ddf430fb7-SIN
+alt-svc: h3=":443"; ma=86400
+
+
+
+================================================================================
+URL: https://firmarpdfcertificado.pages.dev/
+================================================================================
+HTTP/2 301 
+date: Wed, 18 Nov 2026 02:31:32 GMT
+location: https://firmarpdfcertificado.com/
+report-to: {"group":"cf-nel","max_age":604800,"endpoints":[{"url":"https://a.nel.cloudflare.com/report/v4?s=4dnGS0ea4yyti1DMAiYVVjkuY0zrZn%2B3IMkdkqfIkcW%2BmrcTymYS2FnvInY0SQ7smwSYqzwp1ipSS6%2BYERjZbfro5LjtjwennHWBWSA%2BLOxJdYbRhY1XXjcJTkq3ZnURSrlU%2F5skMdcDngZU4MCprodrz%2B8J%2F%2FIhrERedrg%3D"}]}
+nel: {"report_to":"cf-nel","success_fraction":0.0,"max_age":604800}
+server: cloudflare
+cf-ray: a5c38f373d6c9a90-NAG
+alt-svc: h3=":443"; ma=86400
+
+
+
