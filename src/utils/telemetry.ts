@@ -25,7 +25,8 @@ export type TelemetryEvent =
   | 'cert_check_error'
   | 'cert_err_wrong_pass'
   | 'cert_err_format'
-  | 'affiliate_click';
+  | 'affiliate_click'
+  | 'blog_tool_click';
 
 export interface TelemetryProps {
   [key: string]: string | number | boolean | undefined;
@@ -41,6 +42,10 @@ export function trackEvent(event: TelemetryEvent, props: TelemetryProps = {}): v
     for (const [key, val] of Object.entries(props)) {
       if (forbiddenKeys.includes(key.toLowerCase())) continue;
       sanitizedProps[key] = val;
+    }
+
+    if (!sanitizedProps.page_path) {
+      sanitizedProps.page_path = window.location.pathname;
     }
 
     const win = window as any;

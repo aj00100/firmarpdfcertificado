@@ -129,6 +129,23 @@ if (pathSegments.length > 0) {
       })();
     </script>
 
+    <!-- Developer / Internal Traffic Exclusion Flag (Runs before GA4 tag) -->
+    <script is:inline>
+      (function () {
+        try {
+          const urlParams = new URLSearchParams(window.location.search);
+          if (urlParams.get('disable_analytics') === '1') {
+            localStorage.setItem('disable_analytics', '1');
+          } else if (urlParams.get('enable_analytics') === '1') {
+            localStorage.removeItem('disable_analytics');
+          }
+          if (localStorage.getItem('disable_analytics') === '1') {
+            window['ga-disable-G-C7E9VCD0XB'] = true;
+          }
+        } catch (_) {}
+      })();
+    </script>
+
     <!-- Google tag (gtag.js) & Google Consent Mode v2 -->
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
@@ -354,6 +371,56 @@ if (pathSegments.length > 0) {
             el.removeAttribute('open');
           }
         });
+      });
+
+      // Telemetry: Blog to Tool CTA / Link Click Tracking
+      document.addEventListener('click', (e) => {
+        const target = (e.target as HTMLElement)?.closest('a');
+        if (!target) return;
+        const href = target.getAttribute('href');
+        if (!href) return;
+
+        const currentPath = window.location.pathname;
+        if (!currentPath.startsWith('/blog/')) return;
+        const blogSlug = currentPath.replace(/^\/blog\//, '').replace(/\/$/, '');
+
+        // Map destination paths to registered tool_name parameter
+        let toolName = '';
+        if (href === '/' || href === 'https://firmarpdfcertificado.com' || href === 'https://firmarpdfcertificado.com/') {
+          toolName = 'firmador_pdf';
+        } else if (href.includes('/validar-firma-digital-pdf')) {
+          toolName = 'validador_pdf';
+        } else if (href.includes('/comprobar-validez-certificado-digital')) {
+          toolName = 'comprobar_validez';
+        } else if (href.includes('/poner-sello-firma-digital-pdf')) {
+          toolName = 'sello_pdf';
+        } else if (href.includes('/cofirmar-pdf-dos-firmas')) {
+          toolName = 'cofirma_pdf';
+        } else if (href.includes('/firmar-pdf-con-dnie')) {
+          toolName = 'firma_dnie';
+        } else if (href.includes('/firmar-pdf-certificado-mac-iphone')) {
+          toolName = 'firma_mac_iphone';
+        } else if (href.includes('/firmar-pdf-certificado-android')) {
+          toolName = 'firma_android';
+        } else if (href.includes('/firmar-pdf-certificado-sin-adobe')) {
+          toolName = 'firma_sin_adobe';
+        } else if (href.includes('/firmar-pdf-sin-autofirma')) {
+          toolName = 'firma_sin_autofirma';
+        } else if (href.includes('/firmar-factura-contrato-pdf-certificado')) {
+          toolName = 'firma_factura';
+        }
+
+        if (toolName) {
+          const win = window as any;
+          if (typeof win.gtag === 'function') {
+            win.gtag('event', 'blog_tool_click', {
+              blog_slug: blogSlug,
+              tool_name: toolName,
+              source_path: currentPath,
+              destination: href
+            });
+          }
+        }
       });
     </script>
   </body>

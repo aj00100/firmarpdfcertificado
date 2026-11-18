@@ -193,8 +193,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'blue',
   },
 
-  // UNCOMMENT DAY 11: Vida Laboral (>100K/mo) - Wave 4
-  /*
+  // CLUSTER C (18 Nov 2026): Vida Laboral (>100K/mo)
   {
     slug: 'descargar-firmar-vida-laboral-con-certificado-digital',
     title: 'Cómo Descargar y Firmar el Informe de Vida Laboral con Certificado Digital',
@@ -202,10 +201,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía oficial para descargar tu informe de Vida Laboral gratis en PDF en Import@ss con certificado digital FNMT o DNIe en 30 segundos, verificar su CEA y firmarlo.',
     category: 'Seguridad Social e Import@ss',
     readTime: '7 min de lectura',
-    updatedDate: '6 de noviembre de 2026',
+    updatedDate: '18 de noviembre de 2026',
     badgeColor: 'blue',
   },
-  */
   // WAVE 3 (11 Nov 2026): Renta 2026 (>10,000/mo) & Certificado Retenciones (>1,000/mo — All Easy KD)
   {
     slug: 'como-firmar-borrador-declaracion-renta-pdf',
@@ -228,8 +226,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
     badgeColor: 'indigo',
   },
 
-  // UNCOMMENT DAY 12: Paro SEPE (>1,000/mo) & Certificado de Empresa (>1,000/mo — Easy KD)
-  /*
+  // CLUSTER C (18 Nov 2026): Paro SEPE (>1,000/mo) & Certificado de Empresa (>1,000/mo — Easy KD)
   {
     slug: 'como-pedir-y-sellar-el-paro-por-internet-certificado-empresa',
     title: 'Cómo Pedir el Paro, Sellar el Paro (DARDE) y Descargar el Certificado de Empresa SEPE Online',
@@ -237,13 +234,11 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía paso a paso para tramitar la prestación por desempleo en el SEPE dentro del plazo de 15 días, renovar la demanda de empleo online y verificar tu certificado de empresa.',
     category: 'SEPE y Empleo',
     readTime: '7 min de lectura',
-    updatedDate: '7 de noviembre de 2026',
+    updatedDate: '18 de noviembre de 2026',
     badgeColor: 'blue',
   },
-  */
 
-  // UNCOMMENT DAY 13: Baja Paternidad/Maternidad (>1,000/mo) & Ingreso Mínimo Vital (>100K/mo — Easy KD)
-  /*
+  // CLUSTER C (18 Nov 2026): Baja Paternidad/Maternidad (>1,000/mo) & Ingreso Mínimo Vital (>100K/mo — Easy KD)
   {
     slug: 'como-solicitar-ingreso-minimo-vital-con-certificado-digital',
     title: 'Cómo Solicitar el Ingreso Mínimo Vital 2026 Online con Certificado Digital (Sin Cita)',
@@ -251,7 +246,7 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía paso a paso para solicitar el Ingreso Mínimo Vital (IMV) 2026 en la Sede de la Seguridad Social con certificado digital. Requisitos, tabla y firma de formularios en PDF.',
     category: 'Seguridad Social y Prestaciones',
     readTime: '7 min de lectura',
-    updatedDate: '8 de noviembre de 2026',
+    updatedDate: '18 de noviembre de 2026',
     badgeColor: 'emerald',
   },
   {
@@ -261,10 +256,9 @@ export const publishedBlogPosts: BlogPostMeta[] = [
       'Guía completa para tramitar la prestación por nacimiento y cuidado de menor 2026 en Tu Seguridad Social con certificado digital. Reglas para autónomos y firma de acuerdos en PDF.',
     category: 'Familia y Prestaciones',
     readTime: '7 min de lectura',
-    updatedDate: '8 de noviembre de 2026',
+    updatedDate: '18 de noviembre de 2026',
     badgeColor: 'blue',
   },
-  */
 
   // WAVE 4 (15 Nov 2026): Catastro (>10,000/mo), Certificado Catastral Telemático & Valor de Referencia (>1,000/mo — Easy KD)
   {
