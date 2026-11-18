@@ -26,17 +26,22 @@ import urllib.error
 from datetime import datetime, timezone
 
 DEFAULT_SITE_URL = "https://firmarpdfcertificado.com"
-BING_KEY_FILE = "/data/data/com.termux/files/home/micro-tools/.bing_api_key"
+TARGET_BING_KEY_FILE = "/data/data/com.termux/files/home/micro-tools/.bing_api_key_firmarpdfcertificado"
+REPO_BING_KEY_FILE = os.path.join(os.path.dirname(__file__), "..", ".bing_api_key")
+LEGACY_BING_KEY_FILE = "/data/data/com.termux/files/home/micro-tools/.bing_api_key"
 
 def load_bing_key():
     if os.environ.get("BING_API_KEY"):
         return os.environ.get("BING_API_KEY").strip()
-    if os.path.exists(BING_KEY_FILE):
-        try:
-            with open(BING_KEY_FILE, "r", encoding="utf-8") as f:
-                return f.read().strip()
-        except Exception:
-            pass
+    for candidate in (TARGET_BING_KEY_FILE, REPO_BING_KEY_FILE, LEGACY_BING_KEY_FILE):
+        if os.path.exists(candidate):
+            try:
+                with open(candidate, "r", encoding="utf-8") as f:
+                    val = f.read().strip()
+                    if val:
+                        return val
+            except Exception:
+                pass
     return ""
 
 DEFAULT_API_KEY = load_bing_key()
